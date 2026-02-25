@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>2026 九洲四大長老自駕 V112 (雙重防禦版)</title>
+    <title>2026 九洲四大長老自駕 V115 (水天壽司版)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
@@ -191,7 +191,7 @@
                                 </div>
 
                                 <div class="flex flex-col items-center flex-1 mx-2">
-                                    <span class="text-[0.6rem] font-bold text-[#4DB6AC] block uppercase tracking-wider">{{ days[selectedDayIndex].weekday }}</span>
+                                    <span class="text-[0.6rem] font-bold text-[#4DB6AC] block uppercase tracking-wider">{{ days[selectedDayIndex].day }} • {{ days[selectedDayIndex].weekday }}</span>
                                     <div class="flex items-center">
                                         <span class="text-2xl font-bold text-[#004D40]">{{ days[selectedDayIndex].date }}</span>
                                         <button @click="showHotelModal = true" class="take-home-icon-btn" title="今晚返邊度?">
@@ -210,12 +210,13 @@
                             </div>
                             
                             <div class="flex space-x-3 overflow-x-auto no-scrollbar px-5 pb-3">
-                                <div v-for="(day, index) in days" :key="index" 
+                                <div v-for="(dayItem, index) in days" :key="index" 
                                      @click="selectedDayIndex = index"
                                      class="flex-shrink-0 flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-all duration-300 snap-center cursor-pointer border-2 border-dashed shadow-sm"
                                      :class="selectedDayIndex === index ? 'bg-[#00897B] border-[#00897B] text-white scale-105 shadow-md' : 'bg-white border-[#B2DFDB] text-[#4DB6AC]'">
-                                    <span class="text-[0.6rem] font-bold uppercase mb-0.5">{{ day.weekday }}</span>
-                                    <span class="text-xl font-black">{{ day.date.split('/')[1] }}</span>
+                                    <span class="text-[0.55rem] font-bold uppercase mb-0.5">{{ dayItem.day }}</span>
+                                    <span class="text-xl font-black leading-none">{{ dayItem.date.split('/')[1] }}</span>
+                                    <span class="text-[0.55rem] font-bold uppercase mt-0.5">{{ dayItem.weekday }}</span>
                                 </div>
                             </div>
 
@@ -244,14 +245,14 @@
 
                                             <div class="mt-2 bg-[#F1F8E9] p-2 rounded-xl border border-dashed border-[#C5E1A5]" v-if="item.dadAction">
                                                 <div class="text-[0.7rem] text-[#33691E] font-bold flex items-start">
-                                                    <i class="fa-solid fa-person-cane mr-1.5 mt-0.5 text-base"></i>
+                                                    <i class="fa-solid fa-person-cane mr-1.5 mt-0.5 text-base flex-shrink-0"></i>
                                                     <span class="leading-relaxed whitespace-pre-line" v-html="formatText(item.dadAction)"></span>
                                                 </div>
                                             </div>
 
                                             <div v-if="item.parking && !item.mapcode" class="mt-2 bg-blue-50 p-2 rounded-xl border border-dashed border-blue-200">
                                                 <div class="text-[0.7rem] text-[#1565C0] font-bold flex items-start">
-                                                    <i class="fa-solid fa-square-parking mr-1.5 mt-0.5 text-base"></i>
+                                                    <i class="fa-solid fa-square-parking mr-1.5 mt-0.5 text-base flex-shrink-0"></i>
                                                     <span class="leading-relaxed whitespace-pre-line" v-html="formatText(item.parking)"></span>
                                                 </div>
                                             </div>
@@ -404,21 +405,21 @@
                                 <ul class="list-disc pl-4 text-gray-600">
                                     <li><strong>Day 1 野乃:</strong> 需車位 + 入大堂前抹輪椅轆</li>
                                     <li><strong>Day 2 深山:</strong> 洋室 1F + 痛風餐 + Golf Cart</li>
-                                    <li><strong>Day 4 御花:</strong> 官網預約 (註明輪椅 + <span class="font-bold text-[#C62828]">要求 Table 席</span>)</li>
+                                    <li><strong>Day 4 夜明茶屋:</strong> 預約/Walk-in (註明輪椅 + <span class="font-bold text-[#C62828]">要求 Table 席</span>)</li>
                                     <li><strong>華味鳥 (天神):</strong> 3月12日訂座 (註明輪椅 + <span class="font-bold text-[#C62828]">要求 Table 席</span>)</li>
-                                    <li><strong>稚加榮 (天神):</strong> 提前訂座 (註明輪椅 + <span class="font-bold text-[#C62828]">要求 Table 席</span>)</li>
+                                    <li><strong>梅の花 (天神大丸):</strong> 提前訂座 (註明輪椅 + <span class="font-bold text-[#C62828]">要求 Table 席</span>)</li>
                                 </ul>
                             </div>
                         </div>
 
                         <div class="onsen-card overflow-hidden border-l-4 border-[#FFB74D]">
                             <div class="bg-[#FFF3E0] p-3 text-[#EF6C00] font-bold">
-                                <span><i class="fa-solid fa-utensils mr-2"></i>餐廳情報總覽 (痛風安心版)</span>
+                                <span><i class="fa-solid fa-utensils mr-2"></i>餐廳情報總覽 (無障礙安心版)</span>
                             </div>
                             <div class="p-4 space-y-4 bg-white">
                                 <div v-for="res in diningList" :key="res.name" class="flex gap-3 text-sm border-b border-dashed border-[#FFE0B2] pb-3 last:border-0 last:pb-0">
                                     <div class="font-bold text-[#EF6C00] w-10 flex-shrink-0 text-center leading-tight">
-                                        <span class="block text-xs text-gray-400">{{ res.date }}</span>
+                                        <span class="block text-[0.65rem] text-gray-400">{{ res.date }}</span>
                                         {{ res.time }}
                                     </div>
                                     <div>
@@ -605,7 +606,7 @@
 
         <div :class="['overlay-bg', { 'active': showHotelModal }]" @click="showHotelModal = false">
             <div class="modal-content" @click.stop>
-                <div class="text-center mb-4"><h3 class="text-lg font-bold text-[#004D40]">🏠 今晚返邊度?</h3><p class="text-sm text-gray-500">Day {{ selectedDayIndex + 1 }} : {{ days[selectedDayIndex].date }}</p></div>
+                <div class="text-center mb-4"><h3 class="text-lg font-bold text-[#004D40]">🏠 今晚返邊度?</h3><p class="text-sm text-gray-500">{{ days[selectedDayIndex].day }} : {{ days[selectedDayIndex].date }}</p></div>
                 <div v-if="currentNightHotel" class="bg-[#E0F2F1] p-4 rounded-xl border border-[#B2DFDB] text-center space-y-3">
                     <h2 class="text-xl font-black text-[#00695C]">{{ currentNightHotel.name }}</h2>
                     <div class="flex justify-center gap-2"><div v-if="currentNightHotel.mapcode" class="bg-white px-3 py-1 rounded-lg border border-[#00897B] text-[#00897B] font-mono font-bold text-sm">MC: {{ currentNightHotel.mapcode }}</div></div>
@@ -657,29 +658,34 @@
                         title: `Menu Page ${i+1}`
                     })),
 
+                    // V114 Dates Updated (4/9 is Thu)
                     days: [
-                        { weekday: 'Wed', date: '4/9' }, { weekday: 'Thu', date: '4/10' }, { weekday: 'Fri', date: '4/11' },
-                        { weekday: 'Sat', date: '4/12' }, { weekday: 'Sun', date: '4/13' }, { weekday: 'Mon', date: '4/14' }
+                        { day: 'Day 1', weekday: 'Thu', date: '4/9' }, 
+                        { day: 'Day 2', weekday: 'Fri', date: '4/10' }, 
+                        { day: 'Day 3', weekday: 'Sat', date: '4/11' },
+                        { day: 'Day 4', weekday: 'Sun', date: '4/12' }, 
+                        { day: 'Day 5', weekday: 'Mon', date: '4/13' }, 
+                        { day: 'Day 6', weekday: 'Tue', date: '4/14' }
                     ],
 
                     diningList: [
-                        { date: '4/9', time: '19:30', name: '東洋軒 (Toyotsune)', addr: '別府市石垣東7-8-22', tel: '0977-23-3333', note: '別府名物 / 安排Table席' },
+                        { date: '4/9', time: '19:30', name: '活魚迴轉壽司 水天 (山の手店)', addr: '別府市山の手町9-32', tel: '0977-21-0465', note: '高級壽司 / Table席 / 痛風最安全' },
                         { date: '4/10', time: '10:45', name: '地獄蒸工房 鉄輪', addr: '別府市鉄輪559-1', tel: '0977-66-3775', note: '11點前排隊 / 霸普通枱' },
                         { date: '4/11', time: '13:30', name: '紅牛丼 ごとう屋', addr: '阿蘇市一の宮町宮地3054', tel: '0967-22-0266', note: '要求Table席 / 爸爸食地雞' },
                         { date: '4/11', time: '19:00', name: '勝烈亭 豬排', addr: '熊本市中央区新市街8-18', tel: '096-322-8771', note: '要求Table席 / 泊辛島地下' },
-                        { date: '4/12', time: '12:30', name: '柳川御花 (對月館)', addr: '柳川市新外町1', tel: '0944-73-2189', note: '官網預約Table席 / 爸爸食和食' },
+                        { date: '4/12', time: '12:30', name: '夜明茶屋 (Yoakejaya)', addr: '柳川市稲荷町390-6', tel: '0944-73-5680', note: '選擇多！爸爸食天婦羅/雞，其他人食鰻魚' },
                         { date: '4/12', time: '19:30', name: '博多華味鳥 (天神店)', addr: '福岡市中央区天神1-15-6', tel: '092-733-6050', note: '必Book Table席 (輪椅)' },
                         { date: '4/13', time: '09:30', name: 'Bills 福岡', addr: '福岡市中央区西中洲13-1', tel: '092-733-2555', note: '世界第一早餐 (有𨋢/Table)' },
-                        { date: '4/13', time: '12:00', name: '稚加榮 (Chikae)', addr: '福岡市中央区大名2-2-17', tel: '092-721-4624', note: '要求普通Table席 (低普林)' },
+                        { date: '4/13', time: '12:00', name: '梅の花 (天神大丸店)', addr: '大丸福岡天神店 東館 6F', tel: '092-715-1151', note: '超高質豆腐料理 (痛風友好/Table席)' },
                         { date: '4/13', time: '18:30', name: '一蘭 (天神西通り店)', addr: '福岡市中央区大名2-1-57', tel: '092-713-6631', note: '普通高身椅 (不需除鞋)' }
                     ],
 
                     itineraryData: [
-                        // Day 1 
+                        // Day 1 (V115 Updated: Suiten Sushi)
                         [
                             { time: '15:30', title: '抵達福岡機場 & 租車', category: 'flight', desc: '1. 到1F櫃檯辦手續\n2. 上3F門口搭接駁車\n3. 取車 Nissan Serena\n4. 姑丈拍片驗車', transportType: 'car', location: '福岡機場國際線', dadAction: '爸爸去洗手間，媽媽陪同。', parking: '', phone: '092-621-0100' },
                             { time: '17:00', title: '出發往別府', category: 'transport', desc: '爸爸開 ACC 輕鬆揸\n提示: 途經基山PA可去廁所', transportType: 'car', travelTime: '145km (1小時50分)', mapcode: '55 364 364*14' },
-                            { time: '19:30', title: '晚餐: 東洋軒 (Toyotsune)', category: 'food', desc: 'Tel: 0977-23-3333\n大分必食「雞肉天婦羅」創始店', transportType: 'car', location: 'Toyotsune Beppu', dadAction: '門口落客。爸爸食「雞肉天婦羅定食」。\n✅ <span class="highlight-red">出示救命卡要求「Table席」！雞肉低普林，安心食！</span>', parking: '餐廳有專屬停車場 (約30個位)', phone: '0977-23-3333', mapcode: '46 406 283*60' },
+                            { time: '19:30', title: '晚餐: 活魚迴轉壽司 水天 (Suiten)', category: 'food', desc: 'Tel: 0977-21-0465\n別府最高級迴轉壽司，長老必愛！', transportType: 'car', location: 'Suiten Beppu Yamanote', dadAction: '✅ 壽司店對痛風最友善！爸爸可主攻：茶碗蒸、玉子燒、烏冬、白身魚。\n⚠️ <span class="highlight-red">出示救命卡要求「Table席 (テーブル席)」，輪椅直接泊埋去！</span>', parking: '餐廳自帶超大免費停車場', phone: '0977-21-0465', mapcode: '46 404 055*82' },
                             { time: '21:00', title: 'Check-in 御宿野乃', category: 'hotel', desc: 'Tel: 0977-21-5489', transportType: 'car', location: '御宿 野乃別府', dadAction: '全館塌塌米。入大堂前抹乾淨輪椅轆。\n🧊 <span class="highlight-red">必做: 冰敷腳部 (製冰機在大浴場層)。</span>', parking: '酒店 Tower Parking', phone: '0977-21-5489', mapcode: '46 405 242*55' }
                         ],
                         // Day 2
@@ -699,10 +705,10 @@
                             { time: '17:30', title: 'Check-in 御宿野乃熊本', category: 'hotel', desc: 'Tel: 096-311-5489', transportType: 'car', location: '御宿 野乃熊本', dadAction: '🧊 <span class="highlight-red">必做: 冰敷腳部 (自販機層有製冰機)。</span>', parking: '酒店後門立體場 / 辛島公園 (Mapcode: 29 459 296*35)', phone: '096-311-5489', mapcode: '29 460 380*82' },
                             { time: '19:00', title: '晚餐: 勝烈亭 豬排', category: 'food', desc: 'Tel: 096-322-8771', transportType: 'walk', location: '勝烈亭 新市街本店', dadAction: '泊辛島公園地下。爸爸門口坐，姑姐排隊。<br>⚠️ <span class="highlight-red">出示救命卡確保「Table席」。炸物熱氣/豬肉普林高，爸爸只可食少少，多食菜。</span>', parking: '辛島公園地下停車場', phone: '096-322-8771' }
                         ],
-                        // Day 4 
+                        // Day 4
                         [
                             { time: '11:00', title: '出發往柳川', category: 'transport', desc: '高速公路', transportType: 'car', travelTime: '60km (1小時15分)' },
-                            { time: '12:30', title: '午餐: 柳川御花 (對月館)', category: 'food', desc: 'Tel: 0944-73-2189\n柳川最靚古蹟餐廳', transportType: 'car', location: '柳川藩主立花邸 御花', dadAction: '門口直入平路。出示救命卡確保「Table席」。其他人食鰻魚蒸籠飯。<br>⚠️ <span class="highlight-red">痛風: 爸爸叫「和食/雞肉料理/烏冬」。禁飲鰻魚肝湯 (Kimosui)！</span>', parking: '御花專用免費停車場', phone: '0944-73-2189', mapcode: '69 875 572*47' },
+                            { time: '12:30', title: '午餐: 夜明茶屋 (Yoakejaya)', category: 'food', desc: 'Tel: 0944-73-5680\n柳川百年老字號，菜單極豐富！', transportType: 'car', location: '夜明茶屋', dadAction: '門口平路。出示救命卡確保「Table席」。其他人照食鰻魚，爸爸叫「天婦羅定食 / 唐揚雞定食 (白肉)」。\n✅ <span class="highlight-red">完美避開高普林！</span>', parking: '餐廳附設免費停車場', phone: '0944-73-5680' },
                             { time: '14:00', title: '出發往福岡', category: 'transport', desc: '高速公路', transportType: 'car', travelTime: '60km (1小時)' },
                             { time: '15:30', title: '大濠公園 & 美術館', category: 'sightseeing', desc: '導航: 092-714-6051', transportType: 'car', location: 'Fukuoka Art Museum', dadAction: '泊美術館場。推去 Starbucks。路面極好推。', parking: '福岡市美術館停車場', phone: '092-714-6051', mapcode: '13 315 634*55' },
                             { time: '18:00', title: 'Check-in JAL City 天神', category: 'hotel', desc: 'Tel: 092-712-7575', transportType: 'car', location: 'Hotel JAL City Fukuoka Tenjin', dadAction: '車入酒店彎位落客。姑丈去泊車。', parking: '<b>🅿️ 泊車 4 選 1：</b><br>A. 酒店場 (¥2200/窄) ❌<br>B. <span class="highlight-red">紙与大名 (推薦) 👍</span><br>   Mapcode: 13 317 486*17<br>C. 安国駐車場 (近)<br>   Mapcode: 13 317 683*55<br>D. Times (後備)<br>   Mapcode: 13 317 546*33', phone: '092-712-7575', mapcode: '13 317 743*44' },
@@ -713,7 +719,7 @@
                         [
                             { time: '09:30', title: '早餐: Bills 福岡', category: 'food', desc: 'Tel: 092-733-2555', transportType: 'car', location: 'Bills Fukuoka', dadAction: '水上公園 Ship Garden 1F', parking: '西中洲駐車場', phone: '092-733-2555', mapcode: '13 318 642*33' },
                             { time: '10:30', title: '川端通商店街', category: 'sightseeing', desc: '有蓋商店街', transportType: 'car', travelTime: '10分鐘', location: 'Kawabata Shopping Arcade', dadAction: '泊冷泉公園。不入櫛田神社碎石路。', parking: '冷泉公園駐車場 (092-291-0773)', mapcode: '13 318 542*45', phone: '092-291-0773' },
-                            { time: '12:00', title: '午餐: 稚加榮 (Chikae)', category: 'food', desc: 'Tel: 092-721-4624\n福岡超名氣巨大水槽和食店', transportType: 'car', location: 'Chikae Fukuoka', dadAction: '叫「和食定食 / 天婦羅定食」。<br>✅ <span class="highlight-red">無牛無豬。⚠️ 必須出示救命卡要求「Table席 (テーブル席)」！</span>', parking: '附近 Coin Parking (大名區)', phone: '092-721-4624', mapcode: '13 317 486*17' },
+                            { time: '12:00', title: '午餐: 梅の花 (天神大丸店)', category: 'food', desc: 'Tel: 092-715-1151\n大丸百貨 東館 6F', transportType: 'car', location: 'Daimaru Fukuoka Tenjin', dadAction: '超精緻「豆腐與湯葉懷石料理」！<br>✅ <span class="highlight-red">大丸百貨內，100%無障礙。全植物蛋白，痛風完美綠燈！長老至愛！</span>', parking: '大丸百貨停車場 / 附近 Coin Parking', phone: '092-715-1151', mapcode: '13 317 486*17' },
                             { time: '14:00', title: 'LaLaport 福岡', category: 'shopping', desc: 'Tel: 092-707-9820', transportType: 'car', travelTime: '20分鐘', location: 'LaLaport Fukuoka', dadAction: '泊 South Entrance。入門口搵 Cafe 安置爸爸。', parking: 'South Parking', phone: '092-707-9820', mapcode: '13 162 481*57' },
                             { time: '18:30', title: '晚餐: 一蘭 天神西通り', category: 'food', desc: 'Tel: 092-713-6631', transportType: 'car', travelTime: '20分鐘', location: '一蘭 天神西通り店', dadAction: '姑姐排隊。此店為普通高身椅(不用除鞋)。爸爸在無印坐等。\n⚠️ <span class="highlight-red">嚴禁飲湯！只可食麵。</span>', parking: '首選: 天神地下街停車場 (南)\n次選: 安國駐車場', phone: '092-713-6631', mapcode: '13 317 683*55' },
                             { time: '20:30', title: '回程酒店 (JAL City)', category: 'hotel', desc: '休息\n🧊 <span class="highlight-red">必做: 最後一晚冰敷!</span>', transportType: 'car', location: 'Hotel JAL City Fukuoka Tenjin', phone: '092-712-7575', parking: '<b>🅿️ 泊車 4 選 1：</b><br>A. 酒店場 (¥2200/窄) ❌<br>B. <span class="highlight-red">紙与大名 (推薦) 👍</span><br>   Mapcode: 13 317 486*17<br>C. 安国駐車場 (近)<br>   Mapcode: 13 317 683*55<br>D. Times (後備)<br>   Mapcode: 13 317 546*33', dadAction: '門口落客，姑丈去泊車。\n🧊 <span class="highlight-red">必做: 最後一晚冰敷!</span>' }
