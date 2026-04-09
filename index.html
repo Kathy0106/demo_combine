@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" style="background-color: #E0F2F1;">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -8,11 +8,11 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
-    <title>2026 九州四大長老自駕 V147 (終極防崩潰版)</title>
+    <title>2026 九州四大長老自駕 V146 (終極防崩潰版)</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -30,19 +30,14 @@
             --shadow-soft: 0 8px 24px rgba(0, 137, 123, 0.15);
         }
 
-        /* ✅ 安全鎖定，防止白屏死機及黑邊 */
+        /* ✅ 安全鎖定，防止白屏死機 */
         body {
             font-family: 'Zen Maru Gothic', sans-serif;
             background-color: var(--bg-onsen);
             color: var(--text-dark);
-            margin: 0;
-            padding: 0;
-            width: 100vw;
-            height: 100vh;
-            height: 100dvh; 
-            overflow: hidden;
             overscroll-behavior-y: none;
             -webkit-tap-highlight-color: transparent;
+            font-size: 15px; 
         }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -160,9 +155,7 @@
         }
     </style>
 </head>
-<body class="antialiased">
-
-    <div id="error-log" style="color: #C62828; padding: 20px; font-weight: bold; background: #FFEBEE; display: none; height: 100vh; width: 100vw; position: absolute; z-index: 99999;"></div>
+<body class="h-screen w-screen overflow-hidden bg-[#E0F2F1]">
 
     <div id="app" class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px' }">
 
@@ -254,7 +247,7 @@
                                             <div class="flex justify-between items-start mb-1.5">
                                                 <div class="text-[0.65rem] font-bold uppercase tracking-wider opacity-60 text-[#00695C]">{{ item.time }} • {{ itemCategoryName(item.category) }}</div>
                                             </div>
-                                            <h3 class="text-lg font-bold mb-1.5 leading-tight text-[#004D40]" v-html="formatText(item.title)"></h3>
+                                            <h3 class="text-lg font-bold mb-1.5 leading-tight text-[#004D40]">{{ item.title }}</h3>
                                             <div class="text-xs text-[#00695C] mb-2 flex items-start gap-1.5 leading-relaxed whitespace-pre-line" v-html="formatText(item.desc)"></div>
 
                                             <div class="mt-2 bg-[#F1F8E9] p-2 rounded-xl border border-dashed border-[#C5E1A5]" v-if="item.dadAction">
@@ -283,6 +276,7 @@
                                                     <i class="fa-solid fa-magnifying-glass-plus mr-0.5"></i>點擊放大
                                                 </div>
                                             </div>
+                                            
                                         </div>
 
                                         <div v-if="item.phone" class="w-24 flex-shrink-0 flex flex-col gap-2 justify-start mt-1">
@@ -540,10 +534,10 @@
                 </div>
                 
                 <div class="grid grid-cols-2 gap-3 mt-4">
-                    <a :href="'https://w'+'ww.google.com/maps/search/?api=1&query=' + encodeURIComponent('道之驛')" target="_blank" class="bg-blue-500 text-white py-3 rounded-2xl font-bold shadow-md active:scale-95 flex flex-col items-center">
+                    <a href="https://www.google.com/maps/search/道の駅" target="_blank" class="bg-blue-500 text-white py-3 rounded-2xl font-bold shadow-md active:scale-95 flex flex-col items-center">
                         <i class="fa-solid fa-restroom text-2xl mb-1"></i><span>搵 道之驛 (廁所)</span>
                     </a>
-                    <a :href="'https://w'+'ww.google.com/maps/search/?api=1&query=' + encodeURIComponent('便利店')" target="_blank" class="bg-orange-500 text-white py-3 rounded-2xl font-bold shadow-md active:scale-95 flex flex-col items-center">
+                    <a href="https://www.google.com/maps/search/コンビニ" target="_blank" class="bg-orange-500 text-white py-3 rounded-2xl font-bold shadow-md active:scale-95 flex flex-col items-center">
                         <i class="fa-solid fa-store text-2xl mb-1"></i><span>搵 便利店</span>
                     </a>
                 </div>
@@ -573,107 +567,103 @@
     </div>
 
     <script>
-        window.onerror = function(msg, url, lineNo, columnNo, error) {
-            document.getElementById('error-log').style.display = 'block';
-            document.getElementById('error-log').innerHTML = '🚨 系統發生斷行語法錯誤，請檢查 Copy & Paste 是否有走位！<br><br>' + msg;
-            return false;
-        };
-    </script>
-
-    <script>
         const { createApp } = Vue;
 
         createApp({
             data() {
                 return {
-                    activeTab: `itinerary`,
+                    activeTab: 'itinerary',
                     selectedDayIndex: 0,
                     showModal: false, showSettings: false, showImageModal: false, showEmergencyModal: false, showHotelModal: false, showGalleryModal: false,
-                    currentImageSrc: ``, exchangeRate: 0.053, calcJpy: ``, calcHkd: ``, alarmsOpen: false,
-                    weather: { city_name: `福岡`, temp: `--`, icon: `fa-spinner fa-spin` },
-                    apiKey: `cc2dab2806da14aec6dab2ed8260a1c4`, 
+                    currentImageSrc: '', exchangeRate: 0.053, calcJpy: '', calcHkd: '', alarmsOpen: false,
+                    weather: { city_name: '福岡', temp: '--', icon: 'fa-spinner fa-spin' },
+                    apiKey: 'cc2dab2806da14aec6dab2ed8260a1c4', 
                     settings: { fontSize: 15 }, 
                     menuImages: Array.from({length: 47}, (_, i) => ({ src: `./menu_${i+1}.jpg`, title: `Page ${i+1}` })),
                     days: [
-                        { day: `Day 1`, weekday: `Thu`, date: `4/9` }, { day: `Day 2`, weekday: `Fri`, date: `4/10` }, 
-                        { day: `Day 3`, weekday: `Sat`, date: `4/11` }, { day: `Day 4`, weekday: `Sun`, date: `4/12` }, 
-                        { day: `Day 5`, weekday: `Mon`, date: `4/13` }, { day: `Day 6`, weekday: `Tue`, date: `4/14` }
+                        { day: 'Day 1', weekday: 'Thu', date: '4/9' }, { day: 'Day 2', weekday: 'Fri', date: '4/10' }, 
+                        { day: 'Day 3', weekday: 'Sat', date: '4/11' }, { day: 'Day 4', weekday: 'Sun', date: '4/12' }, 
+                        { day: 'Day 5', weekday: 'Mon', date: '4/13' }, { day: 'Day 6', weekday: 'Tue', date: '4/14' }
                     ],
                     diningList: [
-                        { date: `4/9`, time: `19:30`, name: `活魚迴轉壽司 水天`, addr: `別府市山の手町9-32`, tel: `0977-21-0465`, note: `電話預約` },
-                        { date: `4/10`, time: `11:00`, name: `地獄蒸工房 鉄輪`, addr: `別府市鉄輪559-1`, tel: `0977-66-3775`, note: `現場排隊` },
-                        { date: `4/12`, time: `12:30`, name: `若松屋`, addr: `柳川市沖端町26`, tel: `0944-72-3163`, note: `電話預約` },
-                        { date: `4/12`, time: `19:30`, name: `博多華味鳥 (天神西通店)`, addr: `福岡市中央区天神2-7-9 2F`, tel: `092-724-0502`, note: `預約號 #83975` },
-                        { date: `4/13`, time: `13:30`, name: `大東園 本店`, addr: `博多区上川端町 1-1-1`, tel: `092-282-0055`, note: `已預約 13:30` }
+                        { date: '4/9', time: '19:30', name: '活魚迴轉壽司 水天', addr: '別府市山の手町9-32', tel: '0977-21-0465', note: '高級壽司 / Table席 / 痛風最安全' },
+                        { date: '4/10', time: '11:00', name: '地獄蒸工房 鉄輪', addr: '別府市鉄輪559-1', tel: '0977-66-3775', note: '霸普通枱 / 痛風友善' },
+                        { date: '4/11', time: '13:00', name: '紅牛丼 ごとう屋', addr: '阿蘇市一の宮町宮地3054', tel: '0967-22-0266', note: '要求Table席 / 爸爸食地雞' },
+                        { date: '4/11', time: '19:00', name: '勝烈亭 豬排', addr: '熊本市中央区新市街8-18', tel: '096-322-8771', note: '要求Table席 / 泊辛島地下' },
+                        { date: '4/12', time: '12:30', name: '若松屋 (Wakamatsuya)', addr: '柳川市沖端町26', tel: '0944-72-3163', note: '柳川頂級老字號 (爸爸食親子丼)' },
+                        { date: '4/12', time: '19:30', name: '博多華味鳥 (天神西通店)', addr: '福岡市中央区天神2-7-9 2F', tel: '092-724-0502', note: '預約號 #83975' },
+                        { date: '4/13', time: '08:30', name: 'Bills 福岡', addr: '福岡市中央区西中洲13-1', tel: '092-733-2555', note: '世界第一早餐 (有𨋢/Table)' },
+                        { date: '4/13', time: '13:30', name: '大東園 本店 (Daitoen)', addr: '博多区上川端町 1-1-1', tel: '092-282-0055', note: '已預約 13:30入座' },
+                        { date: '4/13', time: '18:45', name: '一蘭 (天神西通り店)', addr: '福岡市中央区大名2-1-57', tel: '092-713-6631', note: '普通高身椅 (不需除鞋)' }
                     ],
                     itineraryData: [
                         // Day 1
                         [
-                            { time: `15:30`, title: `抵達福岡機場 & 租車`, category: `flight`, desc: `1. 1F櫃檯手續<br>2. 取車 Nissan Serena`, phone: `092-621-0100`, dadAction: `爸爸去洗手間，媽媽陪同。` },
-                            { time: `17:00`, title: `出發往別府`, category: `transport`, desc: `爸爸開 ACC 輕鬆揸<br>提示: 途經基山PA可去廁所`, transportType: `car`, travelTime: `145km (1小時50分)` },
-                            { time: `19:30`, title: `晚餐: 活魚迴轉壽司 水天`, category: `food', desc: '別府最高級迴轉壽司`, phone: `0977-21-0465`, parking: `餐廳免費停車場`, dadAction: `✅ 壽司店對痛風最友善！爸爸可主攻：茶碗蒸、玉子燒、烏冬、白身魚。<br>⚠️ <span class="highlight-red">出示救命卡要求「Table席 (テーブル席)」，輪椅直接泊埋去！</span>` },
-                            { time: `21:00`, title: `Check-in 御宿野乃別府`, category: `hotel`, phone: `0977-21-5489`, dadAction: `全館塌塌米。入大堂前抹乾淨輪椅轆。<br>🧊 <span class="highlight-red">必做: 冰敷腳部 (製冰機在大浴場層)。</span>` }
+                            { time: '15:30', title: '抵達福岡機場 & 租車', category: 'flight', desc: '1. 1F櫃檯手續\n2. 取車 Nissan Serena\n3. 姑丈拍片驗車', phone: '092-621-0100', dadAction: '爸爸去洗手間，媽媽陪同。' },
+                            { time: '17:00', title: '出發往別府', category: 'transport', desc: '爸爸開 ACC 輕鬆揸\n提示: 途經基山PA可去廁所', transportType: 'car', travelTime: '145km (1小時50分)' },
+                            { time: '19:30', title: '晚餐: 活魚迴轉壽司 水天', category: 'food', desc: '別府最高級迴轉壽司', phone: '0977-21-0465', parking: '餐廳免費停車場', dadAction: '✅ 壽司店對痛風最友善！爸爸可主攻：茶碗蒸、玉子燒、烏冬、白身魚。\n⚠️ <span class="highlight-red">出示救命卡要求「Table席 (テーブル席)」，輪椅直接泊埋去！</span>' },
+                            { time: '21:00', title: 'Check-in 御宿野乃別府', category: 'hotel', phone: '0977-21-5489', dadAction: '全館塌塌米。入大堂前抹乾淨輪椅轆。\n🧊 <span class="highlight-red">必做: 冰敷腳部 (製冰機在大浴場層)。</span>' }
                         ],
                         // Day 2
                         [
-                            { time: `10:00`, title: `海地獄`, category: `sightseeing`, desc: `睇藍色溫泉池`, phone: `0977-66-0121`, dadAction: `只行外面鋪裝路。<span class="highlight-red">嚴禁推入温室 (路窄/濕熱)。</span>`, parking: `門口有超大免費停車場` },
-                            { time: `11:00`, title: `午餐: 地獄蒸工房 鉄輪`, category: `food`, desc: `自己蒸嘢食`, phone: `0977-66-3775`, dadAction: `爸爸先入座。姑丈買飛。爸爸只食蒸雞/蛋/菜。<br>✅ <span class="highlight-red">霸位時揀普通枱！蒸煮食物去油減脂，對痛風極度友善！</span>`, parking: `鉄輪温泉地区駐車場 (輸入餐廳電話即可導航)` },
-                            { time: `12:30`, title: `🌸 城下公園 (賞櫻)`, category: `sightseeing`, desc: `海邊城址睇百株櫻花！`, phone: `0977-72-4255`, dadAction: `✅ <b>輪椅賞花攻略：</b> 導航至「二の丸館」停車場，行過去公園路面平坦，喺海邊慢慢推輪椅賞櫻極度寫意！`, parking: `二の丸館駐車場 (免費) / 輸入電話導航` },
-                            { time: `13:45`, title: `由布院 (分頭行事)`, category: `sightseeing`, desc: `金鱗湖散步`, phone: `0977-28-8500`, dadAction: `1. 爸爸+姑丈 -> Cafe La Ruche 湖邊嘆茶<br>2. 媽媽+姑姐 -> 湯之坪街道 掃貨`, parking: `首選: 天祖神社 (必泊)<br>次選: 狹霧台展望台 (看風景不落市區)` },
-                            { time: `17:15`, title: `Check-in 深山山莊`, category: `hotel`, phone: `0967-44-1101`, dadAction: `Check-in 訂餐時出示：<br>「足が悪いので、食事の移動も含め、全て<b>ゴルフカート (GOLF CART)</b> でお願いします。」<br>⚠️ 記住提佢哋 <b>GOLF CART</b> 出入！`, parking: `直接駛入 Lobby 門口` }
+                            { time: '10:00', title: '海地獄', category: 'sightseeing', desc: '睇藍色溫泉池', phone: '0977-66-0121', dadAction: '只行外面鋪裝路。<span class="highlight-red">嚴禁推入温室 (路窄/濕熱)。</span>', parking: '門口有超大免費停車場' },
+                            { time: '11:00', title: '午餐: 地獄蒸工房 鉄輪', category: 'food', desc: '自己蒸嘢食', phone: '0977-66-3775', dadAction: '爸爸先入座。姑丈買飛。爸爸只食蒸雞/蛋/菜。\n✅ <span class="highlight-red">霸位時揀普通枱！蒸煮食物去油減脂，對痛風極度友善！</span>', parking: '鉄輪温泉地区駐車場 (輸入餐廳電話即可導航)' },
+                            { time: '12:30', title: '🌸 城下公園 (賞櫻)', category: 'sightseeing', desc: '海邊城址睇百株櫻花！', phone: '0977-72-4255', dadAction: '✅ <b>輪椅賞花攻略：</b> 導航至「二の丸館」停車場，行過去公園路面平坦，喺海邊慢慢推輪椅賞櫻極度寫意！', parking: '二の丸館駐車場 (免費) / 輸入電話導航' },
+                            { time: '13:45', title: '由布院 (分頭行事)', category: 'sightseeing', desc: '金鱗湖散步', phone: '0977-28-8500', dadAction: '1. 爸爸+姑丈 -> Cafe La Ruche 湖邊嘆茶\n2. 媽媽+姑姐 -> 湯之坪街道 掃貨', parking: '首選: 天祖神社 (必泊)\n次選: 狹霧台展望台 (看風景不落市區)' },
+                            { time: '17:15', title: 'Check-in 深山山莊', category: 'hotel', phone: '0967-44-1101', dadAction: 'Check-in 訂餐時出示：<br>「足が悪いので、食事の移動も含め、全て<b>ゴルフカート (GOLF CART)</b> でお願いします。」<br>⚠️ 記住提佢哋 <b>GOLF CART</b> 出入！', parking: '直接駛入 Lobby 門口' }
                         ],
                         // Day 3
                         [
-                            { time: `10:30`, title: `久住花公園`, category: `sightseeing`, phone: `0974-76-1422`, dadAction: `門口落客。園內全平路/遊園車。`, parking: `門口免費場` },
-                            { time: `13:00`, title: `午餐: 紅牛丼 Gotoya`, category: `food`, phone: `0967-22-0266`, dadAction: `行商店街平路入去。<br>⚠️ <span class="highlight-red">出示救命卡確保「Table席」。爸爸叫「地雞烏冬/蕎麥麵」，避開紅牛丼！</span>`, parking: `阿蘇神社 第1駐車場 (免費)` },
-                            { time: `14:45`, title: `草千里 (看火山)`, category: `sightseeing`, phone: `0967-34-1111`, dadAction: `只在停車場展望台看火山 (不用行上山)。`, parking: `草千里停車場` },
-                            { time: `17:30`, title: `Check-in 御宿野乃熊本`, category: `hotel`, phone: `096-311-5489`, dadAction: `🧊 <span class="highlight-red">必做: 冰敷腳部 (自販機層有製冰機)。</span>`, parking: `酒店後門立體場 / 辛島公園` },
-                            { time: `19:00`, title: `晚餐: 勝烈亭 豬排`, category: `food`, phone: `096-322-8771`, dadAction: `泊辛島公園地下。爸爸門口坐，姑姐排隊。<br>⚠️ <span class="highlight-red">出示救命卡確保「Table席」。炸物熱氣/豬肉普林高，爸爸只可食少少，多食菜。</span>`, parking: `辛島公園地下停車場` }
+                            { time: '10:30', title: '久住花公園', category: 'sightseeing', phone: '0974-76-1422', dadAction: '門口落客。園內全平路/遊園車。', parking: '門口免費場' },
+                            { time: '13:00', title: '午餐: 紅牛丼 Gotoya', category: 'food', phone: '0967-22-0266', dadAction: '行商店街平路入去。<br>⚠️ <span class="highlight-red">出示救命卡確保「Table席」。爸爸叫「地雞烏冬/蕎麥麵」，避開紅牛丼！</span>', parking: '阿蘇神社 第1駐車場 (免費)' },
+                            { time: '14:45', title: '草千里 (看火山)', category: 'sightseeing', phone: '0967-34-1111', dadAction: '只在停車場展望台看火山 (不用行上山)。', parking: '草千里停車場' },
+                            { time: '17:30', title: 'Check-in 御宿野乃熊本', category: 'hotel', phone: '096-311-5489', dadAction: '🧊 <span class="highlight-red">必做: 冰敷腳部 (自販機層有製冰機)。</span>', parking: '酒店後門立體場 / 辛島公園' },
+                            { time: '19:00', title: '晚餐: 勝烈亭 豬排', category: 'food', phone: '096-322-8771', dadAction: '泊辛島公園地下。爸爸門口坐，姑姐排隊。<br>⚠️ <span class="highlight-red">出示救命卡確保「Table席」。炸物熱氣/豬肉普林高，爸爸只可食少少，多食菜。</span>', parking: '辛島公園地下停車場' }
                         ],
                         // Day 4
                         [
-                            { time: `12:30`, title: `午餐: 若松屋 鰻魚`, category: `food`, phone: `0944-72-3163`, dadAction: `門口平路，全店130個Table席。出示救命卡確保「Table席」。其他人食特上鰻魚蒸籠飯。<br>⚠️ <span class="highlight-red">痛風救星: 爸爸叫「親子丼(滑蛋雞肉飯) / 玉子蒸籠飯」。完美避開痛風陷阱！</span>`, parking: `餐廳附設專屬停車場` },
-                            { time: `15:30`, title: `大濠公園`, category: `sightseeing`, phone: `092-714-6051`, dadAction: `泊美術館場。推去 Starbucks。路面極好推。`, parking: `福岡市美術館停車場` },
-                            { time: `18:00`, title: `Check-in JAL City 天神`, category: `hotel`, phone: `092-712-7575`, parking: `紙与大名 Tel: 092-722-6066`, dadAction: `車入酒店彎位落客。姑丈去泊車。` },
-                            { time: `19:30`, title: `晚餐: 華味鳥 (天神西通店)`, category: `food`, desc: `預約號 #83975`, phone: `092-724-0502`, dadAction: `✅ 由酒店推輪椅直行散步約8分鐘，大廈有電梯直達！<br>⚠️ <span class="highlight-red">出示救命卡確保係「Table席」。絕對唔可以飲湯底/食雜炊(粥)！</span>`, parking: `車泊在「紙与大名」不過夜，直接行路去` }
+                            { time: '12:30', title: '午餐: 若松屋 鰻魚', category: 'food', phone: '0944-72-3163', dadAction: '門口平路，全店130個Table席。出示救命卡確保「Table席」。其他人食特上鰻魚蒸籠飯。<br>⚠️ <span class="highlight-red">痛風救星: 爸爸叫「親子丼(滑蛋雞肉飯) / 玉子蒸籠飯」。完美避開痛風陷阱！</span>', parking: '餐廳附設專屬停車場' },
+                            { time: '15:30', title: '大濠公園', category: 'sightseeing', phone: '092-714-6051', dadAction: '泊美術館場。推去 Starbucks。路面極好推。', parking: '福岡市美術館停車場' },
+                            { time: '18:00', title: 'Check-in JAL City 天神', category: 'hotel', phone: '092-712-7575', parking: '紙与大名 Tel: 092-722-6066', dadAction: '車入酒店彎位落客。姑丈去泊車。' },
+                            { time: '19:30', title: '晚餐: 華味鳥 (天神西通店)', category: 'food', desc: '預約號 #83975', phone: '092-724-0502', dadAction: '✅ 由酒店推輪椅直行散步約8分鐘，大廈有電梯直達！\n⚠️ <span class="highlight-red">出示救命卡確保係「Table席」。絕對唔可以飲湯底/食雜炊(粥)！</span>', parking: '車泊在「紙与大名」不過夜，直接行路去' }
                         ],
                         // Day 5
                         [
-                            { time: `08:30`, title: `早餐: Bills 福岡`, category: `food`, phone: `092-733-2555`, dadAction: `水上公園 Ship Garden 1F`, parking: `西中洲駐車場` },
-                            { time: `10:15`, title: `🌸 海之中道海濱公園`, category: `sightseeing`, desc: `粉藍色花海！<br>🎫 <span class="highlight-red">入場費：大人 ¥450 / 長者(65+) ¥210</span><br>🌐 <a href="https://uminaka-park.jp/" target="_blank" class="underline text-[#1565C0] font-bold">日文官網</a>`, phone: `092-603-1111`, image: `./flower_calendar.jpg`, dadAction: `✅ <b>輪椅遊園 2 步曲攻略：</b><br><b>【Step 1: 必睇粉藍花海】</b><br>泊「西口停車場」➔ 入閘直行約 10-15 分鐘 ➔ 抵達「花の丘」。全程平坦柏油路，推車極輕鬆！<br><b>【Step 2: 決策時間 - 探水豚君？】</b><br>睇完花問長老攰唔攰。如果想睇動物：由花海順路牌推去「動物の森」，大約 15 分鐘平路。有超級可愛嘅水豚君、袋鼠、紅鶴，全區輪椅暢通無阻！`, parking: `西口停車場 (必泊此處)` },
-                            { time: `13:30`, title: `午餐: 大東園 本店 (燒肉)`, category: `food`, desc: `已預約 13:30`, phone: `092-282-0055`, dadAction: `門口落客搭電梯。出示救命卡確保「Table席」。<br>⚠️ <span class="highlight-red">痛風攻略: 爸爸食「上燒肉定食」(紅肉/菜)，嚴禁食內臟及飲牛骨湯！</span>`, parking: `櫛田神社駐車場 - 帶泊車飛` },
-                            { time: `15:15`, title: `LaLaport 福岡`, category: `shopping`, phone: `092-707-9820`, dadAction: `泊 South Entrance。入門口搵 Cafe 安置爸爸。`, parking: `South Parking` },
-                            { time: `18:45`, title: `晚餐: 一蘭 天神西通り`, category: `food`, phone: `092-713-6631`, dadAction: `姑姐排隊。此店為普通高身椅(不用除鞋)。爸爸在無印坐等。<br>⚠️ <span class="highlight-red">嚴禁飲湯！只可食麵。</span>`, parking: `首選: 天神地下街停車場 (南)<br>次選: 安國駐車場` },
-                            { time: `20:30`, title: `回程酒店 (JAL City)`, category: `hotel`, phone: `092-712-7575`, dadAction: `門口落客，姑丈去泊車。<br>🧊 <span class="highlight-red">必做: 最後一晚冰敷!</span>`, parking: `紙与大名 Tel: 092-722-6066` }
+                            { time: '08:30', title: '早餐: Bills 福岡', category: 'food', phone: '092-733-2555', dadAction: '水上公園 Ship Garden 1F', parking: '西中洲駐車場' },
+                            { time: '10:15', title: '🌸 海之中道海濱公園', category: 'sightseeing', desc: '粉藍色花海！\n🎫 <span class="highlight-red">入場費：大人 ¥450 / 長者(65+) ¥210</span>', phone: '092-603-1111', image: './flower_calendar.jpg', dadAction: '✅ <b>輪椅遊園 2 步曲攻略：</b><br><b>【Step 1: 必睇粉藍花海】</b><br>泊「西口停車場」➔ 入閘直行約 10-15 分鐘 ➔ 抵達「花の丘」。全程平坦柏油路，推車極輕鬆！<br><b>【Step 2: 決策時間 - 探水豚君？】</b><br>睇完花問長老攰唔攰。如果想睇動物：由花海順路牌推去「動物の森」，大約 15 分鐘平路。有超級可愛嘅水豚君、袋鼠、紅鶴，全區輪椅暢通無阻！', parking: '西口停車場 (必泊此處)' },
+                            { time: '13:30', title: '午餐: 大東園 本店 (燒肉)', category: 'food', desc: '已預約 13:30', phone: '092-282-0055', dadAction: '門口落客搭電梯。出示救命卡確保「Table席」。<br>⚠️ <span class="highlight-red">痛風攻略: 爸爸食「上燒肉定食」(紅肉/菜)，嚴禁食內臟及飲牛骨湯！</span>', parking: '櫛田神社駐車場 - 帶泊車飛' },
+                            { time: '15:15', title: 'LaLaport 福岡', category: 'shopping', phone: '092-707-9820', dadAction: '泊 South Entrance。入門口搵 Cafe 安置爸爸。', parking: 'South Parking' },
+                            { time: '18:45', title: '晚餐: 一蘭 天神西通り', category: 'food', phone: '092-713-6631', dadAction: '姑姐排隊。此店為普通高身椅(不用除鞋)。爸爸在無印坐等。\n⚠️ <span class="highlight-red">嚴禁飲湯！只可食麵。</span>', parking: '首選: 天神地下街停車場 (南)\n次選: 安國駐車場' },
+                            { time: '20:30', title: '回程酒店 (JAL City)', category: 'hotel', phone: '092-712-7575', dadAction: '門口落客，姑丈去泊車。\n🧊 <span class="highlight-red">必做: 最後一晚冰敷!</span>', parking: '紙与大名 Tel: 092-722-6066' }
                         ],
                         // Day 6
                         [
-                            { time: `10:00`, title: `買包: Full Full`, category: `food`, phone: `092-292-7838`, dadAction: `姑丈兜圈，媽媽買包。` },
-                            { time: `11:30`, title: `福岡機場 (國內線)`, category: `shopping`, phone: `092-621-6059`, dadAction: `爸爸 2F 坐，其他人掃貨。買努努雞。`, parking: `國內線立體停車場` },
-                            { time: `12:15`, title: `午餐: 一幸舎 / Oyama`, category: `food`, dadAction: `⚠️ <span class="highlight-red">不飲湯 / 不食內臟。</span>` },
-                            { time: `13:45`, title: `還車 & 回程`, category: `transport', phone: '092-621-0100`, dadAction: `前往國際線航廈還車。爸爸穿鬆身拖鞋上機。` },
-                            { time: `14:30`, title: `Check-in (CX589)`, category: `flight`, dadAction: `由職員推爸爸去閘口！🥰` }
+                            { time: '10:00', title: '買包: Full Full', category: 'food', phone: '092-292-7838', dadAction: '姑丈兜圈，媽媽買包。' },
+                            { time: '11:30', title: '福岡機場 (國內線)', category: 'shopping', phone: '092-621-6059', dadAction: '爸爸 2F 坐，其他人掃貨。買努努雞。', parking: '國內線立體停車場' },
+                            { time: '12:15', title: '午餐: 一幸舎 / Oyama', category: 'food', dadAction: '⚠️ <span class="highlight-red">不飲湯 / 不食內臟。</span>' },
+                            { time: '13:45', title: '還車 & 回程', category: 'transport', phone: '092-621-0100', dadAction: '前往國際線航廈還車。爸爸穿鬆身拖鞋上機。' },
+                            { time: '14:30', title: 'Check-in (CX589)', category: 'flight', dadAction: '由職員推爸爸去閘口！🥰' }
                         ]
                     ],
                     hotels: [
-                        { name: `御宿 野乃別府`, dates: `4/9`, phone: `0977-21-5489` },
-                        { name: `黒川温泉 深山山荘`, dates: `4/10`, phone: `0967-44-1101` }, 
-                        { name: `御宿 野乃熊本`, dates: `4/11`, phone: `096-311-5489` },
-                        { name: `Hotel JAL City Fukuoka Tenjin`, dates: `4/12 - 4/14`, phone: `092-712-7575` }
+                        { name: '御宿 野乃別府', dates: '4/9', phone: '0977-21-5489' },
+                        { name: '黒川温泉 深山山荘', dates: '4/10', phone: '0967-44-1101' }, 
+                        { name: '御宿 野乃熊本', dates: '4/11', phone: '096-311-5489' },
+                        { name: 'Hotel JAL City Fukuoka Tenjin', dates: '4/12 - 4/14', phone: '092-712-7575' }
                     ],
                     shoppingList: [
-                        { name: `努努雞 (冷炸雞)`, note: `福岡必買宵夜 (機場/博多)` },
-                        { name: `福砂屋 長崎蛋糕`, note: `底層有砂糖粒 (機場有)` },
-                        { name: `茅乃舍 高湯包`, note: `主婦必備 (博多限定)` },
-                        { name: `明太子仙貝 (Menbei)`, note: `福太郎 (香辣好食)` },
-                        { name: `柚子胡椒 (Yuzu Kosho)`, note: `由布院/別府特產` },
-                        { name: `熊本熊周邊`, note: `熊本站/部長辦公室` },
-                        { name: `Press Butter Sand`, note: `博多站 (草莓味 - 九州限定)` },
-                        { name: `薩隆巴斯/休足時間`, note: `藥妝店 (比香港平)` }
+                        { name: '努努雞 (冷炸雞)', note: '福岡必買宵夜 (機場/博多)' },
+                        { name: '福砂屋 長崎蛋糕', note: '底層有砂糖粒 (機場有)' },
+                        { name: '茅乃舍 高湯包', note: '主婦必備 (博多限定)' },
+                        { name: '明太子仙貝 (Menbei)', note: '福太郎 (香辣好食)' },
+                        { name: '柚子胡椒 (Yuzu Kosho)', note: '由布院/別府特產' },
+                        { name: '熊本熊周邊', note: '熊本站/部長辦公室' },
+                        { name: 'Press Butter Sand', note: '博多站 (草莓味 - 九州限定)' },
+                        { name: '薩隆巴斯/休足時間', note: '藥妝店 (比香港平)' }
                     ],
                     expenses: [],
-                    newShopping: { name: `` },
-                    newItem: { title: ``, time: `12:00`, category: `sightseeing`, desc: `` }
+                    newShopping: { name: '' },
+                    newItem: { title: '', time: '12:00', category: 'sightseeing', desc: '' }
                 }
             },
             computed: {
@@ -734,7 +724,7 @@
                         ? `bg-[#00897B] text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center scale-110` 
                         : `bg-white/90 text-[#00897B] w-8 h-8 rounded-full shadow flex items-center justify-center`;
                 },
-                openMap(loc) { if(loc) window.open('https://w' + 'ww.google.com/maps/search/?api=1&query=' + encodeURIComponent(loc), '_blank'); },
+                openMap(loc) { if(loc) window.open('https://www.google.com/maps/search/?api=1&query=' + encodeURIComponent(loc), '_blank'); },
                 openDoc() { window.open('https://docs.google.com/document/d/1-9dK_8o7HFytaM7hXTRCqiuSNXSW5wifVBBlOKS7PQQ/edit', '_blank'); },
                 openImage(src) { this.currentImageSrc = src; this.showImageModal = true; },
                 openGallery(idx) { this.currentGalleryIndex = idx; this.showGalleryModal = true; },
@@ -763,7 +753,7 @@
                 },
                 addShoppingItem() { if(this.newShopping.name) this.shoppingList.push({ name: this.newShopping.name, note: '' }); this.newShopping.name = ''; },
                 removeShoppingItem(idx) { this.shoppingList.splice(idx, 1); },
-                formatText(text) { return text ? String(text).replace(/\n/g, '<br>') : ''; },
+                formatText(text) { return text ? text.replace(/\n/g, '<br>') : ''; },
                 copyText(text) {
                     const el = document.createElement('textarea');
                     el.value = text;
