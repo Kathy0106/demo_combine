@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" style="background-color: #E0F2F1;">
+<html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    
-    <meta name="theme-color" content="#E0F2F1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-
-    <title>🌸2026 九州四大長老自駕 終極無損版🌸</title>
+    <title>🌸🍁 2026 輕井澤 x 中部紅葉 雙棲綜合版</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
@@ -16,187 +13,126 @@
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
-        :root {
-            --bg-onsen: #E0F2F1;
-            --card-white: #FFFFFF;
-            --text-dark: #004D40;
-            --text-light: #4DB6AC;
-            --accent-green: #26A69A;
-            --accent-red: #C62828;
-            --navi-blue: #1565C0;
-            --shadow-soft: 0 8px 24px rgba(0, 137, 123, 0.15);
-        }
-
+        [v-cloak] { display: none !important; }
         body {
             font-family: 'Zen Maru Gothic', sans-serif;
-            background-color: var(--bg-onsen);
-            color: var(--text-dark);
             margin: 0; padding: 0;
             width: 100vw; height: 100vh; height: 100dvh;
             overflow: hidden; overscroll-behavior-y: none;
             -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.5s ease;
         }
-        
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .gallery-scroll {
-            overflow-x: auto; scrollbar-width: auto; scrollbar-color: #00695C #B2DFDB; padding-bottom: 10px;
-        }
+        .gallery-scroll { overflow-x: auto; padding-bottom: 10px; }
         .gallery-scroll::-webkit-scrollbar { height: 12px; display: block; }
-        .gallery-scroll::-webkit-scrollbar-track { background: #B2DFDB; border-radius: 6px; }
-        .gallery-scroll::-webkit-scrollbar-thumb { background-color: #00695C; border-radius: 6px; border: 2px solid #B2DFDB; }
-
         .onsen-card {
-            background-color: var(--card-white);
+            background-color: #FFFFFF;
             border-radius: 24px;
-            box-shadow: var(--shadow-soft);
-            border: 2px dashed #B2DFDB;
             overflow: hidden; 
+            transition: all 0.3s ease;
         }
-
-        .card-press:active { transform: scale(0.98); transition: transform 0.1s; }
-        .highlight-red { color: var(--accent-red); font-weight: 900; }
-        
         .overlay-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.95); z-index: 10000; display: flex;
             justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
         }
         .overlay-bg.active { opacity: 1; pointer-events: auto; }
-        
         .modal-content {
             background: white; padding: 20px; border-radius: 24px; width: 90%;
             max-width: 400px; max-height: 90vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.3s ease;
         }
         .overlay-bg.active .modal-content { transform: scale(1); }
-
         .lightbox-img { max-width: 100%; max-height: 80vh; object-fit: contain; transition: opacity 0.2s ease; }
-        
-        .fab-btn {
-            position: fixed; bottom: 100px; right: 20px; width: 3.5rem; height: 3.5rem; border-radius: 50%;
-            background-color: #EF5350; color: white; display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 4px 15px rgba(239, 83, 80, 0.4); z-index: 50; transition: transform 0.2s; font-size: 1.5rem;
-        }
-        .fab-btn:active { transform: scale(0.9); }
-
-        .take-home-icon-btn {
-            background-color: #E0F2F1; color: #00695C; border: 1px dashed #B2DFDB; width: 36px; height: 36px;
-            border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-left: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05); animation: pulse-soft 3s infinite;
-        }
-        @keyframes pulse-soft { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
     </style>
 </head>
-<body class="antialiased">
+<body class="antialiased" :style="{ backgroundColor: currentTheme.bgMain }">
 
     <div id="error-log" style="color: #C62828; padding: 20px; font-weight: bold; background: #FFEBEE; display: none; height: 100vh; width: 100vw; position: absolute; z-index: 99999;"></div>
 
-    <div id="app" class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px' }">
+    <div id="app" v-cloak class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px', backgroundColor: currentTheme.bgMain }">
 
         <div class="flex-1 flex flex-col relative z-10 h-full">
             
-            <div class="relative h-[28vh] min-h-[180px] max-h-[280px] flex-shrink-0 bg-cover bg-center transition-all duration-500 shadow-sm" style="background-image: url('./header.png');">
-                <div class="absolute inset-0 bg-gradient-to-b from-[#004D40]/20 to-[#004D40]/70"></div>
-                <button @click="showSettings = true" class="absolute top-6 right-5 w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white z-50 hover:bg-white/40 transition shadow-sm border border-white/20"><i class="fa-solid fa-gear text-sm"></i></button>
+            <div class="relative h-[28vh] min-h-[190px] max-h-[280px] flex-shrink-0 bg-cover bg-center transition-all duration-700 shadow-sm" :style="{ backgroundImage: currentTheme.headerImg }">
+                <div class="absolute inset-0 transition-colors duration-700" :style="{ background: currentTheme.headerGradient }"></div>
+                
+                <div class="absolute top-5 left-5 right-16 z-50">
+                    <div class="flex bg-black/40 backdrop-blur-md rounded-full p-1 border border-white/20 shadow-inner">
+                        <button @click="switchTrip('april')" :class="currentTrip === 'april' ? 'bg-white text-[#E91E63] font-bold shadow-md' : 'text-white/80'" class="flex-1 py-1.5 text-xs rounded-full transition-all duration-300">🌸 4月輕井澤</button>
+                        <button @click="switchTrip('nov')" :class="currentTrip === 'nov' ? 'bg-white text-[#E65100] font-bold shadow-md' : 'text-white/80'" class="flex-1 py-1.5 text-xs rounded-full transition-all duration-300">🍁 11月東京中部</button>
+                    </div>
+                </div>
+
+                <button @click="showSettings = true" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white z-50 hover:bg-white/40 transition shadow-sm border border-white/20"><i class="fa-solid fa-gear text-xs"></i></button>
 
                 <div class="absolute bottom-6 right-5 flex gap-2 z-20 bg-white/90 backdrop-blur-md p-1.5 rounded-full shadow-lg border border-white/50">
-                    <button @click="activeTab = 'itinerary'" :class="tabClass('itinerary')"><i class="fa-solid fa-map-location-dot text-base"></i></button>
+                    <button @click="activeTab = 'itinerary'" :class="tabClass('itinerary')"><i class="fa-solid fa-camera-retro text-base"></i></button>
                     <button @click="activeTab = 'info'" :class="tabClass('info')"><i class="fa-solid fa-circle-info text-base"></i></button>
                     <button @click="activeTab = 'shopping'" :class="tabClass('shopping')"><i class="fa-solid fa-basket-shopping text-base"></i></button>
                     <button @click="activeTab = 'expenses'" :class="tabClass('expenses')"><i class="fa-solid fa-yen-sign text-base"></i></button>
                 </div>
                 
-                <div class="absolute bottom-8 left-6 text-white text-shadow pr-40">
-                    <h1 class="text-xl font-bold tracking-widest leading-tight mb-1 drop-shadow-md">2026 九州自駕</h1>
-                    <p class="text-[0.7rem] opacity-90 font-mono"><i class="fa-solid fa-wheelchair mr-1"></i>四大長老專用</p>
+                <div class="absolute bottom-8 left-6 text-white text-shadow pr-40 transition-all duration-500">
+                    <h1 class="text-xl font-bold tracking-widest leading-tight mb-1 drop-shadow-md">{{ currentTheme.title }}</h1>
+                    <p class="text-[0.7rem] opacity-90 font-mono"><i :class="currentTheme.subIcon"></i> {{ currentTheme.subtitle }}</p>
                 </div>
             </div>
 
-            <div class="flex-1 rounded-t-[30px] -mt-6 relative z-10 overflow-hidden flex flex-col shadow-[0_-5px_25px_rgba(0,0,0,0.05)]" style="background-color: var(--bg-onsen);">
+            <div class="flex-1 rounded-t-[30px] -mt-6 relative z-10 overflow-hidden flex flex-col shadow-[0_-5px_25px_rgba(0,0,0,0.05)] transition-colors duration-700" :style="{ backgroundColor: currentTheme.bgMain }">
                 <div class="flex-1 overflow-y-auto no-scrollbar pb-24">
 
                     <div v-if="activeTab === 'itinerary'">
-                        <div class="sticky top-0 z-40 bg-[#E0F2F1]/95 backdrop-blur-md shadow-sm border-b-2 border-dashed border-[#B2DFDB] px-5 pt-4 pb-2 transition-all duration-300">
+                        <div class="sticky top-0 z-40 backdrop-blur-md shadow-sm border-b-2 border-dashed px-5 pt-4 pb-2 transition-all duration-300" :style="{ backgroundColor: currentTheme.bgMain + 'F2', borderColor: currentTheme.borderLight }">
                             <div class="flex justify-between items-center mb-3">
                                 <div class="flex flex-col items-start">
-                                    <span class="text-[0.6rem] font-bold text-[#4DB6AC] mb-0.5">還有</span>
-                                    <span class="text-2xl font-black font-mono text-[#00897B] leading-none">{{ getCountdown('2026-04-09') }}<span class="text-[0.6rem] font-bold ml-0.5">天</span></span>
+                                    <span class="text-[0.6rem] font-bold mb-0.5" :style="{ color: currentTheme.textLight }">出發還有</span>
+                                    <span class="text-2xl font-black font-mono leading-none" :style="{ color: currentTheme.accentMain }">{{ getCountdown(currentTripData.startDate) }}<span class="text-[0.6rem] font-bold ml-0.5">天</span></span>
                                 </div>
                                 <div class="flex flex-col items-center flex-1 mx-2">
-                                    <span class="text-[0.6rem] font-bold text-[#4DB6AC] block uppercase tracking-wider">{{ days[selectedDayIndex].day }} • {{ days[selectedDayIndex].weekday }}</span>
+                                    <span class="text-[0.6rem] font-bold block uppercase tracking-wider" :style="{ color: currentTheme.textLight }">{{ currentDays[selectedDayIndex].day }} • {{ currentDays[selectedDayIndex].weekday }}</span>
                                     <div class="flex items-center">
-                                        <span class="text-2xl font-bold text-[#004D40]">{{ days[selectedDayIndex].date }}</span>
-                                        <button @click="showHotelModal = true" class="take-home-icon-btn" title="今晚返邊度?"><i class="fa-solid fa-house-chimney text-sm"></i></button>
+                                        <span class="text-2xl font-bold" :style="{ color: currentTheme.textDark }">{{ currentDays[selectedDayIndex].date }}</span>
+                                        <button @click="showHotelModal = true" class="w-8 h-8 rounded-full flex items-center justify-center ml-2 shadow-sm border border-dashed" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i class="fa-solid fa-house-chimney text-sm"></i></button>
                                     </div>
                                 </div>
                                 <div class="flex flex-col items-end">
-                                    <div class="flex items-center gap-1.5"><span class="text-xl font-bold text-[#004D40]">{{ weather.temp }}°</span><i :class="['fa-solid', weather.icon, 'text-xl text-[#FFB74D]']"></i></div>
-                                    <div class="text-[0.6rem] text-[#4DB6AC]">{{ weather.city_name }}</div>
+                                    <div class="flex items-center gap-1.5"><span class="text-xl font-bold" :style="{ color: currentTheme.textDark }">{{ weather.temp }}°</span><i :class="['fa-solid', weather.icon, 'text-xl text-[#FFB74D]']"></i></div>
+                                    <div class="text-[0.6rem]" :style="{ color: currentTheme.textLight }">{{ weather.city_name }}</div>
                                 </div>
                             </div>
                             <div class="flex space-x-3 overflow-x-auto no-scrollbar px-5 pb-3">
-                                <div v-for="(dayItem, index) in days" :key="index" @click="selectedDayIndex = index" class="flex-shrink-0 flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-all duration-300 snap-center cursor-pointer border-2 border-dashed shadow-sm" :class="selectedDayIndex === index ? 'bg-[#00897B] border-[#00897B] text-white scale-105 shadow-md' : 'bg-white border-[#B2DFDB] text-[#4DB6AC]'">
+                                <div v-for="(dayItem, index) in currentDays" :key="index" @click="selectedDayIndex = index" class="flex-shrink-0 flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-all duration-300 snap-center cursor-pointer border-2 border-dashed shadow-sm" :style="selectedDayIndex === index ? { backgroundColor: currentTheme.accentMain, borderColor: currentTheme.accentMain, color: '#FFF', transform: 'scale(1.05)' } : { backgroundColor: '#FFF', borderColor: currentTheme.borderLight, color: currentTheme.textLight }">
                                     <span class="text-[0.55rem] font-bold uppercase mb-0.5">{{ dayItem.day }}</span><span class="text-xl font-black leading-none">{{ dayItem.date.split('/')[1] }}</span><span class="text-[0.55rem] font-bold uppercase mt-0.5">{{ dayItem.weekday }}</span>
                                 </div>
-                            </div>
-                            <div class="bg-yellow-50 border-t-2 border-dashed border-yellow-200 text-yellow-800 text-[0.65rem] font-black py-1.5 text-center shadow-inner tracking-wide mt-1">
-                                <i class="fa-solid fa-circle-exclamation mr-1 text-yellow-600"></i> 導航：請將 TEL (電話號碼) 輸入車機 📞
                             </div>
                         </div>
 
                         <div class="px-5 pt-4 space-y-4 relative">
-                            <div class="absolute left-[26px] top-4 bottom-4 w-0.5 border-l-2 border-dashed border-[#80CBC4] z-0"></div>
+                            <div class="absolute left-[26px] top-4 bottom-4 w-0.5 border-l-2 border-dashed z-0" :style="{ borderColor: currentTheme.borderLight }"></div>
 
-                            <div v-for="(item, idx) in currentDayItinerary" :key="idx" class="relative pl-12 group">
-                                <div class="absolute left-[9px] top-4 w-9 h-9 rounded-full bg-white border-4 border-[#E0F2F1] flex items-center justify-center z-10 shadow-sm font-bold text-[0.65rem] text-[#00897B]">{{ item.time.split(':')[0] }}</div>
+                            <div v-for="(item, idx) in currentItineraryData" :key="idx" class="relative pl-12 group">
+                                <div class="absolute left-[9px] top-4 w-9 h-9 rounded-full bg-white border-4 flex items-center justify-center z-10 shadow-sm font-bold text-[0.65rem]" :style="{ borderColor: currentTheme.bgMain, color: currentTheme.accentMain }">{{ item.time.split(':')[0] }}</div>
 
-                                <div class="onsen-card p-4 relative overflow-hidden transition-all active:scale-95" @click="openMap(item.location)">
+                                <div class="onsen-card p-4 relative overflow-hidden transition-all active:scale-95" :style="{ boxShadow: currentTheme.shadow, border: '2px dashed ' + currentTheme.borderLight }" @click="openMap(item.location)">
                                     <div class="flex gap-2">
                                         <div class="flex-1 min-w-0">
-                                            <div class="flex justify-between items-start mb-1.5"><div class="text-[0.65rem] font-bold uppercase tracking-wider opacity-60 text-[#00695C]">{{ item.time }} • {{ itemCategoryName(item.category) }}</div></div>
-                                            <h3 class="text-lg font-bold mb-1.5 leading-tight text-[#004D40]" v-html="formatText(item.title)"></h3>
-                                            <div class="text-xs text-[#00695C] mb-2 flex items-start gap-1.5 leading-relaxed whitespace-pre-line" v-html="formatText(item.desc)"></div>
+                                            <div class="flex justify-between items-start mb-1.5"><div class="text-[0.65rem] font-bold uppercase tracking-wider opacity-60" :style="{ color: currentTheme.textDark }">{{ item.time }} • {{ itemCategoryName(item.category) }}</div></div>
+                                            <h3 class="text-lg font-bold mb-1.5 leading-tight" :style="{ color: currentTheme.textDark }" v-html="formatText(item.title)"></h3>
+                                            <div class="text-xs mb-2 flex items-start gap-1.5 leading-relaxed whitespace-pre-line" :style="{ color: currentTheme.textDark, opacity: 0.8 }" v-html="formatText(item.desc)"></div>
 
-                                            <div class="mt-2 bg-[#F1F8E9] p-2 rounded-xl border border-dashed border-[#C5E1A5]" v-if="item.dadAction">
-                                                <div class="text-[0.7rem] text-[#33691E] font-bold flex items-start"><i class="fa-solid fa-person-cane mr-1.5 mt-0.5 text-base flex-shrink-0"></i><span class="leading-relaxed whitespace-pre-line" v-html="formatText(item.dadAction)"></span></div>
-                                            </div>
-
-                                            <div v-if="item.parking && !item.title.includes('JAL City')" class="mt-2 bg-blue-50 p-2 rounded-xl border border-dashed border-blue-200">
-                                                <div class="text-[0.7rem] text-[#1565C0] font-bold flex items-start"><i class="fa-solid fa-square-parking mr-1.5 mt-0.5 text-base flex-shrink-0"></i><span class="leading-relaxed whitespace-pre-line" v-html="formatText(item.parking)"></span></div>
+                                            <div class="mt-2 bg-[#FFF8E1] p-2 rounded-xl border border-dashed border-[#FFE082]" v-if="item.action">
+                                                <div class="text-[0.7rem] text-[#F57F17] font-bold flex items-start"><i class="fa-solid fa-bell mr-1.5 mt-0.5 text-base flex-shrink-0"></i><span class="leading-relaxed whitespace-pre-line" v-html="formatText(item.action)"></span></div>
                                             </div>
 
                                             <div class="flex flex-wrap gap-1.5 mt-2">
-                                                <span v-if="idx < currentDayItinerary.length" class="text-[0.65rem] bg-[#E0F2F1] text-[#00796B] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed border-[#B2DFDB]"><i :class="getTransportIcon(item.transportType)"></i> {{ item.travelTime || '移動' }}</span>
-                                            </div>
-                                            
-                                            <div v-if="item.image" class="mt-3 relative">
-                                                <img :src="item.image" @click.stop="openImage(item.image)" class="w-full h-20 object-cover rounded-xl border-2 border-dashed border-[#B2DFDB] shadow-sm cursor-pointer active:scale-95 transition-transform" alt="Reference">
-                                                <div class="absolute bottom-1 right-1 bg-[#004D40]/70 text-white text-[9px] px-1.5 py-0.5 rounded backdrop-blur-sm pointer-events-none"><i class="fa-solid fa-magnifying-glass-plus mr-0.5"></i>點擊放大</div>
+                                                <span v-if="idx < currentItineraryData.length" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> {{ item.travelTime || '移動' }}</span>
                                             </div>
                                         </div>
-
-                                        <div v-if="item.phone" class="w-24 flex-shrink-0 flex flex-col gap-2 justify-start mt-1">
-                                            <div class="bg-white border-2 border-[#1565C0] rounded-xl p-1.5 text-center shadow-sm" @click.stop>
-                                                <div class="text-[0.6rem] font-bold text-[#1565C0] mb-0.5 uppercase tracking-tighter">TEL 導航</div>
-                                                <div class="text-xs font-black text-slate-800 break-all leading-tight mb-1">{{ item.phone }}</div>
-                                                <div class="bg-[#1565C0] text-white text-[0.6rem] rounded-lg px-1 py-0.5 font-bold cursor-pointer active:scale-95" @click="copyText(item.phone)">COPY</div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div v-if="item.title.includes('JAL City')" class="mt-3 bg-[#E3F2FD] p-2 rounded-xl border border-dashed border-[#90CAF9]">
-                                        <div class="text-xs font-bold text-[#1565C0] mb-1"><i class="fa-solid fa-square-parking mr-1"></i>泊車 4 選 1</div>
-                                        <ul class="text-[0.7rem] space-y-1.5 text-[#0D47A1]">
-                                            <li class="opacity-60">A. 酒店場 (¥2200/窄) ❌</li>
-                                            <li class="font-bold bg-white rounded-lg px-1 py-0.5 border border-[#1565C0] text-[#1565C0]">B. 紙与大名 (推薦) 👍 <br><span class="font-mono ml-3">Tel: 092-722-6066</span></li>
-                                            <li>C. 安国駐車場 (近) <span class="font-mono">Tel: 092-741-5460</span></li>
-                                        </ul>
                                     </div>
                                 </div>
                             </div>
-                            
-                            <div v-if="currentDayItinerary.length === 0" class="text-center text-[#80CBC4] py-12">
+                            <div v-if="currentItineraryData.length === 0" class="text-center py-12" :style="{ color: currentTheme.borderLight }">
                                 <i class="fa-solid fa-calendar-plus text-4xl mb-3 opacity-30"></i><p class="text-xs font-bold">今天還沒有安排行程喔！</p>
                             </div>
                         </div>
@@ -204,171 +140,72 @@
 
                     <div v-if="activeTab === 'info'" class="space-y-5 px-5 pt-4">
                         
-                        <div class="onsen-card">
-                            <div class="p-3 font-bold flex justify-between items-center text-white bg-[#00897B]">
-                                <span><i class="fa-solid fa-utensils mr-2"></i>餐廳預約 & 情報總覽</span>
+                        <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
+                            <div class="p-3 font-bold flex justify-between items-center text-white" :style="{ backgroundColor: currentTheme.accentMain }">
+                                <span><i class="fa-solid fa-utensils mr-2"></i>餐廳預約 & 總覽</span>
                             </div>
                             <div class="p-4 space-y-4 bg-white">
-                                <div v-for="res in diningList" :key="res.name" class="flex gap-3 text-sm border-b border-dashed border-[#E0E0E0] pb-3 last:border-0 last:pb-0">
-                                    <div class="font-bold w-16 flex-shrink-0 text-center leading-tight text-[#00897B]"><span class="block text-[10px] text-gray-400">{{ res.date }}</span>{{ res.time }}</div>
+                                <div v-for="res in currentTripData.diningList" :key="res.name" class="flex gap-3 text-sm border-b border-dashed pb-3 last:border-0 last:pb-0" :style="{ borderColor: currentTheme.borderLight }">
+                                    <div class="font-bold w-16 flex-shrink-0 text-center leading-tight" :style="{ color: currentTheme.accentMain }"><span class="block text-[10px] text-gray-400">{{ res.date }}</span>{{ res.time }}</div>
                                     <div class="flex-1">
-                                        <div class="font-bold text-[#5D4037]">{{ res.name }}</div>
-                                        <div class="text-[11px] text-gray-500 mt-1 flex items-start gap-1"><i class="fa-solid fa-location-dot mt-0.5"></i> {{ res.addr }}</div>
-                                        <div v-if="res.tel && res.tel !== '--'" class="text-[11px] text-gray-500 mt-0.5"><i class="fa-solid fa-phone mr-1"></i> {{ res.tel }}</div>
-                                        <div v-if="res.note" class="mt-1"><span class="text-[10px] font-bold px-2 py-0.5 rounded-lg border" :class="res.note.includes('預約') || res.note.includes('#') ? 'bg-green-50 text-green-700 border-green-200' : 'bg-yellow-50 text-yellow-700 border-yellow-200'"><i class="fa-solid fa-ticket mr-1"></i>{{ res.note }}</span></div>
+                                        <div class="font-bold" :style="{ color: currentTheme.textDark }">{{ res.name }}</div>
+                                        <div v-if="res.note" class="mt-1"><span class="text-[10px] font-bold px-2 py-0.5 rounded-lg border bg-yellow-50 text-yellow-700 border-yellow-200"><i class="fa-solid fa-ticket mr-1"></i>{{ res.note }}</span></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="onsen-card cursor-pointer hover:opacity-90" @click="openDoc">
-                            <div class="p-4 flex items-center justify-center gap-2 bg-[#4285F4] text-white font-bold shadow-md">
-                                <i class="fa-brands fa-google-drive text-lg"></i><span class="text-sm">查看完整 Google Doc 行程</span>
-                            </div>
-                        </div>
-
-                        <div class="onsen-card">
-                            <div class="p-4 text-white font-bold flex justify-between text-sm bg-[#00897B]">
-                                <span><i class="fa-solid fa-plane mr-2"></i>航班資訊 (CX)</span>
-                            </div>
-                            <div class="p-5 text-sm bg-white space-y-6">
-                                <div>
-                                    <div class="text-[0.65rem] font-bold text-[#4DB6AC] mb-2 flex items-center"><span class="w-2 h-2 rounded-full bg-blue-400 mr-1"></span>去程 (HKT)</div>
-                                    <div class="flex justify-between items-center mb-2">
-                                        <div class="text-2xl font-bold text-[#004D40]">11:00</div>
-                                        <div class="flex-1 px-4 flex flex-col items-center"><div class="h-0.5 w-full bg-[#E0E0E0] relative rounded-full border-t border-dashed border-[#BDBDBD]"><i class="fa-solid fa-plane text-[#BDBDBD] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs"></i></div></div>
-                                        <div class="text-2xl font-bold text-[#004D40]">15:30</div>
-                                    </div>
-                                    <div class="flex justify-between text-xs font-bold bg-[#E0F2F1] p-3 rounded-xl text-[#00695C]"><span>HKG → FUK (CX588)</span><span>4/9</span></div>
-                                </div>
-                                <div class="border-t-2 border-dashed border-[#E0E0E0]"></div>
-                                <div>
-                                    <div class="text-[0.65rem] font-bold text-[#4DB6AC] mb-2 flex items-center"><span class="w-2 h-2 rounded-full bg-pink-400 mr-1"></span>回程 (JST)</div>
-                                    <div class="flex justify-between items-center mb-2">
-                                        <div class="text-2xl font-bold text-[#004D40]">16:40</div>
-                                        <div class="flex-1 px-4 flex flex-col items-center"><div class="h-0.5 w-full bg-[#E0E0E0] relative rounded-full border-t border-dashed border-[#BDBDBD]"><i class="fa-solid fa-plane text-[#BDBDBD] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-xs" style="transform: translate(-50%, -50%) rotate(180deg);"></i></div></div>
-                                        <div class="text-2xl font-bold text-[#004D40]">19:25</div>
-                                    </div>
-                                    <div class="flex justify-between text-xs font-bold bg-[#E0F2F1] p-3 rounded-xl text-[#00695C]"><span>FUK → HKG (CX589)</span><span>4/14</span></div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="onsen-card">
-                            <div class="p-4 font-bold flex justify-between text-sm" style="background-color: #E3F2FD; color: #D32F2F;">
-                                <span><i class="fa-solid fa-car mr-2"></i>租車資訊 (Nissan)</span>
-                            </div>
-                            <div class="p-5 text-sm bg-white">
-                                <div class="flex justify-between items-center border-b border-dashed border-[#E0E0E0] pb-2 mb-3">
-                                    <span class="text-[#90A4AE] text-xs">預約號碼</span><span class="text-xl font-black text-[#D32F2F] tracking-widest">26021004440</span>
-                                </div>
-                                <div class="flex justify-between items-center mb-4"><span class="text-[#90A4AE] text-xs">車型</span><span class="font-bold text-[#004D40]">SERENA e-POWER</span></div>
-                                <div class="flex gap-2 mb-3">
-                                    <div class="flex-1 bg-[#F5F5F5] p-2 rounded-xl text-center border border-dashed border-[#E0E0E0]"><div class="text-[0.6rem] text-gray-500 mb-0.5">取車 (04/09)</div><div class="font-bold text-[#004D40]">17:30</div></div>
-                                    <div class="flex-1 bg-[#F5F5F5] p-2 rounded-xl text-center border border-dashed border-[#E0E0E0]"><div class="text-[0.6rem] text-gray-500 mb-0.5">還車 (04/14)</div><div class="font-bold text-[#D32F2F]">13:30</div></div>
-                                </div>
-                                <div class="bg-[#E3F2FD] p-3 rounded-xl text-xs text-[#1565C0] border border-dashed border-[#90CAF9] mb-3">
-                                    <strong class="block mb-1"><i class="fa-solid fa-location-dot mr-1"></i>還車導航 (TEL):</strong><div class="font-mono text-lg font-black tracking-wider text-center">092-621-0100</div>
-                                </div>
-                                <div class="bg-[#FFF3E0] p-3 rounded-xl text-xs text-[#E65100] border border-dashed border-[#FFE0B2]">
-                                    <strong class="block mb-1"><i class="fa-solid fa-gas-pump mr-1"></i>極重要提示:</strong>
-                                    1. 必須 <span class="font-black bg-[#FFE0B2] px-1 rounded">入滿油</span> 先可以還車！⛽<br>2. 必帶：護照 + 國際車牌 (IDP) 🪪
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="onsen-card">
-                            <div class="bg-[#E0F2F1] p-3 text-[#00695C] font-bold flex justify-between items-center">
-                                <span><i class="fa-solid fa-bed mr-2"></i>住宿名單 (Hotel)</span>
-                            </div>
-                            <div class="p-4 bg-white space-y-3">
-                                <div v-for="hotel in hotels" :key="hotel.name" class="border-b border-dashed border-[#B2DFDB] pb-3 last:border-0 last:pb-0">
-                                    <div class="font-bold text-[#004D40] text-sm">{{ hotel.name }}</div>
-                                    <div class="flex justify-between items-center mt-1">
-                                        <span class="text-xs text-[#00695C] bg-[#E0F2F1] px-2 py-0.5 rounded-full">{{ hotel.dates }}</span>
-                                        <span v-if="hotel.phone" class="text-xs text-gray-500 font-mono"><i class="fa-solid fa-phone mr-1"></i>{{ hotel.phone }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="onsen-card border-2 dashed border-[#EF9A9A]">
-                             <div class="bg-[#FFEBEE] p-3 text-[#C62828] font-bold flex justify-between items-center">
-                                <span><i class="fa-solid fa-bell mr-2"></i>To-Book 搶訂清單</span>
+                        <div class="onsen-card border-2 dashed" :style="{ borderColor: currentTheme.accentMain }">
+                             <div class="p-3 font-bold flex justify-between items-center" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain }">
+                                <span><i class="fa-solid fa-camera mr-2"></i>{{ currentTrip === 'april' ? 'Pre-wedding 備忘錄' : '週年紀念 備忘錄' }}</span>
                             </div>
                             <div class="p-4 text-xs space-y-2 bg-white">
-                                <ul class="list-disc pl-4 text-gray-600">
-                                    <li><strong>Day 1 野乃:</strong> 需車位 + 入大堂前抹輪椅轆</li>
-                                    <li><strong>Day 2 深山:</strong> 洋室 1F + 痛風餐 + Golf Cart</li>
-                                    <li><strong>Day 4 若松屋:</strong> 提前訂座 (註明輪椅 + <span class="font-bold text-[#C62828]">要求 Table 席</span>)</li>
-                                    <li class="line-through text-gray-400"><strong>Day 4 華味鳥:</strong> 已成功預約！(#83975)</li>
-                                    <li class="line-through text-gray-400"><strong>Day 5 大東園:</strong> 已成功預約！(13:30)</li>
+                                <ul class="list-disc pl-4 text-gray-600" v-if="currentTrip === 'april'">
+                                    <li><strong class="text-[#D32F2F]">必須:</strong> 婚紗、西裝、戒指、波鞋/高踭鞋</li>
+                                    <li><strong>化妝:</strong> Nubra、防曬、定妝噴霧</li>
+                                    <li><strong>保暖:</strong> 4月輕井澤早晚極凍，必備暖包、厚褸披身！</li>
+                                </ul>
+                                <ul class="list-disc pl-4 text-gray-600" v-else>
+                                    <li><strong class="text-[#D32F2F]">必須:</strong> 10週年/1週年 紀念日禮物 🎁</li>
+                                    <li><strong>衣著:</strong> 吉卜力風格服飾、大褸 (白川鄉極凍)</li>
+                                    <li><strong>打卡:</strong> 腳架、相機、預先 Download 離線地圖</li>
                                 </ul>
                             </div>
                         </div>
 
-                        <div class="onsen-card p-4">
-                            <h4 class="font-bold text-[#004D40] text-sm mb-2 flex justify-between items-center">
-                                <span><i class="fa-solid fa-images mr-2"></i>地獄蒸 Menu 相簿</span>
-                                <span class="text-[0.6rem] text-[#4DB6AC] font-normal">點擊放大後可左右滑動</span>
-                            </h4>
-                            <div class="relative">
-                                <button onclick="document.querySelector('.gallery-scroll').scrollBy({left: -200, behavior: 'smooth'})" class="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm shadow-md hover:bg-black/50 active:scale-90 transition-all"><i class="fa-solid fa-chevron-left text-xs"></i></button>
-                                <div class="flex overflow-x-auto gap-3 p-2 gallery-scroll snap-x">
-                                    <div v-for="(img, index) in menuImages" :key="index" class="snap-center shrink-0 w-32 h-24 rounded-lg overflow-hidden shadow-sm border border-[#B2DFDB] relative group cursor-pointer" @click="openGallery(index)">
-                                        <img :src="img.src" class="w-full h-full object-cover" :alt="img.title">
-                                        <div class="absolute bottom-0 left-0 w-full bg-black/50 text-white text-[10px] text-center py-0.5">{{ img.title }}</div>
+                        <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
+                            <div class="p-3 font-bold flex justify-between items-center" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">
+                                <span><i class="fa-solid fa-bed mr-2"></i>浪漫住宿名單 (Hotel)</span>
+                            </div>
+                            <div class="p-4 bg-white space-y-3">
+                                <div v-for="hotel in currentTripData.hotels" :key="hotel.name" class="border-b border-dashed pb-3 last:border-0 last:pb-0" :style="{ borderColor: currentTheme.borderLight }">
+                                    <div class="font-bold text-sm" :style="{ color: currentTheme.textDark }">{{ hotel.name }}</div>
+                                    <div class="flex justify-between items-center mt-1">
+                                        <span class="text-xs px-2 py-0.5 rounded-full" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">{{ hotel.dates }}</span>
                                     </div>
                                 </div>
-                                <button onclick="document.querySelector('.gallery-scroll').scrollBy({left: 200, behavior: 'smooth'})" class="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-black/30 text-white w-8 h-8 rounded-full flex items-center justify-center backdrop-blur-sm shadow-md hover:bg-black/50 active:scale-90 transition-all"><i class="fa-solid fa-chevron-right text-xs"></i></button>
                             </div>
                         </div>
 
-                        <div class="onsen-card border-l-4 border-[#26A69A]">
-                            <div class="bg-[#E0F2F1] p-3 text-[#00695C] font-bold"><span><i class="fa-solid fa-square-parking mr-2"></i>鐵輪地獄蒸 泊車秘訣</span></div>
-                            <div class="p-4 text-sm bg-white space-y-3">
-                                <div class="flex gap-3"><div class="bg-[#B2DFDB] text-[#004D40] w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xs mt-0.5">1</div><div><strong class="block">先落客：地獄蒸工房 鉄輪</strong><p class="text-xs">餐廳門口可暫停。爸爸先落車霸位，姑丈再去泊車。</p></div></div>
-                                <div class="flex gap-3"><div class="bg-[#B2DFDB] text-[#004D40] w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0 font-bold text-xs mt-0.5">2</div><div><strong class="block">去泊：鉄輪温泉地區駐車場</strong><div class="text-xs font-mono font-bold text-[#00796B] bg-[#E0F2F1] px-1 rounded mt-1">車機電話: 0977-66-3775</div><p class="text-xs mt-1">泊好行 3-5 分鐘返餐廳。</p></div></div>
-                            </div>
-                        </div>
-
-                        <div class="onsen-card p-5">
-                            <h3 class="font-bold mb-3 text-sm text-[#00897B]"><i class="fa-solid fa-coins mr-2"></i>匯率換算 (JPY)</h3>
-                            <div class="flex items-center gap-3 mb-2">
-                                <div class="flex-1 bg-[#F5F5F5] rounded-xl p-3 flex items-center border border-dashed border-[#E0E0E0]">
-                                    <span class="text-[#A1887F] mr-2 text-xs font-bold">JPY</span><input type="number" v-model="calcJpy" @input="convert('jpy')" class="w-full bg-transparent outline-none font-bold text-lg text-[#004D40]" placeholder="0">
-                                </div>
-                                <i class="fa-solid fa-arrow-right-arrow-left text-[#B2DFDB] text-xs"></i>
-                                <div class="flex-1 bg-[#F5F5F5] rounded-xl p-3 flex items-center border border-dashed border-[#E0E0E0]">
-                                    <span class="text-[#A1887F] mr-2 text-xs font-bold">HKD</span><input type="number" v-model="calcHkd" @input="convert('hkd')" class="w-full bg-transparent outline-none font-bold text-lg text-[#004D40]" placeholder="0">
-                                </div>
-                            </div>
-                            <div class="text-right text-[0.65rem] text-[#4DB6AC]">匯率: {{ exchangeRate }}</div>
-                        </div>
                     </div>
 
                     <div v-if="activeTab === 'shopping'" class="px-5 pt-4">
-                        <div class="onsen-card p-5 mb-4">
-                            <h3 class="font-bold mb-3 text-sm text-[#004D40]">🛍️ 必買清單 (四大長老版)</h3>
+                        <div class="onsen-card p-5 mb-4" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
+                            <h3 class="font-bold mb-3 text-sm" :style="{ color: currentTheme.textDark }">🛍️ 血拼清單</h3>
                             <div class="space-y-2">
                                 <div v-for="(item, idx) in shoppingList" :key="idx" class="flex flex-col p-3 bg-[#FAFAFA] border border-dashed border-[#EEEEEE] rounded-xl relative">
-                                    <div class="flex items-center gap-3"><input type="checkbox" class="w-5 h-5 rounded-lg border-[#B2DFDB] accent-[#00897B]"><span class="text-sm font-bold text-[#004D40]">{{ item.name }}</span></div>
+                                    <div class="flex items-center gap-3"><input type="checkbox" class="w-5 h-5 rounded-lg accent-[#E91E63]"><span class="text-sm font-bold" :style="{ color: currentTheme.textDark }">{{ item.name }}</span></div>
                                     <div class="text-[0.65rem] text-gray-500 pl-8 mt-1">{{ item.note }}</div>
-                                    <button @click="removeShoppingItem(idx)" class="absolute top-3 right-3 text-[#B2DFDB] hover:text-[#EF5350]"><i class="fa-solid fa-trash"></i></button>
-                                </div>
-                                <div class="flex gap-2 mt-4">
-                                    <input v-model="newShopping.name" placeholder="新增物品..." class="flex-1 bg-[#F5F5F5] p-3 rounded-xl text-sm outline-none text-[#004D40]">
-                                    <button @click="addShoppingItem" class="w-10 h-10 rounded-xl text-white flex items-center justify-center shadow-md active:scale-95 text-lg bg-[#00897B]"><i class="fa-solid fa-plus"></i></button>
                                 </div>
                             </div>
                         </div>
                     </div>
                     
                     <div v-if="activeTab === 'expenses'" class="px-5 pt-4">
-                        <div class="onsen-card p-6 mb-4 text-center border-none bg-[#00897B] text-white">
-                            <p class="text-xs text-white/80 mb-1">總花費 (日元)</p>
-                            <div class="text-4xl font-bold mb-1">¥{{ totalExpenses.toLocaleString() }}</div>
-                             <p class="text-[0.65rem] text-white/60">≈ HK$ {{ (totalExpenses * exchangeRate).toFixed(0) }}</p>
+                        <div class="onsen-card p-6 mb-4 text-center border-none text-white" :style="{ backgroundColor: currentTheme.accentMain }">
+                            <p class="text-xs text-white/80 mb-1">二人總花費 (日元)</p>
+                            <div class="text-4xl font-bold mb-1">¥0</div>
+                             <p class="text-[0.65rem] text-white/60">≈ HK$ 0</p>
                         </div>
                     </div>
 
@@ -376,232 +213,179 @@
             </div>
         </div>
 
-        <button @click="showEmergencyModal = true" class="fab-btn animate-bounce"><i class="fa-solid fa-notes-medical"></i></button>
-
-        <div :class="['overlay-bg', { 'active': showImageModal }]" @click="showImageModal = false">
-            <div class="w-full h-full flex flex-col justify-center items-center p-4 relative" @click.stop="showImageModal = false">
-                <button @click="showImageModal = false" class="absolute top-4 right-4 text-white text-3xl z-50 p-2"><i class="fa-solid fa-xmark"></i></button>
-                <img :src="currentImageSrc" class="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl" @click.stop>
-            </div>
-        </div>
-
-        <div :class="['overlay-bg', { 'active': showGalleryModal }]" @click="showGalleryModal = false" @touchstart="handleTouchStart" @touchend="handleTouchEnd">
-            <div class="w-full h-full flex flex-col justify-center items-center relative">
-                <button @click.stop="showGalleryModal = false" class="absolute top-4 right-4 text-white text-3xl z-50 p-2"><i class="fa-solid fa-xmark"></i></button>
-                <div class="relative w-full h-[80vh] flex items-center justify-center">
-                    <button @click.stop="prevGalleryImage" class="absolute left-2 text-white bg-black/30 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm"><i class="fa-solid fa-chevron-left"></i></button>
-                    <img :src="currentGalleryImage" class="lightbox-img rounded-2xl shadow-2xl" alt="Fullscreen" @click.stop>
-                    <button @click.stop="nextGalleryImage" class="absolute right-2 text-white bg-black/30 w-10 h-10 rounded-full flex items-center justify-center backdrop-blur-sm"><i class="fa-solid fa-chevron-right"></i></button>
-                </div>
-                <div class="absolute bottom-10 bg-black/50 px-4 py-1 rounded-full text-white text-xs font-bold" @click.stop>{{ currentGalleryIndex + 1 }} / {{ menuImages.length }}</div>
-            </div>
-        </div>
-
-        <div :class="['overlay-bg', { 'active': showEmergencyModal }]" @click="showEmergencyModal = false">
-            <div class="modal-content text-center space-y-4" @click.stop>
-                <h3 class="text-xl font-black text-[#C62828] mb-2"><i class="fa-solid fa-triangle-exclamation mr-2"></i>緊急救命卡</h3>
-                <div class="bg-yellow-50 p-4 rounded-2xl border-2 border-yellow-200 text-left">
-                    <p class="text-sm font-bold text-gray-600 mb-1"><i class="fa-solid fa-chair mr-1"></i>座位需求 (示出用)</p>
-                    <p class="text-lg font-black text-yellow-800 leading-relaxed">車椅子の者がおり、<b>足を曲げることができません</b>。靴を脫がずに座れる<b>「テーブル席」</b>をお願いします。</p>
-                    <p class="text-[0.65rem] text-gray-500 mt-2">Translate: Someone is in a wheelchair and cannot bend their legs. Western table seat please.</p>
-                </div>
-                <div class="bg-red-50 p-4 rounded-2xl border-2 border-red-200 text-left">
-                    <p class="text-sm font-bold text-gray-600 mb-1"><i class="fa-solid fa-ban mr-1"></i>痛風・飲食禁忌 (示出用)</p>
-                    <p class="text-lg font-black text-red-700 leading-relaxed">同行者に痛風の者がいます。<b>内臓類、貝類、スープ</b>は厳禁です。</p>
-                    <p class="text-[0.65rem] text-gray-500 mt-2">Translate: Someone has gout. No organs, shellfish, or soup broth.</p>
-                </div>
-                <div class="bg-cyan-50 p-4 rounded-2xl border-2 border-cyan-200 text-left">
-                    <p class="text-sm font-bold text-gray-600 mb-1"><i class="fa-regular fa-snowflake mr-1"></i>冰敷需求 (示出用)</p>
-                    <p class="text-lg font-black text-cyan-800 leading-relaxed">足をアイシングしたいので、<b>氷</b> と <b>余分なタオル</b> をお願いします。</p>
-                    <p class="text-[0.65rem] text-gray-500 mt-2">Translate: My father needs ice for his feet. Please provide ice and extra towels.</p>
-                </div>
-                <div class="grid grid-cols-2 gap-3 mt-4">
-                    <a href="https://www.google.com/maps/search/%E9%81%93%E4%B9%8B%E9%A9%9B" target="_blank" class="bg-blue-500 text-white py-3 rounded-2xl font-bold shadow-md flex flex-col items-center"><i class="fa-solid fa-restroom text-2xl mb-1"></i><span>搵 廁所</span></a>
-                    <a href="https://www.google.com/maps/search/%E4%BE%BF%E5%88%A9%E5%BA%97" target="_blank" class="bg-orange-500 text-white py-3 rounded-2xl font-bold shadow-md flex flex-col items-center"><i class="fa-solid fa-store text-2xl mb-1"></i><span>搵 便利店</span></a>
-                </div>
-                <button @click="showEmergencyModal = false" class="mt-4 text-gray-400 underline text-sm w-full py-2">關閉</button>
-            </div>
-        </div>
-
         <div :class="['overlay-bg', { 'active': showHotelModal }]" @click="showHotelModal = false">
-            <div class="modal-content" @click.stop>
-                <div class="text-center mb-4"><h3 class="text-lg font-bold text-[#004D40]">🏠 今晚返邊度?</h3><p class="text-sm text-gray-500">{{ days[selectedDayIndex].day }} : {{ days[selectedDayIndex].date }}</p></div>
-                <div v-if="currentNightHotel" class="bg-[#E0F2F1] p-4 rounded-2xl border border-[#B2DFDB] text-center space-y-3">
-                    <h2 class="text-xl font-black text-[#00695C]">{{ currentNightHotel.name }}</h2>
-                    <div v-if="currentNightHotel.phone" class="text-sm text-gray-600 font-bold"><i class="fa-solid fa-phone mr-1"></i>{{ currentNightHotel.phone }}</div>
-                    <button @click="openMap(currentNightHotel.name + ' hotel')" class="w-full bg-[#00897B] text-white py-3 rounded-2xl font-bold shadow-md active:scale-95"><i class="fa-solid fa-location-arrow mr-2"></i> Google Map 導航</button>
+            <div class="modal-content text-center" @click.stop>
+                <h3 class="text-lg font-bold mb-4" :style="{ color: currentTheme.textDark }">🏠 今晚返邊度?</h3>
+                <div v-if="currentNightHotel" class="p-4 rounded-2xl border border-dashed space-y-3" :style="{ backgroundColor: currentTheme.bgMain, borderColor: currentTheme.borderLight }">
+                    <h2 class="text-xl font-black" :style="{ color: currentTheme.textDark }">{{ currentNightHotel.name }}</h2>
+                    <button @click="openMap(currentNightHotel.name)" class="w-full text-white py-3 rounded-2xl font-bold shadow-md active:scale-95" :style="{ backgroundColor: currentTheme.accentMain }"><i class="fa-solid fa-location-arrow mr-2"></i> Google Map 導航</button>
                 </div>
                 <button @click="showHotelModal = false" class="w-full mt-4 text-gray-400 underline text-sm">關閉</button>
-            </div>
-        </div>
-
-        <div v-if="showSettings" class="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center" @click.self="showSettings = false">
-            <div class="bg-white w-full sm:w-96 rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl animate-slide-up">
-                <div class="flex justify-between items-center mb-6"><h3 class="text-lg font-bold text-[#004D40]">設定</h3><button @click="showSettings = false" class="text-[#BDBDBD]"><i class="fa-solid fa-xmark text-lg"></i></button></div>
-                <div class="mb-6"><div class="flex justify-between mb-2"><span class="text-sm font-bold text-[#00695C]">字體大小 (長輩用)</span><span class="text-xs text-[#BDBDBD]">{{ settings.fontSize }}px</span></div><input type="range" min="14" max="24" step="1" v-model="settings.fontSize" class="w-full accent-[#00897B]"></div>
             </div>
         </div>
 
     </div>
 
     <script>
-        window.onerror = function(msg) {
-            document.getElementById('error-log').style.display = 'block';
-            document.getElementById('error-log').innerHTML = '🚨 系統發生錯誤：<br>' + msg;
-            return false;
-        };
-
         const { createApp } = Vue;
 
         createApp({
             data() {
                 return {
+                    currentTrip: 'april', // 切換 'april' 或 'nov'
                     activeTab: `itinerary`,
-                    selectedDayIndex: 0,
-                    showModal: false, showSettings: false, showImageModal: false, showEmergencyModal: false, showHotelModal: false, showGalleryModal: false,
-                    currentImageSrc: ``, currentGalleryIndex: 0, exchangeRate: 0.053, calcJpy: ``, calcHkd: ``, alarmsOpen: false,
-                    touchStartX: 0, touchEndX: 0,
-                    weather: { city_name: `福岡`, temp: `--`, icon: `fa-spinner fa-spin` },
+                    selectedDayIndex: 4, 
+                    showSettings: false, showHotelModal: false, showImageModal: false,
+                    weather: { city_name: `東京`, temp: `--`, icon: `fa-spinner fa-spin` },
                     apiKey: `cc2dab2806da14aec6dab2ed8260a1c4`, 
                     settings: { fontSize: 15 }, 
-                    menuImages: Array.from({length: 47}, (_, i) => ({ src: `./menu_${i+1}.jpg`, title: `Menu Page ${i+1}` })),
-                    days: [
-                        { day: `Day 1`, weekday: `Thu`, date: `4/9` }, { day: `Day 2`, weekday: `Fri`, date: `4/10` }, 
-                        { day: `Day 3`, weekday: `Sat`, date: `4/11` }, { day: `Day 4`, weekday: `Sun`, date: `4/12` }, 
-                        { day: `Day 5`, weekday: `Mon`, date: `4/13` }, { day: `Day 6`, weekday: `Tue`, date: `4/14` }
-                    ],
-                    diningList: [
-                        { date: `4/9`, time: `19:30`, name: `活魚迴轉壽司 水天`, addr: `別府市山の手町9-32`, tel: `0977-21-0465`, note: `高級壽司 / Table席 / 痛風最安全` },
-                        { date: `4/10`, time: `11:00`, name: `地獄蒸工房 鉄輪`, addr: `別府市鉄輪559-1`, tel: `0977-66-3775`, note: `霸普通枱 / 痛風友善` },
-                        { date: `4/11`, time: `13:30`, name: `あか牛丼いわさき`, addr: `阿蘇市乙姫2006-2`, tel: `0967-32-2677`, note: `要求Table席 / 爸爸食熟食` },
-                        { date: `4/11`, time: `19:00`, name: `勝烈亭 豬排`, addr: `熊本市中央区新市街8-18`, tel: `096-322-8771`, note: `要求Table席 / 泊辛島地下` },
-                        { date: `4/12`, time: `12:30`, name: `若松屋 (Wakamatsuya)`, addr: `柳川市沖端町26`, tel: `0944-72-3163`, note: `柳川頂級老字號 (爸爸食親子丼)` },
-                        { date: `4/12`, time: `19:30`, name: `博多華味鳥 (天神西通店)`, addr: `福岡市中央区天神2-7-9 2F`, tel: `092-724-0502`, note: `預約號 #83975` },
-                        { date: `4/13`, time: `08:30`, name: `Bills 福岡`, addr: `福岡市中央区西中洲13-1`, tel: `092-733-2555`, note: `世界第一早餐 (有𨋢/Table)` },
-                        { date: `4/13`, time: `13:30`, name: `大東園 本店 (Daitoen)`, addr: `博多区上川端町 1-1-1`, tel: `092-282-0055`, note: `已預約 13:30入座` },
-                        { date: `4/13`, time: `18:45`, name: `一蘭 (天神西通り店)`, addr: `福岡市中央区大名2-1-57`, tel: `092-713-6631`, note: `普通高身椅 (不需除鞋)` }
-                    ],
-                    itineraryData: [
-                        // Day 1
-                        [
-                            { time: `15:30`, title: `抵達福岡機場 & 租車`, category: `flight`, desc: `1. 到1F櫃檯辦手續<br>2. 上3F門口搭接駁車<br>3. 取車 Nissan Serena<br>4. 姑丈拍片驗車`, transportType: `car`, location: `福岡機場國際線`, dadAction: `爸爸去洗手間，媽媽陪同。`, phone: `092-621-0100` },
-                            { time: `17:00`, title: `出發往別府`, category: `transport`, desc: `爸爸開 ACC 輕鬆揸<br>提示: 途經基山PA可去廁所`, transportType: `car`, travelTime: `145km (1小時50分)` },
-                            { time: `19:30`, title: `晚餐: 活魚迴轉壽司 水天 (Suiten)`, category: `food`, desc: `別府最高級迴轉壽司，長老必愛！`, transportType: `car`, location: `Suiten Beppu Yamanote`, dadAction: `✅ 壽司店對痛風最友善！爸爸可主攻：茶碗蒸、玉子燒、烏冬、白身魚。<br>⚠️ <span class="highlight-red">出示救命卡要求「Table席 (テーブル席)」，輪椅直接泊埋去！</span>`, parking: `餐廳自帶超大免費停車場`, phone: `0977-21-0465` },
-                            { time: `21:00`, title: `Check-in 御宿野乃別府`, category: `hotel`, desc: `入住休息`, transportType: `car`, location: `御宿 野乃別府`, dadAction: `全館塌塌米。入大堂前抹乾淨輪椅轆。<br>🧊 <span class="highlight-red">必做: 冰敷腳部 (製冰機在大浴場層)。</span>`, parking: `酒店 Tower Parking`, phone: `0977-21-5489` }
-                        ],
-                        // Day 2
-                        [
-                            { time: `10:00`, title: `海地獄`, category: `sightseeing`, desc: `睇藍色溫泉池`, transportType: `car`, travelTime: `6km (15分鐘)`, location: `海地獄`, dadAction: `只行外面鋪裝路。<span class="highlight-red">嚴禁推入温室 (路窄/濕熱)。</span>`, parking: `門口有超大免費停車場`, phone: `0977-66-0121` },
-                            { time: `11:00`, title: `午餐: 地獄蒸工房 鉄輪`, category: `food`, desc: `自己蒸野食`, transportType: `car`, travelTime: `2分鐘`, location: `地獄蒸し工房 鉄輪`, dadAction: `爸爸先入座。姑丈買飛。爸爸只食蒸雞/蛋/菜。<br>✅ <span class="highlight-red">霸位時揀普通枱！蒸煮食物去油減脂，對痛風極度友善！</span>`, parking: `鉄輪温泉地区駐車場 (輸入餐廳電話即可: 0977-66-3775)`, phone: `0977-66-3775` },
-                            { time: `12:30`, title: `🌸 城下公園 (賞櫻)`, category: `sightseeing`, desc: `食飽飯去日出城址睇百株櫻花！<br>有別府灣無敵海景加持，超靚！`, transportType: `car`, travelTime: `15分鐘`, location: `城下公園`, dadAction: `✅ <b>輪椅賞花攻略：</b> 導航至「二の丸館」停車場，行過去公園路面平坦，喺海邊慢慢推輪椅賞櫻極度寫意！`, parking: `二の丸館駐車場 (免費) / 輸入電話導航`, phone: `0977-72-4255` },
-                            { time: `13:45`, title: `由布院 (分頭行事)`, category: `sightseeing`, desc: `導航至 Cafe La Ruche: 0977-28-8500`, transportType: `car`, travelTime: `40分鐘 (經高速)`, location: `金鱗湖`, dadAction: `1. 爸爸+姑丈 -> Cafe La Ruche 湖邊嘆茶<br>2. 媽媽+姑姐 -> 湯之坪街道 掃貨`, parking: `首選: 天祖神社 (必泊)<br>次選: 狹霧台展望台 (看風景不落市區)`, phone: `0977-28-8500` },
-                            { time: `16:15`, title: `出發往黑川溫泉`, category: `transport`, desc: `山路較多，請慢駛`, transportType: `car`, travelTime: `40km (1小時)` },
-                            { time: `17:15`, title: `Check-in 深山山莊`, category: `hotel`, desc: `Check-in 休息`, transportType: `car`, location: `黒川温泉 深山山荘`, dadAction: `Check-in 訂餐時出示：<br>「足が悪いので、食事の移動も含め、全て<b>ゴルフカート (GOLF CART)</b> でお願いします。」<br>⚠️ 記住提佢哋 <b>GOLF CART</b> 出入！`, parking: `直接駛入 Lobby 門口`, phone: `0967-44-1101` }
-                        ],
-                        // Day 3
-                        [
-                            { time: `10:30`, title: `久住花公園`, category: `sightseeing`, desc: `Kuju Flower Park`, transportType: `car`, travelTime: `12km (20分鐘)`, location: `久住花公園`, dadAction: `門口落客。園內全平路/遊園車。`, parking: `門口免費場`, phone: `0974-76-1422` },
-                            { time: `12:15`, title: `⛩️ 阿蘇神社`, category: `sightseeing`, desc: `參拜2000年歷史古剎<br>行旁邊嘅門前町商店街`, transportType: `car`, travelTime: `45分鐘`, location: `阿蘇神社`, dadAction: `✅ <b>輪椅極度友善！</b> 神社內大部份為平坦路面，商店街亦好好推，可以慢慢行散步。`, parking: `阿蘇神社 第1駐車場 (免費)`, phone: `0967-22-0064` },
-                            { time: `13:30`, title: `午餐: あか牛丼いわさき`, category: `food`, desc: `阿蘇超人氣赤牛丼！<br>⚠️ <span class="highlight-red">車機請入 0967 固網電話</span>`, transportType: `car`, travelTime: `15分鐘`, location: `あか牛丼いわさき`, dadAction: `門口平路入。<br>⚠️ <span class="highlight-red">出示救命卡確保「Table席」。爸爸叫「烏冬/熟食定食」，避開紅牛！</span>`, parking: `餐廳自帶免費停車場`, phone: `0967-32-2677` },
-                            { time: `14:45`, title: `草千里 (看火山)`, category: `sightseeing`, desc: `導航至景觀餐廳: 0967-34-1111`, transportType: `car`, travelTime: `15km (20分鐘)`, location: `草千里`, dadAction: `只在停車場展望台看火山 (不用行上山)。`, parking: `草千里停車場`, phone: `0967-34-1111` },
-                            { time: `16:00`, title: `出發往熊本市區`, category: `transport`, desc: `下山路段`, transportType: `car`, travelTime: `45km (1小時10分)` },
-                            { time: `17:30`, title: `Check-in 御宿野乃熊本`, category: `hotel`, desc: `入住休息`, transportType: `car`, location: `御宿 野乃熊本`, dadAction: `🧊 <span class="highlight-red">必做: 冰敷腳部 (自販機層有製冰機)。</span>`, parking: `酒店後門立體場 / 辛島公園`, phone: `096-311-5489` },
-                            { time: `19:00`, title: `晚餐: 勝烈亭 豬排`, category: `food`, desc: `熊本最強炸豬排`, transportType: `walk`, location: `勝烈亭 新市街本店`, dadAction: `泊辛島公園地下。爸爸門口坐，姑姐排隊。<br>⚠️ <span class="highlight-red">出示救命卡確保「Table席」。炸物熱氣/豬肉普林高，爸爸只可食少少，多食菜。</span>`, parking: `辛島公園地下停車場`, phone: `096-322-8771` }
-                        ],
-                        // Day 4 
-                        [
-                            { time: `11:00`, title: `出發往柳川`, category: `transport`, desc: `高速公路`, transportType: `car`, travelTime: `60km (1小時15分)` },
-                            { time: `12:30`, title: `午餐: 若松屋 (Wakamatsuya)`, category: `food`, desc: `柳川頂級老字號，環境絕美！`, transportType: `car`, location: `若松屋 柳川`, dadAction: `門口平路，全店130個Table席。出示救命卡確保「Table席」。其他人食特上鰻魚蒸籠飯。<br>⚠️ <span class="highlight-red">痛風救星: 爸爸叫「親子丼(滑蛋雞肉飯) / 玉子蒸籠飯」。完美避開痛風陷阱！</span>`, parking: `餐廳附設專屬停車場`, phone: `0944-72-3163` },
-                            { time: `14:00`, title: `出發往福岡`, category: `transport`, desc: `高速公路`, transportType: `car`, travelTime: `60km (1小時)` },
-                            { time: `15:30`, title: `大濠公園 & 美術館`, category: `sightseeing`, desc: `福岡市內悠閒散步`, transportType: `car`, location: `Fukuoka Art Museum`, dadAction: `泊美術館場。推去 Starbucks。路面極好推。`, parking: `福岡市美術館停車場`, phone: `092-714-6051` },
-                            { time: `18:00`, title: `Check-in JAL City 天神`, category: `hotel`, desc: `先返酒店放低行李`, transportType: `car`, location: `Hotel JAL City Fukuoka Tenjin`, dadAction: `車入酒店彎位落客。姑丈去泊車。`, parking: `<b>🅿️ 泊車 4 選 1：</b><br>A. 酒店場 (¥2200/窄) ❌<br>B. <span class="highlight-red">紙与大名 (推薦) 👍</span><br>   Tel: 092-722-6066<br>C. 安国駐車場 (近)<br>   Tel: 092-741-5460`, phone: `092-712-7575` },
-                            { time: `19:30`, title: `晚餐: 博多華味鳥 (天神西通店)`, category: `food`, desc: `✨ <span class="highlight-red">已預約: 19:30 (預約號 #83975)</span>`, transportType: `walk`, location: `博多華味鳥 天神西通り店`, dadAction: `✅ 由酒店推輪椅直行散步約8分鐘，大廈有電梯直達！<br>⚠️ <span class="highlight-red">出示救命卡確保係「Table席」。絕對唔可以飲湯底/食雜炊(粥)！</span>`, parking: `車泊在「紙与大名」不過夜，直接行路去`, phone: `092-724-0502` },
-                            { time: `21:30`, title: `回程酒店 (JAL City)`, category: `hotel`, desc: `休息`, transportType: `walk`, location: `Hotel JAL City Fukuoka Tenjin`, phone: `092-712-7575`, dadAction: `慢慢散步返酒店。` }
-                        ],
-                        // Day 5
-                        [
-                            { time: `08:30`, title: `早餐: Bills 福岡`, category: `food`, desc: `世界第一早餐`, transportType: `car`, location: `Bills Fukuoka`, dadAction: `水上公園 Ship Garden 1F`, parking: `西中洲駐車場`, phone: `092-733-2555` },
-                            { time: `09:30`, title: `出發往海之中道`, category: `transport`, desc: `車程約 35 分鐘`, transportType: `car`, travelTime: `35分鐘` },
-                            { time: `10:15`, title: `🌸 海之中道海濱公園`, category: `sightseeing`, desc: `絕美粉藍色花海 (花の丘)！<br>春天限定，打卡必去！<br>🎫 <span class="highlight-red">入場費：大人 ¥450 / 長者(65+) ¥210</span><br>🌐 <a href="https://uminaka-park.jp/" target="_blank" class="underline text-[#1565C0] font-bold">日文官網</a>`, transportType: `walk`, location: `海之中道海濱公園 西口`, dadAction: `✅ <b>輪椅遊園 2 步曲攻略：</b><br><b>【Step 1: 必睇粉藍花海】</b><br>泊「西口停車場」➔ 入閘直行約 10-15 分鐘 ➔ 抵達「花の丘」。全程平坦柏油路，推車極輕鬆！<br><b>【Step 2: 決策時間 - 探水豚君？】</b><br>睇完花問長老攰唔攰。如果想睇動物：由花海順路牌推去「動物の森」，大約 15 分鐘平路。有超級可愛嘅水豚君、袋鼠、紅鶴，全區輪椅暢通無阻！`, parking: `西口停車場 (必泊此處)`, phone: `092-603-1111`, image: `./flower_calendar.jpg` },
-                            { time: `12:30`, title: `駕車返回福岡市`, category: `transport`, desc: `出發去食高級燒肉`, transportType: `car`, travelTime: `40分鐘` },
-                            { time: `13:30`, title: `午餐: 大東園 本店 (Daitoen)`, category: `food`, desc: `✨ <span class="highlight-red">已預約: 13:30 (4位)</span>`, transportType: `car`, location: `大東園 本店`, dadAction: `門口落客搭電梯。出示救命卡確保「Table席」。<br>⚠️ <span class="highlight-red">痛風攻略: 爸爸食「上燒肉定食」(紅肉/菜)，嚴禁食內臟及飲牛骨湯！</span>`, parking: `櫛田神社駐車場 - 帶泊車飛`, phone: `092-282-0055` },
-                            { time: `15:15`, title: `LaLaport 福岡`, category: `shopping`, desc: `高達商場`, transportType: `car`, travelTime: `20分鐘`, location: `LaLaport Fukuoka`, dadAction: `泊 South Entrance。入門口搵 Cafe 安置爸爸。`, parking: `South Parking`, phone: `092-707-9820` },
-                            { time: `18:45`, title: `晚餐: 一蘭 天神西通り`, category: `food`, desc: `拉麵名物`, transportType: `car`, travelTime: `20分鐘`, location: `一蘭 天神西通り店`, dadAction: `姑姐排隊。此店為普通高身椅(不用除鞋)。爸爸在無印坐等。<br>⚠️ <span class="highlight-red">嚴禁飲湯！只可食麵。</span>`, parking: `首選: 天神地下街停車場 (南)<br>次選: 安國駐車場`, phone: `092-713-6631` },
-                            { time: `20:30`, title: `回程酒店 (JAL City)`, category: `hotel`, desc: `休息<br>🧊 <span class="highlight-red">必做: 最後一晚冰敷!</span>`, transportType: `car`, location: `Hotel JAL City Fukuoka Tenjin`, dadAction: `門口落客，姑丈去泊車。<br>🧊 <span class="highlight-red">必做: 最後一晚冰敷!</span>`, parking: `<b>🅿️ 泊車 4 選 1：</b><br>A. 酒店場 (¥2200/窄) ❌<br>B. <span class="highlight-red">紙与大名 (推薦) 👍</span><br>   Tel: 092-722-6066<br>C. 安国駐車場 (近)<br>   Tel: 092-741-5460`, phone: `092-712-7575` }
-                        ],
-                        // Day 6
-                        [
-                            { time: `10:00`, title: `買包: Full Full`, category: `food`, desc: `明太法包`, phone: `092-292-7838`, dadAction: `姑丈兜圈，媽媽買包。` },
-                            { time: `11:30`, title: `福岡機場 (國內線)`, category: `shopping`, desc: `最後掃貨`, phone: `092-621-6059`, dadAction: `爸爸 2F 坐，其他人掃貨。買努努雞。`, parking: `國內線立體停車場` },
-                            { time: `12:15`, title: `午餐: 一幸舎 / Oyama`, category: `food`, desc: `國內線 3F`, dadAction: `⚠️ <span class="highlight-red">不飲湯 / 不食內臟。</span>` },
-                            { time: `13:45`, title: `還車 & 回程`, category: `transport`, desc: `前往國際線還車`, phone: `092-621-0100`, dadAction: `入滿油先好還車！爸爸穿鬆身拖鞋上機。` },
-                            { time: `14:30`, title: `Check-in (CX589)`, category: `flight`, desc: `通知地勤 Wheelchair Assistance`, dadAction: `由職員推爸爸去閘口！🥰` }
-                        ]
-                    ],
-                    hotels: [
-                        { name: `御宿 野乃別府`, dates: `4/9`, phone: `0977-21-5489` },
-                        { name: `黒川温泉 深山山荘`, dates: `4/10`, phone: `0967-44-1101` }, 
-                        { name: `御宿 野乃熊本`, dates: `4/11`, phone: `096-311-5489` },
-                        { name: `Hotel JAL City Fukuoka Tenjin`, dates: `4/12 - 4/14`, phone: `092-712-7575` }
-                    ],
                     shoppingList: [
-                        { name: `努努雞 (冷炸雞)`, note: `福岡必買宵夜 (機場/博多)` },
-                        { name: `福砂屋 長崎蛋糕`, note: `底層有砂糖粒 (機場有)` },
-                        { name: `茅乃舍 高湯包`, note: `主婦必備 (博多限定)` },
-                        { name: `明太子仙貝 (Menbei)`, note: `福太郎 (香辣好食)` },
-                        { name: `柚子胡椒 (Yuzu Kosho)`, note: `由布院/別府特產` },
-                        { name: `熊本熊周邊`, note: `熊本站/部長辦公室` },
-                        { name: `Press Butter Sand`, note: `博多站 (草莓味 - 九州限定)` },
-                        { name: `薩隆巴斯/休足時間`, note: `藥妝店 (比香港平)` }
+                        { name: `Pre-wedding 道具 / 紀念禮物`, note: `滿天星、鮮花、禮物` },
+                        { name: `防寒保暖物資`, note: `必備暖包、大褸` },
+                        { name: `Disney 頭飾`, note: `入園前必買打卡用` }
                     ],
-                    expenses: [],
-                    newShopping: { name: `` },
-                    newItem: { title: ``, time: `12:00`, category: `sightseeing`, desc: `` }
+                    
+                    // 雙 Trip 資料庫
+                    trips: {
+                        april: {
+                            startDate: '2026-04-18',
+                            days: [
+                                { day: `Day 1`, weekday: `Sat`, date: `4/18` }, { day: `Day 2`, weekday: `Sun`, date: `4/19` }, 
+                                { day: `Day 3`, weekday: `Mon`, date: `4/20` }, { day: `Day 4`, weekday: `Tue`, date: `4/21` }, 
+                                { day: `Day 5`, weekday: `Wed`, date: `4/22` }, { day: `Day 6`, weekday: `Thu`, date: `4/23` },
+                                { day: `Day 7`, weekday: `Fri`, date: `4/24` }, { day: `Day 8`, weekday: `Sat`, date: `4/25` }
+                            ],
+                            diningList: [
+                                { date: `4/18`, time: `20:00`, name: `抵達日 燒肉大餐`, note: `第一餐食好西🥩` },
+                                { date: `4/22`, time: `19:30`, name: `お魚総本家 銀座店`, note: `✨ 慶功宴！已預約吧枱位` },
+                                { date: `4/25`, time: `12:30`, name: `饅天壽司 Manten Sushi`, note: `Omakase 完美 Ending` }
+                            ],
+                            hotels: [
+                                { name: `東京市區酒店 (新宿/銀座)`, dates: `4/18` }, { name: `輕井澤區酒店`, dates: `4/19 - 4/21` },
+                                { name: `東橫INN 佐久平站淺間口`, dates: `4/21 - 4/22` }, { name: `東京市區酒店 (銀座/新橋)`, dates: `4/22 - 4/25` }
+                            ],
+                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 3, 6: 3, 7: 3 },
+                            itinerary: [
+                                [
+                                    { time: `15:30`, title: `抵達東京 (NRT/HND)`, category: `flight`, transportType: `flight` },
+                                    { time: `19:30`, title: `晚餐：極尚燒肉大餐🥩`, category: 'food', desc: `第一日落機梗係要食燒肉！叉足電！`, transportType: `walk` }
+                                ],
+                                [
+                                    { time: `09:00`, title: `東京 → 輕井澤`, category: `transport`, transportType: `train`, travelTime: `1h15m` },
+                                    { time: `11:00`, title: `輕井澤 王子購物廣場`, category: `shopping`, transportType: `walk` }
+                                ],
+                                [
+                                    { time: `10:00`, title: `景點視察 ＆ 遊覽`, category: `sightseeing`, desc: `📍 雲場池\n📍 石之教堂\n📍 榆樹街小鎮`, transportType: `car` },
+                                    { time: `20:00`, title: `早啲抖！敷 Mask 準備！`, category: `hotel`, desc: `聽日大日子！`, action: `準備定聽日要用嘅所有衫同道具！` }
+                                ],
+                                [
+                                    { time: `07:00`, title: `大日子！化妝造型開始💄`, category: `hotel`, desc: `化個最靚嘅妝，著起婚紗！` },
+                                    { time: `10:00`, title: `📸 輕井澤 Pre-wedding 拍攝`, category: `sightseeing`, desc: `享受同 Wayne 嘅二人世界！💕`, transportType: `car` },
+                                    { time: `19:00`, title: `Check-in 東橫INN 佐久平`, category: `hotel`, transportType: `car`, location: `Toyoko Inn Sakudaira` }
+                                ],
+                                [
+                                    { time: `10:00`, title: `輕井澤 → 返回東京市區`, category: `transport`, transportType: `train` },
+                                    { time: `19:30`, title: `🐟 晚餐: お魚総本家 (銀座店)`, category: `food`, desc: `✨ 影完婚紗相終極慶功宴！\n「大火藁燒鰹魚」同「澎湃刺身盛合」！`, action: `⚠️ 備註一定要寫「カウンター席希望 (吧枱位)」，打卡一流！🔥`, transportType: `walk`, location: `お魚総本家 銀座店` }
+                                ],
+                                [
+                                    { time: `08:00`, title: `出發！東京迪士尼樂園🏰`, category: `sightseeing`, desc: `同 Wayne 瘋狂玩足全日！`, transportType: `train`, location: `Tokyo Disneyland` }
+                                ],
+                                [
+                                    { time: `10:30`, title: `✨ TeamLab Planets TOKYO`, category: `sightseeing`, action: `⚠️ 門票極難買，必須提前一個月買！`, transportType: `train` }
+                                ],
+                                [
+                                    { time: `12:30`, title: `🍣 午餐: 饅天壽司`, category: `food`, action: `⚠️ 極度難卜，準時搶位！`, transportType: `walk` },
+                                    { time: `18:00`, title: `🛫 飛返香港`, category: `flight`, desc: `Sweet Home！🏡`, transportType: `flight` }
+                                ]
+                            ]
+                        },
+                        nov: {
+                            startDate: '2026-11-01',
+                            days: [
+                                { day: `Day 1`, weekday: `Sun`, date: `11/1` }, { day: `Day 2`, weekday: `Mon`, date: `11/2` }, 
+                                { day: `Day 3`, weekday: `Tue`, date: `11/3` }, { day: `Day 4`, weekday: `Wed`, date: `11/4` }, 
+                                { day: `Day 5`, weekday: `Thu`, date: `11/5` }, { day: `Day 6`, weekday: `Fri`, date: `11/6` },
+                                { day: `Day 7`, weekday: `Sat`, date: `11/7` }, { day: `Day 8`, weekday: `Sun`, date: `11/8` }
+                            ],
+                            diningList: [
+                                { date: `11/1`, time: `19:00`, name: `名古屋 名物鰻魚飯`, note: `抵達中部第一餐` },
+                                { date: `11/5`, time: `19:30`, name: `東京 10週年紀念晚餐`, note: `浪漫高級餐廳🥂` }
+                            ],
+                            hotels: [
+                                { name: `名古屋市區酒店`, dates: `11/1 - 11/2` }, { name: `高山/白川鄉 溫泉旅館`, dates: `11/2 - 11/4` },
+                                { name: `東京市區酒店`, dates: `11/4 - 11/8` }
+                            ],
+                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2, 6: 2, 7: 2 },
+                            itinerary: [
+                                [
+                                    { time: `14:00`, title: `抵達中部國際機場 (NGO)`, category: `flight`, transportType: `flight` },
+                                    { time: `16:00`, title: `名古屋 Check-in & 晚餐`, category: 'food', desc: `食地道鰻魚飯三吃！`, transportType: `walk` }
+                                ],
+                                [
+                                    { time: `09:00`, title: `出發前往白川鄉`, category: `transport`, transportType: `car` },
+                                    { time: `11:30`, title: `🍁 白川鄉合掌村`, category: `sightseeing`, desc: `尋找吉卜力動畫感！厚塗油畫般嘅秋日紅葉絕景！📸`, transportType: `walk` }
+                                ],
+                                [
+                                    { time: `10:00`, title: `飛驒高山老街`, category: `sightseeing`, desc: `食飛驒牛壽司、和牛串燒！`, transportType: `walk` }
+                                ],
+                                [
+                                    { time: `10:00`, title: `返回東京`, category: `transport`, transportType: `train` }
+                                ],
+                                [
+                                    { time: `11:00`, title: `🍁 明治神宮外苑 銀杏並木`, category: `sightseeing`, desc: `金黃色隧道打卡！`, transportType: `walk` },
+                                    { time: `19:30`, title: `🥂 10週年/1週年 紀念晚餐`, category: `food`, action: `準備好驚喜禮物！🎁`, transportType: `walk` }
+                                ],
+                                [ { time: `10:00`, title: `東京市區 自由 Shopping`, category: `shopping`, transportType: `walk` } ],
+                                [ { time: `10:00`, title: `近郊一日遊 (富士山/箱根)`, category: `sightseeing`, transportType: `car` } ],
+                                [ { time: `16:00`, title: `🛫 飛返香港`, category: `flight`, transportType: `flight` } ]
+                            ]
+                        }
+                    },
+                    
+                    themes: {
+                        april: {
+                            title: "Karuizawa 2026", subtitle: "Pre-wedding 二人世界", subIcon: "fa-solid fa-heart",
+                            bgMain: "#FCE4EC", textDark: "#880E4F", textLight: "#F06292", accentMain: "#E91E63", borderLight: "#F8BBD0",
+                            shadow: "0 8px 24px rgba(233, 30, 99, 0.15)",
+                            headerImg: "url('https://images.unsplash.com/photo-1522383225653-ed111181a951?q=80&w=1000&auto=format&fit=crop')",
+                            headerGradient: "linear-gradient(to bottom, rgba(136, 14, 79, 0.2), rgba(136, 14, 79, 0.7))"
+                        },
+                        nov: {
+                            title: "Tokyo x Chubu 2026", subtitle: "10週年紅葉之旅", subIcon: "fa-solid fa-leaf",
+                            bgMain: "#FFF3E0", textDark: "#E65100", textLight: "#FFB74D", accentMain: "#FF9800", borderLight: "#FFE0B2",
+                            shadow: "0 8px 24px rgba(255, 152, 0, 0.15)",
+                            headerImg: "url('https://images.unsplash.com/photo-1476610286381-a70155b9e9b0?q=80&w=1000&auto=format&fit=crop')",
+                            headerGradient: "linear-gradient(to bottom, rgba(230, 81, 0, 0.2), rgba(230, 81, 0, 0.7))"
+                        }
+                    }
                 }
             },
             computed: {
-                currentDayItinerary() { return this.itineraryData[this.selectedDayIndex] || []; },
-                totalExpenses() { return 0; },
-                currentNightHotel() {
-                    const hotelMap = { 0: 0, 1: 1, 2: 2, 3: 3, 4: 3, 5: 3 };
-                    return this.hotels[hotelMap[this.selectedDayIndex]];
-                },
-                currentGalleryImage() { return this.menuImages[this.currentGalleryIndex].src; }
+                currentTheme() { return this.themes[this.currentTrip]; },
+                currentTripData() { return this.trips[this.currentTrip]; },
+                currentDays() { return this.currentTripData.days; },
+                currentItineraryData() { return this.currentTripData.itinerary[this.selectedDayIndex] || []; },
+                currentNightHotel() { return this.currentTripData.hotels[this.currentTripData.hotelMap[this.selectedDayIndex]]; }
             },
             watch: {
                 selectedDayIndex() { this.fetchWeather(); },
-                'settings.fontSize': function(newVal) { document.documentElement.style.fontSize = newVal + 'px'; }
+                currentTrip() { this.selectedDayIndex = 0; this.fetchWeather(); }
             },
             mounted() {
-                const today = new Date();
-                const tripStart = new Date('2026-04-09');
-                const todayReset = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-                const startReset = new Date(tripStart.getFullYear(), tripStart.getMonth(), tripStart.getDate());
-                
-                const diffTime = todayReset - startReset;
-                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                
-                if (diffDays >= 0 && diffDays < this.days.length) {
-                    this.selectedDayIndex = diffDays;
-                } else {
-                    this.selectedDayIndex = 0; 
-                }
-
                 this.fetchWeather();
-                document.documentElement.style.fontSize = this.settings.fontSize + 'px';
             },
             methods: {
+                switchTrip(trip) { this.currentTrip = trip; },
                 fetchWeather() {
-                    let loc = 'Fukuoka,JP';
-                    if (this.selectedDayIndex < 2) loc = 'Beppu,JP';
+                    let loc = 'Tokyo,JP';
                     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${loc}&units=metric&lang=zh_tw&appid=${this.apiKey}`)
                     .then(res => res.json()).then(data => {
                         this.weather.temp = Math.round(data.main.temp);
                         this.weather.icon = 'fa-sun'; 
                     }).catch(() => { this.weather.temp = '--'; });
                 },
-                getCountdown(date) {
-                    const diff = new Date(date) - new Date();
+                getCountdown(dateStr) {
+                    const diff = new Date(dateStr) - new Date();
                     return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
                 },
                 itemCategoryName(cat) {
@@ -609,36 +393,16 @@
                     return map[cat] || '其他';
                 },
                 getTransportIcon(type) {
-                    const map = { walk: 'fa-person-walking', car: 'fa-car', flight: 'fa-plane' };
-                    return `fa-solid ${map[type] || 'fa-car'}`;
+                    const map = { walk: 'fa-person-walking', car: 'fa-car', flight: 'fa-plane', train: 'fa-train' };
+                    return `fa-solid ${map[type] || 'fa-arrow-right'}`;
                 },
                 tabClass(tab) {
                     return this.activeTab === tab 
-                        ? `bg-[#00897B] text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center scale-110 transition-all` 
-                        : `bg-white/90 text-[#00897B] w-8 h-8 rounded-full shadow flex items-center justify-center transition-all`;
+                        ? `bg-[${this.currentTheme.accentMain}] text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center scale-110 transition-all` 
+                        : `bg-white/90 text-[${this.currentTheme.accentMain}] w-8 h-8 rounded-full shadow flex items-center justify-center transition-all`;
                 },
-                openMap(loc) { if(loc) window.open(`https://www.google.com/maps/search/` + encodeURIComponent(loc), '_blank'); },
-                openDoc() { window.open('https://docs.google.com/document/d/1-9dK_8o7HFytaM7hXTRCqiuSNXSW5wifVBBlOKS7PQQ/edit', '_blank'); },
-                openImage(src) { this.currentImageSrc = src; this.showImageModal = true; },
-                openGallery(idx) { this.currentGalleryIndex = idx; this.showGalleryModal = true; },
-                nextGalleryImage() { this.currentGalleryIndex = (this.currentGalleryIndex + 1) % this.menuImages.length; },
-                prevGalleryImage() { this.currentGalleryIndex = (this.currentGalleryIndex - 1 + this.menuImages.length) % this.menuImages.length; },
-                // ✅ V152/V153: 保留智能左右滑動感應 (Swipe)
-                handleTouchStart(e) { this.touchStartX = e.changedTouches[0].screenX; },
-                handleTouchEnd(e) { 
-                    this.touchEndX = e.changedTouches[0].screenX; 
-                    const swipeThreshold = 50;
-                    if (this.touchEndX < this.touchStartX - swipeThreshold) this.nextGalleryImage();
-                    if (this.touchEndX > this.touchStartX + swipeThreshold) this.prevGalleryImage();
-                },
-                addShoppingItem() { if(this.newShopping.name) this.shoppingList.push({ name: this.newShopping.name, note: '' }); this.newShopping.name = ''; },
-                removeShoppingItem(idx) { this.shoppingList.splice(idx, 1); },
-                formatText(text) { return text ? String(text).replace(/\n/g, '<br>') : ''; },
-                copyText(text) {
-                    const el = document.createElement('textarea'); el.value = text; document.body.appendChild(el);
-                    el.select(); document.execCommand('copy'); document.body.removeChild(el);
-                    alert('已複製電話: ' + text);
-                }
+                openMap(loc) { if(loc) window.open(`https://www.google.com/maps/search/?api=1&query=` + encodeURIComponent(loc), '_blank'); },
+                formatText(text) { return text ? String(text).replace(/\n/g, '<br>') : ''; }
             }
         }).mount('#app');
     </script>
