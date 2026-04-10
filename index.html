@@ -2,12 +2,15 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>❤️OurStory❤️ (V131 終極特效滿血版)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>❤️OurStory❤️</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
+    
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
 
     <style>
@@ -19,8 +22,6 @@
             --shadow-soft: 0 8px 24px rgba(149, 117, 205, 0.08);
         }
 
-        [v-cloak] { display: none !important; }
-
         body {
             font-family: 'Zen Maru Gothic', sans-serif;
             background-color: var(--bg-cream);
@@ -28,14 +29,12 @@
             overscroll-behavior-y: none;
             -webkit-tap-highlight-color: transparent;
             font-size: 15px;
-            margin: 0; padding: 0;
-            width: 100vw; height: 100vh; height: 100dvh;
-            overflow: hidden;
         }
         
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         
+        /* 奶油風卡片 */
         .cream-card {
             background-color: var(--card-white);
             border-radius: 24px;
@@ -50,8 +49,13 @@
 
         /* 特效層 Z-Index */
         .falling-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 50; 
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 50; 
         }
 
         @keyframes fall {
@@ -59,36 +63,37 @@
             100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
         }
         .falling-item {
-            position: absolute; top: -10%;
-            animation-name: fall; animation-timing-function: linear;
-            animation-iteration-count: infinite; font-size: 1.5rem;
+            position: absolute;
+            top: -10%;
+            animation-name: fall;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+            font-size: 1.5rem;
         }
         
-        .trip-header-bg { background-size: cover; background-position: center; transition: all 0.3s ease; }
+        .trip-header-bg {
+            background-size: cover;
+            background-position: center;
+            transition: all 0.3s ease;
+        }
 
         /* 手風琴動畫 */
-        .accordion-enter-active, .accordion-leave-active { transition: max-height 0.3s ease, opacity 0.3s ease; max-height: 500px; overflow: hidden; }
-        .accordion-enter-from, .accordion-leave-to { max-height: 0; opacity: 0; }
-
-        .overlay-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-color: rgba(0,0,0,0.95); z-index: 10000; display: flex;
-            justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        .accordion-enter-active,
+        .accordion-leave-active {
+            transition: max-height 0.3s ease, opacity 0.3s ease;
+            max-height: 500px;
+            overflow: hidden;
         }
-        .overlay-bg.active { opacity: 1; pointer-events: auto; }
-        .modal-content {
-            background: white; padding: 20px; border-radius: 24px; width: 90%;
-            max-width: 400px; max-height: 90vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.3s ease;
+        .accordion-enter-from,
+        .accordion-leave-to {
+            max-height: 0;
+            opacity: 0;
         }
-        .overlay-bg.active .modal-content { transform: scale(1); }
-        .lightbox-img { max-width: 100%; max-height: 80vh; object-fit: contain; transition: opacity 0.2s ease; }
     </style>
 </head>
-<body class="antialiased">
+<body class="h-screen w-screen overflow-hidden">
 
-    <div id="error-log" style="color: #C62828; padding: 20px; font-weight: bold; background: #FFEBEE; display: none; height: 100vh; width: 100vw; position: absolute; z-index: 99999;"></div>
-
-    <div id="app" v-cloak class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px' }">
+    <div id="app" class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px' }">
 
         <div v-if="currentEffect !== 'none'" class="falling-container">
             <div v-for="n in 12" :key="n" class="falling-item opacity-60" 
@@ -163,6 +168,10 @@
                 <button @click="currentView = 'home'" class="absolute top-6 left-5 w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white z-50 hover:bg-white/40 transition shadow-sm border border-white/20">
                     <i class="fa-solid fa-arrow-left text-sm"></i>
                 </button>
+                
+                 <button @click="showSettings = true" class="absolute top-6 right-5 w-10 h-10 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white z-50 hover:bg-white/40 transition shadow-sm border border-white/20">
+                    <i class="fa-solid fa-gear text-sm"></i>
+                </button>
 
                 <div class="absolute bottom-6 right-5 flex gap-2 z-20 bg-white/90 backdrop-blur-md p-1.5 rounded-full shadow-lg border border-white/50">
                     <button @click="activeTab = 'itinerary'" :class="getTabClass('itinerary')" :style="getTabStyle('itinerary')"><i class="fa-solid fa-map-location-dot text-base"></i></button>
@@ -216,11 +225,9 @@
                                 </div>
                             </div>
 
-                            <div v-if="selectedTripId === 'karuizawa' && selectedDayIndex === 3" class="bg-pink-50 border-t-2 border-dashed border-pink-200 text-pink-800 text-xs font-black py-2 text-center shadow-inner tracking-wide">
-                                <i class="fa-solid fa-camera mr-1 text-pink-600"></i> 📸 今日大日子！記得帶齊婚紗道具！
-                            </div>
-                            <div v-else class="bg-yellow-50 border-t-2 border-dashed border-yellow-200 text-yellow-800 text-xs font-black py-2 text-center shadow-inner tracking-wide">
-                                <i class="fa-solid fa-circle-exclamation mr-1 text-yellow-600"></i> 導航貼士：有電話用電話 📞 ➔ 冇先用 Mapcode 📍
+                            <div class="bg-yellow-50 border-t-2 border-dashed border-yellow-200 text-yellow-800 text-xs font-black py-2 text-center shadow-inner tracking-wide">
+                                <i class="fa-solid fa-circle-exclamation mr-1 text-yellow-600"></i>
+                                導航貼士：有電話用電話 📞 ➔ 冇先用 Mapcode 📍
                             </div>
                         </div>
 
@@ -243,8 +250,8 @@
                                             <h3 class="text-lg font-bold mb-1.5 leading-tight text-[#5D4037]">{{ item.title }}</h3>
                                             <div class="text-xs text-[#8D6E63] mb-2 flex items-start gap-1.5 leading-relaxed whitespace-pre-line" v-if="item.desc" v-html="formatText(item.desc)"></div>
                                             
-                                            <div class="mt-2 bg-[#FFF8E1] p-2 rounded-xl border border-dashed border-[#FFE082]" v-if="item.action">
-                                                <div class="text-[0.7rem] text-[#F57F17] font-bold flex items-start"><i class="fa-solid fa-bell mr-1.5 mt-0.5 text-base flex-shrink-0"></i><span class="leading-relaxed whitespace-pre-line" v-html="formatText(item.action)"></span></div>
+                                            <div class="mt-2 bg-[#FFF8E1] p-2 rounded-xl border border-dashed border-[#FFE082]" v-if="item.action || item.info">
+                                                <div class="text-[0.7rem] text-[#F57F17] font-bold flex items-start"><i class="fa-solid fa-bell mr-1.5 mt-0.5 text-base flex-shrink-0"></i><span class="leading-relaxed whitespace-pre-line" v-html="formatText(item.action || item.info)"></span></div>
                                             </div>
 
                                             <div class="flex flex-wrap gap-1.5 mt-2">
@@ -261,11 +268,11 @@
                                             <div v-if="item.mapcode" class="bg-white border-2 rounded-lg p-1.5 text-center shadow-sm" @click.stop :style="{ borderColor: currentTheme.main }">
                                                 <div class="text-[9px] font-bold mb-0.5 uppercase tracking-tighter" :style="{ color: currentTheme.main }">MapCode</div>
                                                 <div class="text-xs font-black text-slate-800 break-all leading-tight mb-1">{{ item.mapcode }}</div>
+                                                <div class="text-white text-[9px] rounded px-1 py-0.5 font-bold cursor-pointer active:scale-95" :style="{ backgroundColor: currentTheme.main }">COPY</div>
                                             </div>
                                             <div v-if="item.phone" class="bg-white border-2 rounded-lg p-1.5 text-center shadow-sm" @click.stop :style="{ borderColor: currentTheme.main }">
                                                 <div class="text-[9px] font-bold mb-0.5 uppercase" :style="{ color: currentTheme.main }">TEL</div>
                                                 <div class="text-xs font-black text-slate-800 break-all leading-tight mb-1">{{ item.phone }}</div>
-                                                <div class="text-white text-[9px] rounded px-1 py-0.5 font-bold cursor-pointer active:scale-95" :style="{ backgroundColor: currentTheme.main }" @click="copyText(item.phone)">COPY</div>
                                             </div>
                                         </div>
                                     </div>
@@ -313,10 +320,10 @@
                                 <p class="text-[#5D4037] font-bold">有 4 個大篋，Book 包車去機場最抵最舒服！(約 HK$824)</p>
                                 <div class="bg-[#FAFAFA] p-3 rounded-lg border border-dashed border-[#E0E0E0]">
                                     <ol class="list-decimal pl-4 space-y-1 text-gray-600 text-xs">
-                                        <li><b>預訂：</b> 去 Klook 搜尋「東京機場接送」，揀「舒適型 7人座 (Alphard)」。</li>
-                                        <li><b>時間：</b> Book <b>17:00</b> 喺「八重翠酒店」上車 (確保唔會趕)。</li>
-                                        <li><b>Day 8 朝早：</b> Check-out 擺低行李喺酒店，兩手揈揈去食 Manten Sushi。</li>
-                                        <li><b>Day 8 傍晚：</b> 16:30 返酒店，由老公扶你上 Alphard 直達機場！</li>
+                                        <li><b>預訂：</b> 去 Klook 搜尋「東京機場接送」，揀「市區酒店 ➔ 成田機場」，車型揀「舒適型 7人座 (Alphard)」。</li>
+                                        <li><b>時間：</b> 建議 Book <b>17:00</b> 喺「八重翠酒店」上車 (確保唔會趕)。</li>
+                                        <li><b>Day 8 朝早：</b> Check-out 擺低行李喺酒店，兩手揈揈去食 Manten Sushi 同 Shopping。</li>
+                                        <li><b>Day 8 傍晚：</b> 16:30 左右搭車/的士返酒店，舒舒服服由老公扶你上 Alphard 直達機場！</li>
                                     </ol>
                                 </div>
                             </div>
@@ -447,11 +454,8 @@
                             <div class="space-y-2">
                                 <div v-for="(item, idx) in activeTrip.shopping" :key="idx" class="flex items-center gap-3 p-3 bg-[#FAFAFA] border border-dashed border-[#EEEEEE] rounded-xl">
                                     <input type="checkbox" class="w-5 h-5 rounded border-[#BDBDBD]" :style="{ accentColor: currentTheme.main }">
-                                    <div class="flex-1">
-                                        <span class="text-sm font-bold text-[#5D4037] block">{{ item.name }}</span>
-                                        <span class="text-[0.65rem] text-gray-500 block">{{ item.note }}</span>
-                                    </div>
-                                    <button @click="removeShoppingItem(idx)" class="text-[#D7CCC8] hover:text-[#EF5350]"><i class="fa-solid fa-trash"></i></button>
+                                    <span class="text-sm font-bold text-[#5D4037]">{{ item }}</span>
+                                    <button @click="removeShoppingItem(idx)" class="ml-auto text-[#D7CCC8] hover:text-[#EF5350]"><i class="fa-solid fa-trash"></i></button>
                                 </div>
                                 <div class="flex gap-2 mt-4">
                                     <input v-model="newShopItem" placeholder="新增物品..." class="flex-1 bg-[#F5F5F5] p-3 rounded-xl text-sm outline-none text-[#5D4037]">
@@ -542,20 +546,21 @@
                     settings: { fontSize: 14 },
                     
                     themes: {
-                        karuizawa: { main: '#F48FB1', textDark: '#880E4F', textLight: '#F06292', bgMain: '#FCE4EC', borderLight: '#F8BBD0' },
-                        central: { main: '#FFB74D', textDark: '#E65100', textLight: '#FFB74D', bgMain: '#FFF8E1', borderLight: '#FFE0B2' }
+                        pink: { main: '#F48FB1', textDark: '#880E4F', textLight: '#F06292', bgMain: '#FCE4EC', borderLight: '#F8BBD0' },
+                        orange: { main: '#FFB74D', textDark: '#E65100', textLight: '#FFB74D', bgMain: '#FFF8E1', borderLight: '#FFE0B2' }
                     },
 
                     trips: {
                         karuizawa: {
-                            id: 'karuizawa', name: '輕井澤 x 東京 櫻花季', date: '2026-04-18', range: 'Apr 18 - 25, 2026', effect: 'flower', headerImg: './header_karuizawa.jpg',
+                            id: 'karuizawa', name: '東京櫻花之旅 2026', date: '2026-04-18', range: 'Apr 18 - 25, 2026',
+                            theme: 'pink', effect: 'flower', headerImg: './header_karuizawa.jpg',
                             docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '4/18', dep: '01:30', arr: '06:40' }, in: { code: 'CX501', date: '4/25', dep: '21:30', arr: '02:00' } },
-                            rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '17:00', returnLocName: 'T-CAT (水天宮)', no: '待確認', note: '車型: Toyota 私家車/休旅車 <br>⚠️ 請核對預約單！' },
+                            rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '17:00', returnLocName: 'T-CAT (水天宮)', no: '待確認', note: '車型: Toyota 私家車/休旅車 \n⚠️ 請核對預約單！' },
                             hotels: [ { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20' }, { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22' }, { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25' } ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
                             alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' }, { date: '出發前', task: 'Klook 預訂包車 (Alphard)' } ],
-                            shopping: [ { name: 'Pre-wedding 道具', note: '滿天星、鮮花、手寫字卡' }, { name: '防寒保暖物資', note: '輕井澤必備暖包、大褸' }, { name: 'Disney 頭飾', note: '入園前必買打卡用' } ],
+                            shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra'],
                             diningList: [
                                 { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野 Parco_ya)', addr: '台東区上野3-24-6 PARCO_ya 6F', tel: '03-5811-1911', bookingNo: '現場排隊' },
                                 { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草総本店', addr: '台東区雷門1-15-10', tel: '03-3843-2914', bookingNo: '已預約' },
@@ -563,12 +568,13 @@
                                 { date: 'Day 2 (4/19)', time: '19:00', name: '牛かつもと村 (澀谷店)', addr: '渋谷区渋谷3-18-10', tel: '03-3406-8181', bookingNo: '現場排隊' },
                                 { date: 'Day 3 (4/20)', time: '13:15', name: '川上庵 (輕井澤 Outlet)', addr: '輕井澤 Outlet 味の街', tel: '0267-42-0009', bookingNo: '現場排隊' },
                                 { date: 'Day 4 (4/21)', time: '19:00', name: '村民食堂 (星野區)', addr: '長野県北佐久郡軽井沢町星野', tel: '0267-44-3571', bookingNo: '現場排隊' },
-                                { date: 'Day 5 (4/22)', time: '19:30', name: 'お魚総本家 (銀座店)', addr: '中央区銀座 (請查 Map)', tel: '--', bookingNo: '預約: 吧枱位' },
+                                { date: 'Day 5 (4/22)', time: '11:30', name: '酢重正之 / 沢村', addr: '舊輕井澤銀座通入口', tel: '0267-41-2007', bookingNo: '現場排隊' },
+                                { date: 'Day 5 (4/22)', time: '19:30', name: 'お魚総本家 (銀座店)', addr: '中央区銀座5-9-11', tel: '--', bookingNo: '預約: 吧枱位' },
                                 { date: 'Day 7 (4/24)', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2 (5街區1樓)', tel: '03-6633-0220', bookingNo: 'RCA5GN' },
                                 { date: 'Day 8 (4/25)', time: '11:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', tel: '03-6269-9100', bookingNo: '已預約' }
                             ],
                             days: [
-                                { weekday: 'Sat', dateStr: '4/18', day: 'Day 1', events: [
+                                { weekday: 'Sat', dateStr: '4/18', events: [
                                     { time: '06:40', title: '抵達成田 (NRT)', desc: '橙色櫃台買飛去 T-CAT', category: 'flight', transportType: 'flight', loc: 'Narita Airport' },
                                     { time: '07:45', title: '利木津巴士 (Limousine Bus)', desc: '前往 T-CAT (水天宮前)\n老公負責拖大篋上車！', category: 'transport', transportType: 'bus', travelTime: '75 min', loc: 'T-CAT' },
                                     { time: '09:00', title: '酒店擺低行李', desc: 'VIA INN PRIME 日本橋人形町', category: 'hotel', transportType: 'walk', loc: 'VIA INN PRIME Nihonbashi' },
@@ -579,13 +585,14 @@
                                     { time: '18:30', title: '淺草雷門 📸', desc: '食飯前影張無人嘅雷門夜景！', category: 'sightseeing', transportType: 'train', loc: 'Kaminarimon' },
                                     { time: '19:30', title: '平城苑 浅草総本店 🥩', desc: '✨ 已預約: 19:30\n準時入座，兩公婆慢慢嘆頂級和牛！', category: 'highlight', transportType: 'walk', loc: 'Heijoen Asakusa', phone: '03-3843-2914' }
                                 ]},
-                                { weekday: 'Sun', dateStr: '4/19', day: 'Day 2', events: [
-                                    { time: '07:45', title: 'Patam Asakusa 排隊戰役', desc: '🎯 目標：搶頭籌買日本布袋！\n📸 官方公告：09:45 派籌 (整理券)\n⚠️ 戰略：07:45 到達排隊，確保第一批入去。\n🛍️ 買完即閃去表參道食 Lunch。', action: '⚠️ 12:15 準備由淺草撤退！', category: 'shopping', transportType: 'train', loc: 'Patam Asakusa' },
+                                { weekday: 'Sun', dateStr: '4/19', events: [
+                                    { time: '07:30', title: '出發 Patam', desc: '早起鳥兒有袋買！', category: 'transport', transportType: 'train', loc: 'Patam Asakusa' },
+                                    { time: '07:45', title: 'Patam Asakusa 排隊戰役', desc: '🎯 目標：搶頭籌買日本布袋！\n📸 官方公告：09:45 派籌 (整理券)\n⚠️ 戰略：07:45 到達排隊，確保第一批入去。\n🛍️ 買完即閃去表參道食 Lunch。', action: '⚠️ 12:15 準備由淺草撤退！', category: 'shopping', transportType: 'walk', loc: 'Patam Asakusa' },
                                     { time: '13:30', title: '山笑ふ (Yama Warau)', desc: '表參道店 Shabu Shabu\n✨ 已預約 (結婚紀念日)\n預約號: CCNCAS', category: 'highlight', transportType: 'train', loc: 'Yama Warau Omotesando', phone: '03-5413-6625' },
                                     { time: '15:30', title: 'Harakado', desc: '7F 屋頂花園', category: 'sightseeing', transportType: 'walk', loc: 'Harakado' },
                                     { time: '19:00', title: '牛かつもと村', desc: '澀谷分店 炸牛排', category: 'food', transportType: 'walk', loc: 'Gyukatsu Motomura Shibuya', phone: '03-3406-8181' }
                                 ]},
-                                { weekday: 'Mon', dateStr: '4/20', day: 'Day 3', events: [
+                                { weekday: 'Mon', dateStr: '4/20', events: [
                                     { time: '09:00', title: 'Check-out', desc: '行去 T-CAT', category: 'other', transportType: 'walk', loc: 'T-CAT' },
                                     { time: '09:30', title: '取車', desc: 'Toyota T-CAT\n老公負責驗車！', category: 'transport', transportType: 'walk', loc: 'Toyota Rent a Car T-CAT' },
                                     { time: '10:30', title: '三芳 PA', desc: '休息站', category: 'transport', transportType: 'car', travelTime: '60 min', mapcode: '33 444 555*66', loc: 'Miyoshi PA' },
@@ -594,38 +601,38 @@
                                     { time: '14:30', title: 'Outlet 瘋狂 Shopping', desc: '食飽直接行街！🛍️', category: 'shopping', transportType: 'walk', loc: 'Prince Shopping Plaza' },
                                     { time: '18:00', title: 'Check-in (Toyoko Inn)', desc: '準備聽日大日子', category: 'hotel', transportType: 'car', mapcode: '85 748 837*33', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
                                 ]},
-                                { weekday: 'Tue', dateStr: '4/21', day: 'Day 4', events: [
+                                { weekday: 'Tue', dateStr: '4/21', events: [
                                     { time: '07:00', title: '化妝造型開始💄', desc: '化個最靚嘅妝，著起婚紗！', category: 'highlight', transportType: 'walk' },
                                     { time: '10:00', title: 'Pre-wedding 📸', desc: '全日拍攝 (自駕移動)\n櫻花 / 浪漫森林系大片拍攝中！盡情享受同 Wayne 嘅二人世界！💕', category: 'sightseeing', transportType: 'car', travelTime: '全日', loc: 'Karuizawa' },
                                     { time: '19:00', title: '慶功晚餐: 村民食堂', desc: '📍 星野區\n影完相舒舒服服食精緻和食定食！🥂', category: 'food', transportType: 'car', mapcode: '292 701 462*82', loc: 'Karuizawa Hoshino Area', phone: '0267-44-3571' },
                                     { time: '21:00', title: '回程酒店', desc: '休息', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira' }
                                 ]},
-                                { weekday: 'Wed', dateStr: '4/22', day: 'Day 5', events: [
+                                { weekday: 'Wed', dateStr: '4/22', events: [
                                     { time: '10:00', title: '白絲瀑布', desc: 'MC: 292 701 645*63', category: 'sightseeing', transportType: 'car', mapcode: '292 701 645*63', loc: 'Shiraito Falls' },
                                     { time: '11:30', title: '午餐: 酢重正之 或 沢村', desc: '📍 舊輕井澤銀座通入口\n和食揀「酢重正之」，西餐揀「沢村 (Sawamura)」', category: 'food', transportType: 'car', loc: 'Suju Masayuki Karuizawa', phone: '0267-41-2007' },
                                     { time: '13:00', title: '舊輕井澤銀座通', desc: '食飽直接行街買手信！無縫接軌！', category: 'shopping', transportType: 'walk', loc: 'Kyu-Karuizawa Ginza' },
                                     { time: '14:30', title: '出發回東京', desc: '老公慢慢揸車返去', category: 'transport', transportType: 'car', travelTime: '2.5 hr', loc: 'T-CAT' },
                                     { time: '17:00', title: '東京還車 (Toyota T-CAT)', desc: '營業時間至 20:00', category: 'transport', transportType: 'car', loc: 'T-CAT' },
                                     { time: '18:00', title: 'Check-in (八重翠)', desc: '放低行李', category: 'hotel', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
-                                    { time: '19:30', title: '🐟 晚餐: お魚総本家 (銀座店)', desc: '✨ 影完婚紗相終極慶功宴！\n呢度有全東京最震撼嘅「大火藁燒鰹魚」同「澎湃刺身盛合」！', action: '⚠️ 記得上網 Book 位，備註一定要寫「カウンター席希望 (吧枱位)」，打卡一流！🔥', category: 'food', transportType: 'walk', loc: 'お魚総本家 銀座店' }
+                                    // 🌟 ✅ 神級加插: 慶功宴！
+                                    { time: '19:30', title: '🐟 晚餐: お魚総本家 (銀座店)', desc: '✨ 影完婚紗相終極慶功宴！\n呢度有全東京最震撼嘅「大火藁燒鰹魚」同「澎湃刺身盛合」！', action: '⚠️ 記得上網 Book 位，備註一定要寫「カウンター席希望 (吧枱位)」，打卡一流！🔥', category: 'food', transportType: 'walk', loc: 'Osakana Sohonke Ginza' }
                                 ]},
-                                { weekday: 'Thu', dateStr: '4/23', day: 'Day 6', events: [
+                                { weekday: 'Thu', dateStr: '4/23', events: [
                                     { time: '06:45', title: '出發 Disney', desc: '八丁堀 ->舞濱', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
-                                    { time: '08:30', title: 'Disney Land', desc: '✨ 門票已買！\n同 Wayne 瘋狂玩足全日！🎢', category: 'ticket', transportType: 'walk', loc: 'Tokyo Disneyland' },
-                                    { time: '21:30', title: '回程酒店 (八重翠)', desc: '睇完煙花先走！', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
+                                    { time: '08:30', title: 'Disney Sea', desc: '✨ 門票已買！(18,800円)\n記得搶 Standby Pass (Frozen)', category: 'ticket', transportType: 'walk', loc: 'Tokyo DisneySea' },
+                                    { time: '21:30', title: '回程酒店 (八重翠)', desc: '休息', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
                                 ]},
-                                { weekday: 'Fri', dateStr: '4/24', day: 'Day 7', events: [
-                                    { time: '09:30', title: '前往豐洲', desc: '的士', category: 'transport', transportType: 'car', loc: 'Toyosu Market' },
+                                { weekday: 'Fri', dateStr: '4/24', events: [
+                                    { time: '09:30', title: '前往豐洲', desc: '的士', category: 'transport', transportType: 'car', travelTime: '15 min', loc: 'Toyosu Market' },
                                     { time: '10:00', title: '大和壽司 (Daiwa Sushi)', desc: '✨ 已預約 (結婚紀念日)\n預約號: RCA5GN', category: 'highlight', transportType: 'walk', loc: 'Daiwa Sushi', phone: '03-6633-0220' },
-                                    { time: '13:00', title: 'TeamLab Planets', desc: '豐洲 (入場時間: 13:00-13:30)\n✨ 門票已買！', action: '⚠️ 記得要著可以捲起褲腳嘅衫 (會涉水)！', category: 'sightseeing', transportType: 'walk', loc: 'TeamLab Planets' },
-                                    { time: '14:30', title: '銀座 / 澀谷 Shopping', desc: '把握最後機會買藥妝同手信！', category: 'shopping', transportType: 'train', loc: 'Ginza' },
+                                    { time: '13:00', title: 'TeamLab Planets', desc: '豐洲 (入場時間: 13:00-13:30)\n✨ 門票已買！', category: 'sightseeing', transportType: 'walk', loc: 'TeamLab Planets' },
                                     { time: '20:30', title: '回程酒店', desc: '休息', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
                                 ]},
-                                { weekday: 'Sat', dateStr: '4/25', day: 'Day 8', events: [
+                                { weekday: 'Sat', dateStr: '4/25', events: [
                                     { time: '09:00', title: '寄放行李 🧳', desc: 'Check-out 將篋留喺酒店大堂', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
-                                    { time: '10:00', title: '東京站一番街', desc: '買手信', category: 'shopping', transportType: 'walk', loc: 'Tokyo Station' },
-                                    { time: '11:00', title: 'まんてん鮨 (Manten Sushi)', desc: '丸之內店\n✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi', phone: '03-6269-9100' },
-                                    { time: '13:00', title: '銀座 Shopping', desc: '無行李負擔，最後衝刺！', category: 'shopping', transportType: 'walk', loc: 'Ginza' },
+                                    { time: '10:00', title: '東京站一番街', desc: '買手信', category: 'shopping', transportType: 'walk', travelTime: '15 min', loc: 'Tokyo Station' },
+                                    { time: '11:00', title: 'まんてん鮨 (Manten Sushi)', desc: '丸之內店\n✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', travelTime: '10 min', loc: 'Manten Sushi Marunouchi', phone: '03-6269-9100' },
+                                    { time: '13:00', title: '銀座 / 丸之內 Shopping', desc: '無行李負擔，瘋狂行街！', category: 'shopping', transportType: 'walk', loc: 'Ginza' },
                                     { time: '16:00', title: '返回酒店', desc: '返酒店準備上車', category: 'transport', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
                                     { time: '17:00', title: 'Klook 專車前往機場 🚗💨', desc: '✨ 已預約: Alphard 7人車\n直達成田 T2 (約 1.5hr)', category: 'transport', transportType: 'car', travelTime: '1.5 hr', loc: 'Narita Airport' },
                                     { time: '18:30', title: '到達機場 (CX501)', desc: '21:30 起飛', category: 'flight', transportType: 'walk', loc: 'Narita Airport' }
@@ -633,14 +640,29 @@
                             ]
                         },
                         central: {
-                            id: 'central', name: '紅葉・吉卜力 10週年', date: '2026-10-31', range: 'Oct 31 - Nov 08, 2026', effect: 'leaf', headerImg: './header_central.jpg',
+                            id: 'central', name: 'OurTrip 10+1', date: '2026-10-31', range: 'Oct 31 - Nov 08, 2026',
+                            theme: 'orange', effect: 'leaf', headerImg: './header_central.jpg',
                             docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '10/31', dep: '01:30', arr: '06:40' }, in: { code: 'CX505', date: '11/08', dep: '18:00', arr: '22:25' } },
-                            rental: { company: 'Toyota Rent a Car', pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '成田機場 (一開門即取)', returnDate: '11/05', returnTime: '18:00', returnLocName: '淺草/上野', no: '待確認', note: '必須指定雪胎 (Snow Tires)' },
-                            hotels: [ { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2' }, { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3' }, { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4' }, { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5' }, { name: '淺草東武酒店', dates: '11/5 - 11/8' } ],
-                            hotelMap: { 0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 4, 7: 4 },
-                            alarms: [ { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, { date: '7/01', task: '預約租車' }, { date: '9/01', task: '搶 Mantensushi' }, { date: '9/30', task: '預約 鳥貴族' } ],
-                            shopping: [ { name: '10週年禮物', note: '銀座/表參道' }, { name: '御殿場 Outlet', note: '準備瘋狂掃貨' } ],
+                            rental: {
+                                company: 'Toyota Rent a Car', pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '成田機場 (一開門即取)',
+                                returnDate: '11/05', returnTime: '18:00', returnLocName: '淺草/上野', pickupLoc: 'Toyota Rent a Car Narita Airport',
+                                insurance: 'NOC 安心保險', note: '必須指定雪胎 (Snow Tires)'
+                            },
+                            hotels: [
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2' },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3' },
+                                { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4' },
+                                { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5' },
+                                { name: '淺草東武酒店', dates: '11/5 - 11/8' }
+                            ],
+                            hotelMap: { 0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 4, 7: 4, 8: 4 },
+                            alarms: [
+                                { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, { date: '7/01', task: '預約租車' },
+                                { date: '9/01', task: '搶 Mantensushi' }, { date: '9/30', task: '預約 鳥貴族' }, { date: '10/5', task: '申請 IDP & 買 Sim' }
+                            ],
+                            shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信'],
+                            expenses: [],
                             diningList: [
                                 { date: 'Day 1 (10/31)', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', tel: '055-963-0202', bookingNo: '現場排隊' },
                                 { date: 'Day 1 (10/31)', time: '19:00', name: 'Sawayaka 漢堡 (沼津)', addr: '静岡県沼津市筒井町1-3', tel: '055-923-8525', bookingNo: '現場取號' },
@@ -649,47 +671,50 @@
                                 { date: 'Day 6 (11/05)', time: '19:00', name: 'まんてん鮨 (日本橋)', addr: '東京都中央区日本橋室町2-3-1', tel: '03-4241-1005', bookingNo: '待預約' }
                             ],
                             days: [
-                                { weekday: 'Sat', dateStr: '10/31', day: 'Day 1', events: [
-                                    { time: '11:30', title: '沼津港 (丸天)', desc: '食新鮮海產！', category: 'food', transportType: 'car', mapcode: '650 583 339*01', loc: 'Numazu Port' },
-                                    { time: '13:30', title: '三島大吊橋', desc: '全日本最長吊橋！', category: 'sightseeing', transportType: 'car', mapcode: '50 238 668*85', loc: 'Mishima Skywalk' },
-                                    { time: '17:00', title: 'Check-in (Daiwa Roynet)', desc: '放低行李', category: 'hotel', transportType: 'car', mapcode: '50 073 112*71', loc: 'Daiwa Roynet Numazu' },
-                                    { time: '19:00', title: 'Sawayaka 漢堡', desc: '靜岡極出名嘅牛肉漢堡！', category: 'food', transportType: 'walk', loc: 'Sawayaka Numazu' }
+                                { weekday: 'Sat', dateStr: '10/31', events: [
+                                    { time: '11:30', title: '沼津港 (丸天)', category: 'food', loc: 'Numazu Port', transportType: 'car', mapcode: '650 583 339*01' },
+                                    { time: '13:30', title: '三島大吊橋', category: 'sightseeing', loc: 'Mishima Skywalk', transportType: 'car', mapcode: '50 238 668*85' },
+                                    { time: '17:00', title: 'Check-in (Daiwa Roynet)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71' },
+                                    { time: '19:00', title: 'Sawayaka 漢堡', category: 'food', loc: 'Sawayaka Numazu', transportType: 'walk' }
                                 ]},
-                                { weekday: 'Sun', dateStr: '11/01', day: 'Day 2', events: [
-                                    { time: '10:30', title: '大室山', desc: '抹茶色火山口！', category: 'sightseeing', transportType: 'car', mapcode: '48 846 512*63', loc: 'Omuro Mountain' },
-                                    { time: '14:30', title: '修善寺溫泉', desc: '小京都風情！', category: 'sightseeing', transportType: 'car', mapcode: '16 186 084*42', loc: 'Shuzenji' },
-                                    { time: '19:00', title: '鰻魚飯 櫻家', desc: '超人氣老字號！', category: 'food', transportType: 'car', loc: 'Sakuraya', phone: '055-975-4520' }
+                                { weekday: 'Sun', dateStr: '11/01', events: [
+                                    { time: '10:30', title: '大室山', category: 'sightseeing', loc: 'Omuro Mountain', transportType: 'car', mapcode: '48 846 512*63' },
+                                    { time: '14:30', title: '修善寺溫泉', category: 'sightseeing', loc: 'Shuzenji', transportType: 'car', mapcode: '16 186 084*42' },
+                                    { time: '19:00', title: '鰻魚飯 櫻家', category: 'food', loc: 'Sakuraya', transportType: 'car', phone: '055-975-4520' }
                                 ]},
-                                { weekday: 'Mon', dateStr: '11/02', day: 'Day 3', events: [
-                                    { time: '11:00', title: '🍁 白川鄉合掌村', desc: '尋找吉卜力動畫感！厚塗油畫般嘅秋日紅葉絕景！📸', category: 'highlight', transportType: 'car', loc: 'Shirakawa-go' },
-                                    { time: '14:30', title: '飛驒高山老街', desc: '食飛驒牛壽司、和牛串燒！', category: 'sightseeing', transportType: 'car', loc: 'Hida Takayama' },
-                                    { time: '21:00', title: 'Check-in (Onyado Nono)', desc: '松本市內溫泉旅館', category: 'hotel', transportType: 'car', mapcode: '75 821 474*88', loc: 'Onyado Nono Matsumoto' }
+                                { weekday: 'Mon', dateStr: '11/02', events: [
+                                    { time: '11:00', title: '諏訪湖', category: 'sightseeing', loc: 'Tateishi Park', transportType: 'car', mapcode: '75 236 391*70' },
+                                    { time: '14:30', title: '松本城', category: 'sightseeing', loc: 'Matsumoto Castle', transportType: 'car', mapcode: '75 851 375*66' },
+                                    { time: '21:00', title: 'Check-in (Onyado Nono)', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk', mapcode: '75 821 474*88' }
                                 ]},
-                                { weekday: 'Tue', dateStr: '11/03', day: 'Day 4', events: [
-                                    { time: '09:30', title: '善光寺', desc: '參拜古剎', category: 'sightseeing', transportType: 'car', loc: 'Zenkoji' },
-                                    { time: '13:00', title: '地獄谷野猿公苑', desc: '睇馬騮浸溫泉！', category: 'sightseeing', transportType: 'walk', loc: 'Snow Monkey Park' },
-                                    { time: '16:30', title: 'Check-in (季之庭)', desc: '草津極上溫泉旅館！', category: 'hotel', transportType: 'car', mapcode: '341 448 004*52', loc: 'Tokinoniwa' }
+                                { weekday: 'Tue', dateStr: '11/03', events: [
+                                    { time: '09:30', title: '善光寺', category: 'sightseeing', loc: 'Zenkoji', transportType: 'car' },
+                                    { time: '13:00', title: '地獄谷野猿公苑', category: 'sightseeing', loc: 'Snow Monkey Park', transportType: 'walk' },
+                                    { time: '16:30', title: 'Check-in (季之庭)', category: 'highlight', loc: 'Tokinoniwa', transportType: 'car', mapcode: '341 448 004*52' }
                                 ]},
-                                { weekday: 'Wed', dateStr: '11/04', day: 'Day 5', events: [
-                                    { time: '13:00', title: '河口湖 (大石公園)', desc: '富士山絕景！', category: 'sightseeing', transportType: 'car', mapcode: '161 303 446*52', loc: 'Oishi Park' },
-                                    { time: '16:30', title: 'Check-in (HOTEL CLAD)', desc: '房內直望富士山！', category: 'hotel', transportType: 'car', mapcode: '50 806 191*75', loc: 'HOTEL CLAD' }
+                                { weekday: 'Wed', dateStr: '11/04', events: [
+                                    { time: '13:00', title: '河口湖 (大石公園)', category: 'sightseeing', loc: 'Oishi Park', transportType: 'car', mapcode: '161 303 446*52' },
+                                    { time: '16:30', title: 'Check-in (HOTEL CLAD)', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', mapcode: '50 806 191*75' }
                                 ]},
-                                { weekday: 'Thu', dateStr: '11/05', day: 'Day 6', events: [
-                                    { time: '06:30', title: '山中湖逆富士', desc: '早起睇日出！', category: 'sightseeing', transportType: 'car', mapcode: '434 324 577*85', loc: 'Nagaike Water Park' },
-                                    { time: '10:00', title: '御殿場 Outlet', desc: 'Shopping', category: 'shopping', transportType: 'car', travelTime: '40 min', loc: 'Gotemba Outlet' },
-                                    { time: '14:00', title: '箱根神社', desc: '水上鳥居', category: 'sightseeing', transportType: 'car', mapcode: '57 123 048*31', loc: 'Hakone Shrine' },
-                                    { time: '18:00', title: '還車 (淺草)', desc: '結束自駕遊', category: 'transport', transportType: 'car', loc: 'Asakusa' },
-                                    { time: '19:30', title: 'Dinner: 鳥貴族', desc: '平靚正串燒！', category: 'food', transportType: 'walk', loc: 'Torikizoku Asakusa' }
+                                { weekday: 'Thu', dateStr: '11/05', events: [
+                                    { time: '06:30', title: '山中湖逆富士', category: 'sightseeing', loc: 'Nagaike Water Park', transportType: 'car', mapcode: '434 324 577*85' },
+                                    { time: '10:00', title: '御殿場 Outlet', desc: 'Shopping', category: 'shopping', loc: 'Gotemba Outlet', transportType: 'car', travelTime: '40 min' },
+                                    { time: '13:00', title: 'Lunch: Outlet Food Court', category: 'food', loc: 'Gotemba Outlet', transportType: 'walk' },
+                                    { time: '14:00', title: '箱根神社', category: 'sightseeing', loc: 'Hakone Shrine', transportType: 'car', mapcode: '57 123 048*31' },
+                                    { time: '18:00', title: '還車 (淺草)', category: 'transport', loc: 'Asakusa', transportType: 'car' },
+                                    { time: '19:30', title: 'Dinner: 鳥貴族', category: 'food', loc: 'Torikizoku Asakusa', transportType: 'walk' }
                                 ]},
-                                { weekday: 'Fri', dateStr: '11/06', day: 'Day 7', events: [
-                                    { time: '11:00', title: '🍁 明治神宮外苑 銀杏並木', desc: '金黃色隧道打卡！', category: 'sightseeing', transportType: 'train', loc: 'Meiji Jingu Gaien' },
-                                    { time: '16:30', title: '東京鐵塔', desc: '黃昏靚景', category: 'sightseeing', transportType: 'train', loc: 'Tokyo Tower' },
-                                    { time: '19:30', title: '🥂 10週年/1週年 紀念晚餐', desc: '浪漫之夜！', action: '準備好驚喜禮物！🎁', category: 'highlight', transportType: 'walk', loc: 'Mantensushi Nihonbashi' }
+                                { weekday: 'Fri', dateStr: '11/06', events: [
+                                    { time: '16:30', title: '東京鐵塔', category: 'sightseeing', loc: 'Tokyo Tower', transportType: 'train' },
+                                    { time: '19:00', title: 'Mantensushi', category: 'highlight', loc: 'Mantensushi Nihonbashi', transportType: 'train' }
                                 ]},
-                                { weekday: 'Sat', dateStr: '11/07', day: 'Day 8', events: [
-                                    { time: '10:30', title: '吉祥寺', desc: '逛雜貨小店', category: 'shopping', transportType: 'train', loc: 'Kichijoji' },
-                                    { time: '14:00', title: '下北澤', desc: '古著尋寶', category: 'shopping', transportType: 'train', loc: 'Shimokitazawa' },
-                                    { time: '18:00', title: '回程 (CX505)', desc: '22:25 到港', category: 'flight', transportType: 'train', loc: 'Narita Airport' }
+                                { weekday: 'Sat', dateStr: '11/07', events: [
+                                    { time: '10:30', title: '吉祥寺', category: 'sightseeing', loc: 'Kichijoji', transportType: 'train' },
+                                    { time: '14:00', title: '下北澤', category: 'shopping', loc: 'Shimokitazawa', transportType: 'train' }
+                                ]},
+                                { weekday: 'Sun', dateStr: '11/08', events: [
+                                    { time: '14:00', title: 'Skyliner', category: 'transport', loc: 'Keisei Ueno', transportType: 'train' },
+                                    { time: '18:00', title: '回程 (CX505)', category: 'flight', loc: 'Narita Airport' }
                                 ]}
                             ]
                         }
@@ -707,7 +732,7 @@
             },
             watch: {
                 selectedDayIndex() { this.fetchWeather(); },
-                selectedTripId() { this.fetchWeather(); this.selectedDayIndex = 0; this.settings.themeColor = this.activeTrip.theme; },
+                selectedTripId() { this.fetchWeather(); this.selectedDayIndex = 0; },
                 'settings.fontSize': function(newVal) { document.documentElement.style.fontSize = newVal + 'px'; }
             },
             mounted() {
@@ -744,6 +769,7 @@
                             case 5: query = 'Gotemba,JP'; displayName = '御殿場'; break;
                             case 6: query = 'Tokyo,JP'; displayName = '東京'; break;
                             case 7: query = 'Tokyo,JP'; displayName = '東京'; break;
+                            case 8: query = 'Tokyo,JP'; displayName = '東京'; break;
                             default: query = 'Tokyo,JP'; displayName = '東京';
                         }
                     }
@@ -789,7 +815,7 @@
                 },
                 openMap(loc) { if(loc) { let query = loc; if (!query.includes('Japan')) query += ', Japan'; window.open(`https://www.google.com/maps/search/?api=1&query=` + encodeURIComponent(query), '_blank'); } },
                 openDoc() { window.open(this.activeTrip.docLink, '_blank'); },
-                addShoppingItem() { if(this.newShopItem) this.activeTrip.shopping.push({name: this.newShopItem, note: ''}); this.newShopItem = ''; },
+                addShoppingItem() { if(this.newShopItem) this.activeTrip.shopping.push(this.newShopItem); this.newShopItem = ''; },
                 removeShoppingItem(idx) { this.activeTrip.shopping.splice(idx, 1); },
                 openAddModal() { this.showModal = true; },
                 confirmAdd() { 
