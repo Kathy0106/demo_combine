@@ -70,6 +70,8 @@
 </head>
 <body class="antialiased" :style="{ backgroundColor: currentTheme.bgMain }">
 
+    <div id="error-log" style="color: #C62828; padding: 20px; font-weight: bold; background: #FFEBEE; display: none; height: 100vh; width: 100vw; position: absolute; z-index: 99999;"></div>
+
     <div id="app" v-cloak class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px', backgroundColor: currentTheme.bgMain }">
 
         <div v-if="currentTheme.effect !== 'none'" class="falling-container">
@@ -125,7 +127,7 @@
                                     <span class="text-[0.6rem] font-bold block uppercase tracking-wider" :style="{ color: currentTheme.textLight }">Day {{ selectedDayIndex + 1 }} • {{ currentDays[selectedDayIndex].weekday }}</span>
                                     <div class="flex items-center">
                                         <span class="text-2xl font-bold" :style="{ color: currentTheme.textDark }">{{ currentDays[selectedDayIndex].dateStr.split(' ')[0] }}</span>
-                                        <button @click="showHotelModal = true" class="w-8 h-8 rounded-full flex items-center justify-center ml-2 shadow-sm border border-dashed" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i class="fa-solid fa-house-chimney text-sm"></i></button>
+                                        <button @click="showHotelModal = true" class="w-8 h-8 rounded-full flex items-center justify-center ml-2 shadow-sm border border-dashed active:scale-95" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i class="fa-solid fa-house-chimney text-sm"></i></button>
                                     </div>
                                 </div>
                                 <div class="flex flex-col items-end">
@@ -163,7 +165,7 @@
                                             </div>
 
                                             <div class="flex flex-wrap gap-1.5 mt-2">
-                                                <span v-if="idx < currentItineraryData.length" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> {{ item.travelTime || '移動' }}</span>
+                                                <span v-if="item.travelTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> {{ item.travelTime }}</span>
                                                 <span v-if="item.loc" class="text-[0.65rem] bg-[#E3F2FD] text-[#42A5F5] px-2 py-1 rounded-lg font-bold border border-dashed border-[#BBDEFB]">
                                                     <i class="fa-solid fa-location-arrow mr-0.5"></i>導航
                                                 </span>
@@ -398,7 +400,7 @@
                 <button @click="showHotelModal = false" class="w-full mt-4 text-gray-400 underline text-sm">關閉</button>
             </div>
         </div>
-        
+
         <div v-if="showSettings" class="fixed inset-0 z-[9999] bg-black/50 backdrop-blur-sm flex items-end sm:items-center justify-center" @click.self="showSettings = false">
             <div class="bg-white w-full sm:w-96 rounded-t-3xl sm:rounded-3xl p-6 shadow-2xl animate-slide-up">
                 <div class="flex justify-between items-center mb-6">
@@ -418,30 +420,36 @@
     </div>
 
     <script>
+        window.onerror = function(msg, url, lineNo, columnNo, error) {
+            document.getElementById('error-log').style.display = 'block';
+            document.getElementById('error-log').innerHTML = '🚨 系統發生錯誤：<br><br>' + msg;
+            return false;
+        };
+
         const { createApp } = Vue;
 
         createApp({
             data() {
                 return {
-                    currentTrip: 'karuizawa',
+                    currentTrip: 'karuizawa', 
                     activeTab: `itinerary`,
                     selectedDayIndex: 0, 
-                    showSettings: false, showHotelModal: false, showImageModal: false, alarmsOpen: true, newShopItem: '',
+                    showSettings: false, showHotelModal: false, alarmsOpen: true, newShopItem: '',
                     weather: { city_name: `東京`, temp: `--`, icon: `fa-spinner fa-spin` },
                     apiKey: `cc2dab2806da14aec6dab2ed8260a1c4`, 
                     settings: { fontSize: 15 },
                     exchangeRate: 0.053, calcJpy: '', calcHkd: '',
                     
+                    // V132 行程資料庫 (完美移植)
                     trips: {
                         karuizawa: {
-                            id: 'karuizawa', name: '東京櫻花之旅 2026', date: '2026-04-18', range: 'Apr 18 - 25, 2026',
-                            theme: 'pink', effect: 'flower', headerImg: 'url(https://images.unsplash.com/photo-1522383225653-ed111181a951?q=80&w=1000&auto=format&fit=crop)',
+                            id: 'karuizawa', date: '2026-04-18', range: 'Apr 18 - 25, 2026',
                             docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '4/18', dep: '01:30', arr: '06:40' }, in: { code: 'CX501', date: '4/25', dep: '21:30', arr: '02:00' } },
                             rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '17:00', returnLocName: 'T-CAT (水天宮)', no: '待確認', note: '車型: Toyota 私家車/休旅車 \n⚠️ 請核對預約單！' },
                             hotels: [ { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20' }, { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22' }, { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25' } ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
-                            alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' }, { date: '出發前', task: 'Klook 預訂包車 (Alphard)' } ],
+                            alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' } ],
                             shopping: ['Le Labo 香水', '保暖襪', '隱形眼鏡', 'Head dress', 'NuBra'],
                             expenses: [],
                             diningList: [
@@ -470,7 +478,7 @@
                                 ]},
                                 { weekday: 'Sun', dateStr: '4/19', events: [
                                     { time: '07:30', title: '出發 Patam', desc: '早起鳥兒有袋買！', category: 'transport', transportType: 'train', travelTime: '15 min', loc: 'Patam Asakusa' },
-                                    { time: '07:45', title: 'Patam Asakusa 排隊戰役', desc: '🎯 目標：搶頭籌買日本布袋！\n📸 官方公告：09:45 派籌 (整理券)\n⚠️ 戰略：07:45 到達排隊，確保第一批入去。\n🛍️ 買完即閃去表參道食 Lunch。', action: '⚠️ 12:15 準備由淺草撤退！', category: 'shopping', transportType: 'walk', loc: 'Patam Asakusa' },
+                                    { time: '07:45', title: 'Patam Asakusa 排隊戰役', desc: '🎯 目標：搶頭籌買日本布袋！\n📸 官方公告：09:45 派籌 (整理券)\n⚠️ 戰略：07:45 到達排隊，確保第一批入去。', action: '⚠️ 12:15 準備由淺草撤退！', category: 'shopping', transportType: 'walk', loc: 'Patam Asakusa' },
                                     { time: '13:30', title: '山笑ふ (Yama Warau)', desc: '表參道店 Shabu Shabu\n✨ 已預約 (結婚紀念日)\n預約號: CCNCAS', category: 'highlight', transportType: 'train', travelTime: '45 min', loc: 'Yama Warau Omotesando', phone: '03-5413-6625' },
                                     { time: '15:30', title: 'Harakado', desc: '7F 屋頂花園', category: 'sightseeing', transportType: 'walk', travelTime: '5 min', loc: 'Harakado' },
                                     { time: '19:00', title: '牛かつもと村', desc: '澀谷分店 炸牛排', category: 'food', transportType: 'walk', travelTime: '20 min', loc: 'Gyukatsu Motomura Shibuya', phone: '03-3406-8181' }
@@ -497,7 +505,7 @@
                                     { time: '14:30', title: '出發回東京', desc: '老公慢慢揸車返去', category: 'transport', transportType: 'car', travelTime: '2.5 hr', loc: 'T-CAT' },
                                     { time: '17:00', title: '東京還車 (Toyota T-CAT)', desc: '營業時間至 20:00', category: 'transport', transportType: 'car', loc: 'T-CAT' },
                                     { time: '18:00', title: 'Check-in (八重翠)', desc: '放低行李', category: 'hotel', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
-                                    { time: '19:30', title: '🐟 晚餐: お魚総本家 (銀座店)', desc: '✨ 影完婚紗相終極慶功宴！\n呢度有全東京最震撼嘅「大火藁燒鰹魚」同「澎湃刺身盛合」！', action: '⚠️ 記得上網 Book 位，備註一定要寫「カウンター席希望 (吧枱位)」，打卡一流！🔥', category: 'food', transportType: 'train', loc: 'Osakana Sohonke Ginza' }
+                                    { time: '19:30', title: '🐟 晚餐: お魚総本家 (銀座店)', desc: '✨ 影完婚紗相終極慶功宴！\n呢度有全東京最震撼嘅「大火藁燒鰹魚」同「澎湃刺身盛合」！', action: '⚠️ 記得預約，備註寫「カウンター席希望 (吧枱位)」睇大火表演！', category: 'food', transportType: 'train', loc: 'Osakana Sohonke Ginza' }
                                 ]},
                                 { weekday: 'Thu', dateStr: '4/23', events: [
                                     { time: '06:45', title: '出發 Disney', desc: '八丁堀 ->舞濱', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
@@ -522,14 +530,12 @@
                             ]
                         },
                         central: {
-                            id: 'central', name: 'Tokyo x Chubu 2026', date: '2026-10-31', range: 'Oct 31 - Nov 08, 2026',
-                            theme: 'orange', effect: 'leaf', headerImg: 'url(https://images.unsplash.com/photo-1476610286381-a70155b9e9b0?q=80&w=1000&auto=format&fit=crop)',
+                            id: 'central', date: '2026-10-31', range: 'Oct 31 - Nov 08, 2026',
                             docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '10/31', dep: '01:30', arr: '06:40' }, in: { code: 'CX505', date: '11/08', dep: '18:00', arr: '22:25' } },
                             rental: {
                                 company: 'Toyota Rent a Car', pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '成田機場 (一開門即取)',
-                                returnDate: '11/05', returnTime: '18:00', returnLocName: '淺草/上野', pickupLoc: 'Toyota Rent a Car Narita Airport',
-                                insurance: 'NOC 安心保險', no: '待確認', note: '必須指定雪胎 (Snow Tires)'
+                                returnDate: '11/05', returnTime: '18:00', returnLocName: '淺草/上野', no: '待確認', note: '必須指定雪胎 (Snow Tires)'
                             },
                             hotels: [
                                 { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2' },
@@ -596,15 +602,34 @@
                                 ]},
                                 { weekday: 'Sun', dateStr: '11/08', events: [
                                     { time: '14:00', title: 'Skyliner', category: 'transport', loc: 'Keisei Ueno', transportType: 'train' },
-                                    { time: '18:00', title: '回程 (CX505)', category: 'flight', loc: 'Narita Airport' }
+                                    { time: '18:00', title: '回程 (CX505)', category: 'flight', loc: 'Narita Airport', location: 'Narita Airport' }
                                 ]}
                             ]
+                        }
+                    },
+                    
+                    themes: {
+                        karuizawa: {
+                            title: "Karuizawa 2026", subtitle: "Pre-wedding 二人世界", subIcon: "fa-solid fa-heart",
+                            bgMain: "#FCE4EC", textDark: "#880E4F", textLight: "#F06292", accentMain: "#E91E63", borderLight: "#F8BBD0",
+                            shadow: "0 8px 24px rgba(233, 30, 99, 0.15)",
+                            headerImg: "url('https://images.unsplash.com/photo-1522383225653-ed111181a951?q=80&w=1000&auto=format&fit=crop')",
+                            headerGradient: "linear-gradient(to bottom, rgba(136, 14, 79, 0.2), rgba(136, 14, 79, 0.7))",
+                            effect: 'flower', effectEmoji: '🌸'
+                        },
+                        central: {
+                            title: "Tokyo x Chubu 2026", subtitle: "10週年紅葉之旅", subIcon: "fa-solid fa-leaf",
+                            bgMain: "#FFF3E0", textDark: "#E65100", textLight: "#FFB74D", accentMain: "#FF9800", borderLight: "#FFE0B2",
+                            shadow: "0 8px 24px rgba(255, 152, 0, 0.15)",
+                            headerImg: "url('https://images.unsplash.com/photo-1476610286381-a70155b9e9b0?q=80&w=1000&auto=format&fit=crop')",
+                            headerGradient: "linear-gradient(to bottom, rgba(230, 81, 0, 0.2), rgba(230, 81, 0, 0.7))",
+                            effect: 'leaf', effectEmoji: '🍁'
                         }
                     }
                 }
             },
             computed: {
-                activeTrip() { return this.trips[this.selectedTripId]; },
+                activeTrip() { return this.trips[this.currentTrip]; },
                 currentTheme() { return this.themes[this.activeTrip.theme]; },
                 currentEffect() { return this.activeTrip.effect; },
                 currentDayEvents() { return this.activeTrip.days[this.selectedDayIndex]?.events || []; },
@@ -614,7 +639,7 @@
             },
             watch: {
                 selectedDayIndex() { this.fetchWeather(); },
-                selectedTripId() { this.fetchWeather(); this.selectedDayIndex = 0; this.settings.themeColor = this.activeTrip.theme; },
+                currentTrip() { this.selectedDayIndex = 0; this.fetchWeather(); },
                 'settings.fontSize': function(newVal) { document.documentElement.style.fontSize = newVal + 'px'; }
             },
             mounted() {
@@ -622,7 +647,7 @@
                 document.documentElement.style.fontSize = this.settings.fontSize + 'px';
             },
             methods: {
-                selectTrip(id) { this.selectedTripId = id; this.currentView = 'detail'; this.activeTab = 'itinerary'; },
+                switchTrip(trip) { this.currentTrip = trip; },
                 fetchWeather() {
                     let query = ''; let displayName = ''; const tripId = this.currentTrip; const idx = this.selectedDayIndex;
 
@@ -641,8 +666,7 @@
                             case 3: query = 'Kusatsu,JP'; displayName = '草津'; break;
                             case 4: query = 'Fujikawaguchiko,JP'; displayName = '富士河口湖'; break;
                             case 5: query = 'Gotemba,JP'; displayName = '御殿場'; break;
-                            case 6: case 7: case 8: query = 'Tokyo,JP'; displayName = '東京'; break;
-                            default: query = 'Tokyo,JP'; displayName = '東京';
+                            case 6: case 7: case 8: default: query = 'Tokyo,JP'; displayName = '東京'; break;
                         }
                     }
                     this.weather.city_name = displayName;
