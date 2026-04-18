@@ -280,7 +280,9 @@
                     trips: {
                         karuizawa: {
                             id: 'karuizawa', date: '2026-04-18', range: 'Apr 18 - 25, 2026',
+                            docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '4/18', dep: '01:30', arr: '06:40' }, in: { code: 'CX501', date: '4/25', dep: '21:30', arr: '02:00' } },
+                            rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '17:00', returnLocName: 'T-CAT (水天宮)', no: '待確認', note: '車型: Toyota 私家車/休旅車 \n⚠️ 請核對預約單！' },
                             hotels: [ { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20' }, { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22' }, { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25' } ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
                             alarms: [ { date: '3/20', task: '預約新宿御苑櫻花入場' }, { date: '出發前', task: '確認 Toyota 租車車型！' } ],
@@ -304,12 +306,11 @@
                                     { time: '17:30', title: '返回酒店休息 🛏️', desc: '返 VIA INN PRIME 放低戰利品，稍作休息充電！', departTime: '17:10', category: 'hotel', transportType: 'train', loc: 'VIA INN PRIME Nihonbashi' },
                                     { time: '19:30', title: '平城苑 浅草総本店 🥩', desc: '✨ 已預約: 19:30\n準時入座，兩公婆慢慢嘆頂級和牛！', departTime: '19:00', category: 'highlight', transportType: 'train', loc: 'Heijoen Asakusa', phone: '03-3843-2914' }
                                 ]},
-                                // ✨✨✨ Day 2 完美升級版喺呢度！ ✨✨✨
                                 { weekday: 'Sun', dateStr: '4/19', events: [
-                                    { time: '09:15', title: 'Cafe 早餐: Butter 🥞', desc: '食超人氣 Butter 梳乎厘班戟做完美早餐！\n食飽充滿力量出發！', departTime: '08:30', category: 'food', transportType: 'train', loc: 'Butter' },
-                                    { time: '10:45', title: '新宿御苑賞晚櫻 🌸', desc: '明治神宮本身係冇櫻花㗎，所以改去新宿御苑！4月中下旬仲有「八重櫻」同晚開櫻花，最啱瘋狂影相兼開 Pikmin Bloom 狂種花執大苗！🌱', departTime: '10:20', action: '⚠️ 櫻花季星期日可能需要上網提早預約入場，記得留意官網！', category: 'sightseeing', transportType: 'train', loc: 'Shinjuku Gyoen' },
+                                    { time: '09:15', title: 'Cafe 早餐: Butter 🥞', desc: '食超人氣 Butter 梳乎厘班戟做完美早餐！\n食飽充滿力量出發！', departTime: '08:30', category: 'food', transportType: 'train', loc: 'https://maps.app.goo.gl/yKYvHnoxzkZLcQ1DA?g_st=ipc' },
+                                    { time: '10:45', title: '新宿御苑賞晚櫻 🌸', desc: '4月中下旬有「八重櫻」同晚開櫻花，最啱瘋狂影相兼開 Pikmin Bloom 狂種花執大苗！🌱', departTime: '10:20', action: '⚠️ 櫻花季星期日可能需要上網提早預約入場，記得留意官網！', category: 'sightseeing', transportType: 'train', loc: 'Shinjuku Gyoen' },
                                     { time: '13:30', title: '山笑ふ (Yama Warau)', desc: '表參道店 Shabu Shabu\n✨ 已預約 (結婚紀念日)\n預約號: CCNCAS', departTime: '12:50', category: 'highlight', transportType: 'train', loc: 'Yama Warau Omotesando', phone: '03-5413-6625' },
-                                    { time: '15:30', title: '表參道 / Harakado 🛍️', desc: '食飽去 7F 屋頂花園打卡！\n附近仲可以留意下有無 山田涼介 相關嘅快閃店或者 Super Junior 嘅週邊！', departTime: '15:15', category: 'shopping', transportType: 'walk', loc: 'Harakado' },
+                                    { time: '15:30', title: '澀谷 PARCO 買 ReFa & 虎蛇咖啡 🛍️☕', desc: '買完 ReFa 必去 3F 嘅「虎蛇咖啡 (Torahebi Coffee)」打卡！呢度以「咖啡x科學」做賣點，裝修超型，快閃限定！', departTime: '15:15', category: 'shopping', transportType: 'walk', loc: 'Shibuya PARCO' },
                                     { time: '19:00', title: '牛かつもと村', desc: '澀谷分店 炸牛排', departTime: '18:40', category: 'food', transportType: 'walk', loc: 'Gyukatsu Motomura Shibuya', phone: '03-3406-8181' }
                                 ]},
                                 { weekday: 'Mon', dateStr: '4/20', events: [
@@ -344,16 +345,79 @@
                         },
                         central: {
                             id: 'central', date: '2026-10-31', range: 'Oct 31 - Nov 08, 2026',
+                            docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '10/31', dep: '01:30', arr: '06:40' }, in: { code: 'CX505', date: '11/08', dep: '18:00', arr: '22:25' } },
-                            hotels: [ { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2' }, { name: '淺草東武酒店', dates: '11/5 - 11/8' } ],
+                            rental: {
+                                company: 'Toyota Rent a Car', pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '成田機場 (一開門即取)',
+                                returnDate: '11/05', returnTime: '18:00', returnLocName: '淺草/上野', pickupLoc: 'Toyota Rent a Car Narita Airport',
+                                insurance: 'NOC 安心保險', note: '必須指定雪胎 (Snow Tires)'
+                            },
+                            hotels: [
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2' },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3' },
+                                { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4' },
+                                { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5' },
+                                { name: '淺草東武酒店', dates: '11/5 - 11/8' }
+                            ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 4, 7: 4, 8: 4 },
-                            shopping: ['沼津 乾物', '御殿場 Outlet'],
+                            alarms: [
+                                { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, { date: '7/01', task: '預約租車' },
+                                { date: '9/01', task: '搶 Mantensushi' }, { date: '9/30', task: '預約 鳥貴族' }, { date: '10/5', task: '申請 IDP & 買 Sim' }
+                            ],
+                            shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信'],
                             expenses: [],
-                            diningList: [ { date: 'Day 1 (10/31)', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', tel: '055-963-0202', bookingNo: '現場排隊' } ],
+                            diningList: [
+                                { date: 'Day 1 (10/31)', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', tel: '055-963-0202', bookingNo: '現場排隊' },
+                                { date: 'Day 1 (10/31)', time: '19:00', name: 'Sawayaka 漢堡 (沼津)', addr: '静岡県沼津市筒井町1-3', tel: '055-923-8525', bookingNo: '現場取號' },
+                                { date: 'Day 2 (11/01)', time: '19:00', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', tel: '055-975-4520', bookingNo: '現場排隊' },
+                                { date: 'Day 5 (11/04)', time: '19:30', name: '鳥貴族 浅草店', addr: '東京都台東区浅草1-1-16 2F', tel: '03-5830-6766', bookingNo: '待預約' },
+                                { date: 'Day 6 (11/05)', time: '19:00', name: 'まんてん鮨 (日本橋)', addr: '東京都中央区日本橋室町2-3-1', tel: '03-4241-1005', bookingNo: '待預約' }
+                            ],
                             days: [
                                 { weekday: 'Sat', dateStr: '10/31', events: [
-                                    { time: '11:30', title: '沼津港 (丸天)', departTime: '08:30', category: 'food', loc: 'Numazu Port', transportType: 'car' },
-                                    { time: '17:00', title: 'Check-in', departTime: '16:30', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car' }
+                                    { time: '11:30', title: '沼津港 (丸天)', departTime: '08:30', category: 'food', loc: 'Numazu Port', transportType: 'car', mapcode: '650 583 339*01' },
+                                    { time: '13:30', title: '三島大吊橋', departTime: '13:00', category: 'sightseeing', loc: 'Mishima Skywalk', transportType: 'car', mapcode: '50 238 668*85' },
+                                    { time: '17:00', title: 'Check-in (Daiwa Roynet)', departTime: '16:30', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71' },
+                                    { time: '19:00', title: 'Sawayaka 漢堡', departTime: '18:45', category: 'food', loc: 'Sawayaka Numazu', transportType: 'walk' }
+                                ]},
+                                { weekday: 'Sun', dateStr: '11/01', events: [
+                                    { time: '10:30', title: '大室山', departTime: '09:30', category: 'sightseeing', loc: 'Omuro Mountain', transportType: 'car', mapcode: '48 846 512*63' },
+                                    { time: '14:30', title: '修善寺溫泉', departTime: '13:45', category: 'sightseeing', loc: 'Shuzenji', transportType: 'car', mapcode: '16 186 084*42' },
+                                    { time: '19:00', title: '鰻魚飯 櫻家', departTime: '18:15', category: 'food', loc: 'Sakuraya', transportType: 'car', phone: '055-975-4520' }
+                                ]},
+                                { weekday: 'Mon', dateStr: '11/02', events: [
+                                    { time: '11:00', title: '諏訪湖', departTime: '09:00', category: 'sightseeing', loc: 'Tateishi Park', transportType: 'car', mapcode: '75 236 391*70' },
+                                    { time: '14:30', title: '松本城', departTime: '13:30', category: 'sightseeing', loc: 'Matsumoto Castle', transportType: 'car', mapcode: '75 851 375*66' },
+                                    { time: '21:00', title: 'Check-in (Onyado Nono)', departTime: '20:45', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk', mapcode: '75 821 474*88' }
+                                ]},
+                                { weekday: 'Tue', dateStr: '11/03', events: [
+                                    { time: '09:30', title: '善光寺', departTime: '08:15', category: 'sightseeing', loc: 'Zenkoji', transportType: 'car' },
+                                    { time: '13:00', title: '地獄谷野猿公苑', departTime: '12:00', category: 'sightseeing', loc: 'Snow Monkey Park', transportType: 'walk' },
+                                    { time: '16:30', title: 'Check-in (季之庭)', departTime: '15:00', category: 'highlight', loc: 'Tokinoniwa', transportType: 'car', mapcode: '341 448 004*52' }
+                                ]},
+                                { weekday: 'Wed', dateStr: '11/04', events: [
+                                    { time: '13:00', title: '河口湖 (大石公園)', departTime: '09:30', category: 'sightseeing', loc: 'Oishi Park', transportType: 'car', mapcode: '161 303 446*52' },
+                                    { time: '16:30', title: 'Check-in (HOTEL CLAD)', departTime: '15:45', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', mapcode: '50 806 191*75' }
+                                ]},
+                                { weekday: 'Thu', dateStr: '11/05', events: [
+                                    { time: '06:30', title: '山中湖逆富士', departTime: '06:00', category: 'sightseeing', loc: 'Nagaike Water Park', transportType: 'car', mapcode: '434 324 577*85' },
+                                    { time: '10:00', title: '御殿場 Outlet', desc: 'Shopping', departTime: '09:30', category: 'shopping', loc: 'Gotemba Outlet', transportType: 'car', travelTime: '40 min' },
+                                    { time: '13:00', title: 'Lunch: Outlet Food Court', departTime: '12:50', category: 'food', loc: 'Gotemba Outlet', transportType: 'walk' },
+                                    { time: '14:00', title: '箱根神社', departTime: '13:30', category: 'sightseeing', loc: 'Hakone Shrine', transportType: 'car', mapcode: '57 123 048*31' },
+                                    { time: '18:00', title: '還車 (淺草)', departTime: '16:00', category: 'transport', loc: 'Asakusa', transportType: 'car' },
+                                    { time: '19:30', title: 'Dinner: 鳥貴族', departTime: '19:15', category: 'food', loc: 'Torikizoku Asakusa', transportType: 'walk' }
+                                ]},
+                                { weekday: 'Fri', dateStr: '11/06', events: [
+                                    { time: '16:30', title: '東京鐵塔', departTime: '15:45', category: 'sightseeing', loc: 'Tokyo Tower', transportType: 'train' },
+                                    { time: '19:00', title: 'Mantensushi', departTime: '18:20', category: 'highlight', loc: 'Mantensushi Nihonbashi', transportType: 'train' }
+                                ]},
+                                { weekday: 'Sat', dateStr: '11/07', events: [
+                                    { time: '10:30', title: '吉祥寺', departTime: '09:45', category: 'sightseeing', loc: 'Kichijoji', transportType: 'train' },
+                                    { time: '14:00', title: '下北澤', departTime: '13:30', category: 'shopping', loc: 'Shimokitazawa', transportType: 'train' }
+                                ]},
+                                { weekday: 'Sun', dateStr: '11/08', events: [
+                                    { time: '14:00', title: 'Skyliner', departTime: '13:30', category: 'transport', loc: 'Keisei Ueno', transportType: 'train' },
+                                    { time: '18:00', title: '回程 (CX505)', departTime: '14:00', category: 'flight', loc: 'Narita Airport' }
                                 ]}
                             ]
                         }
@@ -407,6 +471,16 @@
                             case 5: query = 'Urayasu,JP'; displayName = '舞濱'; break; 
                             default: query = 'Tokyo,JP'; displayName = '東京';
                         }
+                    } else if (tripId === 'central') {
+                        switch(idx) {
+                            case 0: query = 'Numazu,JP'; displayName = '沼津'; break;
+                            case 1: query = 'Ito,JP'; displayName = '伊東 (伊豆)'; break; 
+                            case 2: query = 'Matsumoto,JP'; displayName = '松本'; break;
+                            case 3: query = 'Kusatsu,JP'; displayName = '草津'; break;
+                            case 4: query = 'Fujikawaguchiko,JP'; displayName = '富士河口湖'; break;
+                            case 5: query = 'Gotemba,JP'; displayName = '御殿場'; break;
+                            case 6: case 7: case 8: default: query = 'Tokyo,JP'; displayName = '東京'; break;
+                        }
                     }
                     this.weather.city_name = displayName;
                     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&lang=zh_tw&appid=${this.apiKey}`)
@@ -439,7 +513,17 @@
                         ? `bg-[${this.currentTheme.accentMain}] text-white w-10 h-10 rounded-full shadow-lg flex items-center justify-center scale-110 transition-all` 
                         : `bg-white/90 text-[${this.currentTheme.accentMain}] w-8 h-8 rounded-full shadow flex items-center justify-center transition-all hover:bg-white`;
                 },
-                openMap(loc) { if(loc) { let query = loc; if (!query.includes('Japan')) query += ', Japan'; window.open(`https://www.google.com/maps/search/?api=1&query=` + encodeURIComponent(query), '_blank'); } },
+                openMap(loc) { 
+                    if(loc) { 
+                        if (loc.startsWith('http')) {
+                            window.open(loc, '_blank');
+                        } else {
+                            let query = loc; 
+                            if (!query.includes('Japan')) query += ', Japan'; 
+                            window.open(`https://www.google.com/maps/search/?api=1&query=` + encodeURIComponent(query), '_blank'); 
+                        }
+                    } 
+                },
                 formatText(text) { return text ? String(text).replace(/\n/g, '<br>') : ''; },
                 toggleAlarms() { this.alarmsOpen = !this.alarmsOpen; },
                 addShoppingItem() { if(this.newShopItem) this.currentTripData.shopping.push(this.newShopItem); this.newShopItem = ''; },
