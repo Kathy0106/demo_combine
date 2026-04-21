@@ -367,10 +367,10 @@
             data() {
                 return {
                     currentTrip: 'karuizawa',
-                    activeTab: `itinerary`, // 返返去行程表首頁
-                    selectedDayIndex: 4, // ⚠️ 今日4/22，直接開 Day 5
+                    activeTab: `itinerary`,
+                    selectedDayIndex: 0, // 將由 autoSelectToday() 自動控制
                     showSettings: false, showHotelModal: false, showImageModal: false, alarmsOpen: true, newShopItem: '',
-                    weather: { city_name: `輕井澤`, temp: `--`, icon: `fa-spinner fa-spin` },
+                    weather: { city_name: `東京`, temp: `--`, icon: `fa-spinner fa-spin` },
                     apiKey: `cc2dab2806da14aec6dab2ed8260a1c4`, 
                     settings: { fontSize: 15 },
                     exchangeRate: 0.053, calcJpy: '', calcHkd: '',
@@ -427,7 +427,7 @@
                                     { time: '21:00', title: '回程酒店', desc: '休息', departTime: '20:40', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '4/22', events: [
-                                    { time: '10:00', title: '輕井澤 Taliesin 🏰', departTime: '09:30', desc: '充滿吉卜力童話感嘅歐洲莊園同湖泊，悠閒散步種下 Pikmin 花！🌸 (代替白絲瀑布)', category: 'sightseeing', transportType: 'car', loc: 'Karuizawa Taliesin', phone: '0267-46-6161' },
+                                    { time: '10:00', title: '輕井澤 Taliesin 🏰', departTime: '09:30', desc: '充滿吉卜力童話感嘅歐洲莊園同湖泊，悠閒散步種下 Pikmin 花！🌸', category: 'sightseeing', transportType: 'car', loc: 'Karuizawa Taliesin', phone: '0267-46-6161' },
                                     { time: '12:00', title: '午餐: 酢重正之 或 沢村', departTime: '11:40', desc: '📍 舊輕井澤銀座通入口', category: 'food', transportType: 'car', loc: 'Suju Masayuki Karuizawa', phone: '0267-41-2007' },
                                     { time: '13:30', title: '舊輕井澤銀座通', desc: '買果醬同手信！🛍️', departTime: '13:15', category: 'shopping', transportType: 'walk', loc: 'Kyu-Karuizawa Ginza' },
                                     { time: '15:30', title: '橫川 SA (上行) 休息站', desc: '【必食】 峠の釜めし便當', departTime: '15:00', category: 'food', transportType: 'car', loc: 'Yokokawa SA', mapcode: '292 033 118*55' },
@@ -567,13 +567,56 @@
             },
             watch: {
                 selectedDayIndex() { this.fetchWeather(); },
-                currentTrip() { this.selectedDayIndex = 0; this.fetchWeather(); }
+                currentTrip() { 
+                    this.selectedDayIndex = 0; 
+                    this.fetchWeather(); 
+                    this.autoSelectToday();
+                }
             },
-            mounted() { this.fetchWeather(); },
+            mounted() { 
+                this.fetchWeather(); 
+                document.documentElement.style.fontSize = this.settings.fontSize + 'px';
+                this.autoSelectToday();
+            },
             methods: {
+                autoSelectToday() {
+                    const today = new Date();
+                    const month = today.getMonth() + 1;
+                    const date = today.getDate();
+                    const todayStr = month + '/' + date; // 例如 "4/21"
+
+                    const days = this.trips[this.currentTrip].days;
+                    const index = days.findIndex(d => d.dateStr === todayStr);
+                    
+                    if (index !== -1) {
+                        this.selectedDayIndex = index;
+                    } else {
+                        this.selectedDayIndex = 0;
+                    }
+                },
                 switchTrip(trip) { this.currentTrip = trip; },
                 fetchWeather() {
                     let query = 'Tokyo,JP'; let displayName = '東京';
+                    const tripId = this.currentTrip; const idx = this.selectedDayIndex;
+                    
+                    if (tripId === 'karuizawa') {
+                        switch(idx) {
+                            case 0: case 1: case 6: case 7: query = 'Tokyo,JP'; displayName = '東京'; break;
+                            case 2: case 3: case 4: query = 'Karuizawa,JP'; displayName = '輕井澤'; break;
+                            case 5: query = 'Urayasu,JP'; displayName = '舞濱'; break; 
+                            default: query = 'Tokyo,JP'; displayName = '東京';
+                        }
+                    } else if (tripId === 'central') {
+                        switch(idx) {
+                            case 0: query = 'Numazu,JP'; displayName = '沼津'; break;
+                            case 1: query = 'Ito,JP'; displayName = '伊東 (伊豆)'; break; 
+                            case 2: query = 'Matsumoto,JP'; displayName = '松本'; break;
+                            case 3: query = 'Kusatsu,JP'; displayName = '草津'; break;
+                            case 4: query = 'Fujikawaguchiko,JP'; displayName = '富士河口湖'; break;
+                            case 5: query = 'Gotemba,JP'; displayName = '御殿場'; break;
+                            case 6: case 7: case 8: default: query = 'Tokyo,JP'; displayName = '東京'; break;
+                        }
+                    }
                     this.weather.city_name = displayName;
                     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&lang=zh_tw&appid=${this.apiKey}`)
                     .then(res => res.json()).then(data => {
