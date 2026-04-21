@@ -161,7 +161,7 @@
                                         
                                         <div v-if="item.mapcode || item.phone" class="w-24 flex-shrink-0 flex flex-col gap-2 justify-start mt-1">
                                             <div v-if="item.phone" class="bg-white border-2 rounded-lg p-1.5 text-center shadow-sm mb-1" @click.stop :style="{ borderColor: currentTheme.accentMain }">
-                                                <div class="text-[9px] font-bold mb-0.5 uppercase" :style="{ color: currentTheme.accentMain }">TEL (入車機)</div>
+                                                <div class="text-[9px] font-bold mb-0.5 uppercase" :style="{ color: currentTheme.accentMain }">TEL (車機入呢個)</div>
                                                 <div class="text-xs font-black text-slate-800 break-all leading-tight mb-1">{{ item.phone }}</div>
                                             </div>
                                             <div v-if="item.mapcode" class="bg-white border-2 rounded-lg p-1.5 text-center shadow-sm" @click.stop :style="{ borderColor: currentTheme.accentMain }">
@@ -171,6 +171,9 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
+                            <div v-if="currentItineraryData.length === 0" class="text-center py-12" :style="{ color: currentTheme.borderLight }">
+                                <i class="fa-solid fa-calendar-plus text-4xl mb-3 opacity-30"></i><p class="text-xs font-bold">今天還沒有安排行程喔！</p>
                             </div>
                         </div>
                     </div>
@@ -364,10 +367,10 @@
             data() {
                 return {
                     currentTrip: 'karuizawa',
-                    activeTab: `itinerary`,
-                    selectedDayIndex: 2, // ⚠️ 今日已經係 20號，預設開 Day 3
+                    activeTab: `itinerary`, // 返返去行程表首頁
+                    selectedDayIndex: 4, // ⚠️ 今日4/22，直接開 Day 5
                     showSettings: false, showHotelModal: false, showImageModal: false, alarmsOpen: true, newShopItem: '',
-                    weather: { city_name: `東京`, temp: `--`, icon: `fa-spinner fa-spin` },
+                    weather: { city_name: `輕井澤`, temp: `--`, icon: `fa-spinner fa-spin` },
                     apiKey: `cc2dab2806da14aec6dab2ed8260a1c4`, 
                     settings: { fontSize: 15 },
                     exchangeRate: 0.053, calcJpy: '', calcHkd: '',
@@ -377,7 +380,7 @@
                             id: 'karuizawa', date: '2026-04-18', range: 'Apr 18 - 25, 2026',
                             docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '4/18', dep: '01:20', arr: '06:40' }, in: { code: 'CX501', date: '4/25', dep: '21:40', arr: '01:40' } },
-                            rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '20:00', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '車型: Toyota 私家車/休旅車' },
+                            rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '車型: Toyota 私家車/休旅車' },
                             hotels: [ { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20' }, { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22' }, { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25' } ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
                             alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' } ],
@@ -387,7 +390,7 @@
                                 { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台東区雷門1-15-10', bookingNo: '已預約' },
                                 { date: 'Day 5 (4/22)', time: '19:30', name: 'お魚総本家 (銀座店)', addr: '中央区銀座5-9-11', bookingNo: '預約: 吧枱位' },
                                 { date: 'Day 7 (4/24)', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2', bookingNo: 'RCA5GN' },
-                                { date: 'Day 8 (4/25)', time: '11:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', bookingNo: '已預約' }
+                                { date: 'Day 8 (4/25)', time: '12:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', bookingNo: '已預約' }
                             ],
                             days: [
                                 { weekday: 'Sat', dateStr: '4/18', events: [
@@ -402,7 +405,7 @@
                                     { time: '19:30', title: '平城苑 浅草總本店', desc: '✨ 已預約: 頂級和牛大餐', departTime: '19:00', category: 'highlight', transportType: 'train', loc: 'Heijoen Asakusa' }
                                 ]},
                                 { weekday: 'Sun', dateStr: '4/19', events: [
-                                    { time: '11:00', title: 'Cafe 早餐: Butter 🥞', desc: '食超人氣梳乎厘班戟！', departTime: '10:30', category: 'food', transportType: 'train', loc: 'https://maps.app.goo.gl/yKYvHnoxzkZLcQ1DA?g_st=ipc' },
+                                    { time: '11:00', title: 'Cafe 早餐: Butter 🥞', desc: '食超人氣梳乎厘班戟！', departTime: '10:00', category: 'food', transportType: 'train', loc: 'https://maps.app.goo.gl/yKYvHnoxzkZLcQ1DA?g_st=ipc' },
                                     { time: '12:15', title: '東京站一番街 🛍️', desc: '【手信大作戰】\n全力買手信！\n必買：NY Perfect Cheese, Press Butter Sand', departTime: '12:00', category: 'shopping', transportType: 'train', loc: 'Tokyo Character Street' },
                                     { time: '15:30', title: '澀谷 PARCO 朝聖 🛍️☕', desc: '目標：買 ReFa + 3F 虎蛇咖啡 (Torahebi Coffee)！🐍☕', departTime: '15:00', category: 'shopping', transportType: 'train', loc: 'Shibuya PARCO' },
                                     { time: '17:30', title: 'MEGA Donki / 藥妝 掃貨 🛒', desc: '【掃貨 Location】\n1. MEGA Donki 澀谷本店\n2. 松本清 澀谷 Part 1', departTime: '17:15', category: 'shopping', transportType: 'walk', loc: 'MEGA Don Quijote Shibuya', phone: '03-3463-1130' },
@@ -424,13 +427,13 @@
                                     { time: '21:00', title: '回程酒店', desc: '休息', departTime: '20:40', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '4/22', events: [
-                                    { time: '10:00', title: '白絲瀑布', departTime: '09:10', desc: '負離子瀑布', category: 'sightseeing', transportType: 'car', loc: 'Shiraito Falls', mapcode: '292 851 710*72' },
-                                    { time: '11:30', title: '午餐: 酢重正之 或 沢村', departTime: '11:00', desc: '📍 舊輕井澤銀座通入口', category: 'food', transportType: 'car', loc: 'Suju Masayuki Karuizawa', phone: '0267-41-2007' },
-                                    { time: '12:30', title: '舊輕井澤銀座通', desc: '買果醬同手信！🛍️', departTime: '12:15', category: 'shopping', transportType: 'car', loc: 'Kyu-Karuizawa Ginza', mapcode: '292 703 361*36' },
-                                    { time: '14:00', title: '橫川 SA (上行) 休息站', desc: '【必食】 峠の釜めし便當', departTime: '13:30', category: 'food', transportType: 'car', loc: 'Yokokawa SA', mapcode: '292 033 118*55' },
-                                    { time: '17:00', title: '東京還車 (T-CAT)', departTime: '14:45', desc: '營業時間至 20:00', category: 'transport', transportType: 'car', travelTime: '2 hr', loc: 'Toyota Rent a Car T-CAT', phone: '03-3662-0100' },
-                                    { time: '18:00', title: 'Check-in (八重翠)', departTime: '17:30', desc: '放低行李', category: 'hotel', transportType: 'walk', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
-                                    { time: '19:30', title: '🐟 晚餐: お魚總本家 (銀座店)', departTime: '19:00', desc: '✨ 影完相終極慶功宴！', category: 'food', transportType: 'walk', loc: 'Osakana Sohonke Ginza' }
+                                    { time: '10:00', title: '輕井澤 Taliesin 🏰', departTime: '09:30', desc: '充滿吉卜力童話感嘅歐洲莊園同湖泊，悠閒散步種下 Pikmin 花！🌸 (代替白絲瀑布)', category: 'sightseeing', transportType: 'car', loc: 'Karuizawa Taliesin', phone: '0267-46-6161' },
+                                    { time: '12:00', title: '午餐: 酢重正之 或 沢村', departTime: '11:40', desc: '📍 舊輕井澤銀座通入口', category: 'food', transportType: 'car', loc: 'Suju Masayuki Karuizawa', phone: '0267-41-2007' },
+                                    { time: '13:30', title: '舊輕井澤銀座通', desc: '買果醬同手信！🛍️', departTime: '13:15', category: 'shopping', transportType: 'walk', loc: 'Kyu-Karuizawa Ginza' },
+                                    { time: '15:30', title: '橫川 SA (上行) 休息站', desc: '【必食】 峠の釜めし便當', departTime: '15:00', category: 'food', transportType: 'car', loc: 'Yokokawa SA', mapcode: '292 033 118*55' },
+                                    { time: '18:00', title: 'Check-in (八重翠)', departTime: '16:00', desc: '揸返東京，先放低行李再去還車！', category: 'hotel', transportType: 'car', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
+                                    { time: '20:00', title: '東京還車 (T-CAT)', departTime: '19:30', desc: '夜晚 20:30 前完成還車手續', category: 'transport', transportType: 'car', loc: 'Toyota Rent a Car T-CAT', phone: '03-3662-0100' },
+                                    { time: '20:45', title: '🐟 晚餐: お魚總本家', departTime: '20:20', desc: '✨ 影完相終極慶功宴！', category: 'food', transportType: 'walk', loc: 'Osakana Sohonke Ginza' }
                                 ]},
                                 { weekday: 'Thu', dateStr: '4/23', events: [
                                     { time: '08:00', title: '出發 Disney', desc: '行去「有樂町/八丁堀」 搭 JR京葉線 -> 「舞濱」\n避開上班時間，早點出發！', departTime: '07:45', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
@@ -445,12 +448,12 @@
                                     { time: '20:30', title: '回程酒店', desc: '休息', departTime: '20:00', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
                                 ]},
                                 { weekday: 'Sat', dateStr: '4/25', events: [
-                                    { time: '09:00', title: 'Check-out 🧳', desc: '將行李寄放喺酒店大堂', departTime: '08:45', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
+                                    { time: '09:00', title: 'Check-out 🧳', desc: '將行李寄放喺酒店大堂，唔使搬去車站！', departTime: '08:45', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
                                     { time: '09:30', title: '東京站手信補貨', desc: '買手信', departTime: '09:15', category: 'shopping', transportType: 'train', travelTime: '15 min', loc: 'Tokyo Station' },
                                     { time: '11:00', title: 'まんてん鮨 (丸之內店)', departTime: '10:45', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi' },
                                     { time: '13:00', title: '銀座 / 丸之內 Shopping', desc: '無行李負擔，瘋狂行街！', departTime: '12:45', category: 'shopping', transportType: 'walk', loc: 'Ginza' },
                                     { time: '16:00', title: '返回酒店', desc: '返酒店準備上專車', departTime: '15:30', category: 'transport', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
-                                    { time: '17:00', title: 'KKday 專車前往機場 🚗💨', departTime: '16:50', desc: '✨ 已預約: Toyota Alphard (6人座)\n酒店直達成田，專人接送！', category: 'transport', transportType: 'car', loc: 'Narita Airport' },
+                                    { time: '17:00', title: 'KKday 專車前往機場 🚗💨', departTime: '16:50', desc: '✨ 已預約: Toyota Alphard (6人座)\n酒店大堂直達成田，專人接送！', category: 'transport', transportType: 'car', loc: 'Narita Airport' },
                                     { time: '18:30', title: '回程 (CX501)', desc: '21:40 起飛', departTime: '18:30', category: 'flight', transportType: 'walk', loc: 'Narita Airport' }
                                 ]}
                             ]
