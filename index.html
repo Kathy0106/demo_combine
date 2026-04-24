@@ -157,7 +157,7 @@
 
                                             <div class="flex flex-wrap gap-1.5 mt-2">
                                                 <span v-if="item.departTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" style="background-color: #FFF3E0; color: #E65100; border-color: #FFCC80;"><i class="fa-solid fa-person-running"></i> 出發: {{ item.departTime }}</span>
-                                                <span v-if="idx < currentItineraryData.length" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> {{ item.travelTime || '移動' }}</span>
+                                                <span v-if="item.travelTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> {{ item.travelTime }}</span>
                                                 <span v-if="item.loc" class="text-[0.65rem] bg-[#E3F2FD] text-[#42A5F5] px-2 py-1 rounded-lg font-bold border border-dashed border-[#BBDEFB] shadow-sm">
                                                     <i class="fa-solid fa-location-arrow mr-0.5"></i>導航
                                                 </span>
@@ -166,7 +166,7 @@
                                         
                                         <div v-if="item.mapcode || item.phone" class="w-24 flex-shrink-0 flex flex-col gap-2 justify-start mt-1">
                                             <div v-if="item.phone" class="bg-white border-2 rounded-lg p-1.5 text-center shadow-sm mb-1" @click.stop :style="{ borderColor: currentTheme.accentMain }">
-                                                <div class="text-[9px] font-bold mb-0.5 uppercase" :style="{ color: currentTheme.accentMain }">TEL (車機導航)</div>
+                                                <div class="text-[9px] font-bold mb-0.5 uppercase" :style="{ color: currentTheme.accentMain }">TEL (車機)</div>
                                                 <div class="text-xs font-black text-slate-800 break-all leading-tight mb-1">{{ item.phone }}</div>
                                             </div>
                                             <div v-if="item.mapcode" class="bg-white border-2 rounded-lg p-1.5 text-center shadow-sm" @click.stop :style="{ borderColor: currentTheme.accentMain }">
@@ -234,12 +234,13 @@
                                 </div>
                                 <div class="bg-[#FAFAFA] p-3 rounded-lg border border-dashed border-[#E0E0E0]">
                                     <ul class="space-y-2 text-gray-600 text-xs">
-                                        <li><b><i class="fa-solid fa-calendar-day w-4 text-center"></i> 日期：</b> 2026-04-25</li>
+                                        <li><b><i class="fa-solid fa-calendar-day w-4 text-center"></i> 日期：</b> 2026-04-25 (17:00)</li>
                                         <li><b><i class="fa-solid fa-car w-4 text-center"></i> 車型：</b> Toyota Alphard (6人座)</li>
                                         <li><b><i class="fa-solid fa-route w-4 text-center"></i> 路線：</b> 酒店直達 ➔ 成田機場 (NRT)</li>
                                         <li><b><i class="fa-solid fa-user w-4 text-center"></i> 聯絡人：</b> Tsz Wang Tang</li>
                                     </ul>
                                 </div>
+                                <p class="text-[#5D4037] text-[10px] text-center mt-2 font-bold opacity-70">⚠️ 請於現場出示憑證確認上車。</p>
                             </div>
                         </div>
 
@@ -351,28 +352,22 @@
                     
                     <div v-if="activeTab === 'expenses'" class="px-5 pt-4">
                         <div class="onsen-card p-6 mb-4 text-center border-none text-white" :style="{ backgroundColor: currentTheme.accentMain }">
-                            <p class="text-xs text-white/80 mb-1">二人總花費 (日元)</p>
+                            <p class="text-xs text-white/80 mb-1">總花費估算</p>
                             <div class="text-4xl font-bold mb-1">¥{{ totalExpenses.toLocaleString() }}</div>
-                             <p class="text-[0.65rem] text-white/60">≈ HK$ {{ (totalExpenses * exchangeRate).toFixed(0) }}</p>
                         </div>
-                        
                         <div class="onsen-card p-5" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
-                            <h3 class="font-bold mb-3 text-sm" :style="{ color: currentTheme.accentMain }"><i class="fa-solid fa-coins mr-2"></i>匯率換算</h3>
+                            <h3 class="font-bold mb-3 text-sm" :style="{ color: currentTheme.accentMain }"><i class="fa-solid fa-coins mr-2"></i>匯率換算 (1 JPY = {{ exchangeRate }} HKD)</h3>
                             <div class="flex items-center gap-3 mb-2">
                                 <div class="flex-1 bg-[#F5F5F5] rounded-xl p-3 flex items-center border border-dashed border-[#E0E0E0]">
-                                    <span class="text-[#A1887F] mr-2 text-xs font-bold">JPY</span>
-                                    <input type="number" v-model="calcJpy" @input="convert('jpy')" class="w-full bg-transparent outline-none font-bold text-lg" :style="{ color: currentTheme.textDark }" placeholder="0">
+                                    <input type="number" v-model="calcJpy" @input="convert('jpy')" class="w-full bg-transparent outline-none font-bold text-lg" :style="{ color: currentTheme.textDark }" placeholder="JPY">
                                 </div>
                                 <i class="fa-solid fa-arrow-right-arrow-left text-xs" :style="{ color: currentTheme.borderLight }"></i>
                                 <div class="flex-1 bg-[#F5F5F5] rounded-xl p-3 flex items-center border border-dashed border-[#E0E0E0]">
-                                    <span class="text-[#A1887F] mr-2 text-xs font-bold">HKD</span>
-                                    <input type="number" v-model="calcHkd" @input="convert('hkd')" class="w-full bg-transparent outline-none font-bold text-lg" :style="{ color: currentTheme.textDark }" placeholder="0">
+                                    <input type="number" v-model="calcHkd" @input="convert('hkd')" class="w-full bg-transparent outline-none font-bold text-lg" :style="{ color: currentTheme.textDark }" placeholder="HKD">
                                 </div>
                             </div>
-                            <div class="text-right text-[10px]" :style="{ color: currentTheme.textLight }">匯率: {{ exchangeRate }}</div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -414,7 +409,7 @@
                             hotels: [ { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20' }, { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22' }, { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25' } ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
                             alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' } ],
-                            shopping: ['保暖襪', '隱形眼鏡', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
+                            shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
                             diningList: [
                                 { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野)', addr: '台東区上野3-24-6 PARCO_ya 6F', bookingNo: '現場排隊' },
                                 { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台東区雷門1-15-10', bookingNo: '已預約' },
@@ -467,7 +462,7 @@
                                     { time: '20:45', title: '🐟 晚餐: お魚總本家', departTime: '20:30', desc: '✨ 返銀座食慶功大餐！', category: 'food', transportType: 'walk', loc: 'Osakana Sohonke Ginza' }
                                 ]},
                                 { weekday: 'Thu', dateStr: '4/23', events: [
-                                    { time: '06:00', title: '酒店食早餐 🍙', departTime: '06:00', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk' },
+                                    { time: '06:15', title: '酒店食早餐 🍙', departTime: '06:15', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk' },
                                     { time: '06:45', title: '出發 Disney 🚃', departTime: '06:45', desc: '【最遲極限】行去「八丁堀站」搭 JR京葉線，力爭早過第一波人潮！', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
                                     { time: '07:30', title: '抵達 DisneySea 門口 🏰', departTime: '07:30', desc: '安檢兼排隊，霸個靚位等 Rope Drop！', category: 'other', transportType: 'walk', loc: 'Tokyo DisneySea' },
                                     { time: '08:30', title: '入園第一秒：搶 Pass！📱', departTime: '08:30', desc: '✨ 門票已買！即開 App 搶 Fantasy Springs (冰雪奇緣/小飛俠) Standby Pass！', category: 'ticket', transportType: 'walk', loc: 'Tokyo DisneySea' },
@@ -481,13 +476,13 @@
                                     { time: '20:30', title: '回程酒店', desc: '休息', departTime: '20:00', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
                                 ]},
                                 { weekday: 'Sat', dateStr: '4/25', events: [
-                                    { time: '09:00', title: 'Check-out 🧳', desc: '將行李寄放喺酒店大堂，唔使搬去車站！', departTime: '08:45', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
-                                    { time: '09:30', title: '東京站手信補貨', desc: '買手信', departTime: '09:15', category: 'shopping', transportType: 'train', travelTime: '15 min', loc: 'Tokyo Station' },
-                                    { time: '11:00', title: 'まんてん鮨 (丸之內店)', departTime: '10:45', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi' },
-                                    { time: '13:00', title: '銀座 / 丸之內 Shopping', desc: '無行李負擔，瘋狂行街！', departTime: '12:45', category: 'shopping', transportType: 'walk', loc: 'Ginza' },
-                                    { time: '16:00', title: '返回酒店', desc: '返酒店準備上專車', departTime: '15:30', category: 'transport', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
+                                    { time: '09:30', title: 'Check-out & 寄行李 🧳', departTime: '09:30', desc: '行李留喺酒店 Lobby，兩手空空出發食 Omakase！', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
+                                    { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接的士過去！', category: 'transport', transportType: 'train' },
+                                    { time: '11:00', title: 'まんてん鮨 (丸之內店) 🍣', departTime: '11:00', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi', phone: '03-6269-9100' },
+                                    { time: '13:00', title: '東京站一番街 Shopping 🛍️', departTime: '13:00', desc: '最後衝刺買手信同動漫周邊！', category: 'shopping', transportType: 'walk', loc: 'Tokyo Character Street' },
+                                    { time: '16:00', title: '返回酒店提取行李 🧳', departTime: '15:30', desc: '返八重翠拎返行李，喺 Lobby 休息下準備上專車。', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' },
                                     { time: '17:00', title: 'KKday 專車前往機場 🚗💨', departTime: '16:50', desc: '✨ 已預約: Toyota Alphard (6人座)\n酒店大堂直達成田，專人接送！', category: 'transport', transportType: 'car', loc: 'Narita Airport' },
-                                    { time: '18:30', title: '回程 (CX501)', desc: '21:40 起飛', departTime: '18:30', category: 'flight', transportType: 'walk', loc: 'Narita Airport' }
+                                    { time: '18:30', title: '到達機場 (CX501) ✈️', desc: '21:40 起飛，拜拜日本！', departTime: '17:00', category: 'flight', transportType: 'walk', loc: 'Narita Airport' }
                                 ]}
                             ]
                         },
@@ -693,7 +688,7 @@
                 removeShoppingItem(idx) { this.currentTripData.shopping.splice(idx, 1); },
                 convert(type) {
                     if(type === 'jpy') this.calcHkd = (this.calcJpy * this.exchangeRate).toFixed(1);
-                    else this.calcJpy = (this.calcHkd / this.exchangeRate).toFixed(0);
+                    else if(type === 'hkd') this.calcJpy = (this.calcHkd / this.exchangeRate).toFixed(0);
                 }
             }
         }).mount('#app');
