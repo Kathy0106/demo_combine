@@ -185,6 +185,19 @@
 
                     <div v-if="activeTab === 'info'" class="space-y-5 px-5 pt-4">
                         
+                        <!-- 泊車情報總覽 -->
+                        <div class="onsen-card" :style="{ border: '2px dashed #81C784' }">
+                            <div class="p-3 font-bold flex justify-between items-center bg-[#E8F5E9] text-[#2E7D32] text-sm">
+                                <span><i class="fa-solid fa-square-parking mr-2"></i>泊車情報總覽 (Parking)</span>
+                            </div>
+                            <div class="p-4 bg-white space-y-3 text-sm">
+                                <div v-for="park in currentTripData.parkingList" :key="park.name" class="border-b border-dashed border-gray-200 pb-2 last:border-0 last:pb-0">
+                                    <div class="font-bold text-[#388E3C]"><i class="fa-solid fa-car-side text-xs mr-1"></i>{{ park.name }}</div>
+                                    <div class="text-xs text-gray-600 mt-1 leading-relaxed" v-html="formatText(park.detail)"></div>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
                             <div class="p-4 text-white font-bold flex justify-between text-sm" :style="{ backgroundColor: currentTheme.accentMain }">
                                 <span><i class="fa-solid fa-plane mr-2"></i>航班即時資訊 (CX)</span>
@@ -256,8 +269,9 @@
                             <div class="p-4 bg-white space-y-3">
                                 <div v-for="hotel in currentTripData.hotels" :key="hotel.name" class="border-b border-dashed pb-3 last:border-0 last:pb-0" :style="{ borderColor: currentTheme.borderLight }">
                                     <div class="font-bold text-sm" :style="{ color: currentTheme.textDark }">{{ hotel.name }}</div>
-                                    <div class="flex justify-between items-center mt-1">
-                                        <span class="text-xs px-2 py-0.5 rounded-full" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">{{ hotel.dates }}</span>
+                                    <div class="text-[10px] text-gray-500 mt-1 flex items-start"><i class="fa-solid fa-map-location-dot mt-0.5 mr-1"></i>{{ hotel.addr }}</div>
+                                    <div class="flex justify-between items-center mt-1.5">
+                                        <span class="text-xs px-2 py-0.5 rounded-full font-bold" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">{{ hotel.dates }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -276,7 +290,7 @@
                                     <div class="flex-1">
                                         <div class="font-bold" :style="{ color: currentTheme.textDark }">{{ res.name }}</div>
                                         <div class="text-[11px] text-gray-500 mt-1 flex items-start gap-1"><i class="fa-solid fa-location-dot mt-0.5"></i> {{ res.addr }}</div>
-                                        <div v-if="res.bookingNo" class="mt-1">
+                                        <div v-if="res.bookingNo" class="mt-1.5">
                                             <span class="text-[10px] font-bold px-2 py-0.5 rounded border" :class="res.bookingNo.includes('排隊') || res.bookingNo.includes('現場') ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : 'bg-green-50 text-green-700 border-green-200'">
                                                 <i class="fa-solid fa-ticket mr-1"></i>狀態: {{ res.bookingNo }}
                                             </span>
@@ -384,10 +398,11 @@
                             docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '4/18', dep: '01:20', arr: '06:40' }, in: { code: 'CX501', date: '4/25', dep: '21:40', arr: '01:40' } },
                             rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '車型: Toyota 私家車/休旅車' },
-                            hotels: [ { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20' }, { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22' }, { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25' } ],
+                            hotels: [ { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20', addr: '東京都中央區日本橋人形町2-30-5' }, { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22', addr: '長野縣佐久市佐久平站北1-1' }, { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25', addr: '東京都中央區八丁堀2-13-1' } ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
                             alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' } ],
                             shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
+                            parkingList: [],
                             diningList: [
                                 { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野)', addr: '台東区上野3-24-6 PARCO_ya 6F', bookingNo: '現場排隊' },
                                 { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台東区雷門1-15-10', bookingNo: '已預約' },
@@ -469,105 +484,127 @@
                             docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
                             flights: { out: { code: 'CX542', date: '10/31', dep: '00:05', arr: '05:05' }, in: { code: 'CX549', date: '11/08', dep: '16:05', arr: '20:15' } },
                             rental: {
-                                company: 'Toyota Rent a Car', pickupDate: '10/31', pickupTime: '06:30', pickupLocName: '羽田機場 (一開門即取)',
-                                returnDate: '11/08', returnTime: '13:30', returnLocName: '羽田機場', pickupLoc: 'Toyota Rent a Car Haneda Airport',
+                                company: 'Toyota Rent a Car', pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '羽田機場 (食飽先取)',
+                                returnDate: '11/08', returnTime: '13:00', returnLocName: '羽田機場', pickupLoc: 'Toyota Rent a Car Haneda Airport',
                                 insurance: 'NOC 安心保險', note: '必須指定雪胎 (Snow Tires)'
                             },
                             hotels: [
-                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2' },
-                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3' },
-                                { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4' },
-                                { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5' },
-                                { name: '八重翠東京酒店 (Yaenomidori)', dates: '11/5 - 11/8' }
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2', addr: '靜岡縣沼津市大手町1-1-4' },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3', addr: '長野縣松本市深志1-5-17' },
+                                { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4', addr: '群馬縣吾妻郡草津町大字草津白根464-214' },
+                                { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5', addr: '靜岡縣御殿場市深沢2839-1' },
+                                { name: '八重翠東京酒店 (Yaenomidori)', dates: '11/5 - 11/8', addr: '東京都中央區八丁堀2-13-1' }
                             ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 4, 7: 4, 8: 4 },
                             alarms: [
                                 { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, { date: '7/01', task: '預約租車 (全期)' },
                                 { date: '9/01', task: '搶 Mantensushi' }, { date: '9/30', task: '預約 八重翠 泊車位' }, { date: '10/5', task: '申請 IDP & 買 Sim' }
                             ],
-                            shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信'],
+                            shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信', '澀谷 ReFa'],
                             expenses: [],
+                            parkingList: [
+                                { name: 'Daiwa Roynet Numazu', detail: '酒店立體停車場 (¥1,200/晚，先到先得) 或周邊 Times。' },
+                                { name: 'Onyado Nono Matsumoto', detail: '酒店附屬停車場 (¥1,200/晚)。' },
+                                { name: '湯宿 季之庭', detail: '專屬免費大型停車場，入住期間任泊。' },
+                                { name: 'HOTEL CLAD', detail: '專屬免費停車場，直接泊喺門口。' },
+                                { name: '八重翠東京酒店', detail: '⚠️ 附屬機械停車場 (約¥3,000/晚)，位少，<b>必須提早 Email 預約</b>！' },
+                                { name: '市區景點 (東京鐵塔/澀谷)', detail: '景點本身有停車場 (約¥300-600/半小時)，或善用附近 Times 停車場。' }
+                            ],
                             diningList: [
-                                { date: 'Day 1 (10/31)', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', tel: '055-963-0202', bookingNo: '現場排隊' },
-                                { date: 'Day 1 (10/31)', time: '19:00', name: 'Sawayaka 漢堡 (沼津)', addr: '静岡県沼津市筒井町1-3', tel: '055-923-8525', bookingNo: '現場取號' },
-                                { date: 'Day 2 (11/01)', time: '19:00', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', tel: '055-975-4520', bookingNo: '現場排隊' },
-                                { date: 'Day 5 (11/04)', time: '19:30', name: '鳥貴族 浅草店', addr: '東京都台東区浅草1-1-16 2F', tel: '03-5830-6766', bookingNo: '待預約' },
-                                { date: 'Day 6 (11/05)', time: '19:00', name: 'まんてん鮨 (日本橋)', addr: '東京都中央区日本橋室町2-3-1', tel: '03-4241-1005', bookingNo: '待預約' }
+                                { date: 'Day 1 (10/31)', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', bookingNo: '現場排隊' },
+                                { date: 'Day 1 (10/31)', time: '19:00', name: '和牛燒肉 京城苑', addr: '静岡県沼津市大手町5-4-3', bookingNo: '待預約' },
+                                { date: 'Day 2 (11/01)', time: '19:00', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', bookingNo: '現場排隊' },
+                                { date: 'Day 3 (11/02)', time: '19:00', name: '信州蕎麥處 みよ田 (Miyota)', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
+                                { date: 'Day 4 (11/03)', time: '18:30', name: '季之庭 會席料理', addr: '旅館內', bookingNo: '一泊二食' },
+                                { date: 'Day 5 (11/04)', time: '14:30', name: 'ほうとう不動 (河口湖)', addr: '山梨県南都留郡富士河口湖町船津3631-2', bookingNo: '現場排隊' },
+                                { date: 'Day 6 (11/05)', time: '19:30', name: '鳥貴族 (淺草/市區)', addr: '東京都市區分店', bookingNo: '待預約' },
+                                { date: 'Day 7 (11/06)', time: '19:00', name: 'まんてん鮨 (日本橋)', addr: '東京都中央区日本橋室町2-3-1', bookingNo: '待預約' },
+                                { date: 'Day 8 (11/07)', time: '13:00', name: 'AFURI 柚子鹽拉麵', addr: '東京都渋谷区道玄坂2-29-1', bookingNo: '現場排隊' },
+                                { date: 'Day 9 (11/08)', time: '11:30', name: '壽司郎 (Sushiro)', addr: '東京都市區分店', bookingNo: 'APP 取號' }
                             ],
                             days: [
                                 { weekday: 'Sat', dateStr: '10/31', events: [
-                                    { time: '05:05', title: '抵達羽田機場 ✈️', departTime: '06:00', desc: '落機過關，準備開展自駕之旅！', category: 'flight', transportType: 'flight', loc: 'Haneda Airport' },
-                                    { time: '06:30', title: 'Toyota 租車 (羽田) 🚗', departTime: '07:30', desc: '攞車兼大檢查！<br>🚗 行車距離: 0km<br>🅿️ 泊車: 機場租車場', category: 'transport', transportType: 'car', phone: '03-3745-0100', info: '💡 REMINDER: 記得帶齊 IDP 同埋確認有雪胎！' },
-                                    { time: '08:00', title: '早餐: 羽田機場 🍙', departTime: '08:45', desc: '食飽先有力長途駕駛！', category: 'food', transportType: 'walk', loc: 'Haneda Airport' },
-                                    { time: '11:30', title: '沼津港 (丸天) 🐟', departTime: '13:00', desc: '直奔沼津食海鮮！<br>🚗 距離: 約 140km (約 2 小時)<br>🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: 'Numazu Port', transportType: 'car', mapcode: '650 583 339*01', phone: '055-963-0202' },
-                                    { time: '13:30', title: '三島大吊橋 🌉', departTime: '15:30', desc: '日本最長步行吊橋！<br>🚗 距離: 20km (約 35 分鐘)<br>🅿️ 泊車: 園區免費車位', category: 'sightseeing', loc: 'Mishima Skywalk', transportType: 'car', mapcode: '50 238 668*85', phone: '055-972-0084' },
-                                    { time: '16:30', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '18:30', desc: '返酒店擺低行李稍作休息！<br>🚗 距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店停車場 (約¥1000/晚)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71', phone: '055-925-8955' },
-                                    { time: '19:00', title: 'Dinner: Sawayaka 漢堡 🥩', departTime: '20:30', desc: '靜岡必食超人氣漢堡扒！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: 餐廳專屬車位', category: 'food', loc: 'Sawayaka Numazu', transportType: 'car', phone: '055-923-8525' },
-                                    { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '第一日長途跋涉，早啲瞓！', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71', phone: '055-925-8955' }
+                                    { time: '05:05', title: '抵達羽田機場 ✈️', departTime: '06:00', desc: '落機過關，早機到達！', category: 'flight', transportType: 'flight', loc: 'Haneda Airport' },
+                                    { time: '06:30', title: '羽田機場 早餐 ☕', departTime: '07:45', desc: 'Toyota 租車 8 點先開，我哋先食個靚早餐 (Cafe / 24hrs 吉野家)！', category: 'food', transportType: 'walk', loc: 'Haneda Airport', info: '💡 REMINDER: 順便唱散紙、整理行李！' },
+                                    { time: '08:00', title: 'Toyota 租車 (羽田) 🚗', departTime: '09:00', desc: '攞車兼大檢查！<br>🚗 距離: 0km<br>🅿️ 泊車: 機場租車場', category: 'transport', transportType: 'car', phone: '03-3745-0100', info: '💡 REMINDER: 帶齊 IDP！確認有雪胎 (Snow Tires)！' },
+                                    { time: '11:30', title: '沼津港 (丸天) 🐟', departTime: '13:00', desc: '直奔沼津食巨型海鮮塔！<br>🚗 距離: 140km (約 2 小時)<br>🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: 'Numazu Port', transportType: 'car', mapcode: '650 583 339*01', phone: '055-963-0202' },
+                                    { time: '13:30', title: '三島大吊橋 🌉', departTime: '15:30', desc: '日本最長步行吊橋打卡！<br>🚗 距離: 20km (約 35 分鐘)<br>🅿️ 泊車: 園區免費車位', category: 'sightseeing', loc: 'Mishima Skywalk', transportType: 'car', mapcode: '50 238 668*85', phone: '055-972-0084' },
+                                    { time: '16:30', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '18:30', desc: '返酒店擺低行李稍作休息！<br>🚗 距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店立體停車場 (¥1200/晚)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71', phone: '055-925-8955' },
+                                    { time: '19:00', title: 'Dinner: 和牛燒肉 京城苑 🥩', departTime: '20:30', desc: '極品燒肉！(如果想轉口味，附近亦有 Sawayaka 漢堡！)<br>🚗 距離: 1km (直接行去)', category: 'food', loc: 'Keijoen Numazu', transportType: 'walk', phone: '055-962-0268' },
+                                    { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '第一日長途跋涉，早啲瞓！', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Sun', dateStr: '11/01', events: [
-                                    { time: '08:00', title: '酒店早餐 🍳', departTime: '09:00', desc: '酒店內食或者去附近買便利店！', category: 'food', transportType: 'walk' },
-                                    { time: '10:30', title: '大室山 🌋', departTime: '13:00', desc: '搭吊車上山頂，風景超靚！<br>🚗 距離: 45km (約 1.5 小時)<br>🅿️ 泊車: 大室山免費停車場', category: 'sightseeing', loc: 'Omuro Mountain', transportType: 'car', mapcode: '48 846 512*63', phone: '0557-51-0258' },
-                                    { time: '14:30', title: '修善寺溫泉 ♨️', departTime: '17:00', desc: '古色古香竹林小徑！<br>🚗 距離: 30km (約 50 分鐘)<br>🅿️ 泊車: 修善寺周邊收費停車場 (約¥400/次)', category: 'sightseeing', loc: 'Shuzenji', transportType: 'car', mapcode: '16 186 084*42', phone: '0558-72-2501' },
-                                    { time: '18:00', title: '返酒店擺低嘢 🏨', departTime: '18:45', desc: '🚗 距離: 25km (約 45 分鐘)<br>🅿️ 泊車: 酒店停車場', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71', phone: '055-925-8955' },
+                                    { time: '08:30', title: '由酒店出發 🚗', departTime: '08:30', desc: '新一日開始！準備出發！', category: 'transport', transportType: 'car' },
+                                    { time: '08:45', title: '市區早餐 🍳', departTime: '09:45', desc: '去附近 Cafe 或者便利店買上車食！', category: 'food', transportType: 'car' },
+                                    { time: '10:30', title: '大室山 🌋', departTime: '13:00', desc: '搭吊車上火山口行一圈，風景超靚！<br>🚗 距離: 45km (約 1.5 小時)<br>🅿️ 泊車: 大室山免費停車場', category: 'sightseeing', loc: 'Omuro Mountain', transportType: 'car', mapcode: '48 846 512*63', phone: '0557-51-0258' },
+                                    { time: '14:30', title: '修善寺溫泉 ♨️', departTime: '17:00', desc: '古色古香竹林小徑，散步一流！<br>🚗 距離: 30km (約 50 分鐘)<br>🅿️ 泊車: 修善寺收費停車場 (約¥400/次)', category: 'sightseeing', loc: 'Shuzenji', transportType: 'car', mapcode: '16 186 084*42', phone: '0558-72-2501' },
+                                    { time: '18:00', title: '返回酒店 🏨', departTime: '18:45', desc: '🚗 距離: 25km (約 45 分鐘)<br>🅿️ 泊車: 酒店停車場', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71', phone: '055-925-8955' },
                                     { time: '19:00', title: 'Dinner: 鰻魚飯 櫻家 🍱', departTime: '20:30', desc: '三島極品百年鰻魚飯！<br>🚗 距離: 7km (約 20 分鐘)<br>🅿️ 泊車: 餐廳附屬停車場', category: 'food', loc: 'Sakuraya', transportType: 'car', phone: '055-975-4520' },
-                                    { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '聽日要揸長途車上松本！', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71', phone: '055-925-8955' }
+                                    { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '聽日要揸長途車上松本喇！', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car' }
                                 ]},
                                 { weekday: 'Mon', dateStr: '11/02', events: [
-                                    { time: '07:30', title: 'M 記/便利店 早餐 🍔', departTime: '08:30', desc: '快速食完準備向長野縣出發！', category: 'food', transportType: 'walk' },
-                                    { time: '11:00', title: '立石公園 (諏訪湖) 🌅', departTime: '12:30', desc: '《你的名字》系守町取景地！<br>🚗 距離: 150km (約 2.5 小時)<br>🅿️ 泊車: 公園免費停車場', category: 'sightseeing', loc: 'Tateishi Park', transportType: 'car', mapcode: '75 236 391*70', phone: '0266-52-4141' },
-                                    { time: '14:30', title: '松本城 🏯', departTime: '16:30', desc: '日本國寶城！<br>🚗 距離: 50km (約 1 小時)<br>🅿️ 泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: 'Matsumoto Castle', transportType: 'car', mapcode: '75 851 375*66', phone: '0263-32-2902' },
-                                    { time: '17:00', title: 'Check-in (Onyado Nono) 🏨', departTime: '18:30', desc: '全和式榻榻米酒店！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: 酒店立體停車場 (¥1200/晚)', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'car', mapcode: '75 821 474*88', phone: '0263-37-5489' },
-                                    { time: '19:00', title: '松本市內晚餐 🥢', departTime: '20:30', desc: '行去食信州蕎麥麵或者燒肉！', category: 'food', transportType: 'walk' },
-                                    { time: '21:00', title: '回酒店浸溫泉 ♨️', departTime: '21:00', desc: '酒店有免費夜鳴拉麵食！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
+                                    { time: '08:00', title: '由酒店出發 & Check-out 🚗', departTime: '08:00', desc: '離開沼津，向長野縣進發！', category: 'hotel', transportType: 'car' },
+                                    { time: '08:15', title: 'M 記/便利店 早餐 🍔', departTime: '09:00', desc: '快速食完準備揸極長途車！', category: 'food', transportType: 'car' },
+                                    { time: '11:30', title: '立石公園 (諏訪湖) 🌅', departTime: '13:00', desc: '《你的名字》系守町取景地！超好嘅中途休息站！<br>🚗 距離: 150km (約 2.5 小時)<br>🅿️ 泊車: 公園免費停車場', category: 'sightseeing', loc: 'Tateishi Park', transportType: 'car', mapcode: '75 236 391*70', phone: '0266-52-4141', info: '💡 REMINDER: 揸咗好耐車，喺度伸展下打個卡！' },
+                                    { time: '14:30', title: '松本城 🏯', departTime: '16:30', desc: '抵達松本！參觀日本國寶城！<br>🚗 距離: 50km (約 1 小時)<br>🅿️ 泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: 'Matsumoto Castle', transportType: 'car', mapcode: '75 851 375*66', phone: '0263-32-2902' },
+                                    { time: '17:00', title: 'Check-in (Onyado Nono) 🏨', departTime: '18:30', desc: '全和式榻榻米酒店，超級舒服！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: 酒店立體停車場 (¥1200/晚)', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'car', mapcode: '75 821 474*88', phone: '0263-37-5489' },
+                                    { time: '19:00', title: 'Dinner: 信州蕎麥處 みよ田 🥢', departTime: '20:30', desc: '超有名氣歷史蕎麥麵！嚟松本必食！<br>🚗 距離: 行路 5 分鐘', category: 'food', loc: 'Miyota Matsumoto', transportType: 'walk', phone: '0263-37-1434' },
+                                    { time: '21:00', title: '回酒店浸溫泉 ♨️', departTime: '21:00', desc: '浸完溫泉仲有免費夜鳴拉麵食！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Tue', dateStr: '11/03', events: [
-                                    { time: '07:30', title: '酒店超豐盛早餐 🍱', departTime: '08:30', desc: '盡情享受 Dormy Inn 招牌早餐！', category: 'food', transportType: 'walk' },
-                                    { time: '09:30', title: '善光寺 🙏', departTime: '11:00', desc: '一生人必去一次嘅名剎！<br>🚗 距離: 70km (約 1 小時)<br>🅿️ 泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: 'Zenkoji', transportType: 'car', mapcode: '54 227 061*52', phone: '026-234-3591' },
-                                    { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '15:00', desc: '睇馬騮浸溫泉！要行一段山路！<br>🚗 距離: 40km (約 1 小時)<br>🅿️ 泊車: 野猿公苑專用停車場 (免費)', category: 'sightseeing', loc: 'Snow Monkey Park', transportType: 'car', mapcode: '54 854 084*77', phone: '0269-33-4379', info: '💡 REMINDER: 著好行嘅鞋，山上會凍！' },
-                                    { time: '16:30', title: 'Check-in (湯宿 季之庭) ♨️', departTime: '18:00', desc: '全個 Trip 最豪華嘅草津溫泉旅館！<br>🚗 距離: 60km (約 1.5 小時)<br>🅿️ 泊車: 酒店專用免費車位', category: 'highlight', loc: 'Tokinoniwa', transportType: 'car', mapcode: '341 448 004*52', phone: '0279-89-9320' },
-                                    { time: '18:30', title: '季之庭 會席料理 👘', departTime: '20:30', desc: '舒舒服服喺房或者包廂食大餐！', category: 'food', transportType: 'walk' },
-                                    { time: '21:00', title: '休息 & 狂浸溫泉 💤', departTime: '21:00', desc: '狂浸房內私人風呂！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
+                                    { time: '08:00', title: '酒店超豐盛早餐 🍱', departTime: '09:00', desc: '盡情享受 Dormy Inn 系列招牌豪華早餐！', category: 'food', transportType: 'walk' },
+                                    { time: '09:15', title: '由酒店出發 & Check-out 🚗', departTime: '09:15', desc: '新一日行程開始！', category: 'transport', transportType: 'car' },
+                                    { time: '10:30', title: '善光寺 🙏', departTime: '12:00', desc: '一生人必去一次嘅名剎！<br>🚗 距離: 70km (約 1 小時)<br>🅿️ 泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: 'Zenkoji', transportType: 'car', mapcode: '54 227 061*52', phone: '026-234-3591' },
+                                    { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '15:00', desc: '睇馬騮浸溫泉！(預留行山路時間)<br>🚗 距離: 40km (約 1 小時)<br>🅿️ 泊車: 野猿公苑專用停車場 (免費)', category: 'sightseeing', loc: 'Snow Monkey Park', transportType: 'car', mapcode: '54 854 084*77', phone: '0269-33-4379', info: '💡 REMINDER: 要行大約30分鐘山路，記得著好行嘅鞋！' },
+                                    { time: '16:30', title: 'Check-in (湯宿 季之庭) ♨️', departTime: '18:00', desc: '全個 Trip 最豪華嘅草津溫泉旅館！<br>🚗 距離: 60km (約 1.5 小時)<br>🅿️ 泊車: 酒店專屬免費車位', category: 'highlight', loc: 'Tokinoniwa', transportType: 'car', mapcode: '341 448 004*52', phone: '0279-89-9320' },
+                                    { time: '18:30', title: '季之庭 會席料理 👘', departTime: '20:30', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk' },
+                                    { time: '21:00', title: '休息 & 狂浸溫泉 💤', departTime: '21:00', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '11/04', events: [
-                                    { time: '08:00', title: '溫泉旅館朝食 🍱', departTime: '09:30', desc: '食飽飽，退房準備揸超級長途！', category: 'food', transportType: 'walk' },
-                                    { time: '13:00', title: '河口湖 (大石公園) 🗻', departTime: '14:30', desc: '返到黎富士山腳！影逆富士！<br>🚗 距離: 180km (約 3 小時)<br>🅿️ 泊車: 公園免費停車場', category: 'sightseeing', loc: 'Oishi Park', transportType: 'car', mapcode: '161 303 446*52', phone: '0555-72-8772' },
-                                    { time: '15:00', title: '河口湖周邊 Lunch 🍜', departTime: '16:00', desc: '食碗暖笠笠嘅餺飥麵 (Hoto)！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 餐廳附屬停車場', category: 'food', loc: 'Hoto Fudou', transportType: 'car' },
-                                    { time: '16:30', title: 'Check-in (HOTEL CLAD) 🏨', departTime: '18:00', desc: '直望富士山靚景酒店！<br>🚗 距離: 30km (約 45 分鐘)<br>🅿️ 泊車: 酒店專屬停車場', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', mapcode: '50 806 191*75', phone: '0550-81-0321' },
-                                    { time: '18:30', title: '御殿場市內晚餐 🍣', departTime: '20:30', desc: '可以揸車出去市區食壽司或者燒肉！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 餐廳停車場', category: 'food', transportType: 'car' },
+                                    { time: '08:00', title: '溫泉旅館朝食 🍱', departTime: '09:00', desc: '食飽飽，退房準備揸超級長途！', category: 'food', transportType: 'walk' },
+                                    { time: '09:30', title: '由酒店出發 & Check-out 🚗', departTime: '09:30', desc: '向富士山進發！', category: 'transport', transportType: 'car' },
+                                    { time: '13:00', title: '河口湖 (大石公園) 🗻', departTime: '14:00', desc: '返到黎富士山腳！影逆富士！<br>🚗 距離: 180km (約 3 小時)<br>🅿️ 泊車: 公園免費停車場', category: 'sightseeing', loc: 'Oishi Park', transportType: 'car', mapcode: '161 303 446*52', phone: '0555-72-8772' },
+                                    { time: '14:30', title: 'Lunch: ほうとう不動 🍜', departTime: '15:30', desc: '食碗暖笠笠嘅富士山特產餺飥麵！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 餐廳附屬停車場', category: 'food', loc: 'Hoto Fudou', transportType: 'car', phone: '0555-72-5560' },
+                                    { time: '16:30', title: 'Check-in (HOTEL CLAD) 🏨', departTime: '18:00', desc: '直望富士山靚景酒店！<br>🚗 距離: 30km (約 45 分鐘)<br>🅿️ 泊車: 酒店專屬免費停車場', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', mapcode: '50 806 191*75', phone: '0550-81-0321' },
+                                    { time: '18:30', title: '晚餐：御殿場周邊 🍣', departTime: '20:30', desc: '可以揸車去市區食壽司或者燒肉！<br>🚗 距離: 5km (約 15 分鐘)', category: 'food', transportType: 'car' },
                                     { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '聽日 Outlet 血拼大作戰！', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', mapcode: '50 806 191*75', phone: '0550-81-0321' }
                                 ]},
                                 { weekday: 'Thu', dateStr: '11/05', events: [
-                                    { time: '06:30', title: '山中湖逆富士 🌅', departTime: '08:00', desc: '早起碰運氣睇富士山！<br>🚗 距離: 20km (約 30 分鐘)<br>🅿️ 泊車: 長池親水公園免費車位', category: 'sightseeing', loc: 'Nagaike Water Park', transportType: 'car', mapcode: '434 324 577*85', phone: '0555-62-3100' },
+                                    { time: '06:30', title: '山中湖逆富士 🌅', departTime: '08:00', desc: '早起碰運氣睇富士山靚景！<br>🚗 距離: 20km (約 30 分鐘)<br>🅿️ 泊車: 長池親水公園免費車位', category: 'sightseeing', loc: 'Nagaike Water Park', transportType: 'car', mapcode: '434 324 577*85', phone: '0555-62-3100' },
                                     { time: '08:30', title: '酒店早餐 & Check-out 🥐', departTime: '09:45', desc: '執好晒行李直接殺去隔離！', category: 'food', transportType: 'walk', loc: 'HOTEL CLAD' },
-                                    { time: '10:00', title: '御殿場 Outlet 瘋狂 Shopping 🛍️', departTime: '14:30', desc: '全日本最大 Outlet！<br>🚗 距離: 0km (行路/超近)<br>🅿️ 泊車: Outlet P 區停車場', category: 'shopping', loc: 'Gotemba Outlet', transportType: 'car', mapcode: '50 806 191*75', phone: '0550-81-3122' },
-                                    { time: '14:30', title: '出發直返東京！🚗💨', departTime: '14:30', desc: '返繁華嘅東京喇！預留塞車時間！<br>🚗 距離: 100km (約 2 小時)', category: 'transport', transportType: 'car' },
-                                    { time: '16:30', title: 'Check-in (八重翠東京酒店) 🏨', departTime: '18:00', desc: '擺低行李先！<br>🚗 行車距離: 100km<br>🅿️ 泊車: 八重翠附屬停車場 (約¥3000/晚，要提早預約！)', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020', info: '💡 REMINDER: 一定要早啲 Email 酒店 Book 實停車位！' },
-                                    { time: '19:00', title: 'Dinner: 淺草/銀座 🥢', departTime: '20:30', desc: '揸車去附近食飯！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 銀座周邊收費停車場 (約¥300/30分)', category: 'food', transportType: 'car' },
-                                    { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '東京自駕遊正式開始！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' }
+                                    { time: '10:00', title: '御殿場 Outlet 瘋狂 Shopping 🛍️', departTime: '14:30', desc: '全日本最大 Outlet！Lunch 喺 Food Court 解決！<br>🚗 距離: 0km (超近)<br>🅿️ 泊車: Outlet P 區停車場', category: 'shopping', loc: 'Gotemba Outlet', transportType: 'car', mapcode: '50 806 191*75', phone: '0550-81-3122' },
+                                    { time: '14:30', title: '出發直返東京！🚗💨', departTime: '14:30', desc: '滿載而歸返繁華嘅東京！預留塞車時間！<br>🚗 距離: 100km (約 2 小時)', category: 'transport', transportType: 'car' },
+                                    { time: '16:30', title: 'Check-in (八重翠東京酒店) 🏨', departTime: '18:00', desc: '擺低行李先！<br>🚗 行車距離: 100km<br>🅿️ 泊車: 八重翠機械停車場 (約¥3000/晚)', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020', info: '💡 REMINDER: 記得事前 Email 預約酒店車位！' },
+                                    { time: '19:30', title: 'Dinner: 鳥貴族 🍢', departTime: '21:00', desc: '揸車或搭車去附近食平靚正串燒！<br>🚗 🅿️ 泊車: 餐廳周邊 Times', category: 'food', transportType: 'train' },
+                                    { time: '21:30', title: '回程酒店休息 💤', departTime: '21:30', desc: '東京自駕遊正式開始！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' }
                                 ]},
                                 { weekday: 'Fri', dateStr: '11/06', events: [
-                                    { time: '08:30', title: '築地市場 / 酒店周邊 早餐 🍣', departTime: '10:00', desc: '揸車去築地食個靚海鮮！<br>🚗 距離: 3km (約 10 分鐘)<br>🅿️ 泊車: 築地川第一停車場 (約¥200/30分)', category: 'food', loc: 'Tsukiji Outer Market', transportType: 'car', phone: '03-3541-9466' },
-                                    { time: '10:30', title: '東京鐵塔 🗼', departTime: '12:30', desc: '經典打卡位！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 東京鐵塔地下停車場 (¥600/小時)', category: 'sightseeing', loc: 'Tokyo Tower', transportType: 'car', mapcode: '3 595 565*63', phone: '03-3433-5111' },
-                                    { time: '13:00', title: '六本木 Lunch & Shopping 🛍️', departTime: '16:00', desc: '高檔行街區！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: Roppongi Hills 停車場 (消費可免泊)', category: 'shopping', loc: 'Roppongi Hills', transportType: 'car', phone: '03-6406-6000' },
-                                    { time: '17:00', title: '返酒店放低戰利品 🏨', departTime: '18:15', desc: '🚗 距離: 5km (約 20 分鐘)<br>🅿️ 泊車: 返八重翠車位', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
+                                    { time: '08:30', title: '由酒店出發 🚗', departTime: '08:30', desc: '準備東京市內巡禮！', category: 'transport', transportType: 'car' },
+                                    { time: '09:00', title: '築地市場 早餐 🍣', departTime: '10:30', desc: '去築地食個靚海鮮做早餐！<br>🚗 距離: 3km (約 10 分鐘)<br>🅿️ 泊車: 築地川第一停車場 (約¥200/30分)', category: 'food', loc: 'Tsukiji Outer Market', transportType: 'car', phone: '03-3541-9466' },
+                                    { time: '11:00', title: '東京鐵塔 🗼', departTime: '13:00', desc: '經典打卡位！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 東京鐵塔地下停車場 (¥600/小時)', category: 'sightseeing', loc: 'Tokyo Tower', transportType: 'car', mapcode: '3 595 565*63', phone: '03-3433-5111' },
+                                    { time: '13:30', title: '六本木 Lunch & Shopping 🛍️', departTime: '16:30', desc: '高檔行街區，順便食 Lunch！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: Roppongi Hills 停車場', category: 'shopping', loc: 'Roppongi Hills', transportType: 'car', phone: '03-6406-6000' },
+                                    { time: '17:00', title: '返回酒店 🏨', departTime: '18:15', desc: '放低戰利品先！<br>🚗 距離: 5km (約 20 分鐘)<br>🅿️ 泊車: 返八重翠車位', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
                                     { time: '19:00', title: 'Dinner: Mantensushi (日本橋) 🍣', departTime: '21:00', desc: '✨ 超人氣性價比 Omakase！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: Coredo 室町停車場', category: 'highlight', loc: 'Mantensushi Nihonbashi', transportType: 'car', phone: '03-4241-1005' },
                                     { time: '21:30', title: '回程酒店休息 💤', departTime: '21:30', desc: '返酒店浸浴！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' }
                                 ]},
                                 { weekday: 'Sat', dateStr: '11/07', events: [
-                                    { time: '09:00', title: 'Cafe 早餐 ☕', departTime: '10:00', desc: '東京市內歎個靚早晨！', category: 'food', transportType: 'walk' },
-                                    { time: '10:30', title: '吉祥寺 Shopping 🛍️', departTime: '13:30', desc: '超好行嘅雜貨天堂！<br>🚗 距離: 25km (約 45 分鐘)<br>🅿️ 泊車: 吉祥寺站周邊停車場 (約¥400/30分)', category: 'sightseeing', loc: 'Kichijoji', transportType: 'car', phone: '0422-21-1531' },
-                                    { time: '14:00', title: '下北澤 尋寶 🎸', departTime: '17:30', desc: '古著同文青 Item 集中地！<br>🚗 距離: 10km (約 25 分鐘)<br>🅿️ 泊車: 下北澤站附近 Times (車位緊張要注意！)', category: 'shopping', loc: 'Shimokitazawa', transportType: 'car' },
-                                    { time: '18:00', title: '返酒店放低嘢 🏨', departTime: '18:45', desc: '🚗 距離: 15km (約 35 分鐘)<br>🅿️ 泊車: 返八重翠車位', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
-                                    { time: '19:00', title: '東京站一番街 / 銀座 晚餐 🥢', departTime: '21:00', desc: '最後一晚，食盡佢！<br>🚗 距離: 1km (直接行去最快)', category: 'food', loc: 'Tokyo Station', transportType: 'walk' },
-                                    { time: '21:30', title: '回程酒店執行李 💤', departTime: '21:30', desc: '塞爆個喼！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'walk' }
+                                    { time: '08:30', title: '由酒店出發 🚗', departTime: '08:30', desc: '向澀谷進發！', category: 'transport', transportType: 'car' },
+                                    { time: '09:00', title: 'Cafe 早餐 ☕', departTime: '10:00', desc: '澀谷市內歎個靚早晨！', category: 'food', transportType: 'walk' },
+                                    { time: '10:30', title: '澀谷 Shopping (ReFa/PARCO) 🛍️', departTime: '13:00', desc: '買 ReFa 同埋打卡忠犬八公！<br>🚗 距離: 8km (約 20 分鐘)<br>🅿️ 泊車: 澀谷 PARCO 停車場', category: 'shopping', loc: 'Shibuya PARCO', transportType: 'car' },
+                                    { time: '13:00', title: 'Lunch: AFURI 柚子鹽拉麵 🍜', departTime: '14:30', desc: '食超人氣清爽拉麵！<br>🚗 行路過去就得', category: 'food', loc: 'AFURI Shibuya', transportType: 'walk' },
+                                    { time: '15:00', title: '東京站一番街 Shopping 🛍️', departTime: '18:00', desc: '掃動漫周邊同必買手信 (NY Perfect Cheese)！<br>🚗 距離: 8km (約 20 分鐘)<br>🅿️ 泊車: 大丸百貨/東京站停車場', category: 'shopping', loc: 'Tokyo Character Street', transportType: 'car' },
+                                    { time: '18:30', title: '返回酒店 🏨', departTime: '19:15', desc: '放低全日買嘅嘢！<br>🚗 距離: 1km (約 5 分鐘)<br>🅿️ 泊車: 返八重翠車位', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
+                                    { time: '19:30', title: '晚餐: 銀座 / 八丁堀 🥢', departTime: '21:00', desc: '喺酒店附近行去食晚餐，輕鬆搞掂！', category: 'food', transportType: 'walk' },
+                                    { time: '21:30', title: '回程酒店執行李 💤', departTime: '21:30', desc: '塞爆個喼！聽日要返香港喇！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Sun', dateStr: '11/08', events: [
-                                    { time: '08:30', title: '酒店 Check-out 🧳', departTime: '09:30', desc: '將全部行李放上車！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
-                                    { time: '09:30', title: '東京站/日本橋 買手信 🛍️', departTime: '12:00', desc: '最後衝刺買零食！<br>🚗 距離: 1km<br>🅿️ 泊車: 大丸百貨停車場', category: 'shopping', loc: 'Tokyo Station', transportType: 'car' },
-                                    { time: '12:00', title: '出發去羽田機場 🚗💨', departTime: '12:00', desc: '預埋塞車同還車時間！<br>🚗 距離: 20km (約 40 分鐘)', category: 'transport', transportType: 'car' },
-                                    { time: '13:00', title: '還車 (羽田機場) 🚗', departTime: '13:30', desc: '入滿油還車！<br>🚗 行車距離: 全程結束<br>🅿️ 泊車: 還返俾 Toyota 租車場', category: 'transport', loc: 'Toyota Rent a Car Haneda Airport', transportType: 'car', phone: '03-3745-0100', info: '💡 REMINDER: 記得入滿油，保留入油收據！' },
-                                    { time: '14:00', title: '羽田機場 Lunch & Check-in ✈️', departTime: '16:05', desc: '準備搭 CX549 (16:05 起飛) 返香港！', category: 'flight', loc: 'Haneda Airport', transportType: 'walk' }
+                                    { time: '08:30', title: '酒店 Check-out 🚗', departTime: '09:00', desc: '將全部行李放晒上車！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
+                                    { time: '09:15', title: '早餐: 酒店周邊 🥐', departTime: '10:00', desc: '食飽先出發作最後衝刺！', category: 'food', transportType: 'walk' },
+                                    { time: '10:30', title: '上野 / 秋葉原 最後補給 🛍️', departTime: '11:30', desc: '買漏嘅嘢喺度買齊佢！<br>🚗 距離: 4km<br>🅿️ 泊車: 周邊 Times', category: 'shopping', transportType: 'car' },
+                                    { time: '11:30', title: 'Lunch: 壽司郎 (Sushiro) 🍣', departTime: '12:30', desc: '平靚正回轉壽司，食飽返香港！', category: 'food', transportType: 'car' },
+                                    { time: '12:30', title: '出發去羽田機場 🚗💨', departTime: '12:30', desc: '預埋塞車同還車時間！<br>🚗 距離: 20km (約 40 分鐘)', category: 'transport', transportType: 'car' },
+                                    { time: '13:30', title: '還車 (羽田機場) 🚗', departTime: '14:00', desc: '入滿油還車！<br>🚗 行車距離: 全程結束<br>🅿️ 泊車: 還返俾 Toyota 租車場', category: 'transport', loc: 'Toyota Rent a Car Haneda Airport', transportType: 'car', phone: '03-3745-0100', info: '💡 REMINDER: 記得入滿油，保留入油收據俾職員睇！' },
+                                    { time: '14:00', title: '羽田機場 Check-in ✈️', departTime: '16:05', desc: '搭 CX549 (16:05 起飛) 滿載而歸！', category: 'flight', loc: 'Haneda Airport', transportType: 'walk' }
                                 ]}
                             ]
                         }
