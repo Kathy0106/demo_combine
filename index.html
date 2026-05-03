@@ -505,8 +505,14 @@
                             ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 4, 7: 4, 8: 4 },
                             alarms: [
-                                { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, { date: '7/01', task: '預約租車 (全期)' },
-                                { date: '9/01', task: '搶 Mantensushi' }, { date: '9/30', task: '預約 八重翠 泊車位' }, { date: '10/5', task: '申請 IDP & 買 Sim' }
+                                { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, 
+                                { date: '7/01', task: '預約 Toyota 租車 (全期)' },
+                                { date: '8/01', task: '預約 木曾路(沼津) 壽喜燒' }, 
+                                { date: '9/01', task: '搶 Mantensushi 日本橋店' }, 
+                                { date: '9/15', task: '預約 燒肉 Toraji & 鳥貴族' }, 
+                                { date: '9/30', task: 'Email 預約 八重翠 停車位 (極重要)' }, 
+                                { date: '10/5', task: '申請 IDP、買 Sim 卡、Down 壽司郎 App' },
+                                { date: '10/24', task: 'Double Check 所有預約' }
                             ],
                             shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信', '澀谷 ReFa'],
                             expenses: [],
@@ -525,6 +531,7 @@
                                 { date: 'Day 3 (11/02)', time: '19:00', name: '信州蕎麥處 みよ田 (Miyota)', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
                                 { date: 'Day 4 (11/03)', time: '18:30', name: '季之庭 會席料理', addr: '旅館內', bookingNo: '一泊二食' },
                                 { date: 'Day 5 (11/04)', time: '14:30', name: 'ほうとう不動 (河口湖)', addr: '山梨県南都留郡富士河口湖町船津3631-2', bookingNo: '現場排隊' },
+                                { date: 'Day 5 (11/04)', time: '18:30', name: '燒肉 Toraji (御殿場)', addr: '静岡県御殿場市深沢1312 (Outlet內)', bookingNo: '待預約' },
                                 { date: 'Day 6 (11/05)', time: '19:30', name: '鳥貴族 (市區)', addr: '東京都市區分店', bookingNo: '待預約' },
                                 { date: 'Day 7 (11/06)', time: '19:00', name: 'まんてん鮨 (日本橋)', addr: '東京都中央区日本橋室町2-3-1', bookingNo: '待預約' },
                                 { date: 'Day 8 (11/07)', time: '13:00', name: 'AFURI 柚子鹽拉麵', addr: '東京都渋谷区道玄坂2-29-1', bookingNo: '現場排隊' },
@@ -575,7 +582,7 @@
                                     { time: '13:00', title: '河口湖 (大石公園) 🗻', departTime: '14:00', desc: '返到黎富士山腳！影逆富士！<br>🚗 距離: 180km (約 3 小時)<br>🅿️ 泊車: 公園免費停車場', category: 'sightseeing', loc: 'Oishi Park', transportType: 'car', mapcode: '161 303 446*52', phone: '0555-72-8772' },
                                     { time: '14:30', title: 'Lunch: ほうとう不動 🍜', departTime: '15:30', desc: '食碗暖笠笠嘅富士山特產餺飥麵！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 餐廳附屬停車場', category: 'food', loc: 'Hoto Fudou', transportType: 'car', phone: '0555-72-5560' },
                                     { time: '16:30', title: 'Check-in (HOTEL CLAD) 🏨', departTime: '18:00', desc: '直望富士山靚景酒店！<br>🚗 距離: 30km (約 45 分鐘)<br>🅿️ 泊車: 酒店專屬免費停車場', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', mapcode: '50 806 191*75', phone: '0550-81-0321' },
-                                    { time: '18:30', title: '晚餐：御殿場周邊 🍣', departTime: '20:30', desc: '可以揸車去市區食壽司或者燒肉！<br>🚗 距離: 5km (約 15 分鐘)', category: 'food', transportType: 'car' },
+                                    { time: '18:30', title: 'Dinner: 燒肉 Toraji (御殿場 Outlet店) 🥩', departTime: '20:30', desc: '排風系統極佳嘅高級燒肉！食完保證無味！<br>🚗 距離: 5km (約 10 分鐘)<br>🅿️ 泊車: Outlet 停車場', category: 'food', loc: 'Yakiniku Toraji Gotemba', transportType: 'car', phone: '0550-70-1288' },
                                     { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '聽日 Outlet 血拼大作戰！', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', mapcode: '50 806 191*75', phone: '0550-81-0321' }
                                 ]},
                                 { weekday: 'Thu', dateStr: '11/05', events: [
@@ -590,7 +597,7 @@
                                 { weekday: 'Fri', dateStr: '11/06', events: [
                                     { time: '08:30', title: '由酒店出發 🚗', departTime: '08:30', desc: '準備東京市內巡禮！', category: 'transport', transportType: 'car' },
                                     { time: '09:00', title: '築地市場 早餐 🍣', departTime: '10:30', desc: '去築地食個靚海鮮做早餐！<br>🚗 距離: 3km (約 10 分鐘)<br>🅿️ 泊車: 築地川第一停車場 (約¥200/30分)', category: 'food', loc: 'Tsukiji Outer Market', transportType: 'car', phone: '03-3541-9466' },
-                                    { time: '11:00', title: '東京鐵塔 🗼', departTime: '13:00', desc: '經典打卡位！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 東京鐵塔地下停車場 (¥600/小時)', category: 'sightseeing', loc: 'Tokyo Tower', transportType: 'car', mapcode: '3 595 565*63', phone: '03-3433-5111' },
+                                    { time: '11:00', title: '東京鐵塔 (停車場樓梯打卡位) 🗼', departTime: '13:00', desc: 'IG 超人氣地下停車場樓梯打卡位 (とうふ屋うかい旁)！影完再上塔！<br>🚗 距離: 5km (約 15 分鐘)<br>🅿️ 泊車: 東京鐵塔地下停車場 (¥600/小時)', category: 'sightseeing', loc: 'Tokyo Tower Underground Parking Stairs', transportType: 'car', mapcode: '3 595 565*63', phone: '03-3433-5111' },
                                     { time: '13:30', title: '六本木 Lunch & Shopping 🛍️', departTime: '16:30', desc: '高檔行街區，順便食 Lunch！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: Roppongi Hills 停車場', category: 'shopping', loc: 'Roppongi Hills', transportType: 'car', phone: '03-6406-6000' },
                                     { time: '17:00', title: '返回酒店 🏨', departTime: '18:15', desc: '放低戰利品先！<br>🚗 距離: 5km (約 20 分鐘)<br>🅿️ 泊車: 返八重翠車位', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
                                     { time: '19:00', title: 'Dinner: Mantensushi (日本橋) 🍣', departTime: '21:00', desc: '✨ 超人氣性價比 Omakase！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: Coredo 室町停車場', category: 'highlight', loc: 'Mantensushi Nihonbashi', transportType: 'car', phone: '03-4241-1005' },
@@ -629,7 +636,7 @@
                             effect: 'flower', effectEmoji: '🌸'
                         },
                         central: {
-                            title: "Tokyo x Chubu 2026", subtitle: "10週年紅葉之旅", subIcon: "fa-solid fa-leaf",
+                            title: "10+1 OurStory", subtitle: "紅葉自駕之旅", subIcon: "fa-solid fa-leaf",
                             bgMain: "#FFF3E0", textDark: "#E65100", textLight: "#FFB74D", accentMain: "#FF9800", borderLight: "#FFE0B2",
                             shadow: "0 8px 24px rgba(255, 152, 0, 0.15)",
                             headerImg: "url('./header_central.jpg')",
