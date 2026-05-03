@@ -128,6 +128,7 @@
                                 <div class="flex flex-col items-end">
                                     <div class="flex items-center gap-1.5"><span class="text-xl font-bold" :style="{ color: currentTheme.textDark }">{{ weather.temp }}°</span><i :class="['fa-solid', weather.icon, 'text-xl']" :style="{ color: currentTheme.accentMain }"></i></div>
                                     <div class="text-[0.6rem] font-bold mt-0.5" :style="{ color: currentTheme.textLight }">{{ weather.city_name }}</div>
+                                    <div v-if="fujiVisibility" class="text-[0.55rem] font-bold mt-1 px-1.5 py-0.5 rounded-md border border-dashed shadow-sm bg-white" :style="{ color: '#1976D2', borderColor: '#BBDEFB' }">{{ fujiVisibility }}</div>
                                 </div>
                             </div>
                             
@@ -185,19 +186,25 @@
 
                     <div v-if="activeTab === 'info'" class="space-y-5 px-5 pt-4">
                         
-                        <!-- 泊車情報總覽 -->
-                        <div class="onsen-card" :style="{ border: '2px dashed #81C784' }">
-                            <div class="p-3 font-bold flex justify-between items-center bg-[#E8F5E9] text-[#2E7D32] text-sm">
-                                <span><i class="fa-solid fa-square-parking mr-2"></i>泊車情報總覽 (Parking)</span>
+                        <!-- 1. 關鍵行動鬧鐘 (Click Me) -->
+                        <div class="onsen-card border-2 dashed select-none" :style="{ borderColor: currentTheme.borderLight }">
+                            <div class="p-4 flex justify-between items-center cursor-pointer transition-colors hover:opacity-80 active:opacity-60" 
+                                 @click.stop.prevent="toggleAlarms"
+                                 :style="{ color: currentTheme.accentMain, backgroundColor: currentTheme.bgMain }">
+                                <span class="text-sm font-bold"><i class="fa-regular fa-bell mr-2"></i>關鍵行動鬧鐘 (Click Me)</span>
+                                <i :class="['fa-solid text-xs transition-transform duration-300', alarmsOpen ? 'fa-chevron-up' : 'fa-chevron-down']"></i>
                             </div>
-                            <div class="p-4 bg-white space-y-3 text-sm">
-                                <div v-for="park in currentTripData.parkingList" :key="park.name" class="border-b border-dashed border-gray-200 pb-2 last:border-0 last:pb-0">
-                                    <div class="font-bold text-[#388E3C]"><i class="fa-solid fa-car-side text-xs mr-1"></i>{{ park.name }}</div>
-                                    <div class="text-xs text-gray-600 mt-1 leading-relaxed" v-html="formatText(park.detail)"></div>
+                            <transition name="accordion">
+                                <div v-show="alarmsOpen" class="p-4 space-y-3 bg-white">
+                                    <div v-for="(alarm, idx) in currentTripData.alarms" :key="idx" class="flex gap-3 border-b border-dashed pb-2 last:border-0 last:pb-0 items-center" :style="{ borderColor: currentTheme.borderLight }">
+                                        <span class="font-bold text-[10px] text-white px-2 py-0.5 rounded-md min-w-[50px] text-center" :style="{ backgroundColor: currentTheme.accentMain }">{{ alarm.date }}</span> 
+                                        <span class="font-bold text-xs" :style="{ color: currentTheme.textDark }">{{ alarm.task }}</span>
+                                    </div>
                                 </div>
-                            </div>
+                            </transition>
                         </div>
 
+                        <!-- 2. 航班即時資訊 (CX) -->
                         <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
                             <div class="p-4 text-white font-bold flex justify-between text-sm" :style="{ backgroundColor: currentTheme.accentMain }">
                                 <span><i class="fa-solid fa-plane mr-2"></i>航班即時資訊 (CX)</span>
@@ -235,6 +242,7 @@
                             </div>
                         </div>
 
+                        <!-- 3. 租車資訊 -->
                         <div class="onsen-card" v-if="currentTripData.rental" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
                             <div class="p-4 font-bold flex justify-between text-sm" style="background-color: #E3F2FD; color: #1976D2;">
                                 <span><i class="fa-solid fa-car mr-2"></i>租車資訊 ({{ currentTripData.rental.company }})</span>
@@ -262,21 +270,7 @@
                             </div>
                         </div>
 
-                        <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
-                            <div class="p-3 font-bold flex justify-between items-center" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">
-                                <span><i class="fa-solid fa-bed mr-2"></i>浪漫住宿名單 (Hotel)</span>
-                            </div>
-                            <div class="p-4 bg-white space-y-3">
-                                <div v-for="hotel in currentTripData.hotels" :key="hotel.name" class="border-b border-dashed pb-3 last:border-0 last:pb-0" :style="{ borderColor: currentTheme.borderLight }">
-                                    <div class="font-bold text-sm" :style="{ color: currentTheme.textDark }">{{ hotel.name }}</div>
-                                    <div class="text-[10px] text-gray-500 mt-1 flex items-start"><i class="fa-solid fa-map-location-dot mt-0.5 mr-1"></i>{{ hotel.addr }}</div>
-                                    <div class="flex justify-between items-center mt-1.5">
-                                        <span class="text-xs px-2 py-0.5 rounded-full font-bold" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">{{ hotel.dates }}</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        <!-- 4. 餐廳預約 & 情報總覽 -->
                         <div class="onsen-card border-l-4" :style="{ borderColor: currentTheme.accentMain, borderTop: '2px dashed ' + currentTheme.borderLight, borderRight: '2px dashed ' + currentTheme.borderLight, borderBottom: '2px dashed ' + currentTheme.borderLight }">
                             <div class="p-3 font-bold flex justify-between items-center text-white" :style="{ backgroundColor: currentTheme.accentMain }">
                                 <span><i class="fa-solid fa-utensils mr-2"></i>餐廳預約 & 情報總覽</span>
@@ -300,6 +294,36 @@
                             </div>
                         </div>
 
+                        <!-- 5. 泊車情報總覽 (Parking) -->
+                        <div class="onsen-card" :style="{ border: '2px dashed #81C784' }">
+                            <div class="p-3 font-bold flex justify-between items-center bg-[#E8F5E9] text-[#2E7D32] text-sm">
+                                <span><i class="fa-solid fa-square-parking mr-2"></i>泊車情報總覽 (Parking)</span>
+                            </div>
+                            <div class="p-4 bg-white space-y-3 text-sm">
+                                <div v-for="park in currentTripData.parkingList" :key="park.name" class="border-b border-dashed border-gray-200 pb-2 last:border-0 last:pb-0">
+                                    <div class="font-bold text-[#388E3C]"><i class="fa-solid fa-car-side text-xs mr-1"></i>{{ park.name }}</div>
+                                    <div class="text-xs text-gray-600 mt-1 leading-relaxed" v-html="formatText(park.detail)"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 6. 浪漫住宿名單 (Hotel) -->
+                        <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
+                            <div class="p-3 font-bold flex justify-between items-center" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">
+                                <span><i class="fa-solid fa-bed mr-2"></i>浪漫住宿名單 (Hotel)</span>
+                            </div>
+                            <div class="p-4 bg-white space-y-3">
+                                <div v-for="hotel in currentTripData.hotels" :key="hotel.name" class="border-b border-dashed pb-3 last:border-0 last:pb-0" :style="{ borderColor: currentTheme.borderLight }">
+                                    <div class="font-bold text-sm" :style="{ color: currentTheme.textDark }">{{ hotel.name }}</div>
+                                    <div v-if="hotel.addr" class="text-[10px] text-gray-500 mt-1 flex items-start"><i class="fa-solid fa-map-location-dot mt-0.5 mr-1"></i>{{ hotel.addr }}</div>
+                                    <div class="flex justify-between items-center mt-1.5">
+                                        <span class="text-xs px-2 py-0.5 rounded-full font-bold" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.textDark }">{{ hotel.dates }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 7. 查看完整 Google Doc 行程 -->
                         <div class="onsen-card overflow-hidden border-2 dashed border-[#BBDEFB] cursor-pointer hover:opacity-90" @click="openDoc">
                             <div class="p-4 flex items-center justify-center gap-2 bg-[#4285F4] text-white font-bold rounded-xl shadow-md">
                                 <i class="fa-brands fa-google-drive text-lg"></i>
@@ -307,22 +331,6 @@
                             </div>
                         </div>
 
-                        <div class="onsen-card border-2 dashed select-none" :style="{ borderColor: currentTheme.borderLight }">
-                            <div class="p-4 flex justify-between items-center cursor-pointer transition-colors hover:opacity-80 active:opacity-60" 
-                                 @click.stop.prevent="toggleAlarms"
-                                 :style="{ color: currentTheme.accentMain, backgroundColor: currentTheme.bgMain }">
-                                <span class="text-sm font-bold"><i class="fa-regular fa-bell mr-2"></i>關鍵行動鬧鐘 (Click Me)</span>
-                                <i :class="['fa-solid text-xs transition-transform duration-300', alarmsOpen ? 'fa-chevron-up' : 'fa-chevron-down']"></i>
-                            </div>
-                            <transition name="accordion">
-                                <div v-show="alarmsOpen" class="p-4 space-y-3 bg-white">
-                                    <div v-for="(alarm, idx) in currentTripData.alarms" :key="idx" class="flex gap-3 border-b border-dashed pb-2 last:border-0 last:pb-0 items-center" :style="{ borderColor: currentTheme.borderLight }">
-                                        <span class="font-bold text-[10px] text-white px-2 py-0.5 rounded-md min-w-[50px] text-center" :style="{ backgroundColor: currentTheme.accentMain }">{{ alarm.date }}</span> 
-                                        <span class="font-bold text-xs" :style="{ color: currentTheme.textDark }">{{ alarm.task }}</span>
-                                    </div>
-                                </div>
-                            </transition>
-                        </div>
                     </div>
 
                     <div v-if="activeTab === 'shopping'" class="px-5 pt-4">
@@ -512,14 +520,15 @@
                             ],
                             diningList: [
                                 { date: 'Day 1 (10/31)', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', bookingNo: '現場排隊' },
-                                { date: 'Day 1 (10/31)', time: '19:00', name: '和牛燒肉 京城苑', addr: '静岡県沼津市大手町5-4-3', bookingNo: '待預約' },
+                                { date: 'Day 1 (10/31)', time: '19:00', name: '木曾路 (Kisoji) 沼津店', addr: '静岡県沼津市岡宮1310-1', bookingNo: '待預約' },
                                 { date: 'Day 2 (11/01)', time: '19:00', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', bookingNo: '現場排隊' },
                                 { date: 'Day 3 (11/02)', time: '19:00', name: '信州蕎麥處 みよ田 (Miyota)', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
                                 { date: 'Day 4 (11/03)', time: '18:30', name: '季之庭 會席料理', addr: '旅館內', bookingNo: '一泊二食' },
                                 { date: 'Day 5 (11/04)', time: '14:30', name: 'ほうとう不動 (河口湖)', addr: '山梨県南都留郡富士河口湖町船津3631-2', bookingNo: '現場排隊' },
-                                { date: 'Day 6 (11/05)', time: '19:30', name: '鳥貴族 (淺草/市區)', addr: '東京都市區分店', bookingNo: '待預約' },
+                                { date: 'Day 6 (11/05)', time: '19:30', name: '鳥貴族 (市區)', addr: '東京都市區分店', bookingNo: '待預約' },
                                 { date: 'Day 7 (11/06)', time: '19:00', name: 'まんてん鮨 (日本橋)', addr: '東京都中央区日本橋室町2-3-1', bookingNo: '待預約' },
                                 { date: 'Day 8 (11/07)', time: '13:00', name: 'AFURI 柚子鹽拉麵', addr: '東京都渋谷区道玄坂2-29-1', bookingNo: '現場排隊' },
+                                { date: 'Day 8 (11/07)', time: '19:30', name: '銀座 篝 (Kagari) 本店', addr: '東京都中央区銀座6-4-12', bookingNo: '現場排隊' },
                                 { date: 'Day 9 (11/08)', time: '11:30', name: '壽司郎 (Sushiro)', addr: '東京都市區分店', bookingNo: 'APP 取號' }
                             ],
                             days: [
@@ -530,7 +539,7 @@
                                     { time: '11:30', title: '沼津港 (丸天) 🐟', departTime: '13:00', desc: '直奔沼津食巨型海鮮塔！<br>🚗 距離: 140km (約 2 小時)<br>🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: 'Numazu Port', transportType: 'car', mapcode: '650 583 339*01', phone: '055-963-0202' },
                                     { time: '13:30', title: '三島大吊橋 🌉', departTime: '15:30', desc: '日本最長步行吊橋打卡！<br>🚗 距離: 20km (約 35 分鐘)<br>🅿️ 泊車: 園區免費車位', category: 'sightseeing', loc: 'Mishima Skywalk', transportType: 'car', mapcode: '50 238 668*85', phone: '055-972-0084' },
                                     { time: '16:30', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '18:30', desc: '返酒店擺低行李稍作休息！<br>🚗 距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店立體停車場 (¥1200/晚)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', mapcode: '50 073 112*71', phone: '055-925-8955' },
-                                    { time: '19:00', title: 'Dinner: 和牛燒肉 京城苑 🥩', departTime: '20:30', desc: '極品燒肉！(如果想轉口味，附近亦有 Sawayaka 漢堡！)<br>🚗 距離: 1km (直接行去)', category: 'food', loc: 'Keijoen Numazu', transportType: 'walk', phone: '055-962-0268' },
+                                    { time: '19:00', title: 'Dinner: 木曾路 (Kisoji) 沼津店 🍲', departTime: '20:30', desc: '高級和牛涮涮鍋/壽喜燒，環境極乾淨舒服，食完保證無味！<br>🚗 距離: 3km (約 10 分鐘)<br>🅿️ 泊車: 餐廳附屬停車場', category: 'food', loc: 'Kisoji Numazu', transportType: 'car', phone: '055-927-4150' },
                                     { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', desc: '第一日長途跋涉，早啲瞓！', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Sun', dateStr: '11/01', events: [
@@ -594,14 +603,14 @@
                                     { time: '13:00', title: 'Lunch: AFURI 柚子鹽拉麵 🍜', departTime: '14:30', desc: '食超人氣清爽拉麵！<br>🚗 行路過去就得', category: 'food', loc: 'AFURI Shibuya', transportType: 'walk' },
                                     { time: '15:00', title: '東京站一番街 Shopping 🛍️', departTime: '18:00', desc: '掃動漫周邊同必買手信 (NY Perfect Cheese)！<br>🚗 距離: 8km (約 20 分鐘)<br>🅿️ 泊車: 大丸百貨/東京站停車場', category: 'shopping', loc: 'Tokyo Character Street', transportType: 'car' },
                                     { time: '18:30', title: '返回酒店 🏨', departTime: '19:15', desc: '放低全日買嘅嘢！<br>🚗 距離: 1km (約 5 分鐘)<br>🅿️ 泊車: 返八重翠車位', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
-                                    { time: '19:30', title: '晚餐: 銀座 / 八丁堀 🥢', departTime: '21:00', desc: '喺酒店附近行去食晚餐，輕鬆搞掂！', category: 'food', transportType: 'walk' },
+                                    { time: '19:30', title: 'Dinner: 銀座 篝 (Kagari) 本店 🍜', departTime: '21:00', desc: '全東京最強雞白湯拉麵，米芝蓮推薦，必食！<br>🚗 距離: 2km (約 10 分鐘)<br>🅿️ 泊車: 銀座周邊 Times', category: 'food', loc: 'Ginza Kagari Main Store', transportType: 'car' },
                                     { time: '21:30', title: '回程酒店執行李 💤', departTime: '21:30', desc: '塞爆個喼！聽日要返香港喇！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Sun', dateStr: '11/08', events: [
                                     { time: '08:30', title: '酒店 Check-out 🚗', departTime: '09:00', desc: '將全部行李放晒上車！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'car', phone: '03-6263-2020' },
                                     { time: '09:15', title: '早餐: 酒店周邊 🥐', departTime: '10:00', desc: '食飽先出發作最後衝刺！', category: 'food', transportType: 'walk' },
                                     { time: '10:30', title: '上野 / 秋葉原 最後補給 🛍️', departTime: '11:30', desc: '買漏嘅嘢喺度買齊佢！<br>🚗 距離: 4km<br>🅿️ 泊車: 周邊 Times', category: 'shopping', transportType: 'car' },
-                                    { time: '11:30', title: 'Lunch: 壽司郎 (Sushiro) 🍣', departTime: '12:30', desc: '平靚正回轉壽司，食飽返香港！', category: 'food', transportType: 'car' },
+                                    { time: '11:30', title: 'Lunch: 壽司郎 (Sushiro) 🍣', departTime: '12:30', desc: '平靚正回轉壽司，食飽返香港！', category: 'food', transportType: 'car', info: '💡 REMINDER: 星期日極多人！必須提早最少 2-3 個鐘用 Sushiro App 抽定飛！否則會趕唔切飛機！' },
                                     { time: '12:30', title: '出發去羽田機場 🚗💨', departTime: '12:30', desc: '預埋塞車同還車時間！<br>🚗 距離: 20km (約 40 分鐘)', category: 'transport', transportType: 'car' },
                                     { time: '13:30', title: '還車 (羽田機場) 🚗', departTime: '14:00', desc: '入滿油還車！<br>🚗 行車距離: 全程結束<br>🅿️ 泊車: 還返俾 Toyota 租車場', category: 'transport', loc: 'Toyota Rent a Car Haneda Airport', transportType: 'car', phone: '03-3745-0100', info: '💡 REMINDER: 記得入滿油，保留入油收據俾職員睇！' },
                                     { time: '14:00', title: '羽田機場 Check-in ✈️', departTime: '16:05', desc: '搭 CX549 (16:05 起飛) 滿載而歸！', category: 'flight', loc: 'Haneda Airport', transportType: 'walk' }
@@ -636,7 +645,17 @@
                 currentDays() { return this.currentTripData.days; },
                 currentItineraryData() { return this.currentTripData.days[this.selectedDayIndex].events || []; },
                 currentNightHotel() { return this.currentTripData.hotels[this.currentTripData.hotelMap[this.selectedDayIndex]]; },
-                totalExpenses() { return this.currentTripData.expenses ? this.currentTripData.expenses.reduce((sum, item) => sum + parseInt(item.amount || 0), 0) : 0; }
+                totalExpenses() { return this.currentTripData.expenses ? this.currentTripData.expenses.reduce((sum, item) => sum + parseInt(item.amount || 0), 0) : 0; },
+                fujiVisibility() {
+                    if (this.currentTrip !== 'central') return null;
+                    const fujiDays = [0, 1, 4, 5];
+                    if (!fujiDays.includes(this.selectedDayIndex)) return null;
+                    
+                    if (this.weather.icon === 'fa-sun') return '🗻 富士山: 絕景 (90%)';
+                    if (this.weather.icon === 'fa-cloud-sun') return '🗻 富士山: 隱現 (50%)';
+                    if (this.weather.icon.includes('rain') || this.weather.icon.includes('cloud')) return '🗻 富士山: 殘念 (10%)';
+                    return '🗻 富士預測中...';
+                }
             },
             watch: {
                 selectedDayIndex() { this.fetchWeather(); },
