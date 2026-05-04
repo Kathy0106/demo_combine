@@ -60,7 +60,7 @@
         
         .accordion-enter-active, .accordion-leave-active {
             transition: max-height 0.3s ease, opacity 0.3s ease;
-            max-height: 1000px; overflow: hidden;
+            max-height: 1500px; overflow: hidden;
         }
         .accordion-enter-from, .accordion-leave-to { max-height: 0; opacity: 0; }
     </style>
@@ -111,6 +111,7 @@
             <div class="flex-1 rounded-t-[30px] -mt-6 relative z-10 overflow-hidden flex flex-col shadow-[0_-5px_25px_rgba(0,0,0,0.05)] transition-colors duration-700" :style="{ backgroundColor: currentTheme.bgMain }">
                 <div class="flex-1 overflow-y-auto no-scrollbar pb-24">
 
+                    <!-- Itinerary Tab -->
                     <div v-if="activeTab === 'itinerary'">
                         <div class="sticky top-0 z-40 backdrop-blur-md shadow-sm border-b-2 border-dashed px-5 pt-4 pb-2 transition-all duration-300" :style="{ backgroundColor: currentTheme.bgMain + 'F2', borderColor: currentTheme.borderLight }">
                             <div class="flex justify-between items-center mb-3">
@@ -184,11 +185,14 @@
                         </div>
                     </div>
 
+                    <!-- Info Tab -->
                     <div v-if="activeTab === 'info'" class="space-y-5 px-5 pt-4">
                         
                         <!-- 1. 鬧鐘 -->
-                        <div class="onsen-card border-2 dashed" :style="{ borderColor: currentTheme.borderLight }">
-                            <div class="p-4 flex justify-between items-center cursor-pointer" @click="toggleAlarms" :style="{ color: currentTheme.accentMain, backgroundColor: currentTheme.bgMain }">
+                        <div class="onsen-card border-2 dashed select-none" :style="{ borderColor: currentTheme.borderLight }">
+                            <div class="p-4 flex justify-between items-center cursor-pointer transition-colors hover:opacity-80" 
+                                 @click.stop.prevent="toggleAlarms"
+                                 :style="{ color: currentTheme.accentMain, backgroundColor: currentTheme.bgMain }">
                                 <span class="text-sm font-bold"><i class="fa-regular fa-bell mr-2"></i>關鍵行動鬧鐘 (Click Me)</span>
                                 <i :class="['fa-solid text-xs transition-transform duration-300', alarmsOpen ? 'fa-chevron-up' : 'fa-chevron-down']"></i>
                             </div>
@@ -202,7 +206,7 @@
                             </transition>
                         </div>
 
-                        <!-- 2. 航班視覺化卡片 -->
+                        <!-- 2. 航班 -->
                         <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
                             <div class="p-4 text-white font-bold text-sm" :style="{ backgroundColor: currentTheme.accentMain }">航班即時資訊 (CX)</div>
                             <div class="p-5 text-sm bg-white space-y-6">
@@ -232,7 +236,7 @@
                             </div>
                         </div>
 
-                        <!-- 3. 租車視覺化格 -->
+                        <!-- 3. 租車 -->
                         <div class="onsen-card" v-if="currentTripData.rental" :style="{ border: '2px dashed #1976D2' }">
                             <div class="p-4 font-bold flex justify-between text-sm" style="background-color: #E3F2FD; color: #1976D2;">
                                 <span><i class="fa-solid fa-car mr-2"></i>租車資訊 ({{ currentTripData.rental.company }})</span>
@@ -260,7 +264,7 @@
                             </div>
                         </div>
 
-                        <!-- 4. 餐廳預約總覽 -->
+                        <!-- 4. 餐廳 -->
                         <div class="onsen-card border-l-4" :style="{ borderColor: currentTheme.accentMain, borderTop: '2px dashed ' + currentTheme.borderLight, borderRight: '2px dashed ' + currentTheme.borderLight, borderBottom: '2px dashed ' + currentTheme.borderLight }">
                             <div class="p-3 font-bold text-white text-sm" :style="{ backgroundColor: currentTheme.accentMain }">餐廳預約 & 情報總覽</div>
                             <div class="p-4 space-y-4 bg-white">
@@ -271,13 +275,13 @@
                                     <div class="flex-1">
                                         <div class="font-bold text-sm">{{ res.name }}</div>
                                         <div class="text-gray-500 mt-1">{{ res.addr }}</div>
-                                        <span class="text-[9px] font-bold px-1.5 py-0.5 rounded border mt-2 inline-block" :class="res.bookingNo.includes('排隊') || res.bookingNo.includes('待預約') ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : 'bg-green-50 text-green-700 border-green-200'">{{ res.bookingNo }}</span>
+                                        <span class="text-[9px] font-bold px-1.5 py-0.5 rounded border mt-2 inline-block" :class="res.bookingNo.includes('排隊') || res.bookingNo.includes('現場') || res.bookingNo.includes('待預約') ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : 'bg-green-50 text-green-700 border-green-200'">{{ res.bookingNo }}</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- 5. 泊車全攻略 -->
+                        <!-- 5. 泊車情報 -->
                         <div class="onsen-card" v-if="currentTripData.parkingList && currentTripData.parkingList.length > 0" :style="{ border: '2px dashed #388E3C' }">
                             <div class="p-3 font-bold bg-[#E8F5E9] text-[#2E7D32] text-sm">泊車情報總覽 (全日揸車必看)</div>
                             <div class="p-4 bg-white text-xs space-y-4">
@@ -288,7 +292,7 @@
                             </div>
                         </div>
 
-                        <!-- 6. 酒店地址列表 -->
+                        <!-- 6. 酒店地址 -->
                         <div class="onsen-card" :style="{ border: '2px dashed ' + currentTheme.borderLight }">
                             <div class="p-3 font-bold text-sm" :style="{ backgroundColor: currentTheme.bgMain }">浪漫住宿名單 (Hotel)</div>
                             <div class="p-4 bg-white space-y-3 text-xs">
@@ -581,7 +585,7 @@
                                     { time: '08:00', title: '返回酒店早餐 & Check-out 🥐', departTime: '09:45', travelTime: '30 min', desc: '返酒店梳洗、食早餐、執好晒行李直接 Check-out！<br>🚗 行車距離: 20km', category: 'hotel', transportType: 'car', loc: 'HOTEL CLAD', phone: '0550-81-0321', mapcode: '50 806 191*75' },
                                     { time: '10:00', title: '御殿場 Outlet 瘋狂 Shopping 🛍️', departTime: '14:30', travelTime: '5 min', desc: '全日本最大 Outlet！Lunch 喺 Food Court 解決！<br>🚗 行車距離: 0km (就在旁邊)<br>🅿️ 泊車: Outlet P 區停車場', category: 'shopping', loc: '御殿場プレミアム・アウトレット', transportType: 'car', phone: '0550-81-3122', mapcode: '50 805 028*22' },
                                     { time: '14:30', title: '出發直返東京！🚗💨', departTime: '14:30', desc: '滿載而歸返繁華嘅東京！預留塞車時間！<br>🚗 行車距離: 100km (約 2 小時)', category: 'transport', transportType: 'car' },
-                                    { time: '16:30', title: 'Check-in (八重翠東京酒店) 🏨', departTime: '18:00', travelTime: '2 hr', desc: '擺低行李先！<br>🚗 行車距離: 100km (約 2 小時)<br>🅿️ 泊車: 八重翠機械停車場 或 附近 Times', category: 'hotel', loc: 'ホテル八重翠東京', transportType: 'car', phone: '03-6263-2020', mapcode: '652 018*77', info: '💡 REMINDER: 記得事前 Email 預約酒店車位！' },
+                                    { time: '16:30', title: 'Check-in (八重翠東京酒店) 🏨', departTime: '18:00', travelTime: '2 hr', desc: '擺低行李先！<br>🚗 行車距離: 100km (約 2 小時)<br>🅿️ 泊車: 八重翠機械停車場 或 附近 Times', category: 'hotel', loc: 'ホテル八重翠東京', transportType: 'car', phone: '03-6263-2020', mapcode: '652 018*77', info: '💡 REMINDER: 記得事前 Email 預約酒店車位！如果滿座可去 Times 八丁堀。' },
                                     { time: '19:30', title: 'Dinner: 鳥貴族 八丁堀店 🍢', departTime: '21:00', travelTime: '15 min', desc: '行路過去食平靚正串燒！<br>🚗 行車距離: 行路 1km', category: 'food', loc: '鳥貴族 八丁堀店', transportType: 'walk', phone: '03-3553-6066', mapcode: '622 830*25' },
                                     { time: '21:30', title: '回程酒店休息 💤', departTime: '21:30', travelTime: '15 min', desc: '東京自駕遊正式開始！', category: 'hotel', loc: 'Yaenomidori Tokyo', transportType: 'walk', phone: '03-6263-2020', mapcode: '652 018*77' }
                                 ]},
@@ -639,18 +643,48 @@
                 currentDays() { return this.currentTripData.days; },
                 currentItineraryData() { return this.currentTripData.days[this.selectedDayIndex].events || []; },
                 currentNightHotel() { return this.currentTripData.hotels[this.currentTripData.hotelMap[this.selectedDayIndex]]; },
+                totalExpenses() { return this.currentTripData.expenses && this.currentTripData.expenses.length > 0 ? this.currentTripData.expenses.reduce((sum, item) => sum + parseInt(item.amount || 0), 0) : 0; },
                 fujiVisibility() {
                     if (this.currentTrip !== 'central') return null;
                     const fujiDays = [0, 1, 4, 5];
                     if (!fujiDays.includes(this.selectedDayIndex)) return null;
-                    return (this.weather.icon === 'fa-sun') ? '🗻 富士山: 絕景 (90%)' : '🗻 富士山: 隱現 (50%)';
+                    if (this.weather.icon === 'fa-sun') return '🗻 富士山: 絕景 (90%)';
+                    if (this.weather.icon === 'fa-cloud-sun') return '🗻 富士山: 隱現 (50%)';
+                    if (this.weather.icon.includes('rain') || this.weather.icon.includes('cloud')) return '🗻 富士山: 殘念 (10%)';
+                    return '🗻 富士預測中...';
                 }
             },
+            watch: {
+                selectedDayIndex() { this.fetchWeather(); },
+                currentTrip() { 
+                    this.selectedDayIndex = 0; 
+                    this.fetchWeather(); 
+                    this.autoSelectToday();
+                },
+                'settings.fontSize': function(newVal) { document.documentElement.style.fontSize = newVal + 'px'; }
+            },
+            mounted() { 
+                this.fetchWeather(); 
+                document.documentElement.style.fontSize = this.settings.fontSize + 'px';
+                this.autoSelectToday(); 
+            },
             methods: {
-                switchTrip(trip) { this.currentTrip = trip; this.selectedDayIndex = 0; this.fetchWeather(); },
+                autoSelectToday() {
+                    const today = new Date();
+                    const month = today.getMonth() + 1;
+                    const date = today.getDate();
+                    const todayStr = month + '/' + date; 
+                    const days = this.trips[this.currentTrip].days;
+                    const index = days.findIndex(d => d.dateStr === todayStr);
+                    if (index !== -1) {
+                        this.selectedDayIndex = index;
+                    }
+                },
+                switchTrip(trip) { this.currentTrip = trip; },
                 fetchWeather() {
                     let query = 'Tokyo,JP'; let displayName = '東京';
                     const tripId = this.currentTrip; const idx = this.selectedDayIndex;
+                    
                     if (tripId === 'karuizawa') {
                         switch(idx) {
                             case 0: case 1: case 6: case 7: query = 'Tokyo,JP'; displayName = '東京'; break;
@@ -666,7 +700,7 @@
                             case 2: query = 'Matsumoto,JP'; displayName = '松本'; break;
                             case 3: query = 'Kusatsu,JP'; displayName = '草津'; break;
                             case 4: query = 'Gotemba,JP'; displayName = '御殿場'; break;
-                            default: query = 'Tokyo,JP'; displayName = '東京';
+                            case 5: case 6: case 7: case 8: default: query = 'Tokyo,JP'; displayName = '東京'; break;
                         }
                     }
                     this.weather.city_name = displayName;
@@ -677,7 +711,10 @@
                         if (code.includes('01')) this.weather.icon = 'fa-sun';
                         else if (code.includes('02') || code.includes('03')) this.weather.icon = 'fa-cloud-sun';
                         else if (code.includes('04')) this.weather.icon = 'fa-cloud';
-                        else this.weather.icon = 'fa-cloud-rain';
+                        else if (code.includes('09') || code.includes('10')) this.weather.icon = 'fa-cloud-rain';
+                        else if (code.includes('13')) this.weather.icon = 'fa-snowflake';
+                        else if (code.includes('11')) this.weather.icon = 'fa-bolt';
+                        else this.weather.icon = 'fa-smog';
                     }).catch(() => { this.weather.temp = '--'; });
                 },
                 getCountdown(dateStr) {
@@ -685,11 +722,11 @@
                     return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
                 },
                 itemCategoryName(cat) {
-                    const map = { sightseeing: '景點', food: '美食', shopping: '購物', transport: '交通', hotel: '住宿', flight: '航班', highlight: '亮點', ticket: '門票', other: '行程' };
+                    const map = { sightseeing: '景點', food: '美食', shopping: '購物', transport: '交通', hotel: '住宿', flight: '航班', ticket: '門票', highlight: '紀念日', other: '行程' };
                     return map[cat] || '其他';
                 },
                 getTransportIcon(type) {
-                    const map = { walk: 'fa-person-walking', car: 'fa-car', flight: 'fa-plane', train: 'fa-train-subway', bus: 'fa-bus' };
+                    const map = { walk: 'fa-person-walking', train: 'fa-train-subway', car: 'fa-car', bus: 'fa-bus', flight: 'fa-plane' };
                     return `fa-solid ${map[type] || 'fa-arrow-right'}`;
                 },
                 tabClass(tab) {
@@ -712,12 +749,7 @@
                     if(type === 'jpy') this.calcHkd = (this.calcJpy * this.exchangeRate).toFixed(1);
                     else if(type === 'hkd') this.calcJpy = (this.calcHkd / this.exchangeRate).toFixed(0);
                 }
-            },
-            watch: {
-                selectedDayIndex() { this.fetchWeather(); },
-                'settings.fontSize': function(newVal) { document.documentElement.style.fontSize = newVal + 'px'; }
-            },
-            mounted() { this.fetchWeather(); document.documentElement.style.fontSize = this.settings.fontSize + 'px'; this.autoSelectToday(); }
+            }
         }).mount('#app');
     </script>
 </body>
