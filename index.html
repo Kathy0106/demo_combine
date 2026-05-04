@@ -32,7 +32,6 @@
             overflow: hidden; 
             transition: all 0.3s ease;
         }
-        /* Fancy Styles */
         .fancy-card {
             background: #FFFFFF;
             border-radius: 24px;
@@ -260,7 +259,7 @@
                                         </div>
                                         <div class="text-center">
                                             <div class="text-3xl font-black text-gray-800">{{ currentTripData.flights.out.arr }}</div>
-                                            <div class="text-[10px] font-bold text-gray-400 mt-1">NRT</div>
+                                            <div class="text-[10px] font-bold text-gray-400 mt-1">{{ currentTripData.id === 'karuizawa' ? 'NRT' : 'NRT' }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -273,7 +272,7 @@
                                     <div class="flex justify-between items-center mt-2">
                                         <div class="text-center">
                                             <div class="text-3xl font-black text-gray-800">{{ currentTripData.flights.in.dep }}</div>
-                                            <div class="text-[10px] font-bold text-gray-400 mt-1">NRT</div>
+                                            <div class="text-[10px] font-bold text-gray-400 mt-1">{{ currentTripData.id === 'karuizawa' ? 'NRT' : 'NRT' }}</div>
                                         </div>
                                         <div class="flex-1 px-4 flex flex-col items-center justify-center">
                                             <div class="w-full relative flex items-center justify-center">
@@ -329,7 +328,7 @@
                                 <i class="fa-solid fa-utensils mr-2 text-lg"></i> 餐廳預約 & 情報總覽
                             </div>
                             <div class="p-4 space-y-0 bg-white">
-                                <div v-for="(res, idx) in currentTripData.diningList" :key="idx" class="flex gap-3 text-xs py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.diningList.length - 1 }">
+                                <div v-for="(res, index) in currentTripData.diningList" :key="res.name" class="flex gap-3 text-xs py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.diningList.length - 1 }">
                                     <div class="font-black w-14 text-center leading-tight flex flex-col justify-center items-center bg-gray-50 rounded-lg p-1 border border-gray-100 shadow-sm" :style="{ color: '#D84315' }">
                                         <span class="block text-[8px] text-gray-400 uppercase tracking-wider mb-0.5">{{ res.date }}</span>
                                         <span class="text-sm">{{ res.time }}</span>
@@ -353,7 +352,7 @@
                                 <i class="fa-solid fa-square-parking mr-2 text-lg"></i> 泊車情報總覽 (全日揸車必看)
                             </div>
                             <div class="p-4 bg-white space-y-0 text-xs">
-                                <div v-for="(park, idx) in currentTripData.parkingList" :key="idx" class="py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.parkingList.length - 1 }">
+                                <div v-for="(park, index) in currentTripData.parkingList" :key="park.name" class="py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.parkingList.length - 1 }">
                                     <div class="font-black text-green-700 text-sm mb-1"><i class="fa-solid fa-car-side mr-1.5 opacity-70"></i>{{ park.name }}</div>
                                     <div class="text-gray-600 leading-relaxed bg-gray-50 p-2 rounded-lg border border-gray-100" v-html="formatText(park.detail)"></div>
                                 </div>
@@ -366,7 +365,7 @@
                                 <i class="fa-solid fa-bed mr-2 text-lg"></i> 浪漫住宿名單 (Hotel)
                             </div>
                             <div class="p-4 bg-white space-y-0 text-xs">
-                                <div v-for="(hotel, idx) in currentTripData.hotels" :key="idx" class="py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.hotels.length - 1 }">
+                                <div v-for="(hotel, index) in currentTripData.hotels" :key="hotel.name" class="py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.hotels.length - 1 }">
                                     <div class="font-black text-sm text-gray-800">{{ hotel.name }}</div>
                                     <div v-if="hotel.addr" class="text-gray-400 mt-1 text-[10px]"><i class="fa-solid fa-map-marker-alt mr-1.5 text-gray-300"></i>{{ hotel.addr }}</div>
                                     <div class="mt-2 flex items-center gap-2">
@@ -431,7 +430,7 @@
             </div>
         </div>
 
-        <!-- 酒店 Modal -->
+        <!-- 酒店 Modal (Fancy版) -->
         <div :class="['overlay-bg', { 'active': showHotelModal }]" @click="showHotelModal = false">
             <div class="modal-content text-center shadow-2xl border-2" :style="{ borderColor: currentTheme.borderLight }" @click.stop>
                 <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 shadow-inner" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain }">
@@ -449,7 +448,6 @@
         </div>
 
     </div>
-
     <script>
         const { createApp } = Vue;
 
@@ -457,11 +455,11 @@
             data() {
                 return {
                     currentTrip: 'central',
-                    activeTab: 'itinerary',
+                    activeTab: `itinerary`,
                     selectedDayIndex: 0, 
                     showSettings: false, showHotelModal: false, alarmsOpen: true, newShopItem: '',
-                    weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
-                    apiKey: 'cc2dab2806da14aec6dab2ed8260a1c4', 
+                    weather: { city_name: `東京`, temp: `--`, icon: `fa-spinner fa-spin` },
+                    apiKey: `cc2dab2806da14aec6dab2ed8260a1c4`, 
                     settings: { fontSize: 15 },
                     exchangeRate: 0.053, calcJpy: '', calcHkd: '',
                     
@@ -543,7 +541,7 @@
                                     { time: '22:30', title: '回程酒店休息 💤', departTime: '22:30', category: 'hotel', loc: 'Yaenomidori Tokyo' }
                                 ]},
                                 { weekday: 'Thu', dateStr: '4/23', events: [
-                                    { time: '06:15', title: '酒店食早餐 🍙', departTime: '06:15', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
+                                    { time: '06:15', title: '由酒店出發 & 早餐 🍙', departTime: '06:15', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
                                     { time: '06:45', title: '出發 Disney 🚃', departTime: '06:45', desc: '【最遲極限】行去「八丁堀站」搭 JR京葉線！', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
                                     { time: '07:30', title: '抵達 DisneySea 門口 🏰', departTime: '07:30', desc: '安檢兼排隊，霸個靚位等 Rope Drop！', category: 'other', transportType: 'walk', loc: 'Tokyo DisneySea' },
                                     { time: '08:30', title: '入園第一秒：搶 Pass！📱', departTime: '08:30', desc: '✨ 即開 App 搶 Fantasy Springs Standby Pass！', category: 'ticket', transportType: 'walk' },
@@ -665,7 +663,7 @@
                                     { time: '10:30', title: '善光寺 🙏', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！<br>🚗 行車距離: 70km (約 1 小時)<br>🅿️ 泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52' },
                                     { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '15:00', travelTime: '1 hr', desc: '睇馬騮浸溫泉！<br>🚗 行車距離: 40km (約 1 小時)<br>🅿️ 泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '💡 REMINDER: 免費停車場專俾遊客泊！泊低行 30 分鐘山路入去，記得著好行嘅鞋！' },
                                     { time: '16:30', title: 'Check-in (季之庭) ♨️', departTime: '18:00', travelTime: '1.5 hr', desc: '全個 Trip 最豪華嘅草津溫泉旅館！<br>🚗 行車距離: 60km (約 1.5 小時)<br>🅿️ 泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', info: '💡 REMINDER: 已包高層溫泉露天風呂客房！' },
-                                    { time: '18:30', title: '季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
+                                    { time: '18:30', title: 'Dinner: 季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
                                     { time: '21:00', title: '休息 & 狂浸溫泉 💤', departTime: '21:00', travelTime: '0 min', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '11/04', events: [
@@ -746,9 +744,7 @@
                     if (this.currentTrip !== 'central') return null;
                     const fujiDays = [0, 1, 4, 5];
                     if (!fujiDays.includes(this.selectedDayIndex)) return null;
-                    if (this.weather.icon === 'fa-sun') return '🗻 富士山: 絕景 (90%)';
-                    if (this.weather.icon === 'fa-cloud-sun') return '🗻 富士山: 隱現 (50%)';
-                    return '🗻 富士預測中...';
+                    return (this.weather.icon === 'fa-sun') ? '🗻 富士山: 絕景 (90%)' : '🗻 富士山: 隱現 (50%)';
                 }
             },
             methods: {
