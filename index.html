@@ -131,6 +131,7 @@
             <div class="flex-1 rounded-t-[30px] -mt-6 relative z-10 overflow-hidden flex flex-col shadow-[0_-5px_25px_rgba(0,0,0,0.05)] transition-colors duration-700" :style="{ backgroundColor: currentTheme.bgMain }">
                 <div class="flex-1 overflow-y-auto no-scrollbar pb-24">
 
+                    <!-- ITINERARY TAB -->
                     <div v-if="activeTab === 'itinerary'">
                         <div class="sticky top-0 z-40 backdrop-blur-md shadow-sm border-b-2 border-dashed px-5 pt-4 pb-2 transition-all duration-300" :style="{ backgroundColor: currentTheme.bgMain + 'F2', borderColor: currentTheme.borderLight }">
                             <div class="flex justify-between items-center mb-3">
@@ -204,7 +205,7 @@
                         </div>
                     </div>
 
-                    <!-- Info Tab 華麗升級版 -->
+                    <!-- INFO TAB (FANCY 升級版) -->
                     <div v-if="activeTab === 'info'" class="space-y-6 px-5 pt-5">
                         
                         <!-- 1. 鬧鐘 (發光漸變) -->
@@ -224,7 +225,7 @@
                             </div>
                             <transition name="accordion">
                                 <div v-show="alarmsOpen" class="p-4 bg-white space-y-3">
-                                    <div v-for="(alarm, idx) in currentTripData.alarms" :key="idx" class="flex gap-3 items-center p-2 hover:bg-gray-50 rounded-xl transition-colors">
+                                    <div v-for="(alarm, idx) in currentTripData.alarms" :key="idx" class="flex gap-3 items-center p-2 hover:bg-gray-50 rounded-xl transition-colors border border-gray-50">
                                         <span class="font-black text-[10px] text-white px-2.5 py-1 rounded-lg shadow-sm min-w-[55px] text-center" :style="{ backgroundColor: currentTheme.accentMain }">{{ alarm.date }}</span> 
                                         <span class="font-bold text-sm text-gray-700 flex-1">{{ alarm.task }}</span>
                                     </div>
@@ -263,7 +264,7 @@
                                         </div>
                                         <div class="text-center">
                                             <div class="text-3xl font-black text-gray-800">{{ currentTripData.flights.out.arr }}</div>
-                                            <div class="text-[10px] font-bold text-gray-400 mt-1">NRT</div>
+                                            <div class="text-[10px] font-bold text-gray-400 mt-1">{{ currentTripData.id === 'karuizawa' ? 'NRT' : 'NRT' }}</div>
                                         </div>
                                     </div>
                                 </div>
@@ -276,7 +277,7 @@
                                     <div class="flex justify-between items-center mt-2">
                                         <div class="text-center">
                                             <div class="text-3xl font-black text-gray-800">{{ currentTripData.flights.in.dep }}</div>
-                                            <div class="text-[10px] font-bold text-gray-400 mt-1">NRT</div>
+                                            <div class="text-[10px] font-bold text-gray-400 mt-1">{{ currentTripData.id === 'karuizawa' ? 'NRT' : 'NRT' }}</div>
                                         </div>
                                         <div class="flex-1 px-4 flex flex-col items-center justify-center">
                                             <div class="w-full relative flex items-center justify-center">
@@ -332,7 +333,7 @@
                                 <i class="fa-solid fa-utensils mr-2 text-lg"></i> 餐廳預約 & 情報總覽
                             </div>
                             <div class="p-4 space-y-0 bg-white">
-                                <div v-for="(res, index) in currentTripData.diningList" :key="res.name" class="flex gap-3 text-xs py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.diningList.length - 1 }">
+                                <div v-for="(res, idx) in currentTripData.diningList" :key="idx" class="flex gap-3 text-xs py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.diningList.length - 1 }">
                                     <div class="font-black w-14 text-center leading-tight flex flex-col justify-center items-center bg-gray-50 rounded-lg p-1 border border-gray-100 shadow-sm" :style="{ color: '#D84315' }">
                                         <span class="block text-[8px] text-gray-400 uppercase tracking-wider mb-0.5">{{ res.date }}</span>
                                         <span class="text-sm">{{ res.time }}</span>
@@ -356,7 +357,7 @@
                                 <i class="fa-solid fa-square-parking mr-2 text-lg"></i> 泊車情報總覽 (全日揸車必看)
                             </div>
                             <div class="p-4 bg-white space-y-0 text-xs">
-                                <div v-for="(park, index) in currentTripData.parkingList" :key="park.name" class="py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.parkingList.length - 1 }">
+                                <div v-for="(park, idx) in currentTripData.parkingList" :key="idx" class="py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.parkingList.length - 1 }">
                                     <div class="font-black text-green-700 text-sm mb-1"><i class="fa-solid fa-car-side mr-1.5 opacity-70"></i>{{ park.name }}</div>
                                     <div class="text-gray-600 leading-relaxed bg-gray-50 p-2 rounded-lg border border-gray-100" v-html="formatText(park.detail)"></div>
                                 </div>
@@ -369,7 +370,7 @@
                                 <i class="fa-solid fa-bed mr-2 text-lg"></i> 浪漫住宿名單 (Hotel)
                             </div>
                             <div class="p-4 bg-white space-y-0 text-xs">
-                                <div v-for="(hotel, index) in currentTripData.hotels" :key="hotel.name" class="py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.hotels.length - 1 }">
+                                <div v-for="(hotel, idx) in currentTripData.hotels" :key="idx" class="py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.hotels.length - 1 }">
                                     <div class="font-black text-sm text-gray-800">{{ hotel.name }}</div>
                                     <div v-if="hotel.addr" class="text-gray-400 mt-1 text-[10px]"><i class="fa-solid fa-map-marker-alt mr-1.5 text-gray-300"></i>{{ hotel.addr }}</div>
                                     <div class="mt-2 flex items-center gap-2">
@@ -390,7 +391,7 @@
                         </div>
                     </div>
 
-                    <!-- Shopping & Expenses -->
+                    <!-- SHOPPING TAB -->
                     <div v-if="activeTab === 'shopping'" class="px-5 pt-4">
                         <div class="fancy-card p-5">
                             <h3 class="font-black mb-4 text-base" :style="{ color: currentTheme.textDark }"><i class="fa-solid fa-bag-shopping mr-2"></i>血拼清單</h3>
@@ -408,6 +409,7 @@
                         </div>
                     </div>
                     
+                    <!-- EXPENSES TAB -->
                     <div v-if="activeTab === 'expenses'" class="px-5 pt-4">
                         <div class="fancy-card p-6 text-center text-white" :style="{ background: 'linear-gradient(135deg, ' + currentTheme.accentMain + ', ' + currentTheme.textLight + ')' }">
                             <p class="text-xs text-white/80 mb-1 font-bold tracking-widest"><i class="fa-solid fa-wallet mr-1"></i>總花費估算</p>
@@ -428,6 +430,7 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -470,8 +473,8 @@
                         karuizawa: {
                             id: 'karuizawa', date: '2026-04-18', range: 'Apr 18 - 25, 2026',
                             docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
-                            flights: { out: { code: 'CX524', date: '4/18', dep: '01:25', arr: '06:30' }, in: { code: 'CX501', date: '4/25', dep: '18:00', arr: '22:30' } },
-                            rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '💡 提示: 車型為 Toyota 私家車/休旅車' },
+                            flights: { out: { code: 'CX524', date: '4/18', dep: '01:20', arr: '06:40' }, in: { code: 'CX501', date: '4/25', dep: '21:40', arr: '01:40' } },
+                            rental: { company: 'Toyota Rent a Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '💡 車型為 Toyota 私家車/休旅車' },
                             hotels: [ 
                                 { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20', addr: '東京都中央區日本橋人形町2-30-5', status: '✅ 已完成' }, 
                                 { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22', addr: '長野縣佐久市佐久平站北1-1', status: '✅ 已完成' }, 
@@ -493,11 +496,12 @@
                                 { date: 'Day 7', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2', bookingNo: '✅ RCA5GN' },
                                 { date: 'Day 8', time: '11:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', bookingNo: '✅ 已預約' }
                             ],
+                            expenses: [],
                             days: [
                                 { weekday: 'Sat', dateStr: '4/18', events: [
-                                    { time: '06:30', title: '抵達成田 (NRT)', desc: '搭 CX524 到達！', category: 'flight', transportType: 'flight', loc: 'Narita Airport' },
-                                    { time: '07:45', title: '利木津巴士', desc: '橙色櫃台買飛去 T-CAT！', departTime: '07:30', travelTime: '75 min', category: 'transport', transportType: 'bus', loc: 'T-CAT', info: '💡 REMINDER: 準備好車飛。' },
-                                    { time: '09:00', title: '酒店擺低行李', desc: 'VIA INN PRIME 日本橋人形町', departTime: '08:50', category: 'hotel', transportType: 'walk', loc: 'VIA INN PRIME Nihonbashi' },
+                                    { time: '06:40', title: '抵達成田 (NRT)', desc: '搭機到達日本！過關攞行李！', category: 'flight', transportType: 'flight', loc: 'Narita Airport' },
+                                    { time: '07:45', title: '搭乘利木津巴士', desc: '橙色櫃台買飛去 T-CAT！', departTime: '07:30', travelTime: '75 min', category: 'transport', transportType: 'bus', loc: 'T-CAT', info: '💡 REMINDER: 準備好車飛。' },
+                                    { time: '09:00', title: '酒店擺低行李', desc: '先將大件行李寄放酒店。', departTime: '08:50', category: 'hotel', transportType: 'walk', loc: 'VIA INN PRIME Nihonbashi' },
                                     { time: '09:45', title: '上野恩賜公園賞櫻', desc: '二人世界早晨散步睇櫻花！🍓', departTime: '09:25', category: 'sightseeing', transportType: 'train', loc: '上野恩賜公園' },
                                     { time: '11:50', title: 'Lunch: 利久牛舌 (上野)', desc: 'Parco_ya 6F 穩陣食 Lunch！', departTime: '11:40', category: 'food', transportType: 'walk', loc: '牛たん炭焼 利久 パルコヤ上野店' },
                                     { time: '13:50', title: '龜戶天神社', desc: '浪漫紫藤花 🍇', departTime: '13:20', category: 'sightseeing', transportType: 'train', loc: '亀戸天神社' },
@@ -507,7 +511,7 @@
                                     { time: '21:30', title: '回程酒店休息 💤', departTime: '21:30', category: 'hotel', transportType: 'train', loc: 'VIA INN PRIME Nihonbashi' }
                                 ]},
                                 { weekday: 'Sun', dateStr: '4/19', events: [
-                                    { time: '10:00', title: '由酒店出發', departTime: '10:00', category: 'transport', transportType: 'walk' },
+                                    { time: '10:00', title: '由酒店出發', departTime: '10:00', category: 'transport', transportType: 'walk', loc: 'VIA INN PRIME Nihonbashi' },
                                     { time: '11:00', title: 'Cafe 早餐: Butter 🥞', desc: '食超人氣梳乎厘班戟！', departTime: '10:30', travelTime: '30 min', category: 'food', transportType: 'train', loc: 'Butter Premium' },
                                     { time: '12:15', title: '東京站一番街 🛍️', desc: '【手信大作戰】\n全力買手信！必買：NY Perfect Cheese', departTime: '12:00', travelTime: '15 min', category: 'shopping', transportType: 'train', loc: '東京駅一番街' },
                                     { time: '15:30', title: '澀谷 PARCO 朝聖 🛍️☕', desc: '目標：買 ReFa + 3F 虎蛇咖啡 (Torahebi Coffee)！🐍☕', departTime: '15:00', travelTime: '30 min', category: 'shopping', transportType: 'train', loc: 'Shibuya PARCO' },
@@ -521,7 +525,7 @@
                                     { time: '10:00', title: '返酒店攞行李 🧳', desc: '【車機輸入電話導航】\n揸返酒店車行李再正式出發！', departTime: '09:50', travelTime: '10 min', category: 'hotel', transportType: 'car', loc: 'VIA INN PRIME Nihonbashi', phone: '03-5640-5489' },
                                     { time: '10:15', title: '正式出發輕井澤', desc: '開始自駕之旅！<br>🚗 行車距離: 170km (約 2.5 小時)', departTime: '10:15', category: 'transport', transportType: 'car', travelTime: '2.5 hr', loc: 'Karuizawa' },
                                     { time: '13:15', title: 'Lunch: 輕井澤 川上庵 🍤', desc: '必食蕎麥麵\n📍 味の街 (Outlet 內)', departTime: '13:00', travelTime: '2.5 hr', category: 'food', transportType: 'car', loc: '川上庵 軽井沢', phone: '0267-42-0009' },
-                                    { time: '14:30', title: 'Outlet 瘋狂 Shopping', desc: '食飽行街！🛍️', departTime: '14:30', category: 'shopping', transportType: 'walk', loc: '軽井沢・プリンスショッピングプラザ', phone: '0267-42-5211', mapcode: '292 616 347*47' },
+                                    { time: '14:30', title: 'Outlet 瘋狂 Shopping', desc: '食飽行街！🛍️【車機 Mapcode / 電話已 100% 更正】', departTime: '14:30', category: 'shopping', transportType: 'walk', loc: '軽井沢・プリンスショッピングプラザ', phone: '0267-42-5211', mapcode: '292 616 347*47' },
                                     { time: '18:00', title: 'Check-in (Toyoko Inn) 🏨', desc: '準備聽日大日子', departTime: '17:40', travelTime: '20 min', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' },
                                     { time: '19:30', title: '回程酒店休息 💤', departTime: '19:30', category: 'hotel', loc: 'Toyoko Inn Sakudaira' }
                                 ]},
@@ -532,7 +536,7 @@
                                     { time: '21:00', title: '回程酒店休息 💤', desc: '好好休息', departTime: '20:40', travelTime: '20 min', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '4/22', events: [
-                                    { time: '07:00', title: '由酒店出發 & 早餐 🚗', departTime: '07:00', category: 'food', transportType: 'car' },
+                                    { time: '07:00', title: '由酒店出發 & 早餐 🚗', departTime: '07:00', category: 'food', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' },
                                     { time: '08:00', title: '出發 ➔ 富士山 🚗', departTime: '08:00', desc: '向富士山出發！<br>🚗 行車距離: 150km (約 2.5 小時)', category: 'transport', transportType: 'car', travelTime: '2.5 hr' },
                                     { time: '10:30', title: '富士芝櫻祭 🌸🗻', departTime: '10:30', desc: '期間限定粉紅地毯配富士山絕景！', category: 'sightseeing', transportType: 'car', loc: '富士本栖湖リゾート', phone: '0555-89-3031', mapcode: '312 214 743*01' },
                                     { time: '13:00', title: 'Lunch: 手打蕎麥麵 とも花 🍜', departTime: '12:45', travelTime: '15 min', desc: '河口湖超人氣手打蕎麥麵專門店！', category: 'food', transportType: 'car', loc: '手打ち蕎麦 とも花', phone: '0555-72-1796' },
@@ -543,14 +547,14 @@
                                     { time: '22:30', title: '回程酒店休息 💤', departTime: '22:30', category: 'hotel', loc: 'Yaenomidori Tokyo' }
                                 ]},
                                 { weekday: 'Thu', dateStr: '4/23', events: [
-                                    { time: '06:15', title: '酒店食早餐 🍙', departTime: '06:15', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk' },
+                                    { time: '06:15', title: '由酒店出發 & 早餐 🍙', departTime: '06:15', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
                                     { time: '06:45', title: '出發 Disney 🚃', departTime: '06:45', desc: '【最遲極限】行去「八丁堀站」搭 JR京葉線！', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
                                     { time: '07:30', title: '抵達 DisneySea 門口 🏰', departTime: '07:30', desc: '安檢兼排隊，霸個靚位等 Rope Drop！', category: 'other', transportType: 'walk', loc: 'Tokyo DisneySea' },
                                     { time: '08:30', title: '入園第一秒：搶 Pass！📱', departTime: '08:30', desc: '✨ 即開 App 搶 Fantasy Springs Standby Pass！', category: 'ticket', transportType: 'walk' },
                                     { time: '20:30', title: '回程酒店休息 💤', departTime: '20:15', travelTime: '45 min', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
                                 ]},
                                 { weekday: 'Fri', dateStr: '4/24', events: [
-                                    { time: '09:00', title: '由酒店出發 🚃', departTime: '09:00', category: 'transport', transportType: 'walk' },
+                                    { time: '09:00', title: '由酒店出發 🚃', departTime: '09:00', category: 'transport', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
                                     { time: '09:30', title: '前往豐洲 🚌', desc: '【巴士】Tokyo BRT (新橋 -> 豐洲市場前)', departTime: '09:15', category: 'transport', transportType: 'bus', travelTime: '15 min', loc: '豊洲市場' },
                                     { time: '10:00', title: 'Lunch: 大和壽司 🍣', departTime: '09:45', travelTime: '15 min', desc: '✨ 賣完即止！已預約 (結婚紀念日)\n預約號: RCA5GN', category: 'highlight', transportType: 'walk', loc: '大和寿司' },
                                     { time: '13:30', title: 'TeamLab Planets 🌌', departTime: '13:00', travelTime: '30 min', desc: '豐洲 (入場時間: 13:00-13:30)\n✨ 門票已買！', category: 'sightseeing', transportType: 'walk', loc: 'TeamLab Planets' },
@@ -558,7 +562,7 @@
                                     { time: '20:30', title: '回程酒店休息 💤', departTime: '20:00', travelTime: '30 min', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
                                 ]},
                                 { weekday: 'Sat', dateStr: '4/25', events: [
-                                    { time: '09:00', title: '由酒店出發 & 早餐 🍙', departTime: '09:00', category: 'food', transportType: 'walk' },
+                                    { time: '09:00', title: '由酒店出發 & 早餐 🍙', departTime: '09:00', category: 'food', transportType: 'walk', loc: 'Yaenomidori Tokyo' },
                                     { time: '09:30', title: 'Check-out & 寄行李 🧳', departTime: '09:30', desc: '行李留喺酒店 Lobby，兩手空空出發食 Omakase！', category: 'hotel', transportType: 'walk', loc: 'ホテル八重翠東京', phone: '03-6263-2020' },
                                     { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接的士過去！', category: 'transport', transportType: 'train' },
                                     { time: '11:00', title: 'Lunch: まんてん鮨 (丸之內店) 🍣', departTime: '11:00', travelTime: '45 min', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'まんてん鮨 丸の内', phone: '03-6269-9100' },
@@ -631,6 +635,7 @@
                                 { date: 'Day 8', time: '19:30', name: '銀座 篝 本店', addr: '東京都中央区銀座', bookingNo: '現場排隊' },
                                 { date: 'Day 9', time: '11:30', name: '壽司郎 (Sushiro)', addr: '東京都中央區分店', bookingNo: 'APP 取號' }
                             ],
+                            expenses: [],
                             days: [
                                 { weekday: 'Sat', dateStr: '10/31', events: [
                                     { time: '06:30', title: '抵達成田 (CX524) ✈️', departTime: '07:15', travelTime: '45 min', desc: '落機過關，準備開展旅程！', category: 'flight', transportType: 'walk', loc: '成田空港' },
@@ -664,7 +669,7 @@
                                     { time: '10:30', title: '善光寺 🙏', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！<br>🚗 行車距離: 70km (約 1 小時)<br>🅿️ 泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52' },
                                     { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '15:00', travelTime: '1 hr', desc: '睇馬騮浸溫泉！<br>🚗 行車距離: 40km (約 1 小時)<br>🅿️ 泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '💡 REMINDER: 免費停車場專俾遊客泊！泊低行 30 分鐘山路入去，記得著好行嘅鞋！' },
                                     { time: '16:30', title: 'Check-in (季之庭) ♨️', departTime: '18:00', travelTime: '1.5 hr', desc: '全個 Trip 最豪華嘅草津溫泉旅館！<br>🚗 行車距離: 60km (約 1.5 小時)<br>🅿️ 泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', info: '💡 REMINDER: 已包高層溫泉露天風呂客房！' },
-                                    { time: '18:30', title: 'Dinner: 季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
+                                    { time: '18:30', title: '季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
                                     { time: '21:00', title: '休息 & 狂浸溫泉 💤', departTime: '21:00', travelTime: '0 min', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '11/04', events: [
