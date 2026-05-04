@@ -6,59 +6,122 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <title>🌸🍁 2026 10+1 OurStory</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700;900&display=swap" rel="stylesheet">
+
     <style>
         [v-cloak] { display: none !important; }
-        body { font-family: 'Zen Maru Gothic', sans-serif; margin: 0; padding: 0; width: 100vw; height: 100vh; height: 100dvh; overflow: hidden; overscroll-behavior-y: none; -webkit-tap-highlight-color: transparent; transition: background-color 0.5s ease; }
+        body {
+            font-family: 'Zen Maru Gothic', sans-serif;
+            margin: 0; padding: 0;
+            width: 100vw; height: 100vh; height: 100dvh;
+            overflow: hidden; overscroll-behavior-y: none;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.5s ease;
+        }
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
         .gallery-scroll { overflow-x: auto; padding-bottom: 10px; }
         .gallery-scroll::-webkit-scrollbar { height: 12px; display: block; }
-        .onsen-card { background-color: #FFFFFF; border-radius: 24px; overflow: hidden; transition: all 0.3s ease; }
-        .fancy-card { background: #FFFFFF; border-radius: 24px; box-shadow: 0 8px 24px rgba(0,0,0,0.06); overflow: hidden; margin-bottom: 20px; transition: transform 0.2s ease, box-shadow 0.2s ease; border: 1px solid rgba(0,0,0,0.02); }
-        .fancy-card:active { transform: scale(0.98); }
-        .ticket-cutout-left { position: absolute; top: 50%; left: -12px; width: 24px; height: 24px; background-color: var(--bg-main); border-radius: 50%; transform: translateY(-50%); box-shadow: inset -3px 0 5px rgba(0,0,0,0.02); }
-        .ticket-cutout-right { position: absolute; top: 50%; right: -12px; width: 24px; height: 24px; background-color: var(--bg-main); border-radius: 50%; transform: translateY(-50%); box-shadow: inset 3px 0 5px rgba(0,0,0,0.02); }
-        .overlay-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.95); z-index: 10000; display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .onsen-card {
+            background-color: #FFFFFF;
+            border-radius: 24px;
+            overflow: hidden; 
+            transition: all 0.3s ease;
+        }
+        /* Fancy Styles */
+        .fancy-card {
+            background: #FFFFFF;
+            border-radius: 24px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+            overflow: hidden;
+            margin-bottom: 20px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            border: 1px solid rgba(0,0,0,0.02);
+        }
+        .fancy-card:active {
+            transform: scale(0.98);
+        }
+        .ticket-cutout-left {
+            position: absolute; top: 50%; left: -12px; width: 24px; height: 24px; background-color: var(--bg-main); border-radius: 50%; transform: translateY(-50%); box-shadow: inset -3px 0 5px rgba(0,0,0,0.02);
+        }
+        .ticket-cutout-right {
+            position: absolute; top: 50%; right: -12px; width: 24px; height: 24px; background-color: var(--bg-main); border-radius: 50%; transform: translateY(-50%); box-shadow: inset 3px 0 5px rgba(0,0,0,0.02);
+        }
+        
+        .overlay-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.95); z-index: 10000; display: flex;
+            justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: opacity 0.3s ease;
+        }
         .overlay-bg.active { opacity: 1; pointer-events: auto; }
-        .modal-content { background: white; padding: 20px; border-radius: 24px; width: 90%; max-width: 400px; max-height: 90vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.3s ease; }
+        .modal-content {
+            background: white; padding: 20px; border-radius: 24px; width: 90%;
+            max-width: 400px; max-height: 90vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.3s ease;
+        }
         .overlay-bg.active .modal-content { transform: scale(1); }
-        .falling-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; }
-        @keyframes fall { 0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; } 100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; } }
-        .falling-item { position: absolute; top: -10%; animation-name: fall; animation-timing-function: linear; animation-iteration-count: infinite; font-size: 1.5rem; }
-        .accordion-enter-active, .accordion-leave-active { transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease; max-height: 1500px; overflow: hidden; }
+        
+        .falling-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50; 
+        }
+        @keyframes fall {
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
+        }
+        .falling-item {
+            position: absolute; top: -10%;
+            animation-name: fall; animation-timing-function: linear;
+            animation-iteration-count: infinite; font-size: 1.5rem;
+        }
+        
+        .accordion-enter-active, .accordion-leave-active {
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+            max-height: 1500px; overflow: hidden;
+        }
         .accordion-enter-from, .accordion-leave-to { max-height: 0; opacity: 0; }
     </style>
 </head>
 <body class="antialiased" :style="{ backgroundColor: currentTheme.bgMain, '--bg-main': currentTheme.bgMain }">
 
     <div id="app" v-cloak class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px' }">
+
         <div v-if="currentTheme.effect !== 'none'" class="falling-container">
             <div v-for="n in 12" :key="n" class="falling-item opacity-60" 
-                 :style="{ left: Math.random() * 100 + 'vw', animationDuration: (Math.random() * 5 + 5) + 's', animationDelay: (Math.random() * 5) + 's', color: currentTheme.accentMain }">
+                 :style="{ 
+                    left: Math.random() * 100 + 'vw', 
+                    animationDuration: (Math.random() * 5 + 5) + 's', 
+                    animationDelay: (Math.random() * 5) + 's',
+                    color: currentTheme.accentMain
+                 }">
                 {{ currentTheme.effectEmoji }}
             </div>
         </div>
 
         <div class="flex-1 flex flex-col relative z-10 h-full">
+            
             <div class="relative h-[28vh] min-h-[190px] max-h-[280px] flex-shrink-0 bg-cover bg-center transition-all duration-700 shadow-sm" :style="{ backgroundImage: currentTheme.headerImg }">
                 <div class="absolute inset-0 transition-colors duration-700" :style="{ background: currentTheme.headerGradient }"></div>
+                
                 <div class="absolute top-5 left-5 right-16 z-50">
                     <div class="flex bg-black/40 backdrop-blur-md rounded-full p-1 border border-white/20 shadow-inner">
                         <button @click="switchTrip('karuizawa')" :class="currentTrip === 'karuizawa' ? 'bg-white text-[#E91E63] font-bold shadow-md' : 'text-white/80'" class="flex-1 py-1.5 text-xs rounded-full transition-all duration-300">🌸 4月春季遊</button>
                         <button @click="switchTrip('central')" :class="currentTrip === 'central' ? 'bg-white text-[#E65100] font-bold shadow-md' : 'text-white/80'" class="flex-1 py-1.5 text-xs rounded-full transition-all duration-300">🍁 11月東京中部</button>
                     </div>
                 </div>
+
                 <button @click="showSettings = true" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-white/30 backdrop-blur-md flex items-center justify-center text-white z-50 hover:bg-white/40 transition shadow-sm border border-white/20"><i class="fa-solid fa-gear text-xs"></i></button>
+
                 <div class="absolute bottom-6 right-5 flex gap-2 z-20 bg-white/90 backdrop-blur-md p-1.5 rounded-full shadow-lg border border-white/50">
                     <button @click="activeTab = 'itinerary'" :class="tabClass('itinerary')"><i class="fa-solid fa-camera-retro text-base"></i></button>
                     <button @click="activeTab = 'info'" :class="tabClass('info')"><i class="fa-solid fa-circle-info text-base"></i></button>
                     <button @click="activeTab = 'shopping'" :class="tabClass('shopping')"><i class="fa-solid fa-basket-shopping text-base"></i></button>
                     <button @click="activeTab = 'expenses'" :class="tabClass('expenses')"><i class="fa-solid fa-yen-sign text-base"></i></button>
                 </div>
+                
                 <div class="absolute bottom-8 left-6 text-white text-shadow pr-40 transition-all duration-500">
                     <h1 class="text-xl font-bold tracking-widest leading-tight mb-1 drop-shadow-md">{{ currentTheme.title }}</h1>
                     <p class="text-[0.7rem] opacity-90 font-mono"><i :class="currentTheme.subIcon"></i> {{ currentTheme.subtitle }}</p>
@@ -89,6 +152,7 @@
                                     <div v-if="fujiVisibility" class="text-[0.55rem] font-bold mt-1 px-1.5 py-0.5 rounded-md border border-dashed shadow-sm bg-white" :style="{ color: '#1976D2', borderColor: '#BBDEFB' }">{{ fujiVisibility }}</div>
                                 </div>
                             </div>
+                            
                             <div class="flex space-x-3 overflow-x-auto no-scrollbar px-5 pb-2">
                                 <div v-for="(dayItem, index) in currentDays" :key="index" @click="selectedDayIndex = index" class="flex-shrink-0 flex flex-col items-center justify-center w-16 h-16 rounded-xl transition-all duration-300 snap-center cursor-pointer border-2 border-dashed shadow-sm" :style="selectedDayIndex === index ? { backgroundColor: currentTheme.accentMain, borderColor: currentTheme.accentMain, color: '#FFF', transform: 'scale(1.05)' } : { backgroundColor: '#FFF', borderColor: currentTheme.borderLight, color: currentTheme.textLight }">
                                     <span class="text-[0.55rem] font-bold uppercase mb-0.5">DAY {{ index + 1 }}</span><span class="text-xl font-black leading-none">{{ dayItem.dateStr.split('/')[1] }}</span><span class="text-[0.55rem] font-bold uppercase mt-0.5">{{ dayItem.weekday }}</span>
@@ -115,7 +179,7 @@
 
                                             <div class="flex flex-wrap gap-1.5 mt-2">
                                                 <span v-if="item.departTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" style="background-color: #FFF3E0; color: #E65100; border-color: #FFCC80;"><i class="fa-solid fa-person-running"></i> 最遲出發: {{ item.departTime }}</span>
-                                                <span v-if="item.travelTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> {{ item.travelTime }}</span>
+                                                <span v-if="item.travelTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> 預計: {{ item.travelTime }}</span>
                                                 <span v-if="item.loc" class="text-[0.65rem] bg-[#E3F2FD] text-[#42A5F5] px-2 py-1 rounded-lg font-bold border border-dashed border-[#BBDEFB] shadow-sm"><i class="fa-solid fa-location-arrow mr-0.5"></i>導航</span>
                                             </div>
                                         </div>
@@ -142,12 +206,18 @@
                         
                         <!-- 1. 鬧鐘 (發光漸變) -->
                         <div class="fancy-card">
-                            <div class="p-4 flex justify-between items-center cursor-pointer" :style="{ background: 'linear-gradient(135deg, #ffffff, ' + currentTheme.bgMain + ')' }" @click.stop.prevent="toggleAlarms">
+                            <div class="p-4 flex justify-between items-center cursor-pointer" 
+                                 :style="{ background: 'linear-gradient(135deg, #ffffff, ' + currentTheme.bgMain + ')' }"
+                                 @click.stop.prevent="toggleAlarms">
                                 <div class="flex items-center gap-2">
-                                    <div class="w-8 h-8 rounded-full flex items-center justify-center shadow-sm" :style="{ backgroundColor: currentTheme.accentMain, color: '#fff' }"><i class="fa-regular fa-bell animate-pulse"></i></div>
+                                    <div class="w-8 h-8 rounded-full flex items-center justify-center shadow-sm" :style="{ backgroundColor: currentTheme.accentMain, color: '#fff' }">
+                                        <i class="fa-regular fa-bell animate-pulse"></i>
+                                    </div>
                                     <span class="text-sm font-black" :style="{ color: currentTheme.textDark }">關鍵行動鬧鐘 (Click Me)</span>
                                 </div>
-                                <div class="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-sm" :style="{ color: currentTheme.accentMain }"><i :class="['fa-solid text-[10px] transition-transform duration-300', alarmsOpen ? 'fa-chevron-up' : 'fa-chevron-down']"></i></div>
+                                <div class="w-7 h-7 rounded-full bg-white flex items-center justify-center shadow-sm" :style="{ color: currentTheme.accentMain }">
+                                    <i :class="['fa-solid text-[10px] transition-transform duration-300', alarmsOpen ? 'fa-chevron-up' : 'fa-chevron-down']"></i>
+                                </div>
                             </div>
                             <transition name="accordion">
                                 <div v-show="alarmsOpen" class="p-4 bg-white space-y-3">
@@ -161,13 +231,17 @@
 
                         <!-- 2. 航班視覺化卡片 (Boarding Pass) -->
                         <div class="fancy-card relative">
+                            <!-- 剪裁效果 -->
                             <div class="ticket-cutout-left"></div>
                             <div class="ticket-cutout-right"></div>
+                            
                             <div class="p-4 text-white font-black text-sm flex items-center shadow-sm" :style="{ background: 'linear-gradient(135deg, ' + currentTheme.accentMain + ', ' + currentTheme.textLight + ')' }">
                                 <i class="fa-solid fa-plane-departure mr-2 text-lg"></i> 航班即時資訊 (CX)
                             </div>
                             <div class="p-5 bg-white space-y-6 relative">
+                                <!-- 虛線分隔線 -->
                                 <div class="absolute top-1/2 left-4 right-4 border-t-2 border-dashed border-gray-200 transform -translate-y-1/2 -z-10"></div>
+                                
                                 <div class="bg-white rounded-xl p-3 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-50">
                                     <div class="flex justify-between items-center mb-1">
                                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md">去程 Outbound</span>
@@ -190,6 +264,7 @@
                                         </div>
                                     </div>
                                 </div>
+                                
                                 <div class="bg-white rounded-xl p-3 shadow-[0_2px_10px_rgba(0,0,0,0.03)] border border-gray-50">
                                     <div class="flex justify-between items-center mb-1">
                                         <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest bg-rose-50 text-rose-600 px-2 py-0.5 rounded-md">回程 Inbound</span>
@@ -254,7 +329,7 @@
                                 <i class="fa-solid fa-utensils mr-2 text-lg"></i> 餐廳預約 & 情報總覽
                             </div>
                             <div class="p-4 space-y-0 bg-white">
-                                <div v-for="(res, index) in currentTripData.diningList" :key="res.name" class="flex gap-3 text-xs py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.diningList.length - 1 }">
+                                <div v-for="(res, idx) in currentTripData.diningList" :key="idx" class="flex gap-3 text-xs py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.diningList.length - 1 }">
                                     <div class="font-black w-14 text-center leading-tight flex flex-col justify-center items-center bg-gray-50 rounded-lg p-1 border border-gray-100 shadow-sm" :style="{ color: '#D84315' }">
                                         <span class="block text-[8px] text-gray-400 uppercase tracking-wider mb-0.5">{{ res.date }}</span>
                                         <span class="text-sm">{{ res.time }}</span>
@@ -264,7 +339,7 @@
                                         <div class="text-gray-400 mt-1 text-[10px] leading-tight"><i class="fa-solid fa-location-dot mr-1 text-gray-300"></i>{{ res.addr }}</div>
                                     </div>
                                     <div class="flex items-center">
-                                        <span class="text-[9px] font-black px-2 py-1 rounded-lg border shadow-sm whitespace-nowrap" :class="res.bookingNo.includes('排隊') || res.bookingNo.includes('現場') || res.bookingNo.includes('待預約') ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'">
+                                        <span class="text-[9px] font-black px-2 py-1 rounded-lg border shadow-sm whitespace-nowrap" :class="(res.bookingNo && (res.bookingNo.includes('排隊') || res.bookingNo.includes('現場') || res.bookingNo.includes('待預約'))) ? 'bg-amber-50 text-amber-700 border-amber-200' : 'bg-emerald-50 text-emerald-700 border-emerald-200'">
                                             {{ res.bookingNo }}
                                         </span>
                                     </div>
@@ -278,7 +353,7 @@
                                 <i class="fa-solid fa-square-parking mr-2 text-lg"></i> 泊車情報總覽 (全日揸車必看)
                             </div>
                             <div class="p-4 bg-white space-y-0 text-xs">
-                                <div v-for="(park, index) in currentTripData.parkingList" :key="park.name" class="py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.parkingList.length - 1 }">
+                                <div v-for="(park, idx) in currentTripData.parkingList" :key="idx" class="py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.parkingList.length - 1 }">
                                     <div class="font-black text-green-700 text-sm mb-1"><i class="fa-solid fa-car-side mr-1.5 opacity-70"></i>{{ park.name }}</div>
                                     <div class="text-gray-600 leading-relaxed bg-gray-50 p-2 rounded-lg border border-gray-100" v-html="formatText(park.detail)"></div>
                                 </div>
@@ -291,12 +366,12 @@
                                 <i class="fa-solid fa-bed mr-2 text-lg"></i> 浪漫住宿名單 (Hotel)
                             </div>
                             <div class="p-4 bg-white space-y-0 text-xs">
-                                <div v-for="(hotel, index) in currentTripData.hotels" :key="hotel.name" class="py-3" :class="{ 'border-b border-dashed border-gray-100': index !== currentTripData.hotels.length - 1 }">
+                                <div v-for="(hotel, idx) in currentTripData.hotels" :key="idx" class="py-3" :class="{ 'border-b border-dashed border-gray-100': idx !== currentTripData.hotels.length - 1 }">
                                     <div class="font-black text-sm text-gray-800">{{ hotel.name }}</div>
                                     <div v-if="hotel.addr" class="text-gray-400 mt-1 text-[10px]"><i class="fa-solid fa-map-marker-alt mr-1.5 text-gray-300"></i>{{ hotel.addr }}</div>
                                     <div class="mt-2 flex items-center gap-2">
                                         <span class="text-[10px] px-2 py-1 rounded-md font-black shadow-sm" style="background: #F3E5F5; color: #6A1B9A; border: 1px solid #E1BEE7;"><i class="fa-regular fa-calendar mr-1"></i>{{ hotel.dates }}</span>
-                                        <span v-if="hotel.status" class="text-[10px] px-2 py-1 rounded-md font-black shadow-sm" :class="hotel.status.includes('✅') ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600 border border-gray-200'">{{ hotel.status }}</span>
+                                        <span v-if="hotel.status" class="text-[10px] px-2 py-1 rounded-md font-black shadow-sm" :class="(hotel.status && hotel.status.includes('✅')) ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-gray-100 text-gray-600 border border-gray-200'">{{ hotel.status }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -356,7 +431,7 @@
             </div>
         </div>
 
-        <!-- 酒店 Modal (Fancy版) -->
+        <!-- 酒店 Modal -->
         <div :class="['overlay-bg', { 'active': showHotelModal }]" @click="showHotelModal = false">
             <div class="modal-content text-center shadow-2xl border-2" :style="{ borderColor: currentTheme.borderLight }" @click.stop>
                 <div class="w-16 h-16 mx-auto rounded-full flex items-center justify-center mb-4 shadow-inner" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain }">
@@ -382,11 +457,11 @@
             data() {
                 return {
                     currentTrip: 'central',
-                    activeTab: `itinerary`,
+                    activeTab: 'itinerary',
                     selectedDayIndex: 0, 
                     showSettings: false, showHotelModal: false, alarmsOpen: true, newShopItem: '',
-                    weather: { city_name: `東京`, temp: `--`, icon: `fa-spinner fa-spin` },
-                    apiKey: `cc2dab2806da14aec6dab2ed8260a1c4`, 
+                    weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
+                    apiKey: 'cc2dab2806da14aec6dab2ed8260a1c4', 
                     settings: { fontSize: 15 },
                     exchangeRate: 0.053, calcJpy: '', calcHkd: '',
                     
@@ -417,6 +492,7 @@
                                 { date: 'Day 7', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2', bookingNo: '✅ RCA5GN' },
                                 { date: 'Day 8', time: '11:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', bookingNo: '✅ 已預約' }
                             ],
+                            expenses: [],
                             days: [
                                 { weekday: 'Sat', dateStr: '4/18', events: [
                                     { time: '06:40', title: '抵達成田 (NRT)', desc: '搭機到達日本！過關攞行李！', category: 'flight', transportType: 'flight', loc: 'Narita Airport' },
@@ -589,7 +665,7 @@
                                     { time: '10:30', title: '善光寺 🙏', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！<br>🚗 行車距離: 70km (約 1 小時)<br>🅿️ 泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52' },
                                     { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '15:00', travelTime: '1 hr', desc: '睇馬騮浸溫泉！<br>🚗 行車距離: 40km (約 1 小時)<br>🅿️ 泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '💡 REMINDER: 免費停車場專俾遊客泊！泊低行 30 分鐘山路入去，記得著好行嘅鞋！' },
                                     { time: '16:30', title: 'Check-in (季之庭) ♨️', departTime: '18:00', travelTime: '1.5 hr', desc: '全個 Trip 最豪華嘅草津溫泉旅館！<br>🚗 行車距離: 60km (約 1.5 小時)<br>🅿️ 泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', info: '💡 REMINDER: 已包高層溫泉露天風呂客房！' },
-                                    { time: '18:30', title: 'Dinner: 季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
+                                    { time: '18:30', title: '季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
                                     { time: '21:00', title: '休息 & 狂浸溫泉 💤', departTime: '21:00', travelTime: '0 min', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '11/04', events: [
@@ -672,7 +748,6 @@
                     if (!fujiDays.includes(this.selectedDayIndex)) return null;
                     if (this.weather.icon === 'fa-sun') return '🗻 富士山: 絕景 (90%)';
                     if (this.weather.icon === 'fa-cloud-sun') return '🗻 富士山: 隱現 (50%)';
-                    if (this.weather.icon.includes('rain') || this.weather.icon.includes('cloud')) return '🗻 富士山: 殘念 (10%)';
                     return '🗻 富士預測中...';
                 }
             },
