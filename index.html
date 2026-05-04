@@ -51,7 +51,6 @@
         .ticket-cutout-right {
             position: absolute; top: 50%; right: -12px; width: 24px; height: 24px; background-color: var(--bg-main); border-radius: 50%; transform: translateY(-50%); box-shadow: inset 3px 0 5px rgba(0,0,0,0.02);
         }
-        
         .overlay-bg {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-color: rgba(0,0,0,0.95); z-index: 10000; display: flex;
@@ -63,21 +62,6 @@
             max-width: 400px; max-height: 90vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.3s ease;
         }
         .overlay-bg.active .modal-content { transform: scale(1); }
-        
-        .falling-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 50; 
-        }
-        @keyframes fall {
-            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) translateX(20px) rotate(360deg); opacity: 0; }
-        }
-        .falling-item {
-            position: absolute; top: -10%;
-            animation-name: fall; animation-timing-function: linear;
-            animation-iteration-count: infinite; font-size: 1.5rem;
-        }
-        
         .accordion-enter-active, .accordion-leave-active {
             transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
             max-height: 1500px; overflow: hidden;
@@ -88,18 +72,6 @@
 <body class="antialiased" :style="{ backgroundColor: currentTheme.bgMain, '--bg-main': currentTheme.bgMain }">
 
     <div id="app" v-cloak class="h-full flex flex-col relative transition-colors duration-700" :style="{ fontSize: settings.fontSize + 'px' }">
-
-        <div v-if="currentTheme.effect !== 'none'" class="falling-container">
-            <div v-for="n in 12" :key="n" class="falling-item opacity-60" 
-                 :style="{ 
-                    left: Math.random() * 100 + 'vw', 
-                    animationDuration: (Math.random() * 5 + 5) + 's', 
-                    animationDelay: (Math.random() * 5) + 's',
-                    color: currentTheme.accentMain
-                 }">
-                {{ currentTheme.effectEmoji }}
-            </div>
-        </div>
 
         <div class="flex-1 flex flex-col relative z-10 h-full">
             
@@ -180,9 +152,7 @@
                                             <div class="flex flex-wrap gap-1.5 mt-2">
                                                 <span v-if="item.departTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" style="background-color: #FFF3E0; color: #E65100; border-color: #FFCC80;"><i class="fa-solid fa-person-running"></i> 最遲出發: {{ item.departTime }}</span>
                                                 <span v-if="item.travelTime" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold flex items-center gap-1 border border-dashed shadow-sm" :style="{ backgroundColor: currentTheme.bgMain, color: currentTheme.accentMain, borderColor: currentTheme.borderLight }"><i :class="getTransportIcon(item.transportType)"></i> 預計: {{ item.travelTime }}</span>
-                                                <span v-if="item.loc" class="text-[0.65rem] bg-[#E3F2FD] text-[#42A5F5] px-2 py-1 rounded-lg font-bold border border-dashed border-[#BBDEFB] shadow-sm">
-                                                    <i class="fa-solid fa-location-arrow mr-0.5"></i>導航
-                                                </span>
+                                                <span v-if="item.loc" class="text-[0.65rem] bg-[#E3F2FD] text-[#42A5F5] px-2 py-1 rounded-lg font-bold border border-dashed border-[#BBDEFB] shadow-sm"><i class="fa-solid fa-location-arrow mr-0.5"></i>導航</span>
                                             </div>
                                         </div>
                                         
@@ -648,7 +618,7 @@
                                     { time: '22:00', title: '回酒店休息 💤', departTime: '22:00', travelTime: '50 min', desc: '返回沼津酒店休息！<br>🚗 行車距離: 45km (約 50 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
                                 { weekday: 'Sun', dateStr: '11/01', events: [
-                                    { time: '07:30', title: '由酒店出發 & 買早餐 🍳', departTime: '08:15', travelTime: '45 min', desc: '去便利店買早餐上車食！', category: 'food', transportType: 'walk', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 今日景點多且酒店不包餐，務必 08:15 準時開車！' },
+                                    { time: '07:30', title: '買早餐 / 準備出發 🍳', departTime: '08:15', travelTime: '45 min', desc: '去便利店買早餐上車食！', category: 'food', transportType: 'walk', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 今日景點多且酒店不包餐，務必 08:15 準時開車！' },
                                     { time: '09:30', title: '大室山 🌋', departTime: '12:00', travelTime: '1 hr 15 min', desc: '趁少人搭吊車上火山口！<br>🚗 行車距離: 45km (約 1 小時 15 分鐘)<br>🅿️ 泊車: 大室山免費停車場', category: 'sightseeing', loc: '大室山', transportType: 'car', phone: '0557-51-0258', mapcode: '48 846 512*63', info: '💡 REMINDER: 星期日 10 點後一定會冇位泊車！必須 09:30 到霸位！' },
                                     { time: '13:00', title: '修善寺溫泉 ♨️', departTime: '14:30', travelTime: '50 min', desc: '散步竹林小徑，食個輕 Lunch！<br>🚗 行車距離: 30km (約 50 分鐘)<br>🅿️ 泊車: 修善寺周邊收費停車場 (約 ¥400)', category: 'sightseeing', loc: '修善寺', transportType: 'car', phone: '0558-72-2501', mapcode: '116 186 084*42', info: '💡 REMINDER: 溫泉街有好多小食店可以掃街！' },
                                     { time: '15:30', title: '清水小丸子樂園 & 巴川河 🎡', departTime: '17:30', travelTime: '1 hr', desc: '朝聖小丸子勝景遊！<br>🚗 行車距離: 65km (約 1 小時)<br>🅿️ 泊車: S-Pulse Dream Plaza 停車場', category: 'sightseeing', loc: 'ちびまる子ちゃんランド', transportType: 'car', phone: '054-354-3311', mapcode: '25 629 795*72', info: '💡 REMINDER: 行去旁邊巴川河打卡！商場消費可免泊車費！' },
@@ -656,7 +626,8 @@
                                     { time: '21:00', title: '回酒店休息 💤', departTime: '21:00', travelTime: '30 min', desc: '返到沼津好好休息！<br>🚗 行車距離: 15km (約 30 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
                                 { weekday: 'Mon', dateStr: '11/02', events: [
-                                    { time: '08:00', title: '由酒店出發 & 市區早餐 🍔', departTime: '08:45', travelTime: '45 min', desc: '食飽準備揸長途車！離開沼津向長野進發！', category: 'food', transportType: 'walk', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 酒店不包餐，記得加滿水同買定零食上車。' },
+                                    { time: '08:00', title: '市區早餐 🍔', departTime: '08:45', travelTime: '45 min', desc: '食飽準備揸長途車！離開沼津向長野進發！', category: 'food', transportType: 'walk', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 酒店不包餐，記得加滿水同買定零食上車。' },
+                                    { time: '08:45', title: '由酒店出發 & Check-out 🚗', departTime: '08:45', desc: '離開沼津向長野進發！', category: 'hotel', transportType: 'car', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71' },
                                     { time: '11:30', title: '立石公園 (諏訪湖) 🌅', departTime: '13:00', travelTime: '2.5 hr', desc: '《你的名字》系守町取景地！<br>🚗 行車距離: 150km (約 2.5 小時)<br>🅿️ 泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', info: '💡 REMINDER: 作為中途休息站，伸展下筋骨打個卡！' },
                                     { time: '14:30', title: '松本城 🏯', departTime: '16:30', travelTime: '1 hr', desc: '抵達松本！參觀日本國寶城！<br>🚗 行車距離: 50km (約 1 小時)<br>🅿️ 泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66' },
                                     { time: '17:00', title: 'Check-in (Onyado Nono) 🏨', departTime: '18:30', travelTime: '10 min', desc: '全和式榻榻米酒店，超級舒服！<br>🚗 行車距離: 2km (約 10 分鐘)<br>🅿️ 泊車: 酒店立體停車場 (¥1400/晚) 或 Silk Parking (¥1200/晚)', category: 'hotel', loc: '天然温泉 梓の湯 ドーミーイン松本', transportType: 'car', phone: '0263-37-5489', mapcode: '75 821 474*88', info: '💡 REMINDER: 入酒店要除鞋，體驗日式風情！' },
@@ -669,7 +640,7 @@
                                     { time: '10:30', title: '善光寺 🙏', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！<br>🚗 行車距離: 70km (約 1 小時)<br>🅿️ 泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52' },
                                     { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '15:00', travelTime: '1 hr', desc: '睇馬騮浸溫泉！<br>🚗 行車距離: 40km (約 1 小時)<br>🅿️ 泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '💡 REMINDER: 免費停車場專俾遊客泊！泊低行 30 分鐘山路入去，記得著好行嘅鞋！' },
                                     { time: '16:30', title: 'Check-in (季之庭) ♨️', departTime: '18:00', travelTime: '1.5 hr', desc: '全個 Trip 最豪華嘅草津溫泉旅館！<br>🚗 行車距離: 60km (約 1.5 小時)<br>🅿️ 泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', info: '💡 REMINDER: 已包高層溫泉露天風呂客房！' },
-                                    { time: '18:30', title: 'Dinner: 季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
+                                    { time: '18:30', title: '季之庭 會席料理 👘', departTime: '20:30', travelTime: '2 hr', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
                                     { time: '21:00', title: '休息 & 狂浸溫泉 💤', departTime: '21:00', travelTime: '0 min', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
                                 { weekday: 'Wed', dateStr: '11/04', events: [
@@ -727,14 +698,14 @@
                             bgMain: "#FCE4EC", textDark: "#880E4F", textLight: "#F06292", accentMain: "#E91E63", borderLight: "#F8BBD0",
                             shadow: "0 8px 24px rgba(233, 30, 99, 0.15)", headerImg: "url('./header_karuizawa.jpg')",
                             headerGradient: "linear-gradient(to bottom, rgba(136, 14, 79, 0.2), rgba(136, 14, 79, 0.7))",
-                            effect: 'flower', effectEmoji: '🌸'
+                            effect: 'none', effectEmoji: ''
                         },
                         central: {
                             title: "10+1 OurStory", subtitle: "成田自駕紅葉之旅", subIcon: "fa-solid fa-leaf",
                             bgMain: "#FFF3E0", textDark: "#E65100", textLight: "#FFB74D", accentMain: "#FF9800", borderLight: "#FFE0B2",
                             shadow: "0 8px 24px rgba(255, 152, 0, 0.15)", headerImg: "url('./header_central.jpg')",
                             headerGradient: "linear-gradient(to bottom, rgba(230, 81, 0, 0.2), rgba(230, 81, 0, 0.7))",
-                            effect: 'leaf', effectEmoji: '🍁'
+                            effect: 'none', effectEmoji: ''
                         }
                     }
                 }
