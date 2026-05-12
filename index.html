@@ -206,7 +206,7 @@
                     <!-- 🫧 Info Tab - 極光琉璃風 (Aurora Glassmorphism) -->
                     <div v-if="activeTab === 'info'" class="relative space-y-5 px-5 pt-4 pb-8 z-10 min-h-full">
                         
-                        <!-- 🌈 炫彩極光背景 Blobs (只喺 Info Tab 顯示，墊喺玻璃下面) -->
+                        <!-- 🌈 炫彩極光背景 Blobs -->
                         <div class="fixed top-1/4 left-0 w-full h-full overflow-hidden pointer-events-none z-[-1]">
                             <div class="absolute w-72 h-72 rounded-full mix-blend-multiply filter blur-[50px] opacity-50 animate-blob" :style="{ backgroundColor: currentTheme.borderLight, top: '0%', left: '-10%' }"></div>
                             <div class="absolute w-72 h-72 rounded-full mix-blend-multiply filter blur-[50px] opacity-40 animate-blob animation-delay-2000" :style="{ backgroundColor: currentTheme.textLight, top: '30%', right: '-10%' }"></div>
@@ -559,14 +559,17 @@
                                 { name: '沼津港 (丸天)', detail: '魚河岸大型停車場 (免費)。' },
                                 { name: '三島大吊橋', detail: '園區免費大型停車場。' },
                                 { name: '大室山', detail: '山腳免費大型停車場 (09:00到霸位)。' },
+                                { name: '熱海銀座周邊', detail: '推薦泊「市営東駐車場」或周邊 Times (約¥300/30分)。' },
+                                { name: '清水入江小學周邊', detail: '學校不能泊車，建議短暫停靠或使用附近 Coin Parking。' },
                                 { name: '小丸子樂園', detail: 'S-Pulse Dream Plaza 停車場 (消費免泊)。' },
-                                { name: '修善寺溫泉', detail: '渡月橋收費停車場 (約¥400)。' },
                                 { name: '松本城', detail: '市營松本城停車場 (¥300/小時)。' },
                                 { name: 'Onyado Nono Matsumoto', detail: '酒店立體停車場先到先得 (¥1,400/晚) 或 提攜「Silk Parking」 (¥1,200/晚，不可中途出車)。TEL: 0263-37-5489' },
                                 { name: '地獄谷野猿公苑', detail: '上林溫泉無料停車場 (唔浸溫泉都泊得)。' },
                                 { name: '榛名湖 (秋名山)', detail: '湖畔有多個免費大型停車場。' },
                                 { name: '河口湖 Kobaiya', detail: '餐廳門口專屬免費位 (約6個)。' },
                                 { name: '山中湖長池公園', detail: '湖邊免費停車帶。' },
+                                { name: '下吉田駅 (本町通)', detail: '下吉田駅停車場，行去本町通打卡位只需5分鐘。' },
+                                { name: '新倉山淺間公園', detail: '山腳免費停車場，紅葉旺季極易爆滿，建議盡早抵達。' },
                                 { name: '御殿場 Outlet', detail: 'P區大型免費位。' },
                                 { name: '八重翠東京酒店', detail: '附屬位極少！去附近 <b>Times 八丁堀第10</b> 或 <b>NPC24H八丁堀</b> (24h 封頂約¥2400)。' },
                                 { name: '築地市場', detail: '築地川第一停車場 (¥200/30分)。' }
@@ -574,7 +577,8 @@
                             diningList: [
                                 { date: 'Day 1', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', bookingNo: '現場排隊' },
                                 { date: 'Day 1', time: '19:30', name: '木曾路 靜岡店', addr: '静岡県静岡市駿河区下石田31-1', bookingNo: '待預約' },
-                                { date: 'Day 2', time: '12:30', name: '熱海 Lunch & 散策', addr: '静岡県熱海市銀座町', bookingNo: '熱海おさかな食堂' },
+                                { date: 'Day 2', time: '12:30', name: '熱海おさかな食堂', addr: '静岡県熱海市銀座町8-8', bookingNo: '現場排隊' },
+                                { date: 'Day 2', time: '13:30', name: '熱海プリン (熱海布甸)', addr: '静岡県熱海市銀座町3-13', bookingNo: '排隊外賣' },
                                 { date: 'Day 2', time: '18:30', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', bookingNo: '現場排隊' },
                                 { date: 'Day 3', time: '19:00', name: '信州蕎麥處 みよ田', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
                                 { date: 'Day 5', time: '14:30', name: '手打ちそば こばや', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
