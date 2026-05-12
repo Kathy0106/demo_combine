@@ -178,6 +178,9 @@
                                                 <span v-if="item.loc" class="text-[0.65rem] bg-[#E3F2FD] text-[#42A5F5] px-2 py-1 rounded-lg font-bold border border-dashed border-[#BBDEFB] shadow-sm">
                                                     <i class="fa-solid fa-location-arrow mr-0.5"></i>導航
                                                 </span>
+                                                <span v-if="item.loc2" @click.stop="openMap(item.loc2)" class="text-[0.65rem] px-2 py-1 rounded-lg font-bold border border-dashed shadow-sm cursor-pointer active:scale-95" :style="{ backgroundColor: currentTheme.accentMain + '20', color: currentTheme.accentMain, borderColor: currentTheme.accentMain + '50' }">
+                                                    <i class="fa-solid fa-location-arrow mr-0.5"></i>副導航: {{ item.loc2Name }}
+                                                </span>
                                             </div>
                                         </div>
                                         
@@ -557,6 +560,7 @@
                                 { name: '三島大吊橋', detail: '園區免費大型停車場。' },
                                 { name: '大室山', detail: '山腳免費大型停車場 (09:00到霸位)。' },
                                 { name: '小丸子樂園', detail: 'S-Pulse Dream Plaza 停車場 (消費免泊)。' },
+                                { name: '修善寺溫泉', detail: '渡月橋收費停車場 (約¥400)。' },
                                 { name: '松本城', detail: '市營松本城停車場 (¥300/小時)。' },
                                 { name: 'Onyado Nono Matsumoto', detail: '酒店立體停車場先到先得 (¥1,400/晚) 或 提攜「Silk Parking」 (¥1,200/晚，不可中途出車)。TEL: 0263-37-5489' },
                                 { name: '地獄谷野猿公苑', detail: '上林溫泉無料停車場 (唔浸溫泉都泊得)。' },
@@ -570,7 +574,7 @@
                             diningList: [
                                 { date: 'Day 1', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', bookingNo: '現場排隊' },
                                 { date: 'Day 1', time: '19:30', name: '木曾路 靜岡店', addr: '静岡県静岡市駿河区下石田31-1', bookingNo: '待預約' },
-                                { date: 'Day 2', time: '12:30', name: '熱海銀座商店街 散策', addr: '静岡県熱海市銀座町', bookingNo: '自由覓食' },
+                                { date: 'Day 2', time: '12:30', name: '熱海 Lunch & 散策', addr: '静岡県熱海市銀座町', bookingNo: '熱海おさかな食堂' },
                                 { date: 'Day 2', time: '18:30', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', bookingNo: '現場排隊' },
                                 { date: 'Day 3', time: '19:00', name: '信州蕎麥處 みよ田', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
                                 { date: 'Day 5', time: '14:30', name: '手打ちそば こばや', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
@@ -595,7 +599,7 @@
                                 { weekday: 'Sun', dateStr: '11/01', events: [
                                     { time: '08:15', title: '買早餐 / 準備出發 🍳', departTime: '08:15', travelTime: '1 hr 15 min', desc: '去便利店買早餐上車食！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 今日拉力賽，務必 08:15 準時開車！' },
                                     { time: '09:30', title: '大室山 🌋', departTime: '11:30', travelTime: '1 hr', desc: '趁少人搭吊車上火山口！<br>🚗 行車距離: 45km (約 1 小時 15 分鐘)<br>🅿️ 泊車: 大室山免費停車場', category: 'sightseeing', loc: '大室山', transportType: 'car', phone: '0557-51-0258', mapcode: '48 846 512*63', info: '💡 REMINDER: 星期日 10 點後一定會冇位泊車！必須 09:30 到霸位！' },
-                                    { time: '12:30', title: '熱海 Lunch & 散策 🍮', departTime: '14:00', travelTime: '1.5 hr', desc: '去熱海銀座商店街食海鮮丼、買「熱海布甸」，再落陽光海灘打卡！<br>🚗 行車距離: 沿海公路約 1 小時<br>🅿️ 泊車: 商店街周邊收費 Times', category: 'food', loc: '熱海銀座商店街', transportType: 'car', mapcode: '116 023 273*82' },
+                                    { time: '12:30', title: '熱海 Lunch & 散策 🍮', departTime: '14:00', travelTime: '1.5 hr', desc: '去「熱海おさかな食堂」食海鮮丼，買「熱海布甸」，再落陽光海灘打卡！<br>🚗 行車距離: 沿海公路約 1 小時<br>🅿️ 泊車: 商店街周邊收費 Times', category: 'food', loc: '熱海おさかな食堂', loc2: '熱海プリン', loc2Name: '熱海布甸', transportType: 'car', mapcode: '116 023 273*82' },
                                     { time: '15:30', title: '小丸子母校: 入江小學 🏫', departTime: '15:45', travelTime: '10 min', desc: '小丸子真實嘅小學！🏫<br>⚠️ 留意只能喺校門外遠處影相打卡，切勿入內或打擾學生上堂呀！', category: 'sightseeing', loc: '静岡市立清水入江小学校', transportType: 'car', phone: '054-366-0151', mapcode: '25 683 482*11' },
                                     { time: '15:55', title: '巴川 & 稚兒橋 🌉', departTime: '16:15', travelTime: '10 min', desc: '動畫最常出現嘅巴川同埋稚兒橋！橋頭仲有神秘嘅河童雕像，鐵粉打卡必去！', category: 'sightseeing', loc: '稚児橋', transportType: 'car', mapcode: '25 683 609*33' },
                                     { time: '16:25', title: 'S-Pulse Dream Plaza 掃貨 🛍️', departTime: '17:15', travelTime: '1 hr', desc: '唔入樂園直攻 3 樓周邊店！呢度有【全日本最齊全】嘅小丸子限定商品！買爆文具、零食同公仔！<br>🎡 走之前去商場門口搵埋櫻桃子親自設計嘅「彩色小丸子渠蓋」！', category: 'shopping', loc: 'S-Pulse Dream Plaza', transportType: 'car', phone: '054-354-3360', mapcode: '25 629 795*72', info: '💡 REMINDER: 買滿指定金額可以免泊車費！' },
