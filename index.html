@@ -1,83 +1,141 @@
-<!DOCTYPE html>
-<html lang="zh-HK">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>老細嘅專屬行程表</title>
-    <style>
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; margin: 0; padding: 20px; background-color: #f8f9fa; color: #333; }
-        .container { max-width: 800px; margin: 0 auto; }
-        h1 { text-align: center; color: #2c3e50; border-bottom: 2px solid #2c3e50; padding-bottom: 10px; }
-        h2 { color: #2980b9; margin-top: 30px; }
-        .card { background: #fff; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .info-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        .info-table th, .info-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
-        .info-table th { background-color: #ecf0f1; width: 30%; }
-        .timeline-item { border-left: 4px solid #3498db; padding-left: 20px; margin-bottom: 25px; position: relative; }
-        .timeline-item::before { content: ''; position: absolute; left: -10px; top: 0; width: 16px; height: 16px; background-color: #3498db; border-radius: 50%; }
-        .time { font-weight: bold; color: #e67e22; font-size: 1.1em; }
-        .distance { font-size: 0.9em; color: #7f8c8d; background: #ecf0f1; padding: 3px 8px; border-radius: 10px; display: inline-block; margin: 5px 0; }
-        .reminder { background-color: #fff3cd; color: #856404; padding: 10px; border-left: 4px solid #ffeeba; margin: 10px 0; font-weight: bold; }
-        .action { background-color: #e8f4f8; padding: 10px; border-radius: 4px; margin-bottom: 10px; }
-        .nav-btn { display: inline-block; background-color: #27ae60; color: #fff; padding: 8px 15px; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        .nav-btn:hover { background-color: #2ecc71; }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>✈️ 老細專屬行程表 - [填寫目的地]</h1>
-        
-        <div class="card">
-            <h2>🛫 航班資料</h2>
-            <table class="info-table">
-                <tr><th>去程航班</th><td>[航班編號] - 起飛: [時間] / 降落: [時間]</td></tr>
-                <tr><th>回程航班</th><td>[航班編號] - 起飛: [時間] / 降落: [時間]</td></tr>
-            </table>
+<div class="day-schedule">
+    <h2>📅 Day 5: 11月4日 (三) —— 富士山 x 紅葉祭</h2>
+    
+    <div class="schedule-item">
+        <div class="time">10:00</div>
+        <div class="content">
+            <h3>準備出發</h3>
+            <p><strong>Action：</strong>Check-out 離開湯宿季之庭。</p>
         </div>
-
-        <div class="card">
-            <h2>🏨 住宿資料</h2>
-            <table class="info-table">
-                <tr><th>酒店名稱</th><td>[酒店名稱]</td></tr>
-                <tr><th>酒店地址</th><td>[地址] <a href="[Google Maps Link]" class="nav-link" target="_blank">(撳我打開地圖)</a></td></tr>
-                <tr><th>Check-in / Out</th><td>[時間] / [時間]</td></tr>
-            </table>
-        </div>
-
-        <div class="card">
-            <h2>📅 Day 1 - [日期]</h2>
-            
-            <div class="timeline-item">
-                <div class="time">09:00 AM - 準備出門</div>
-                <div class="reminder">⚠️ 溫馨提示：記得帶齊護照同車匙。</div>
-            </div>
-
-            <div class="timeline-item">
-                <div class="distance">🚗 車程：約 [X] 分鐘 (距離 [Y] 公里)</div>
-                <div class="time">09:30 AM - [景點名稱 A]</div>
-                <div class="action">
-                    <strong>主要活動：</strong>[喺呢個景點要做啲咩，例如：打卡、食早餐]
-                </div>
-                <div class="reminder">
-                    🅿️ 泊車位置：[停車場名稱/收費詳情]<br>
-                    ⏰ 營業時間：[已經核對，保證當日有開]
-                </div>
-                <a href="[Google Maps Direct Link]" class="nav-btn" target="_blank">📍 導航去呢度</a>
-            </div>
-
-            <div class="timeline-item">
-                <div class="distance">🚶‍♂️ 步行：約 [X] 分鐘 (距離 [Y] 米)</div>
-                <div class="time">11:30 AM - [景點名稱 B]</div>
-                <div class="action">
-                    <strong>主要活動：</strong>[行程重點]
-                </div>
-                <div class="reminder">
-                    💡 注意事項：[例如：需要提前買飛/預約]
-                </div>
-                <a href="[Google Maps Direct Link]" class="nav-btn" target="_blank">📍 導航去呢度</a>
-            </div>
-            
-            </div>
     </div>
-</body>
-</html>
+
+    <div class="schedule-item">
+        <div class="transit">🚗 車程：約 3小時</div>
+        <div class="time">13:00</div>
+        <div class="content">
+            <h3>景點：河口湖 (大石公園)</h3>
+            <p><strong>To Do：</strong>欣賞河口湖與富士山絕景。</p>
+            <div class="reminder">
+                <p>☎️ 電話：0555-76-8230 | 📍 Mapcode：161 303 446*52</p>
+                <p>🅿️ 泊車：免費停車場</p>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=0555-76-8230" target="_blank" class="nav-button">📍 Direct去大石公園</a>
+        </div>
+    </div>
+
+    <div class="schedule-item">
+        <div class="transit">🚗 車程：約 10分鐘</div>
+        <div class="time">14:30</div>
+        <div class="content">
+            <h3>景點：河口湖紅葉迴廊</h3>
+            <p><strong>To Do：</strong>漫步紅葉迴廊打卡。</p>
+            <div class="reminder">
+                <p>☎️ 電話：0555-72-2277 | 📍 Mapcode：161 361 561*66</p>
+                <p>🅿️ 泊車：紅葉祭臨時免費停車場</p>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=0555-72-2277" target="_blank" class="nav-button">📍 Direct去紅葉迴廊</a>
+        </div>
+    </div>
+
+    <div class="schedule-item">
+        <div class="transit">🚗 車程：約 50分鐘</div>
+        <div class="time">16:30</div>
+        <div class="content">
+            <h3>Check-in：HOTEL CLAD</h3>
+            <p><strong>🏨 住宿資料：</strong></p>
+            <ul>
+                <li>房型：富士山側 (Mt. Fuji View)</li>
+                <li>To Do：浸「木之花之湯」睇富士山日落。</li>
+            </ul>
+            <div class="reminder">
+                <p>☎️ 電話：0550-81-0321 | 📍 Mapcode：50 806 191*75</p>
+                <p>🅿️ 泊車：住客免費停車場</p>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=0550-81-0321" target="_blank" class="nav-button">📍 Direct去 HOTEL CLAD</a>
+        </div>
+    </div>
+</div>
+
+<div class="day-schedule">
+    <h2>📅 Day 6: 11月5日 (四) —— 逆富士 & Shopping & 還車 (Mission Day)</h2>
+    
+    <div class="schedule-item">
+        <div class="time">06:30</div>
+        <div class="content">
+            <h3>晨早突擊：山中湖長池親水公園 🌅</h3>
+            <p><strong>Action：</strong>06:30 酒店出車 -> 07:00 到達 (日出後平靜湖面睇逆富士！)。</p>
+            <div class="reminder">
+                <p>☎️ 電話：0555-62-9077 (Paper Moon Cafe 附近) | 📍 Mapcode：434 324 577*85</p>
+                <p>🅿️ 泊車：公園免費停車場</p>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=0555-62-9077" target="_blank" class="nav-button">📍 Direct去長池親水公園</a>
+        </div>
+    </div>
+
+    <div class="schedule-item">
+        <div class="transit">🚗 車程：來回約 1小時 (返酒店食早餐)</div>
+        <div class="time">10:00</div>
+        <div class="content">
+            <h3>Shopping：御殿場 Premium Outlets</h3>
+            <p><strong>To Do：</strong>血拼 Shopping。</p>
+            <div class="reminder">
+                <p>🅿️ 泊車：停 P2停車場 (Hotel Clad 旁，住客免費)</p>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=Gotemba+Premium+Outlets" target="_blank" class="nav-button">📍 Direct去御殿場 Outlets</a>
+        </div>
+    </div>
+
+    <div class="schedule-item">
+        <div class="transit">🚗 車程：約 40分鐘</div>
+        <div class="time">14:00</div>
+        <div class="content">
+            <h3>景點：箱根神社 (平和之鳥居)</h3>
+            <p><strong>To Do：</strong>參拜及鳥居打卡。</p>
+            <div class="reminder">
+                <p>☎️ 電話：0460-83-7123 | 📍 Mapcode：57 123 048*31</p>
+                <p>🅿️ 泊車：神社免費停車場</p>
+            </div>
+            <a href="https://www.google.com/maps/search/?api=1&query=0460-83-7123" target="_blank" class="nav-button">📍 Direct去箱根神社</a>
+        </div>
+    </div>
+
+    <div class="schedule-item">
+        <div class="transit">🚗 車程：約 2小時 (預留塞車時間)</div>
+        <div class="time">18:00</div>
+        <div class="content">
+            <h3>🚗 還車 (Return Car)</h3>
+            <p><strong>📍 地點：</strong>淺草/上野分店 (Set 導航去租車店電話)。</p>
+            <p><strong>⚠️ Action：</strong>還車前必須搵油站入滿油 (Full Tank)。</p>
+        </div>
+    </div>
+
+    <div class="schedule-item">
+        <div class="time">19:00</div>
+        <div class="content">
+            <h3>Check-in：淺草東武酒店</h3>
+            <p><strong>🏨 住宿資料：</strong></p>
+            <ul>
+                <li>房型：Double Room</li>
+                <li>交通：的士/地鐵前往酒店。</li>
+            </ul>
+            <a href="https://www.google.com/maps/search/?api=1&query=Asakusa+Tobu+Hotel" target="_blank" class="nav-button">📍 Direct去淺草東武酒店</a>
+        </div>
+    </div>
+
+    <div class="schedule-item">
+        <div class="time">19:30</div>
+        <div class="content">
+            <h3>Dinner：鳥貴族 (淺草店)</h3>
+            <p><strong>To Do：</strong>晚餐</p>
+            <a href="https://www.google.com/maps/search/?api=1&query=鳥貴族+淺草" target="_blank" class="nav-button">📍 Direct去鳥貴族 (淺草店)</a>
+        </div>
+    </div>
+    
+    <div class="schedule-item">
+        <div class="time">21:30</div>
+        <div class="content">
+            <h3>返酒店</h3>
+            <p><strong>To Do：</strong>返回淺草東武酒店休息。</p>
+        </div>
+    </div>
+</div>
