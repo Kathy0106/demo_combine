@@ -511,27 +511,28 @@
                             ]
                         },
                         central: {
-                            id: 'central', date: '2026-10-31', range: 'Oct 31 - Nov 08, 2026',
+                            id: 'central', date: '2026-10-30', range: 'Oct 30 - Nov 08, 2026',
                             docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
                             flights: { 
-                                out: { code: 'CX524', date: '10/31', dep: '01:25', arr: '06:30' }, 
+                                out: { code: 'CX500', date: '10/30', dep: '15:20', arr: '20:00' }, 
                                 in: { code: 'CX505', date: '11/08', dep: '18:30', arr: '22:50' } 
                             },
                             rental: { 
                                 company: 'Toyota Rent a Car', 
-                                pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '成田機場店',
+                                pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '上野駅前店',
                                 returnDate: '11/08', returnTime: '15:30', returnLocName: '成田機場店',
                                 no: '準備預約', 
                                 note: '💡 必須指定雪胎 (Snow Tires)！記得帶齊 IDP 國際車牌！' 
                             },
                             hotels: [
+                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31', addr: '東京都台東區上野1-18-8', status: '✅ 已預約 (不包餐)' },
                                 { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2', addr: '靜岡縣沼津市大手町1-1-4', status: '✅ 已預約 (不包餐)' },
                                 { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3', addr: '長野縣松本市深志1-5-17', status: '✅ 已預約 (包早餐)' },
                                 { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4', addr: '群馬縣吾妻郡草津町大字草津白根464-214', status: '✅ 已預約 (一泊二食)' },
                                 { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5', addr: '靜岡縣御殿場市深沢2839-1', status: '✅ 已預約 (包早餐)' },
                                 { name: '八重翠東京酒店 (Yaenomidori)', dates: '11/5 - 11/8', addr: '東京都中央區八丁堀2-13-1', status: '✅ 已預約 (包早餐)' }
                             ],
-                            hotelMap: { 0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 4, 7: 4, 8: 4 },
+                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 5, 8: 5, 9: 5 },
                             alarms: [
                                 { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, 
                                 { date: '7/01', task: '預約 Toyota 租車 (全期)' },
@@ -543,7 +544,9 @@
                             ],
                             shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信', '澀谷 ReFa'],
                             parkingList: [
-                                { name: '成田機場 Toyota', detail: '取車還車處。TEL: 0476-32-1020' },
+                                { name: '上野 Toyota', detail: '取車處 (第一日)。TEL: 03-3842-0100' },
+                                { name: '成田機場 Toyota', detail: '還車處 (最後一日)。TEL: 0476-32-1020' },
+                                { name: '海老名 SA (下行)', detail: '大型高速公路休息站 (免費泊車)。' },
                                 { name: '沼津港 (丸天)', detail: '魚河岸大型停車場 (免費)。' },
                                 { name: '三島大吊橋', detail: '園區免費大型停車場。' },
                                 { name: '大室山', detail: '山腳免費大型停車場 (09:00到霸位)。' },
@@ -579,13 +582,18 @@
                                 { date: 'Day 9', time: '11:30', name: '壽司郎 (Sushiro)', addr: '東京都中央區分店', bookingNo: 'APP 取號' }
                             ],
                             days: [
+                                { weekday: 'Fri', dateStr: '10/30', events: [
+                                    { time: '20:00', title: '抵達成田 (CX500) ✈️', departTime: '22:00', travelTime: '2 hr', desc: '降落後預留充足時間，預計 22:00 過關兼攞齊行李！', category: 'flight', transportType: 'walk', loc: '成田空港' },
+                                    { time: '22:00', title: '搭 Skyliner 出上野 🚆', departTime: '23:00', travelTime: '45 min', desc: '【交通建議】\n直落月台搭乘「京成 Skyliner」，全車指定席，45 分鐘極速直達「京成上野站」！', category: 'transport', transportType: 'train', loc: '京成上野駅' },
+                                    { time: '23:00', title: 'Check-in (R&B Hotel) 🏨', departTime: '23:15', travelTime: '10 min', desc: '抵達上野廣小路華盛頓 R&B 酒店！可以喺附近便利店買少少宵夜，好好休息準備聽日自駕！\n📍 地址: 東京都台東區上野1-18-8', category: 'hotel', loc: 'R&B Hotel Ueno Hirokoji', transportType: 'walk', phone: '03-5812-7333', mapcode: '2 717 197*33' }
+                                ]},
                                 { weekday: 'Sat', dateStr: '10/31', events: [
-                                    { time: '06:30', title: '抵達成田 (CX524) ✈️', departTime: '07:15', travelTime: '45 min', desc: '落機過關，準備開展旅程！', category: 'flight', transportType: 'walk', loc: '成田空港' },
-                                    { time: '07:15', title: '機場早餐 ☕', departTime: '08:00', travelTime: '45 min', desc: '食個靚早餐先攞車！', category: 'food', transportType: 'walk', loc: '成田空港', info: '💡 REMINDER: 記得唱散紙。' },
-                                    { time: '08:00', title: 'Toyota 租車 (成田) 🚗', departTime: '09:00', travelTime: '1 hr', desc: '攞車兼大檢查！<br>🅿️ 泊車: 機場租車場', category: 'transport', transportType: 'car', phone: '0476-32-1020', mapcode: '137 663 671*47', info: '💡 REMINDER: 帶齊 IDP！確認有雪胎 (Snow Tires)！' },
-                                    { time: '11:30', title: '沼津港 丸天 Lunch 🐟', departTime: '13:00', travelTime: '2.5 hr', desc: '成田直奔沼津！食巨型海鮮塔！<br>🚗 行車距離: 180km (約 2.5hr)<br>🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: '魚河岸 丸天 魚河岸店', transportType: 'car', phone: '055-963-0202', mapcode: '650 583 339*01', info: '💡 REMINDER: 假日多人，落車即刻去排隊攞飛先！' },
+                                    { time: '07:15', title: '酒店 Check-out & 早餐 ☕', departTime: '07:45', travelTime: '15 min', desc: '食飽早餐，拖行李向 Toyota 租車行進發！', category: 'hotel', transportType: 'walk' },
+                                    { time: '08:00', title: 'Toyota 租車 (上野駅前店) 🚗', departTime: '08:45', travelTime: '45 min', desc: '順利攞車兼大檢查！出發向靜岡推進！\n📍 地址: 台東区東上野3-19-10', category: 'transport', transportType: 'car', phone: '03-3842-0100', mapcode: '2 718 196*12', info: '💡 REMINDER: 帶齊 IDP！確認有雪胎 (Snow Tires)！', loc: 'トヨタレンタカー 上野駅前店' },
+                                    { time: '09:30', title: '海老名 SA (下行) 🚗🍩', departTime: '10:15', travelTime: '45 min', desc: '補返半日行程！中途停靠全日本最出名嘅高速公路休息站【海老名 SA】！必食超人氣名物「紅肉蜜瓜包」，買杯咖啡順便去洗手間回氣！', category: 'sightseeing', transportType: 'car', phone: '046-231-4368', mapcode: '2 083 454*88', loc: 'EXPASA海老名 下り' },
+                                    { time: '11:30', title: '沼津港 丸天 Lunch 🐟', departTime: '13:00', travelTime: '1.5 hr', desc: '由海老名再踩個半鐘直達沼津港！食巨型海鮮塔！\n🚗 行車距離: 由上野起計約 140km\n🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: '魚河岸 丸天 魚河岸店', transportType: 'car', phone: '055-963-0202', mapcode: '650 583 339*01', info: '💡 REMINDER: 假日多人，落車即刻去排隊攞飛先！' },
                                     { time: '13:30', title: '三島大吊橋 🌉', departTime: '15:30', travelTime: '35 min', desc: '日本最長吊橋打卡！<br>🚗 行車距離: 20km (約 35 分鐘)<br>🅿️ 泊車: 園區免費車位', category: 'sightseeing', loc: '三島スカイウォーク', transportType: 'car', phone: '055-972-0084', mapcode: '50 238 668*85', info: '💡 REMINDER: 橋面風大會凍，記得帶件外套落車！' },
-                                    { time: '16:30', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '18:30', travelTime: '30 min', desc: '擺行李稍息。<br>🚗 行車距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 酒店不包餐，立體車位先到先得 (¥1200/晚)，滿咗去泊旁邊 Times。' },
+                                    { time: '16:30', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '18:30', travelTime: '30 min', desc: '擺低戰利品先。<br>🚗 行車距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 酒店不包餐，立體車位先到先得 (¥1200/晚)，滿咗去泊旁邊 Times。' },
                                     { time: '19:30', title: 'Dinner: 木曾路 靜岡店 🍲', departTime: '21:00', travelTime: '50 min', desc: '極品無煙壽喜燒！<br>🚗 行車距離: 45km (約 50 分鐘)<br>🅿️ 泊車: 餐廳附屬免費停車場', category: 'food', loc: '木曽路 静岡店', transportType: 'car', phone: '054-202-1211', mapcode: '72 045 745*66', info: '💡 REMINDER: 服務好好，食完保證身上 0 燒肉味！' },
                                     { time: '22:00', title: '回酒店休息 💤', departTime: '22:00', travelTime: '50 min', desc: '返回沼津酒店休息！<br>🚗 行車距離: 45km (約 50 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
@@ -696,7 +704,7 @@
                 totalExpenses() { return this.currentTripData.expenses && this.currentTripData.expenses.length > 0 ? this.currentTripData.expenses.reduce((sum, item) => sum + parseInt(item.amount || 0), 0) : 0; },
                 fujiVisibility() {
                     if (this.currentTrip !== 'central') return null;
-                    const fujiDays = [0, 1, 4, 5];
+                    const fujiDays = [1, 2, 5, 6];
                     if (!fujiDays.includes(this.selectedDayIndex)) return null;
                     if (this.weather.icon === 'fa-sun') return '🗻 富士山: 絕景 (90%)';
                     if (this.weather.icon === 'fa-cloud-sun') return '🗻 富士山: 隱現 (50%)';
@@ -745,12 +753,13 @@
                         }
                     } else if (tripId === 'central') {
                         switch(idx) {
-                            case 0: query = 'Narita,JP'; displayName = '成田'; break;
+                            case 0: query = 'Tokyo,JP'; displayName = '上野'; break;
                             case 1: query = 'Numazu,JP'; displayName = '沼津'; break; 
-                            case 2: query = 'Matsumoto,JP'; displayName = '松本'; break;
-                            case 3: query = 'Kusatsu,JP'; displayName = '草津'; break;
-                            case 4: query = 'Gotemba,JP'; displayName = '御殿場'; break;
-                            case 5: case 6: case 7: case 8: default: query = 'Tokyo,JP'; displayName = '東京'; break;
+                            case 2: query = 'Numazu,JP'; displayName = '沼津'; break;
+                            case 3: query = 'Matsumoto,JP'; displayName = '松本'; break;
+                            case 4: query = 'Kusatsu,JP'; displayName = '草津'; break;
+                            case 5: query = 'Gotemba,JP'; displayName = '御殿場'; break;
+                            case 6: case 7: case 8: case 9: default: query = 'Tokyo,JP'; displayName = '東京'; break;
                         }
                     }
                     this.weather.city_name = displayName;
