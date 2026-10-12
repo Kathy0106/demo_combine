@@ -511,10 +511,10 @@
                             },
                             rental: { 
                                 company: 'Toyota Rent a Car', 
-                                pickupDate: '10/31', pickupTime: '08:00', pickupLocName: '上野駅前店',
+                                pickupDate: '10/31', pickupTime: '09:00', pickupLocName: '上野駅前店',
                                 returnDate: '11/05', returnTime: '20:00', returnLocName: '上野駅前店',
-                                no: '98155221900', 
-                                note: '💡 必須指定雪胎 (Snow Tires)！記得帶齊 IDP 國際車牌！' 
+                                no: 'C38760', 
+                                note: '💡 已包雪胎 (Studless Tires) + 4WD！預約號: C38760' 
                             },
                             hotels: [
                                 { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31', addr: '東京都台東區上野1-18-8', status: '✅ 已預約 (HK$1,022.10)' },
@@ -526,7 +526,7 @@
                             ],
                             hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 5, 8: 5, 9: 5 },
                             
-                            // 💰 精準洗費數據同步
+                            // 💰 精準洗費數據同步 (更新租車實際費用 ¥111,870)
                             expenseHotels: [
                                 { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$1,022.10' },
                                 { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 37044 },
@@ -535,23 +535,23 @@
                                 { name: 'HOTEL CLAD', dates: '11/4 - 11/5 (1晚, 包早餐)', yen: 44400 },
                                 { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8 (3晚)', yen: 103320 }
                             ],
-                            expenseRental: { name: 'Toyota Rent a Car (10/31 - 11/5 上野取還)', yen: 96230, note: 'プリウス2.0 (連稅)' },
+                            expenseRental: { name: 'Toyota Rent a Car (10/31 09:00 - 11/5 20:00 上野取還)', yen: 111870, note: '已包雪胎 + 4WD + 安心保險 (編號: C38760)' },
                             expenseDining: [
                                 { name: '木曾路 靜岡店 (松茸涮涮鍋)', date: '10/31', yen: 17600, note: '8,800円 × 2位 (KBS313918)' },
                                 { name: 'まんてん鮨 日本橋 (吧枱位升級)', date: '11/6', yen: 24200, note: '12,100円 × 2位 (4G6C6X)' },
-                                { name: '其他預約/現場餐廳', date: '全期', yen: 0, note: '現場支付 / 自由點餐' }
+                                { name: '其他預約/現場餐廳', date: '全期', yen: 0, note: '現場付款 / 自由點餐' }
                             ],
 
                             alarms: [
                                 { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, 
-                                { date: '7/01', task: '✅ 已預約 Toyota 租車 (全期)' },
+                                { date: '7/01', task: '✅ 已預約 Toyota 租車 (全期，連雪胎 C38760)' },
                                 { date: '8/01', task: '✅ 已預約 木曾路 靜岡店 (10/31 19:00)' }, 
                                 { date: '9/01', task: '✅ 已預約 吧枱位升級版 Mantensushi 日本橋 (11/6 20:30)' }, 
                                 { date: '10/5', task: '申請 IDP、買 Sim 卡、Down 壽司郎 App' }
                             ],
                             shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信', '澀谷 ReFa'],
                             parkingList: [
-                                { name: '上野 Toyota', detail: '取車與還車處。TEL: 03-3842-0100' },
+                                { name: '上野 Toyota', detail: '取車與還車處。TEL: 05017122597' },
                                 { name: '海老名 SA (下行)', detail: '大型高速公路休息站 (免費泊車)。' },
                                 { name: '沼津港 (丸天)', detail: '魚河岸大型停車場 (免費)。' },
                                 { name: '三島大吊橋', detail: '園區免費大型停車場。' },
@@ -591,12 +591,13 @@
                                     { time: '23:00', title: 'Check-in (R&B Hotel) 🏨', departTime: '23:15', travelTime: '10 min', desc: '抵達上野廣小路華盛頓 R&B 酒店！可以喺附近便利店買少少宵夜，好好休息準備聽日自駕！\n📍 地址: 東京都台東區上野1-18-8', category: 'hotel', loc: 'R&B Hotel Ueno Hirokoji', transportType: 'walk', phone: '03-5812-7333', mapcode: '2 717 197*33' }
                                 ]},
                                 { weekday: 'Sat', dateStr: '10/31', events: [
-                                    { time: '07:15', title: '酒店 Check-out & 早餐 ☕', departTime: '07:45', travelTime: '15 min', desc: '食飽早餐，拖行李向 Toyota 租車行進發！', category: 'hotel', transportType: 'walk' },
-                                    { time: '08:00', title: 'Toyota 租車 (上野駅前店) 🚗', departTime: '08:45', travelTime: '45 min', desc: '順利攞車兼大檢查！出發向靜岡推進！\n📍 地址: 台東区東上野3-19-10', category: 'transport', transportType: 'car', phone: '03-3842-0100', mapcode: '2 718 196*12', info: '💡 REMINDER: 帶齊 IDP！確認有雪胎 (Snow Tires)！', loc: 'トヨタレンタカー 上野駅前店' },
-                                    { time: '09:30', title: '海老名 SA (下行) 🚗🍩', departTime: '10:15', travelTime: '45 min', desc: '補返半日行程！中途停靠全日本最出名嘅高速公路休息站【海老名 SA】！必食超人氣名物 "紅肉蜜瓜包"，買杯咖啡順便去洗手間回氣！', category: 'sightseeing', transportType: 'car', phone: '046-231-4368', mapcode: '2 083 454*88', loc: 'EXPASA海老名 下り' },
-                                    { time: '11:30', title: '沼津港 丸天 Lunch 🐟', departTime: '13:00', travelTime: '1.5 hr', desc: '由海老名再踩個半鐘直達沼津港！食巨型海鮮塔！\n🚗 行車距離: 由上野起計約 140km\n🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: '魚河岸 丸天 魚河岸店', transportType: 'car', phone: '055-963-0202', mapcode: '650 583 339*01', info: '💡 REMINDER: 假日多人，落車即刻去排隊攞飛先！' },
-                                    { time: '13:30', title: '三島大吊橋 🌉', departTime: '15:30', travelTime: '35 min', desc: '日本最長吊橋打卡！<br>🚗 行車距離: 20km (約 35 分鐘)<br>🅿️ 泊車: 園區免費車位', category: 'sightseeing', loc: '三島スカイウォーク', transportType: 'car', phone: '055-972-0084', mapcode: '50 238 668*85', info: '💡 REMINDER: 橋面風大會凍，記得帶件外套落車！' },
-                                    { time: '16:30', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '18:30', travelTime: '30 min', desc: '擺低戰利品先。<br>🚗 行車距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 酒店不包餐，立體車位先到先得 (¥1200/晚)，滿咗去泊旁邊 Times。' },
+                                    { time: '07:30', title: 'R&B 酒店 Check-out 🧳', departTime: '08:45', travelTime: '15 min', desc: '喺酒店辦理退房，帶齊所有大行李出發前往上野租車點！', category: 'hotel', transportType: 'walk', loc: 'R&B Hotel Ueno Hirokoji' },
+                                    { time: '09:00', title: 'Toyota 租車 (上野駅前店) 🚗', departTime: '09:45', travelTime: '45 min', desc: '✨ 預約號: C38760\n完成手續、驗車，並將所有大行李直接放上車尾箱！\n📍 地址: 台東区東上野3-19-10', category: 'transport', transportType: 'car', phone: '05017122597', mapcode: '2 718 196*12', loc: 'トヨタレンタカー 上野駅前店' },
+                                    { time: '09:45', title: '正式出發！向長野 / 靜岡進發 🚗💨', departTime: '09:45', travelTime: '1.5 hr', desc: '行李隨車，一路向南直奔海老名 SA！', category: 'transport', transportType: 'car' },
+                                    { time: '11:00', title: '海老名 SA (下行) 🚗🍩', departTime: '11:45', travelTime: '45 min', desc: '中途停靠全日本最出名嘅高速公路休息站【海老名 SA】！必食超人氣名物 "紅肉蜜瓜包"，買杯咖啡回氣！', category: 'sightseeing', transportType: 'car', phone: '046-231-4368', mapcode: '2 083 454*88', loc: 'EXPASA海老名 下り' },
+                                    { time: '12:30', title: '沼津港 丸天 Lunch 🐟', departTime: '14:00', travelTime: '1.5 hr', desc: '由海老名再踩個半鐘直達沼津港！食巨型海鮮塔！\n🚗 行車距離: 由上野起計約 140km\n🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: '魚河岸 丸天 魚河岸店', transportType: 'car', phone: '055-963-0202', mapcode: '650 583 339*01', info: '💡 REMINDER: 假日多人，落車即刻去排隊攞飛先！' },
+                                    { time: '14:30', title: '三島大吊橋 🌉', departTime: '16:00', travelTime: '35 min', desc: '日本最長吊橋打卡！<br>🚗 行車距離: 20km (約 35 分鐘)<br>🅿️ 泊車: 園區免費車位', category: 'sightseeing', loc: '三島スカイウォーク', transportType: 'car', phone: '055-972-0084', mapcode: '50 238 668*85', info: '💡 REMINDER: 橋面風大會凍，記得帶件外套落車！' },
+                                    { time: '16:45', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '19:00', travelTime: '30 min', desc: '擺低戰利品先。<br>🚗 行車距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 酒店不包餐，立體車位先到先得 (¥1200/晚)。' },
                                     { time: '19:00', title: 'Dinner: 木曾路 靜岡店 (松茸涮涮鍋) 🍲', departTime: '21:00', travelTime: '50 min', desc: '✨ 已預約: 19:00 (預約號: KBS313918)\n極品松茸和牛霜降肉涮涮鍋！\n🅿️ 泊車: 餐廳附屬免費停車場', category: 'highlight', transportType: 'car', loc: '木曽路 静岡店', phone: '054-202-1211', mapcode: '72 045 745*66' },
                                     { time: '22:00', title: '回酒店休息 💤', departTime: '22:00', travelTime: '50 min', desc: '返回沼津酒店休息！<br>🚗 行車距離: 45km (約 50 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
@@ -646,7 +647,7 @@
                                     { time: '10:30', title: '御殿場 Outlet 瘋狂 Shopping 🛍️', departTime: '14:30', travelTime: '0 min', desc: '全日本最大 Outlet！Lunch 喺 Food Court 解決！\n🚗 行車距離: 0km (就在旁邊)\n🅿️ 泊車: Outlet P 區停車場', category: 'shopping', loc: '御殿場プレミアム・アウトレット', transportType: 'car', phone: '0550-81-3122', mapcode: '50 805 028*22' },
                                     { time: '14:30', title: '出發直返秋葉原！🚗💨', departTime: '14:30', travelTime: '2 hr 15 min', desc: '滿載而歸！結束自駕部分，直奔東京市區！\n🚗 行車距離: 105km (約 2 小時 15 分鐘)', category: 'transport', transportType: 'car' },
                                     { time: '16:45', title: 'Check-in 放低行李 (Hotel Resol Stay) 🏨', departTime: '17:15', travelTime: '30 min', desc: '先揸車去秋葉原酒店放低大行李同Check-in，無車一身輕先去還車！\n📍 地址: 東京都千代田區神田須田町2-17-10', category: 'hotel', loc: 'Hotel Resol Stay Akihabara', transportType: 'car', phone: '03-3252-9269' },
-                                    { time: '17:30', title: 'Toyota 還車 (上野駅前店) 🚗', departTime: '18:00', travelTime: '15 min', desc: '預計 17:30 左右抵達上野還車。\n⚠️ 溫馨提示：預約 Deadline 係 20:00！所以如果有塞車完全唔使驚，慢慢嚟！\n📍 地址: 東京都台東区東上野3-19-10', category: 'transport', loc: 'トヨタレンタカー 上野駅前店', transportType: 'car', phone: '03-3842-0100', mapcode: '2 718 196*12', info: '💡 REMINDER: 記得入滿油，保留入油收據俾職員睇！' },
+                                    { time: '17:30', title: 'Toyota 還車 (上野駅前店) 🚗', departTime: '18:00', travelTime: '15 min', desc: '預計 17:30 左右抵達上野還車。\n⚠️ 溫馨提示：預約 Deadline 係 20:00！所以如果有塞車完全唔使驚，慢慢嚟！\n📍 地址: 東京都台東区東上野3-19-10', category: 'transport', loc: 'トヨタレンタカー 上野駅前店', transportType: 'car', phone: '05017122597', mapcode: '2 718 196*12', info: '💡 REMINDER: 記得入滿油，保留入油收據俾職員睇！' },
                                     { time: '18:15', title: 'Dinner: 自由探索 搵嘢食 🍢', departTime: '20:30', travelTime: '15 min', desc: '還完車可以喺上野 / 御徒町附近食平靚正串燒、燒肉，或者搭車返秋葉原食！', category: 'food', transportType: 'walk' },
                                     { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', travelTime: '0 min', desc: '市區自由行正式開始！', category: 'hotel', loc: 'Hotel Resol Stay Akihabara', transportType: 'train', phone: '03-3252-9269' }
                                 ]},
@@ -706,20 +707,17 @@
                 currentItineraryData() { return this.currentTripData.days[this.selectedDayIndex].events || []; },
                 currentNightHotel() { return this.currentTripData.hotels[this.currentTripData.hotelMap[this.selectedDayIndex]]; },
                 
-                // 💰 計算酒店總金額 (自動把日元加總，港幣另外顯示)
+                // 💰 計算酒店總金額
                 totalHotelYen() {
                     if (!this.currentTripData.expenseHotels) return 0;
                     return this.currentTripData.expenseHotels.reduce((sum, h) => sum + h.yen, 0);
-                },
-                totalHotelHkd() {
-                    return Math.round(this.totalHotelYen * 0.052) + 1022; // 加上 R&B 酒店的 HK$1,022
                 },
                 // 💰 計算餐廳總金額
                 totalDiningYen() {
                     if (!this.currentTripData.expenseDining) return 0;
                     return this.currentTripData.expenseDining.reduce((sum, d) => sum + d.yen, 0);
                 },
-                // 💰 計算全個 Trip 總金額 (酒店(折算HKD後加返R&B) + 租車 + 餐廳)
+                // 💰 計算全個 Trip 總金額 (酒店 + 租車 + 餐廳)
                 totalTripYen() {
                     const rentalYen = this.currentTripData.expenseRental ? this.currentTripData.expenseRental.yen : 0;
                     return this.totalHotelYen + rentalYen + this.totalDiningYen;
