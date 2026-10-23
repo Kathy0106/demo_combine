@@ -17,8 +17,8 @@
         /* 🎨 日系繪本風核心設定 */
         body {
             font-family: sans-serif;
-            background-color: #FFFCF6; /* 指定的暖白底色 */
-            color: #3E3A39; /* 指定的墨灰字體 */
+            background-color: #FFFCF6;
+            color: #3E3A39;
             margin: 0; padding: 0;
             width: 100vw; height: 100vh; height: 100dvh;
             overflow: hidden; overscroll-behavior-y: none;
@@ -170,7 +170,7 @@
 
         <div class="flex-1 overflow-y-auto no-scrollbar pb-10">
             
-            <!-- 🔀 行程切換器 -->
+            <!-- 🔀 行程切換器 (保留兩個行程的切換功能) -->
             <div class="px-5 pt-4 pb-2">
                 <div class="flex bg-white border-[3px] border-[#3E3A39] rounded-full p-1 shadow-[2px_2px_0px_#3E3A39]">
                     <button @click="switchTrip('karuizawa')" :class="currentTrip === 'karuizawa' ? 'bg-[#F2A497] text-white border-2 border-[#3E3A39]' : 'text-[#3E3A39]'" class="flex-1 py-1.5 rounded-full text-xs font-bold transition-all">🌸 4月春季遊</button>
@@ -178,18 +178,64 @@
                 </div>
             </div>
 
-            <!-- 首頁插圖 & 倒數 -->
+            <!-- 首頁插圖 & 倒數 (全新整合版 SVG) -->
             <div class="relative pt-2 pb-6 border-b-[3px] border-[#3E3A39] mb-4 mx-5">
                 <div class="w-full h-28 relative overflow-hidden mb-4 bg-white border-[3px] border-[#3E3A39] rounded-2xl shadow-[3px_3px_0px_#3E3A39]">
                     <svg viewBox="0 0 400 150" class="w-full h-full bg-[#FFFCF6]">
+                        <!-- 雲朵 (共有) -->
                         <path class="cloud-anim" d="M 50 40 Q 60 20 80 40 Q 100 30 110 50 L 40 50 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
                         <path class="cloud-anim" style="animation-delay: -10s" d="M 250 30 Q 260 10 280 30 Q 300 20 310 40 L 240 40 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
-                        <circle cx="330" cy="50" r="20" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" class="float-anim"/>
-                        <path d="M 100 140 L 200 40 L 300 140 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3"/>
-                        <path d="M 160 80 L 200 40 L 240 80 Q 220 90 200 80 Q 180 90 160 80 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
-                        <rect x="220" y="115" width="40" height="20" rx="5" fill="#F2A497" stroke="#3E3A39" stroke-width="3" class="float-anim"/>
-                        <circle cx="230" cy="135" r="6" fill="#3E3A39"/>
-                        <circle cx="250" cy="135" r="6" fill="#3E3A39"/>
+                        
+                        <!-- 太陽 (共有) -->
+                        <circle cx="330" cy="40" r="18" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" class="float-anim"/>
+
+                        <!-- 🏔️ 富士山 (居中偏右) - 代表御殿場/山中湖/沼津遠眺 -->
+                        <path d="M 120 140 L 220 40 L 320 140 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3"/>
+                        <path d="M 180 80 L 220 40 L 260 80 Q 240 90 220 80 Q 200 90 180 80 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
+
+                        <!-- 🏯 松本城 (左側) - 代表長野松本 -->
+                        <g transform="translate(40, 60)">
+                            <!-- 城牆底座 -->
+                            <path d="M 10 80 L 70 80 L 60 40 L 20 40 Z" fill="#FFFFFF" stroke="#3E3A39" stroke-width="3"/>
+                            <!-- 黑色天守閣 (烏城) -->
+                            <rect x="25" y="10" width="30" height="30" fill="#3E3A39"/>
+                            <path d="M 15 15 L 40 -5 L 65 15 Z" fill="#3E3A39"/>
+                            <path d="M 20 40 L 40 25 L 60 40 Z" fill="#3E3A39"/>
+                            <!-- 金色裝飾 -->
+                            <circle cx="40" cy="5" r="2" fill="#F6D27A"/>
+                        </g>
+
+                        <!-- 🗼 東京鐵塔 (右側) - 代表六本木/東京市區 -->
+                        <g transform="translate(320, 50)">
+                            <path d="M 15 90 L 35 90 L 25 10 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3"/>
+                            <path d="M 20 60 L 30 60 M 22 40 L 28 40 M 24 20 L 26 20" stroke="#FFFFFF" stroke-width="3"/>
+                            <!-- 鐵塔頂端 -->
+                            <line x1="25" y1="10" x2="25" y2="0" stroke="#3E3A39" stroke-width="3"/>
+                        </g>
+
+                        <!-- ♨️ 草津溫泉標誌 (左下前景) - 代表湯宿 季之庭 -->
+                        <g transform="translate(30, 110)">
+                            <path d="M 10 30 Q 25 45 40 30" fill="none" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
+                            <!-- 熱氣 -->
+                            <path d="M 15 25 Q 20 15 15 5 M 25 25 Q 30 15 25 5 M 35 25 Q 40 15 35 5" fill="none" stroke="#F2A497" stroke-width="2" class="float-anim"/>
+                        </g>
+
+                        <!-- 🚗 自駕車仔 (前景右側) -->
+                        <g transform="translate(230, 115)" class="float-anim">
+                            <rect x="0" y="0" width="40" height="20" rx="5" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/>
+                            <rect x="5" y="3" width="12" height="8" rx="2" fill="#FFFFFF" stroke="#3E3A39" stroke-width="2"/>
+                            <rect x="23" y="3" width="12" height="8" rx="2" fill="#FFFFFF" stroke="#3E3A39" stroke-width="2"/>
+                            <circle cx="10" cy="20" r="6" fill="#3E3A39"/>
+                            <circle cx="30" cy="20" r="6" fill="#3E3A39"/>
+                        </g>
+
+                        <!-- 🍁 紅葉裝飾 (散落) -->
+                        <g transform="translate(180, 50)" class="float-anim" style="animation-delay: -1s;">
+                            <path d="M 5 0 L 10 10 L 0 5 Z" fill="#E64A19" stroke="#3E3A39" stroke-width="1.5"/>
+                        </g>
+                        <g transform="translate(280, 100)" class="float-anim" style="animation-delay: -2s;">
+                            <path d="M 5 0 L 10 10 L 0 5 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="1.5"/>
+                        </g>
                     </svg>
                 </div>
 
@@ -249,7 +295,7 @@
                         <div class="flex items-center gap-1 font-black">
                             <i :class="['fa-solid', weather.icon]" class="text-[#E64A19]"></i> {{ weather.temp }}°
                         </div>
-                        <!-- 🗻 富士山能見度標籤回歸！ -->
+                        <!-- 🗻 富士山能見度標籤 -->
                         <div v-if="fujiVisibility" class="mt-1 text-[9px] font-black px-1.5 py-0.5 rounded-md border-2 border-[#3E3A39] bg-[#E3F2FD] text-[#1976D2] shadow-[1px_1px_0px_#3E3A39] whitespace-nowrap">
                             {{ fujiVisibility }}
                         </div>
@@ -861,7 +907,7 @@
                 // 🗻 富士山能見度百分比邏輯！原汁原味重現！
                 fujiVisibility() {
                     if (this.currentTrip !== 'central') return null;
-                    const fujiDays = [1, 2, 5, 6];
+                    const fujiDays = [1, 2, 5, 6]; // 對應原版嘅 Index (Day 2, Day 3, Day 6, Day 7)
                     if (!fujiDays.includes(this.selectedDayIndex)) return null;
                     if (this.weather.icon === 'fa-sun') return '🗻 富士山: 絕景 (90%)';
                     if (this.weather.icon === 'fa-cloud-sun') return '🗻 富士山: 隱現 (50%)';
