@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>❄️ 2027 北海道浪漫之旅</title>
+    <title>10+1 OurStory</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
-    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <style>
         [v-cloak] { display: none !important; }
         
@@ -98,7 +99,7 @@
         }
 
         .capsule-badge {
-            background-color: #A8D3E6; /* 北海道風水色 */
+            background-color: #F6D27A;
             border: 3px solid #3E3A39;
             border-radius: 99px;
             box-shadow: 2px 2px 0px #3E3A39;
@@ -153,92 +154,48 @@
 
         <!-- 🔝 頂端固定選單 -->
         <div class="nav-tabs px-4 pt-12 pb-3 flex justify-between items-center z-50 relative shrink-0">
-            <div class="w-10 h-10 bg-[#A8D3E6] border-[3px] border-[#3E3A39] rounded-xl flex items-center justify-center float-anim shadow-[2px_2px_0px_#3E3A39] font-black text-lg">
-                ⛄
+            <div class="w-10 h-10 bg-[#F2A497] border-[3px] border-[#3E3A39] rounded-xl flex items-center justify-center float-anim shadow-[2px_2px_0px_#3E3A39] font-black text-lg">
+                <i class="fa-solid fa-robot"></i>
             </div>
             
             <div class="flex gap-4 font-bold text-[13px] overflow-x-auto no-scrollbar pl-3">
-                <button @click="activeTab = 'itinerary'" :class="activeTab === 'itinerary' ? 'text-[#0288D1] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">行程</button>
-                <button @click="activeTab = 'info'" :class="activeTab === 'info' ? 'text-[#0288D1] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">資訊</button>
-                <button @click="activeTab = 'expenses'" :class="activeTab === 'expenses' ? 'text-[#0288D1] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">洗費</button>
-                <button @click="activeTab = 'shopping'" :class="activeTab === 'shopping' ? 'text-[#0288D1] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">準備</button>
+                <button @click="activeTab = 'itinerary'" :class="activeTab === 'itinerary' ? 'text-[#F2A497] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">行程</button>
+                <button @click="activeTab = 'info'" :class="activeTab === 'info' ? 'text-[#F2A497] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">資訊</button>
+                <button @click="activeTab = 'expenses'" :class="activeTab === 'expenses' ? 'text-[#F2A497] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">洗費</button>
+                <button @click="activeTab = 'shopping'" :class="activeTab === 'shopping' ? 'text-[#F2A497] underline decoration-4 underline-offset-4' : 'text-[#3E3A39] opacity-70'">準備</button>
             </div>
             
-            <button @click="showSettings = true" class="ml-2 w-8 h-8 rounded-full border-2 border-[#3E3A39] flex items-center justify-center font-bold shadow-[1px_1px_0px_#3E3A39]">⚙️</button>
+            <button @click="showSettings = true" class="ml-2 w-8 h-8 rounded-full border-2 border-[#3E3A39] flex items-center justify-center font-bold shadow-[1px_1px_0px_#3E3A39]"><i class="fa-solid fa-gear"></i></button>
         </div>
 
         <div class="flex-1 overflow-y-auto no-scrollbar pb-10">
+            
+            <!-- 🔀 行程切換器 -->
+            <div class="px-5 pt-4 pb-2">
+                <div class="flex bg-white border-[3px] border-[#3E3A39] rounded-full p-1 shadow-[2px_2px_0px_#3E3A39]">
+                    <button @click="switchTrip('karuizawa')" :class="currentTrip === 'karuizawa' ? 'bg-[#F2A497] text-white border-2 border-[#3E3A39]' : 'text-[#3E3A39]'" class="flex-1 py-1.5 rounded-full text-xs font-bold transition-all">🌸 4月春季遊</button>
+                    <button @click="switchTrip('central')" :class="currentTrip === 'central' ? 'bg-[#F6D27A] text-[#3E3A39] border-2 border-[#3E3A39]' : 'text-[#3E3A39]'" class="flex-1 py-1.5 rounded-full text-xs font-bold transition-all">🍁 11月東京中部</button>
+                </div>
+            </div>
 
-            <!-- 🖼️ 首頁插圖 & 倒數 (全新北海道專屬 SVG) -->
+            <!-- 首頁插圖 & 倒數 -->
             <div class="relative pt-2 pb-6 border-b-[3px] border-[#3E3A39] mb-4 mx-5">
                 <div class="w-full h-28 relative overflow-hidden mb-4 bg-white border-[3px] border-[#3E3A39] rounded-2xl shadow-[3px_3px_0px_#3E3A39]">
                     <svg viewBox="0 0 400 150" class="w-full h-full bg-[#FFFCF6]">
-                        <!-- 雲朵 -->
                         <path class="cloud-anim" d="M 50 40 Q 60 20 80 40 Q 100 30 110 50 L 40 50 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
                         <path class="cloud-anim" style="animation-delay: -10s" d="M 250 30 Q 260 10 280 30 Q 300 20 310 40 L 240 40 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
-                        
-                        <!-- 太陽 -->
-                        <circle cx="330" cy="40" r="18" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" class="float-anim"/>
-
-                        <!-- 後方北海道群山 -->
-                        <path d="M -20 150 L 100 80 L 220 150 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3"/>
-                        <path d="M 150 150 L 280 60 L 420 150 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3"/>
-                        
-                        <!-- 山頂積雪 -->
-                        <path d="M 70 97 L 100 80 L 130 97 Q 115 105 100 95 Q 85 105 70 97 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
-                        <path d="M 240 88 L 280 60 L 320 88 Q 300 100 280 85 Q 260 100 240 88 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
-
-                        <!-- 前景雪地 -->
-                        <path d="M -10 150 Q 200 110 410 150 L 410 160 L -10 160 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
-
-                        <!-- 雪松樹 (大) -->
-                        <g transform="translate(60, 75)">
-                            <!-- 樹幹 -->
-                            <rect x="18" y="45" width="4" height="15" fill="#3E3A39"/>
-                            <!-- 樹葉 -->
-                            <path d="M 20 0 L 0 25 L 10 25 L -5 50 L 45 50 L 30 25 L 40 25 Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
-                            <!-- 樹上積雪 -->
-                            <path d="M 20 0 L 0 25 L 10 25 L 20 15 L 30 25 L 40 25 Z" fill="white" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/>
-                        </g>
-
-                        <!-- 雪松樹 (小) -->
-                        <g transform="translate(100, 90) scale(0.7)">
-                            <rect x="18" y="45" width="4" height="15" fill="#3E3A39"/>
-                            <path d="M 20 0 L 0 25 L 10 25 L -5 50 L 45 50 L 30 25 L 40 25 Z" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
-                            <path d="M 20 0 L 0 25 L 10 25 L 20 15 L 30 25 L 40 25 Z" fill="white" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/>
-                        </g>
-
-                        <!-- 得意雪人 -->
-                        <g transform="translate(260, 85)" class="float-anim">
-                            <!-- 身體 -->
-                            <circle cx="20" cy="40" r="18" fill="white" stroke="#3E3A39" stroke-width="3"/>
-                            <!-- 頭 -->
-                            <circle cx="20" cy="15" r="13" fill="white" stroke="#3E3A39" stroke-width="3"/>
-                            <!-- 眼睛 -->
-                            <circle cx="15" cy="12" r="2" fill="#3E3A39"/>
-                            <circle cx="25" cy="12" r="2" fill="#3E3A39"/>
-                            <!-- 紅蘿蔔鼻 -->
-                            <path d="M 20 15 L 28 18 L 20 19 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="2" stroke-linejoin="round"/>
-                            <!-- 頸巾 -->
-                            <path d="M 5 26 Q 20 32 35 26 L 30 40 L 25 38 Z" fill="#F2A497" stroke="#3E3A39" stroke-width="3" stroke-linejoin="round"/>
-                            <!-- 樹枝手 -->
-                            <path d="M 2 40 L -8 30 M 38 40 L 48 30" stroke="#3E3A39" stroke-width="3" stroke-linecap="round"/>
-                            <!-- 鈕扣 -->
-                            <circle cx="20" cy="35" r="2" fill="#3E3A39"/>
-                            <circle cx="20" cy="45" r="2" fill="#3E3A39"/>
-                        </g>
-
-                        <!-- 飄雪動畫 -->
-                        <circle cx="180" cy="40" r="3" fill="white" stroke="#3E3A39" stroke-width="2" class="float-anim"/>
-                        <circle cx="220" cy="90" r="2" fill="white" stroke="#3E3A39" stroke-width="1.5" class="float-anim" style="animation-delay: -1s;"/>
-                        <circle cx="120" cy="60" r="2.5" fill="white" stroke="#3E3A39" stroke-width="2" class="float-anim" style="animation-delay: -2s;"/>
-                        <circle cx="340" cy="70" r="2" fill="white" stroke="#3E3A39" stroke-width="1.5" class="float-anim" style="animation-delay: -1.5s;"/>
+                        <circle cx="330" cy="50" r="20" fill="#F6D27A" stroke="#3E3A39" stroke-width="3" class="float-anim"/>
+                        <path d="M 100 140 L 200 40 L 300 140 Z" fill="#A8D3E6" stroke="#3E3A39" stroke-width="3"/>
+                        <path d="M 160 80 L 200 40 L 240 80 Q 220 90 200 80 Q 180 90 160 80 Z" fill="white" stroke="#3E3A39" stroke-width="3"/>
+                        <rect x="220" y="115" width="40" height="20" rx="5" fill="#F2A497" stroke="#3E3A39" stroke-width="3" class="float-anim"/>
+                        <circle cx="230" cy="135" r="6" fill="#3E3A39"/>
+                        <circle cx="250" cy="135" r="6" fill="#3E3A39"/>
                     </svg>
                 </div>
 
                 <div class="text-center">
-                    <h1 class="text-xl font-black mb-1">❄️ 浪漫北海道 2027</h1>
-                    <p class="text-[11px] font-bold opacity-80 mb-3">6日5夜 札幌·函館·小樽</p>
+                    <h1 class="text-xl font-black mb-1">{{ currentTripData.title }}</h1>
+                    <p class="text-[11px] font-bold opacity-80 mb-3">{{ currentTripData.range }}</p>
                     <div class="inline-block capsule-badge px-6 py-1.5 font-black text-sm">
                         出發倒數 {{ getCountdown(currentTripData.date) }} 天
                     </div>
@@ -256,7 +213,7 @@
                         </div>
                         <div class="absolute -top-5 z-20 suitcase-progress flex flex-col items-center" 
                              :style="{ left: `calc(${(selectedDayIndex / (currentDays.length - 1)) * 100}% - 14px)` }">
-                            <div class="w-8 h-7 bg-[#A8D3E6] border-[3px] border-[#3E3A39] rounded-lg shadow-[2px_2px_0px_#3E3A39] flex items-center justify-center">
+                            <div class="w-8 h-7 bg-[#F2A497] border-[3px] border-[#3E3A39] rounded-lg shadow-[2px_2px_0px_#3E3A39] flex items-center justify-center">
                                 <div class="w-2 h-1.5 bg-[#3E3A39] rounded-full mx-0.5"></div>
                                 <div class="w-2 h-1.5 bg-[#3E3A39] rounded-full mx-0.5"></div>
                             </div>
@@ -267,33 +224,39 @@
                         <div v-for="(day, idx) in currentDays" :key="'date-'+idx" 
                              @click="selectedDayIndex = idx"
                              class="cursor-pointer font-bold transition-all"
-                             :class="selectedDayIndex === idx ? 'text-[#0288D1] scale-110' : 'text-[#3E3A39] opacity-60'">
+                             :class="selectedDayIndex === idx ? 'text-[#F2A497] scale-110' : 'text-[#3E3A39] opacity-60'">
                             <div class="text-[10px] mb-0.5">{{ day.dateStr }}</div>
                             <div class="text-[11px]">{{ day.weekday }}</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- 每日住宿與天氣提示 -->
+                <!-- 每日住宿與天氣提示 (包含 🗻 富士山能見度！) -->
                 <div class="px-5 mb-4 flex gap-3" v-if="currentItineraryData.length > 0">
                     <div class="story-card bg-white p-3 flex-1 flex gap-3 items-center cursor-pointer" @click="showHotelModal = true">
                         <div class="w-10 h-10 bg-[#A8D3E6] border-[3px] border-[#3E3A39] rounded-xl flex items-center justify-center shrink-0">
-                            🛏️
+                            <i class="fa-solid fa-bed text-[#3E3A39]"></i>
                         </div>
-                        <div>
+                        <div class="min-w-0">
                             <div class="text-[10px] font-bold opacity-60">Day {{ selectedDayIndex + 1 }} 住宿</div>
-                            <div class="font-black text-[13px] mt-0.5 leading-tight">{{ getHotelForDay(selectedDayIndex).name }}</div>
+                            <div class="font-black text-[13px] mt-0.5 leading-tight truncate">{{ getHotelForDay(selectedDayIndex).name }}</div>
                         </div>
                     </div>
-                    <div class="story-card bg-white p-3 w-20 flex flex-col items-center justify-center shrink-0">
-                        <div class="text-[10px] font-bold opacity-60 mb-1">{{ weather.city_name }}</div>
+                    
+                    <!-- 天氣卡片 + 富士山能見度 -->
+                    <div class="story-card bg-white p-3 min-w-[90px] flex flex-col items-center justify-center shrink-0">
+                        <div class="text-[10px] font-bold opacity-60 mb-0.5">{{ weather.city_name }}</div>
                         <div class="flex items-center gap-1 font-black">
-                            <span class="text-[#0288D1]">{{ weather.icon }}</span> {{ weather.temp }}°
+                            <i :class="['fa-solid', weather.icon]" class="text-[#E64A19]"></i> {{ weather.temp }}°
+                        </div>
+                        <!-- 🗻 富士山能見度標籤回歸！ -->
+                        <div v-if="fujiVisibility" class="mt-1 text-[9px] font-black px-1.5 py-0.5 rounded-md border-2 border-[#3E3A39] bg-[#E3F2FD] text-[#1976D2] shadow-[1px_1px_0px_#3E3A39] whitespace-nowrap">
+                            {{ fujiVisibility }}
                         </div>
                     </div>
                 </div>
 
-                <!-- 每日行程時間軸 -->
+                <!-- 每日行程時間軸 (保留原版所有資訊) -->
                 <div class="px-5 pb-8">
                     <div v-for="(item, idx) in currentItineraryData" :key="idx" class="flex mb-4 relative timeline-container">
                         
@@ -305,11 +268,11 @@
                         <div class="flex-1">
                             
                             <!-- 交通標籤 -->
-                            <div v-if="item.category === 'transport' || item.category === 'flight'" class="text-xs font-bold mb-2 flex items-center gap-2">
+                            <div v-if="item.category === 'transport'" class="text-xs font-bold mb-2 flex items-center gap-2">
                                 <span class="px-2 py-0.5 rounded-full shadow-[1px_1px_0px_#3E3A39]" :class="getTransportColor(item.transportType)">
-                                    {{ getTransportEmoji(item.transportType) }} 
+                                    <i :class="getTransportIcon(item.transportType)"></i> 
                                     <span v-if="item.transportName">{{ item.transportName }}</span>
-                                    <span v-else>{{ itemCategoryName(item.category) }}</span>
+                                    <span v-else>{{ item.title }}</span>
                                 </span>
                             </div>
 
@@ -318,38 +281,54 @@
                                 
                                 <div class="font-black text-base leading-tight mb-1 flex items-center justify-between gap-1">
                                     <span v-html="formatText(item.title)"></span>
-                                    <span v-if="item.highlight || item.category === 'highlight'" class="text-[9px] px-1.5 py-0.5 bg-white border-[2px] border-[#3E3A39] rounded text-[#E64A19] shrink-0">重點推介</span>
+                                    <span v-if="item.highlight || item.category === 'highlight'" class="text-[9px] px-1.5 py-0.5 bg-white border-[2px] border-[#3E3A39] rounded text-[#E64A19] shrink-0">必去</span>
                                 </div>
                                 
+                                <!-- 原版詳細描述 -->
                                 <div v-if="item.desc" class="text-[11px] font-bold mt-2 opacity-80 leading-relaxed" v-html="formatText(item.desc)"></div>
 
+                                <!-- 原版警告/提示訊息 (Action/Info) -->
                                 <div v-if="item.action || item.info" class="mt-3 bg-[#FFFCF6] p-2 rounded-xl border-2 border-[#3E3A39] shadow-[1px_1px_0px_#3E3A39]">
                                     <div class="text-[11px] font-black flex items-start" :class="item.action ? 'text-[#E64A19]' : 'text-[#3E3A39]'">
-                                        🔔
-                                        <span class="leading-relaxed ml-1.5" v-html="formatText(item.action || item.info)"></span>
+                                        <i class="fa-solid fa-bell mr-1.5 mt-0.5"></i>
+                                        <span class="leading-relaxed" v-html="formatText(item.action || item.info)"></span>
                                     </div>
                                 </div>
 
+                                <!-- 導航按鈕群組 (Loc, Loc2) -->
                                 <div class="flex flex-wrap gap-2 mt-3" v-if="item.loc || item.loc2 || item.departTime || item.travelTime">
                                     <span v-if="item.departTime" class="pill-pink px-2 py-1 rounded-lg text-[10px] font-bold shadow-[1px_1px_0px_#3E3A39]">
-                                        🏃 逗留至: {{ item.departTime }}
+                                        <i class="fa-solid fa-person-running"></i> 逗留至: {{ item.departTime }}
                                     </span>
                                     <span v-if="item.travelTime" class="pill-yellow px-2 py-1 rounded-lg text-[10px] font-bold shadow-[1px_1px_0px_#3E3A39]">
-                                        ⏱️ 預計: {{ item.travelTime }}
+                                        <i class="fa-regular fa-clock"></i> 預計: {{ item.travelTime }}
                                     </span>
                                     <button v-if="item.loc" @click.stop="openMap(item.loc)" class="pill-blue px-2 py-1 rounded-lg text-[10px] font-bold shadow-[1px_1px_0px_#3E3A39] active:translate-y-px active:shadow-none transition-all">
-                                        📍 導航
+                                        <i class="fa-solid fa-location-arrow"></i> 導航
                                     </button>
                                     <button v-if="item.loc2" @click.stop="openMap(item.loc2)" class="pill-green px-2 py-1 rounded-lg text-[10px] font-bold shadow-[1px_1px_0px_#3E3A39] active:translate-y-px active:shadow-none transition-all">
-                                        📍 {{ item.loc2Name }}
+                                        <i class="fa-solid fa-location-arrow"></i> {{ item.loc2Name }}
                                     </button>
                                 </div>
+
+                                <!-- Mapcode & Phone (自駕專用) -->
+                                <div v-if="item.mapcode || item.phone" class="mt-3 flex gap-2">
+                                    <div v-if="item.mapcode" class="flex-1 bg-white border-2 border-[#3E3A39] rounded-lg p-1.5 text-center shadow-[1px_1px_0px_#3E3A39]">
+                                        <div class="text-[9px] font-black mb-0.5 text-[#3E3A39]">MapCode</div>
+                                        <div class="text-xs font-black">{{ item.mapcode }}</div>
+                                    </div>
+                                    <div v-if="item.phone" class="flex-1 bg-white border-2 border-[#3E3A39] rounded-lg p-1.5 text-center shadow-[1px_1px_0px_#3E3A39]">
+                                        <div class="text-[9px] font-black mb-0.5 text-[#3E3A39]">TEL (車機)</div>
+                                        <div class="text-xs font-black">{{ item.phone }}</div>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                     </div>
                     
                     <div v-if="currentItineraryData.length === 0" class="text-center py-12 opacity-50 font-bold">
-                        <p class="text-sm">今天還沒有安排行程喔！</p>
+                        <i class="fa-solid fa-calendar-plus text-4xl mb-3"></i><p class="text-sm">今天還沒有安排行程喔！</p>
                     </div>
                 </div>
             </div>
@@ -361,7 +340,7 @@
                 <!-- 航班 -->
                 <div class="story-card">
                     <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#A8D3E6] font-black flex items-center gap-2">
-                        ✈️ 航班資訊 (CX)
+                        <i class="fa-solid fa-plane-departure"></i> 航班資訊
                     </div>
                     <div class="p-4 bg-white space-y-4">
                         <div>
@@ -369,48 +348,73 @@
                                 <span class="w-2 h-2 rounded-full bg-[#F2A497]"></span>去程 ({{ currentTripData.flights.out.code }}) • {{ currentTripData.flights.out.date }}
                             </div>
                             <div class="flex justify-between items-center px-2">
-                                <div class="text-2xl font-black">HKG</div>
+                                <div class="text-2xl font-black">{{ currentTripData.flights.out.dep }}</div>
                                 <div class="flex-1 px-4 border-t-2 border-dashed border-[#3E3A39] relative mx-2">
-                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-[#3E3A39]">✈️</span>
-                                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold">{{ currentTripData.flights.out.dep }}</div>
+                                    <i class="fa-solid fa-plane absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-[#3E3A39]"></i>
                                 </div>
-                                <div class="text-2xl font-black">CTS</div>
-                                <div class="absolute right-6 top-14 text-[10px] font-bold">{{ currentTripData.flights.out.arr }}</div>
+                                <div class="text-2xl font-black">{{ currentTripData.flights.out.arr }}</div>
                             </div>
                         </div>
-                        <div class="border-t-[3px] border-dotted border-[#3E3A39] mt-6"></div>
-                        <div class="mt-4">
+                        <div class="border-t-[3px] border-dotted border-[#3E3A39]"></div>
+                        <div>
                             <div class="text-[11px] font-bold opacity-60 mb-2 flex items-center gap-2">
                                 <span class="w-2 h-2 rounded-full bg-[#B9DAA5]"></span>回程 ({{ currentTripData.flights.in.code }}) • {{ currentTripData.flights.in.date }}
                             </div>
-                            <div class="flex justify-between items-center px-2 relative">
-                                <div class="text-2xl font-black">CTS</div>
+                            <div class="flex justify-between items-center px-2">
+                                <div class="text-2xl font-black">{{ currentTripData.flights.in.dep }}</div>
                                 <div class="flex-1 px-4 border-t-2 border-dashed border-[#3E3A39] relative mx-2">
-                                    <span class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-[#3E3A39]" style="transform: translate(-50%, -50%) scaleX(-1);">✈️</span>
-                                    <div class="absolute -top-5 left-1/2 -translate-x-1/2 text-[10px] font-bold">{{ currentTripData.flights.in.dep }}</div>
+                                    <i class="fa-solid fa-plane absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 text-[#3E3A39] rotate-180"></i>
                                 </div>
-                                <div class="text-2xl font-black">HKG</div>
-                                <div class="absolute right-1 top-8 text-[10px] font-bold">{{ currentTripData.flights.in.arr }}</div>
+                                <div class="text-2xl font-black">{{ currentTripData.flights.in.arr }}</div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <!-- 租車 -->
+                <div class="story-card" v-if="currentTripData.rental">
+                    <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#F6D27A] font-black flex justify-between items-center">
+                        <div><i class="fa-solid fa-car mr-2"></i>租車資訊</div>
+                        <div class="text-[10px] bg-white px-2 py-0.5 rounded-full border-2 border-[#3E3A39]">{{ currentTripData.rental.company }}</div>
+                    </div>
+                    <div class="p-4 bg-white text-sm font-bold">
+                        <div class="flex justify-between border-b-2 border-dotted border-[#3E3A39] pb-2 mb-3">
+                            <span class="opacity-60">預約號碼</span>
+                            <span class="font-black text-[#E64A19]">{{ currentTripData.rental.no }}</span>
+                        </div>
+                        <div class="flex gap-3 text-center">
+                            <div class="flex-1 bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-xl p-2">
+                                <div class="text-[9px] opacity-60 mb-1">取車 (PICK-UP)</div>
+                                <div class="pill-pink rounded-md px-1 py-0.5 mb-1 text-[10px] inline-block shadow-[1px_1px_0px_#3E3A39]">{{ currentTripData.rental.pickupDate }}</div>
+                                <div class="text-lg font-black">{{ currentTripData.rental.pickupTime }}</div>
+                                <div class="text-[9px] mt-1">{{ currentTripData.rental.pickupLocName }}</div>
+                            </div>
+                            <div class="flex-1 bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-xl p-2">
+                                <div class="text-[9px] opacity-60 mb-1">還車 (RETURN)</div>
+                                <div class="pill-green rounded-md px-1 py-0.5 mb-1 text-[10px] inline-block shadow-[1px_1px_0px_#3E3A39]">{{ currentTripData.rental.returnDate }}</div>
+                                <div class="text-lg font-black">{{ currentTripData.rental.returnTime }}</div>
+                                <div class="text-[9px] mt-1">{{ currentTripData.rental.returnLocName }}</div>
+                            </div>
+                        </div>
+                        <div class="mt-3 text-[11px] bg-[#FFF8E1] p-2 rounded-lg border-2 border-[#3E3A39]" v-html="formatText(currentTripData.rental.note)"></div>
                     </div>
                 </div>
 
                 <!-- 餐廳預約總覽 -->
                 <div class="story-card" v-if="currentTripData.diningList && currentTripData.diningList.length > 0">
                     <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#F2A497] font-black flex items-center gap-2">
-                        🍽️ 必食餐廳及預約總覽
+                        <i class="fa-solid fa-utensils"></i> 餐廳預約總覽
                     </div>
                     <div class="p-4 bg-white space-y-3">
                         <div v-for="res in currentTripData.diningList" :key="res.name" class="flex gap-3 border-b-2 border-dotted border-[#3E3A39] pb-3 last:border-0 last:pb-0">
-                            <div class="w-10 text-center shrink-0 flex flex-col justify-center font-black">
+                            <div class="w-14 text-center shrink-0 flex flex-col justify-center font-black">
                                 <div class="text-[9px] opacity-60">{{ res.date }}</div>
-                                <div class="text-sm text-[#E64A19]">{{ res.time }}</div>
+                                <div class="text-[13px] text-[#E64A19]">{{ res.time }}</div>
                             </div>
                             <div class="flex-1 border-l-2 border-[#3E3A39] pl-3">
                                 <div class="font-black text-[13px] mb-1">{{ res.name }}</div>
-                                <div class="text-[10px] opacity-70 mb-2">📍 {{ res.addr }}</div>
-                                <span class="text-[9px] font-bold px-2 py-0.5 rounded border-2 border-[#3E3A39] shadow-[1px_1px_0px_#3E3A39]" :class="res.bookingNo.includes('⚠️') ? 'bg-[#F2A497]' : 'bg-[#B9DAA5]'">
+                                <div class="text-[10px] opacity-70 mb-2"><i class="fa-solid fa-location-dot"></i> {{ res.addr }}</div>
+                                <span class="text-[9px] font-bold px-2 py-0.5 rounded border-2 border-[#3E3A39] shadow-[1px_1px_0px_#3E3A39]" :class="res.bookingNo.includes('預約') && !res.bookingNo.includes('待') ? 'bg-[#B9DAA5]' : 'bg-[#FFF8E1]'">
                                     {{ res.bookingNo }}
                                 </span>
                             </div>
@@ -418,6 +422,25 @@
                     </div>
                 </div>
                 
+                <!-- 泊車情報總覽 -->
+                <div class="story-card" v-if="currentTripData.parkingList && currentTripData.parkingList.length > 0">
+                    <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#B9DAA5] font-black flex items-center gap-2">
+                        <i class="fa-solid fa-square-parking"></i> 泊車情報總覽
+                    </div>
+                    <div class="p-4 bg-white space-y-4">
+                        <div v-for="park in currentTripData.parkingList" :key="park.name" class="border-b-2 border-dotted border-[#3E3A39] pb-3 last:border-0 last:pb-0">
+                            <div class="font-black text-[13px] mb-1"><i class="fa-solid fa-car-side text-[#E64A19]"></i> {{ park.name }}</div>
+                            <div class="text-[11px] font-bold opacity-80 leading-relaxed" v-html="formatText(park.detail)"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="story-card bg-[#3E3A39] text-white cursor-pointer active:translate-y-1 transition-transform" @click="openDoc">
+                    <div class="p-4 font-black flex justify-center items-center gap-2">
+                        <i class="fa-brands fa-google-drive"></i> 查看 Google Doc 行程 <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70"></i>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -427,18 +450,21 @@
                 <!-- 總覽 -->
                 <div class="story-card">
                     <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#F2A497] font-black text-center text-sm">
-                        已確認酒店總花費
+                        總預算洗費估算 (酒店+租車+餐廳)
                     </div>
                     <div class="p-5 bg-white text-center">
-                        <div class="text-3xl font-black mb-1 text-[#E64A19]">HK${{ totalHotelHkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</div>
-                        <p class="text-sm font-bold opacity-60">包含札幌及函館共 5 晚住宿</p>
+                        <div class="text-3xl font-black mb-1 text-[#E64A19]">¥{{ totalTripYen.toLocaleString() }}</div>
+                        <p class="text-sm font-bold opacity-60">≈ HKD ${{ Math.round(totalTripYen * 0.052).toLocaleString() }}</p>
                     </div>
                 </div>
 
                 <!-- 酒店住宿洗費 -->
                 <div class="story-card bg-white p-4">
                     <div class="flex justify-between items-center border-b-2 border-dotted border-[#3E3A39] pb-2 mb-3">
-                        <div class="font-black text-[13px]">🛏️ 住宿清單</div>
+                        <div class="font-black text-[13px]"><i class="fa-solid fa-hotel mr-1 text-[#F2A497]"></i> 酒店住宿總計</div>
+                        <div class="text-right">
+                            <div class="font-black text-[#E64A19]">¥{{ totalHotelYen.toLocaleString() }}</div>
+                        </div>
                     </div>
                     <div class="space-y-2">
                         <div v-for="h in currentTripData.expenseHotels" :key="h.name" class="flex justify-between items-center bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-xl p-2">
@@ -447,8 +473,44 @@
                                 <div class="text-[9px] font-bold opacity-60">{{ h.dates }}</div>
                             </div>
                             <div class="text-right font-black text-[11px]">
-                                <span v-if="h.hkdStr.includes('¥')">{{ h.hkdStr }} <br><span class="text-[9px] text-gray-400 font-bold">(約 HK${{ Math.round(h.hkd) }})</span></span>
+                                <span v-if="h.yen > 0">¥{{ h.yen.toLocaleString() }}</span>
                                 <span v-else>{{ h.hkdStr }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 租車洗費 -->
+                <div class="story-card bg-white p-4" v-if="currentTripData.expenseRental">
+                    <div class="flex justify-between items-center border-b-2 border-dotted border-[#3E3A39] pb-2 mb-3">
+                        <div class="font-black text-[13px]"><i class="fa-solid fa-car mr-1 text-[#F6D27A]"></i> 租車洗費</div>
+                        <div class="text-right">
+                            <div class="font-black text-[#E64A19]">¥{{ currentTripData.expenseRental.yen.toLocaleString() }}</div>
+                        </div>
+                    </div>
+                    <div class="bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-xl p-2">
+                        <div class="font-black text-[11px] mb-1">{{ currentTripData.expenseRental.name }}</div>
+                        <div class="text-[9px] font-bold opacity-70">{{ currentTripData.expenseRental.note }}</div>
+                    </div>
+                </div>
+
+                <!-- 餐廳預約洗費 -->
+                <div class="story-card bg-white p-4" v-if="currentTripData.expenseDining && currentTripData.expenseDining.length > 0">
+                    <div class="flex justify-between items-center border-b-2 border-dotted border-[#3E3A39] pb-2 mb-3">
+                        <div class="font-black text-[13px]"><i class="fa-solid fa-utensils mr-1 text-[#B9DAA5]"></i> 已預約餐廳洗費</div>
+                        <div class="text-right">
+                            <div class="font-black text-[#E64A19]">¥{{ totalDiningYen.toLocaleString() }}</div>
+                        </div>
+                    </div>
+                    <div class="space-y-2">
+                        <div v-for="d in currentTripData.expenseDining" :key="d.name" class="flex justify-between items-center bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-xl p-2">
+                            <div>
+                                <div class="font-black text-[11px]">{{ d.name }}</div>
+                                <div class="text-[9px] font-bold opacity-60">{{ d.date }} • {{ d.note }}</div>
+                            </div>
+                            <div class="text-right font-black text-[11px]">
+                                <span v-if="d.yen > 0">¥{{ d.yen.toLocaleString() }}</span>
+                                <span v-else class="text-[#E64A19]">現場付款</span>
                             </div>
                         </div>
                     </div>
@@ -463,7 +525,7 @@
                 <!-- 關鍵行動鬧鐘 (原版 Alarms) -->
                 <div class="story-card mb-5">
                     <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#F6D27A] font-black flex items-center gap-2">
-                        🔔 預約及行動鬧鐘
+                        <i class="fa-solid fa-bell"></i> 關鍵行動鬧鐘
                     </div>
                     <div class="p-4 space-y-3 bg-white">
                         <label v-for="(task, idx) in currentTripData.alarms" :key="idx" class="flex items-start gap-3 cursor-pointer group border-b-2 border-dotted border-[#3E3A39] pb-2 last:border-0 last:pb-0">
@@ -481,14 +543,14 @@
                 <!-- 待買清單 -->
                 <div class="story-card mb-5">
                     <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#A8D3E6] font-black flex items-center gap-2">
-                        🛍️ 血拼清單
+                        <i class="fa-solid fa-bag-shopping"></i> 待買清單
                     </div>
                     <div class="p-4 bg-white">
                         <div class="space-y-3 mb-4">
                             <label v-for="(item, idx) in currentTripData.shopping" :key="'s'+idx" class="flex items-center gap-3 cursor-pointer group border-b-2 border-dotted border-[#3E3A39] pb-2 last:border-0 last:pb-0">
                                 <input type="checkbox" class="custom-checkbox shrink-0">
                                 <span class="font-bold text-[13px] flex-1">{{ item }}</span>
-                                <button @click.stop.prevent="removeShoppingItem(idx)" class="w-6 h-6 bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-lg flex justify-center items-center shadow-[1px_1px_0px_#3E3A39] text-[#E64A19] active:translate-y-px active:shadow-none">🗑️</button>
+                                <button @click.stop.prevent="removeShoppingItem(idx)" class="w-6 h-6 bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-lg flex justify-center items-center shadow-[1px_1px_0px_#3E3A39] text-[#E64A19] active:translate-y-px active:shadow-none"><i class="fa-solid fa-trash text-[10px]"></i></button>
                             </label>
                         </div>
                         <div class="flex gap-2">
@@ -501,14 +563,14 @@
                 <!-- 住宿清單 -->
                 <div class="story-card">
                     <div class="p-3 border-b-[3px] border-[#3E3A39] bg-[#F2A497] font-black flex items-center gap-2">
-                        🛏️ 住宿名單
+                        <i class="fa-solid fa-bed"></i> 住宿總覽
                     </div>
                     <div class="p-4 bg-white space-y-3">
                         <div v-for="hotel in currentTripData.hotels" :key="hotel.name" class="bg-[#FFFCF6] border-2 border-[#3E3A39] rounded-xl p-3">
                             <div class="font-black text-[13px] mb-1">{{ hotel.name }}</div>
-                            <div v-if="hotel.addr" class="text-[9px] font-bold opacity-60 mb-2">📍 {{ hotel.addr }}</div>
+                            <div v-if="hotel.addr" class="text-[9px] font-bold opacity-60 mb-2"><i class="fa-solid fa-location-dot"></i> {{ hotel.addr }}</div>
                             <div class="flex justify-between items-center text-[10px] font-bold">
-                                <span class="pill-yellow px-2 py-0.5 rounded-md shadow-[1px_1px_0px_#3E3A39]">📅 {{ hotel.dates }}</span>
+                                <span class="pill-yellow px-2 py-0.5 rounded-md shadow-[1px_1px_0px_#3E3A39]">{{ hotel.dates }}</span>
                                 <span v-if="hotel.status" :class="hotel.status.includes('✅') ? 'text-[#3E3A39]' : 'text-[#E64A19]'">{{ hotel.status }}</span>
                             </div>
                         </div>
@@ -524,10 +586,10 @@
                 <div class="w-12 h-12 bg-[#A8D3E6] border-2 border-[#3E3A39] rounded-xl flex justify-center items-center mx-auto mb-3 text-xl shadow-[2px_2px_0px_#3E3A39]">🛏️</div>
                 <h3 class="text-lg font-black mb-3 text-[#3E3A39]">今晚返邊度?</h3>
                 <div v-if="getHotelForDay(selectedDayIndex)" class="bg-white border-2 border-[#3E3A39] rounded-xl p-4 mb-4 shadow-[2px_2px_0px_#3E3A39]">
-                    <h2 class="text-[15px] font-black text-[#0288D1]">{{ getHotelForDay(selectedDayIndex).name }}</h2>
+                    <h2 class="text-[15px] font-black text-[#E64A19]">{{ getHotelForDay(selectedDayIndex).name }}</h2>
                     <div class="text-[11px] font-bold opacity-60 mt-1">{{ getHotelForDay(selectedDayIndex).addr }}</div>
                 </div>
-                <button @click="openMap(getHotelForDay(selectedDayIndex).name)" class="w-full bg-[#B9DAA5] border-[3px] border-[#3E3A39] text-[#3E3A39] py-3 rounded-2xl font-black shadow-[2px_2px_0px_#3E3A39] active:translate-y-1 active:shadow-none mb-3">📍 Google Map 導航</button>
+                <button @click="openMap(getHotelForDay(selectedDayIndex).name)" class="w-full bg-[#B9DAA5] border-[3px] border-[#3E3A39] text-[#3E3A39] py-3 rounded-2xl font-black shadow-[2px_2px_0px_#3E3A39] active:translate-y-1 active:shadow-none mb-3"><i class="fa-solid fa-location-arrow mr-2"></i> Google Map 導航</button>
                 <button @click="showHotelModal = false" class="text-xs font-bold opacity-60 underline">關閉視窗</button>
             </div>
         </div>
@@ -546,112 +608,232 @@
 
     </div>
 
-    <!-- =============== VUE 腳本區：完全保留原本嘅 DATA =============== -->
+    <!-- =============== VUE 腳本區 =============== -->
     <script>
         const { createApp } = Vue;
 
         createApp({
             data() {
                 return {
-                    currentTrip: 'hokkaido',
+                    currentTrip: 'central',
                     activeTab: 'itinerary',
                     selectedDayIndex: 0, 
                     showSettings: false, showHotelModal: false, newShopItem: '',
-                    weather: { city_name: '札幌', temp: '--', icon: '☁️' },
+                    weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
                     apiKey: 'cc2dab2806da14aec6dab2ed8260a1c4', 
                     settings: { fontSize: 15 },
                     exchangeRate: 0.052,
                     
                     trips: {
-                        hokkaido: {
-                            id: 'hokkaido', date: '2027-01-06', range: 'Jan 06 - 11, 2027',
+                        karuizawa: {
+                            id: 'karuizawa', title: "Karuizawa 2026", date: '2026-04-18', range: 'Apr 18 - 25, 2026',
+                            docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
+                            flights: { out: { code: 'CX524', date: '4/18', dep: '01:20', depLoc: '香港 HKG', arr: '06:40', arrLoc: '成田 T2', duration: '4h 20m' }, in: { code: 'CX501', date: '4/25', dep: '21:40', depLoc: '成田 T2', arr: '01:40', arrLoc: '香港 HKG' } },
+                            rental: { company: 'Nippon Rent-A-Car', pickupDate: '4/20', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '4/22', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '車型: Nippon 私家車/休旅車' },
+                            hotels: [ 
+                                { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20', addr: '東京都中央區日本橋人形町2-30-5', status: '✅ 已完成' }, 
+                                { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22', addr: '長野縣佐久市佐久平站北1-1', status: '✅ 已完成' }, 
+                                { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25', addr: '東京都中央區八丁堀2-13-1', status: '✅ 已完成' } 
+                            ],
+                            hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
+                            expenseHotels: [], expenseRental: { name: 'Nippon Rent-A-Car 租車', yen: 0, note: '已包含' }, expenseDining: [],
+                            alarms: [ { date: '出發前', task: '確認 Nippon 租車車型！' } ],
+                            shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
+                            parkingList: [],
+                            diningList: [
+                                { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野)', addr: '台東区上野3-24-6 PARCO_ya 6F', bookingNo: '現場排隊' },
+                                { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台東区雷門1-15-10', bookingNo: '已預約' },
+                                { date: 'Day 5 (4/22)', time: '13:00', name: '手打蕎麥麵 とも花', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
+                                { date: 'Day 5 (4/22)', time: '20:45', name: 'お魚總本家 (銀座店)', addr: '中央区銀座5-9-11', bookingNo: '預約: 吧枱位' },
+                                { date: 'Day 7 (4/24)', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2', bookingNo: 'RCA5GN' },
+                                { date: 'Day 8 (4/25)', time: '11:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', bookingNo: '已預約' }
+                            ],
+                            days: [
+                                { weekday: 'Sat', dateStr: '04/18', events: [{ time: '01:20', title: '出發去東京', category: 'flight' }] },
+                                { weekday: 'Sun', dateStr: '04/19', events: [{ time: '10:00', title: '人形町周邊', category: 'sightseeing' }] },
+                                { weekday: 'Mon', dateStr: '04/20', events: [{ time: '09:30', title: '取車前往輕井澤', category: 'transport', transportType: 'car' }] },
+                                { weekday: 'Tue', dateStr: '04/21', events: [{ time: '10:00', title: 'Pre-wedding 拍攝', category: 'highlight' }] },
+                                { weekday: 'Wed', dateStr: '04/22', events: [{ time: '20:30', title: '還車', category: 'transport' }] },
+                                { weekday: 'Thu', dateStr: '04/23', events: [{ time: '10:00', title: '東京市區', category: 'shopping' }] },
+                                { weekday: 'Fri', dateStr: '04/24', events: [{ time: '10:00', title: '豐洲市場', category: 'food' }] },
+                                { weekday: 'Sat', dateStr: '04/25', events: [{ time: '21:40', title: '回港', category: 'flight' }] }
+                            ]
+                        },
+                        central: {
+                            id: 'central', title: "10+1 OurStory", date: '2026-10-30', range: 'Oct 30 - Nov 08, 2026',
+                            docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
                             flights: { 
-                                out: { code: 'CX584', date: '1/6', dep: '10:25', arr: '16:00' }, 
-                                in: { code: 'CX587', date: '1/11', dep: '19:05', arr: '23:55' } 
+                                out: { code: 'CX500', date: '10/30 (五)', dep: '15:20', depLoc: '香港 HKG', arr: '20:00', arrLoc: '成田 T2', duration: '4h 40m' }, 
+                                in: { code: 'CX505', date: '11/08 (日)', dep: '18:30', depLoc: '成田 T2', arr: '22:50', arrLoc: '香港 HKG', duration: '5h 20m' } 
+                            },
+                            rental: { 
+                                company: 'Nippon Rent-A-Car', 
+                                pickupDate: '10/31', pickupTime: '09:00', pickupLocName: '上野站前店',
+                                returnDate: '11/05', returnTime: '20:00', returnLocName: '上野站前店',
+                                no: 'C38760', 
+                                note: '💡 Nippon Rent-A-Car (已包雪胎 + 4WD！預約號: C38760)' 
                             },
                             hotels: [
-                                { name: '暖雪 札幌 (Dansetsu Sapporo)', dates: '1/6 - 1/7', addr: '札幌市中央區南6條東2-1-1', status: '✅ 已預約' },
-                                { name: 'fav 函館酒店', dates: '1/7 - 1/9', addr: '函館市大手町20-15', status: '✅ 已預約' },
-                                { name: '暖雪 札幌 (Dansetsu Sapporo)', dates: '1/9 - 1/11', addr: '札幌市中央區南6條東2-1-1', status: '✅ 已預約' }
+                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31', addr: '東京都台東區上野1-18-8', status: '✅ 已預約 (HK$1,022)' },
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2', addr: '靜岡縣沼津市大手町1-1-4', status: '✅ 已預約 (¥37,044)' },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3', addr: '長野縣松本市深志1-5-17', status: '✅ 已預約 (¥31,050)' },
+                                { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4', addr: '群馬縣吾妻郡草津町大字草津白根464-214', status: '✅ 已預約 (¥90,000)' },
+                                { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5', addr: '靜岡縣御殿場市深沢2839-1', status: '✅ 已預約 (¥44,400)' },
+                                { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8', addr: '東京都千代田區神田須田町2-17-10', status: '✅ 已預約 (¥103,320)' }
                             ],
-                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2 },
+                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 5, 8: 5, 9: 5 },
+                            
                             expenseHotels: [
-                                { name: '暖雪 札幌', dates: '1/6 - 1/7 (1晚)', hkdStr: '¥15,210', hkd: 15210 * 0.052 },
-                                { name: 'fav 函館酒店', dates: '1/7 - 1/9 (2晚)', hkdStr: 'HK$2,153.14', hkd: 2153.14 },
-                                { name: '暖雪 札幌', dates: '1/9 - 1/11 (2晚)', hkdStr: '¥67,500', hkd: 67500 * 0.052 }
+                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$1,022.10' },
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 37044 },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3 (1晚)', yen: 31050 },
+                                { name: '湯宿 季之庭', dates: '11/3 - 11/4 (1晚, 一泊二食)', yen: 90000 },
+                                { name: 'HOTEL CLAD', dates: '11/4 - 11/5 (1晚, 包早餐)', yen: 44400 },
+                                { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8 (3晚)', yen: 103320 }
                             ],
-                            
+                            expenseRental: { name: 'Nippon Rent-A-Car (10/31 09:00 - 11/5 20:00 上野取還)', yen: 111870, note: '已包雪胎 + 4WD + 安心保險 (編號: C38760)' },
+                            expenseDining: [
+                                { name: '木曾路 靜岡店 (松茸涮涮鍋)', date: '10/31', yen: 17600, note: '8,800円 × 2位 (KBS313918)' },
+                                { name: 'まんてん鮨 日本橋 (吧枱位升級)', date: '11/6', yen: 24200, note: '12,100円 × 2位 (4G6C6X)' },
+                                { name: '其他預約/現場餐廳', date: '全期', yen: 0, note: '現場付款 / 自由點餐' }
+                            ],
+
                             alarms: [
-                                { date: '11月頭', task: '⚠️ 預約「政壽司」及「冰雪之門」(三大蟹)！' },
-                                { date: '11月頭', task: '⚠️ 預約「和牛富士山」打邊爐！' },
-                                { date: '12月7日', task: '🎫 JR官網搶 1/7 札幌落函館「北斗號」車飛！' },
-                                { date: '12月9日', task: '🎫 JR官網搶 1/9 函館返札幌「北斗號」車飛！' },
-                                { date: '出發前', task: '🛍️ 買定防滑雪靴及冰爪！' },
-                                { date: '1月6日', task: '🏨 Check-in 時要求大行李免費寄存至 1/9！' },
-                                { date: '1月7日', task: '🎒 輕裝背囊出發落函館！帶一晚替換衣物！' }
+                                { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, 
+                                { date: '7/01', task: '✅ 已預約 Nippon 租車 (全期，連雪胎 C38760)' },
+                                { date: '8/01', task: '✅ 已預約 木曾路 靜岡店 (10/31 19:00)' }, 
+                                { date: '9/01', task: '✅ 已預約 吧枱位升級版 Mantensushi 日本橋 (11/6 20:30)' }, 
+                                { date: '10/5', task: '申請 IDP、買 Sim 卡、Down 壽司郎 App' }
                             ],
-                            
-                            shopping: ['Pastry Snaffle’s 芝士蛋糕 (札幌東急店)', '防滑雪靴 / 冰爪 (必備！)', '藥妝 / Donki (狸小路)', '六花亭', 'Royce 生朱古力', '小樽玻璃工藝品', '白色戀人'],
-                            
+                            shopping: ['沼津 乾物', '伊豆 山葵漬物', '松本 味噌', '草津 溫泉粉', '御殿場 Outlet', '東京 手信', '澀谷 ReFa'],
+                            parkingList: [
+                                { name: 'Nippon 租車上野店', detail: '取車與還車處。預約號: C38760' },
+                                { name: '海老名 SA (下行)', detail: '大型高速公路休息站 (免費泊車)。' },
+                                { name: '沼津港 (丸天)', detail: '魚河岸大型停車場 (免費)。' },
+                                { name: '三島大吊橋', detail: '園區免費大型停車場。' },
+                                { name: '大室山', detail: '山腳免費大型停車場 (09:00到霸位)。' },
+                                { name: '熱海銀座周邊', detail: '推薦泊「市営東駐車場」或周邊 Times (約¥300/30分)。' },
+                                { name: '清水入江小學周邊', detail: '學校不能泊車，建議短暫停靠或使用附近 Coin Parking。' },
+                                { name: '小丸子樂園', detail: 'S-Pulse Dream Plaza 停車場 (消費免泊)。' },
+                                { name: '松本城', detail: '市營松本城停車場 (¥300/小時)。' },
+                                { name: 'Onyado Nono Matsumoto', detail: '酒店立體停車場先到先得 (¥1,400/晚) 或 提攜「Silk Parking」 (¥1,200/晚，不可中途出車)。TEL: 0263-37-5489' },
+                                { name: '地獄谷野猿公苑', detail: '上林温泉無料停車場 (唔浸溫泉都泊得)。' },
+                                { name: '榛名湖 (秋名山)', detail: '湖畔有多個免費大型停車場。' },
+                                { name: '河口湖 Kobaiya', detail: '餐廳門口專屬免費位 (約6個)。' },
+                                { name: '御殿場 Outlet', detail: 'P區大型免費位。' },
+                                { name: '山中湖長池公園', detail: '湖邊免費停車帶。' },
+                                { name: '下吉田駅 (本町通)', detail: '下吉田駅停車場，行去本町通打卡位只需5分鐘。' },
+                                { name: '新倉山淺間公園', detail: '山腳免費停車場，紅葉旺季極易爆滿，建議盡早抵達。' }
+                            ],
                             diningList: [
-                                { date: '1/6', time: '19:30', name: '冰雪之門 (三大蟹)', addr: '札幌市中央區南5條西2', bookingNo: '⚠️ 必須預約' },
-                                { date: '1/7', time: '19:00', name: '函館麵廚房味彩', addr: '五稜郭塔旁邊/紅磚倉庫', bookingNo: '現場排隊' },
-                                { date: '1/8', time: '14:00', name: '茶房HISHI伊 / 舊茶屋亭', addr: '函館市寶來町 / 末廣町', bookingNo: '現場 Walk-in' },
-                                { date: '1/8', time: '18:30', name: '函館啤酒館', addr: '金森紅磚倉庫內', bookingNo: '現場排隊' },
-                                { date: '1/9', time: '19:30', name: '和牛富士山 (和牛打邊爐)', addr: '札幌市中央區大通西1丁目', bookingNo: '⚠️ 建議預約' },
-                                { date: '1/10', time: '18:00', name: '政壽司 本店 (小樽)', addr: '小樽市色内1-2-1', bookingNo: '⚠️ 建議預約' },
-                                { date: '1/11', time: '12:00', name: 'Suage+ / GARAKU (湯咖喱)', addr: '札幌市中心', bookingNo: '現場排隊' }
+                                { date: 'Day 1', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', bookingNo: '現場排隊' },
+                                { date: 'Day 2', time: '19:00', name: '木曾路 靜岡店 (松茸涮涮鍋)', addr: '静岡県静岡市駿河区下石田31-1', bookingNo: '已預約 (KBS313918)' },
+                                { date: 'Day 2', time: '12:30', name: '熱海おさかな食堂', addr: '静岡県熱海市銀座町8-8', bookingNo: '現場排隊' },
+                                { date: 'Day 2', time: '13:30', name: '熱海プリン (熱海布甸)', addr: '静岡県熱海市銀座町3-13', bookingNo: '排隊外賣' },
+                                { date: 'Day 2', time: '18:30', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', bookingNo: '現場排隊' },
+                                { date: 'Day 3', time: '18:30', name: '信州蕎麥處 みよ田', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
+                                { date: 'Day 5', time: '13:45', name: '手打ちそば こばや', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
+                                { date: 'Day 5', time: '18:30', name: '沼津魚がし鮨 (御殿場)', addr: '御殿場プレミアム・アウトレット内', bookingNo: '現場排隊' },
+                                { date: 'Day 6', time: '20:30', name: 'まんてん鮨 日本橋 (吧枱位)', addr: '東京都中央区日本橋', bookingNo: '已預約 (4G6C6X)' },
+                                { date: 'Day 7', time: '19:30', name: '鳥貴族 八丁堀店', addr: '東京都中央区八丁堀', bookingNo: '待預約' },
+                                { date: 'Day 8', time: '13:00', name: 'AFURI 渋谷PARCO', addr: '渋谷PARCO 7F', bookingNo: '現場排隊' },
+                                { date: 'Day 8', time: '20:30', name: '銀座 篝 本店', addr: '東京都中央区銀座', bookingNo: '現場排隊' },
+                                { date: 'Day 9', time: '11:30', name: '壽司郎 (Sushiro)', addr: '秋葉原駅前店', bookingNo: 'APP 取號' }
                             ],
-                            
                             days: [
-                                { weekday: 'Wed', dateStr: '1/06', events: [
-                                    { time: '16:00', title: '抵達新千歲機場 (CX584) ✈️', departTime: '17:00', travelTime: '1 hr', desc: '落機過關攞行李！如果未買 JR Pass 可以順便喺機場搞掂。', category: 'flight', transportType: 'walk', loc: '新千歳空港' },
-                                    { time: '17:30', title: '搭 JR 前往札幌 🚆', departTime: '18:15', travelTime: '45 min', desc: '乘搭 JR 快速機場線 (Rapid Airport) 直達札幌。', category: 'transport', transportType: 'train', loc: '札幌駅' },
-                                    { time: '18:30', title: 'Check-in 暖雪 札幌 🏨', departTime: '19:00', travelTime: '15 min', desc: '辦理入住！\n📍 地址: 札幌市中央區南6條東2-1-1', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk', action: '⚠️ 最重要任務：向酒店提出 1/7 退房後，將大件行李免費寄存至 1/9 再次入住！' },
-                                    { time: '19:30', title: '晚餐：冰雪之門 (三大蟹大餐) 🦀🍲', departTime: '21:30', travelTime: '10 min', desc: '✨ 已包含：極品生毛蟹 / 鱈場蟹涮涮鍋 (蟹肉打邊爐)！食完啲蟹肉記得用個蟹湯煮粥，超級鮮甜！', category: 'highlight', loc: '氷雪の門', transportType: 'walk', info: '💡 冬天極度爆滿，出發前必須提早預約！' },
-                                    { time: '21:30', title: '中島公園冬季點燈 ❄️✨', departTime: '22:15', travelTime: '10 min', desc: '食飽飯散步去附近嘅中島公園，欣賞 1 月限定嘅雪地光影藝術同燈飾，超浪漫！', category: 'sightseeing', loc: '中島公園', transportType: 'walk' },
-                                    { time: '22:30', title: '回酒店浸天然溫泉 ♨️', departTime: '22:30', travelTime: '0 min', desc: '執好聽日去函館嘅輕便背囊，早啲休息！', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' }
+                                { weekday: 'Fri', dateStr: '10/30', events: [
+                                    { time: '20:00', title: '抵達成田 (CX500) ✈️', departTime: '22:00', travelTime: '2 hr', desc: '降落後預留充足時間，預計 22:00 過關兼攞齊行李！', category: 'flight', transportType: 'walk', loc: '成田空港' },
+                                    { time: '22:00', title: '搭 Skyliner 出上野 🚆', departTime: '23:00', travelTime: '45 min', desc: '【交通建議】\n直落月台搭乘「京成 Skyliner」，全車指定席，45 分鐘極速直達「京成上野站」！', category: 'transport', transportType: 'train', loc: '京成上野駅' },
+                                    { time: '23:00', title: 'Check-in (R&B Hotel) 🏨', departTime: '23:15', travelTime: '10 min', desc: '抵達上野廣小路華盛頓 R&B 酒店！可以喺附近便利店買少少宵夜，好好休息準備聽日自駕！\n📍 地址: 東京都台東區上野1-18-8', category: 'hotel', loc: 'R&B Hotel Ueno Hirokoji', transportType: 'walk', phone: '03-5812-7333', mapcode: '2 717 197*33' }
                                 ]},
-                                { weekday: 'Thu', dateStr: '1/07', events: [
-                                    { time: '08:30', title: 'Check-out 寄存行李出發！🎒', departTime: '08:45', travelTime: '15 min', desc: '退房，將大行李留喺酒店，帶輕裝背囊去搭 JR。', category: 'hotel', transportType: 'walk' },
-                                    { time: '09:00', title: 'JR 特急北斗號 前往函館 🚆', departTime: '12:50', travelTime: '3 hr 50 min', desc: '已用指定席車飛！準備好零食，欣賞沿途無敵海景同雪景！', category: 'transport', transportType: 'train', loc: '函館駅' },
-                                    { time: '13:00', title: 'Check-in fav 函館酒店 🏨', departTime: '13:30', travelTime: '5 min', desc: '酒店就喺車站附近，放低背囊即刻出發去玩！', category: 'hotel', loc: 'fav 函館', transportType: 'walk' },
-                                    { time: '14:30', title: '五稜郭塔 俯瞰雪星堡壘 ⭐', departTime: '16:00', travelTime: '20 min', desc: '搭市電前往。冬天成個五角星會變成白色，極致震撼！', category: 'sightseeing', loc: '五稜郭タワー', transportType: 'train' },
-                                    { time: '17:00', title: '函館山 百萬夜景 🚠', departTime: '18:30', travelTime: '30 min', desc: '搭纜車上山，睇世界三大夜景之一！雪地反光特別靚！', category: 'sightseeing', loc: '函館山ロープウェイ', transportType: 'train', info: '💡 山頂風大極凍，一定要著夠衫同帶頸巾！' },
-                                    { time: '19:00', title: '晚餐：函館麵廚房味彩 🍜', departTime: '20:30', travelTime: '15 min', desc: '函館名物「鹽味拉麵」嘅代表！喺冰天雪地睇完夜景，食碗極品清湯熱拉麵，成個人暖返晒！', category: 'food', loc: 'あじさい', transportType: 'walk' }
+                                { weekday: 'Sat', dateStr: '10/31', events: [
+                                    { time: '07:30', title: 'R&B 酒店 Check-out 🧳', departTime: '08:45', travelTime: '15 min', desc: '喺酒店辦理退房，帶齊所有大行李出發前往 Nippon 租車點！', category: 'hotel', transportType: 'walk', loc: 'R&B Hotel Ueno Hirokoji' },
+                                    { time: '09:00', title: 'Nippon Rent-A-Car 租車 🚗', departTime: '09:45', travelTime: '45 min', desc: '✨ 預約號: C38760\n完成手續、驗車，並將所有大行李直接放上車尾箱！', category: 'highlight', transportType: 'car', phone: '05017122597', mapcode: '2 718 196*12', loc: 'Nippon Rent-A-Car Ueno' },
+                                    { time: '09:45', title: '正式出發！向長野 / 靜岡進發 🚗💨', departTime: '09:45', travelTime: '1.5 hr', desc: '行李隨車，一路向南直奔海老名 SA！', category: 'transport', transportType: 'car' },
+                                    { time: '11:00', title: '海老名 SA (下行) 🚗🍩', departTime: '11:45', travelTime: '45 min', desc: '中途停靠全日本最出名嘅高速公路休息站【海老名 SA】！必食超人氣名物 "紅肉蜜瓜包"，買杯咖啡回氣！', category: 'sightseeing', transportType: 'car', phone: '046-231-4368', mapcode: '2 083 454*88', loc: 'EXPASA海老名 下り' },
+                                    { time: '12:30', title: '沼津港 丸天 Lunch 🐟', departTime: '14:00', travelTime: '1.5 hr', desc: '由海老名再踩個半鐘直達沼津港！食巨型海鮮塔！\n🚗 行車距離: 由上野起計約 140km\n🅿️ 泊車: 沼津港免費停車場', category: 'food', loc: '魚河岸 丸天 魚河岸店', transportType: 'car', phone: '055-963-0202', mapcode: '650 583 339*01', info: '💡 REMINDER: 假日多人，落車即刻去排隊攞飛先！' },
+                                    { time: '14:30', title: '三島大吊橋 🌉', departTime: '16:00', travelTime: '35 min', desc: '日本最長吊橋打卡！<br>🚗 行車距離: 20km (約 35 分鐘)<br>🅿️ 泊車: 園區免費車位', category: 'sightseeing', loc: '三島スカイウォーク', transportType: 'car', phone: '055-972-0084', mapcode: '50 238 668*85', info: '💡 REMINDER: 橋面風大會凍，記得帶件外套落車！' },
+                                    { time: '16:45', title: 'Check-in (Daiwa Roynet) 🏨', departTime: '19:00', travelTime: '30 min', desc: '擺低戰利品先。<br>🚗 行車距離: 15km (約 30 分鐘)<br>🅿️ 泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '💡 REMINDER: 酒店不包餐，立體車位先到先得 (¥1200/晚)。' },
+                                    { time: '19:00', title: 'Dinner: 木曾路 靜岡店 (松茸涮涮鍋) 🍲', departTime: '21:00', travelTime: '50 min', desc: '✨ 已預約: 19:00 (預約號: KBS313918)\n極品松茸和牛霜降肉涮涮鍋！\n🅿️ 泊車: 餐廳附屬免費停車場', category: 'highlight', transportType: 'car', loc: '木曽路 静岡店', phone: '054-202-1211', mapcode: '72 045 745*66' },
+                                    { time: '22:00', title: '回酒店休息 💤', departTime: '22:00', travelTime: '50 min', desc: '返回沼津酒店休息！<br>🚗 行車距離: 45km (約 50 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
-                                { weekday: 'Fri', dateStr: '1/08', events: [
-                                    { time: '08:00', title: '函館朝市 釣魷魚體驗 🦑', departTime: '10:00', travelTime: '5 min', desc: '行去朝市體驗親自釣魷魚，即釣即食！推薦去「きくよ食堂 (Kikuyo)」食埋滿滿嘅海鮮丼做早餐！', category: 'food', loc: '函館朝市', transportType: 'walk' },
-                                    { time: '10:30', title: '元町地區 異國風情散步 🚶', departTime: '12:30', travelTime: '15 min', desc: '參觀函館正教會、舊公會堂，感受充滿西洋風情嘅街道。', category: 'sightseeing', loc: '元町', transportType: 'walk' },
-                                    { time: '12:45', title: '八幡坂 日劇打卡位 📸', departTime: '13:30', travelTime: '10 min', desc: '一條直通向結冰海港嘅長斜路，兩邊樹上積滿雪，超級浪漫。', category: 'sightseeing', loc: '八幡坂', transportType: 'walk' },
-                                    { time: '14:00', title: '下午茶：茶房HISHI伊 / 舊茶屋亭 🍵', departTime: '15:30', travelTime: '10 min', desc: '行到攰攰哋，去大正浪漫風嘅古民家 Cafe 歎個日式靚茶同甜品，影相打卡兼暖身休息！', category: 'food', loc: '茶房ひし伊', loc2: '旧茶屋亭', loc2Name: '舊茶屋亭', transportType: 'walk' },
-                                    { time: '15:45', title: '金森紅磚倉庫 雪中漫步 🚢', departTime: '18:15', travelTime: '10 min', desc: '喺紅磚倉庫群尋寶買手信，影運河雪景。', category: 'shopping', loc: '金森赤レンガ倉庫', transportType: 'walk' },
-                                    { time: '18:30', title: '晚餐：函館啤酒館 🍻🥩', departTime: '20:30', travelTime: '5 min', desc: '就喺紅磚倉庫入面！極具氣氛嘅磚牆環境，歎函館地道釀造啤酒配西式大餐！', category: 'highlight', loc: '函館ビヤホール', transportType: 'walk' },
-                                    { time: '20:45', title: '回酒店休息 💤', departTime: '20:45', travelTime: '10 min', desc: '聽日返札幌。', category: 'hotel', loc: 'fav 函館', transportType: 'walk' }
+                                { weekday: 'Sun', dateStr: '11/01', events: [
+                                    { time: '08:15', title: '買早餐 / 準備出發 🍳', departTime: '08:15', travelTime: '1 hr', desc: '去便利店買早餐上車食！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 今日拉力賽，務必 08:15 準時開車！' },
+                                    { time: '09:30', title: '大室山 🌋', departTime: '11:30', travelTime: '45 min', desc: '趁少人搭吊車上火山口！<br>🚗 行車距離: 45km (約 1 小時)<br>🅿️ 泊車: 大室山免費停車場', category: 'sightseeing', loc: '大室山', transportType: 'car', phone: '0557-51-0258', mapcode: '48 846 512*63', info: '💡 REMINDER: 星期日 10 點後一定會冇位泊車！必須 09:30 到霸位！' },
+                                    { time: '12:30', title: '熱海 Lunch & 散策 🍮', departTime: '14:00', travelTime: '1 hr 20 min', desc: '去「熱海おさかな食堂」食海鮮丼，買 "熱海布甸"，再落陽光海灘打卡！<br>🚗 行車距離: 沿海公路 45 分鐘<br>🅿️ 泊車: 商店街周邊收費 Times', category: 'food', loc: '熱海おさかな食堂', loc2: '熱海プリン', loc2Name: '熱海布甸', transportType: 'car', mapcode: '116 023 273*82' },
+                                    { time: '15:30', title: '小丸子母校: 入江小學 🏫', departTime: '15:45', travelTime: '10 min', desc: '小丸子真實嘅小學！🏫<br>⚠️ 留意只能喺校門外遠處影相打卡，切勿入內或打擾學生上堂呀！', category: 'sightseeing', loc: '静岡市立清水入江小学校', transportType: 'car', phone: '054-366-0151', mapcode: '25 683 482*11' },
+                                    { time: '15:55', title: '巴川 & 稚兒橋 🌉', departTime: '16:15', travelTime: '10 min', desc: '動畫最常出現嘅巴川同埋稚兒橋！橋頭仲有神秘嘅河童雕像，鐵粉打卡必去！', category: 'sightseeing', loc: '稚児橋', transportType: 'car', mapcode: '25 683 609*33' },
+                                    { time: '16:25', title: 'S-Pulse Dream Plaza 掃貨 🛍️', departTime: '17:15', travelTime: '1 hr', desc: '唔入樂園直攻 3 樓周邊店！呢度有【全日本最齊全】嘅小丸子限定商品！買爆文具、零食同公仔！<br>🎡 走之前去商場門口搵埋櫻桃子親自設計嘅「彩色小丸子渠蓋」！', category: 'shopping', loc: 'S-Pulse Dream Plaza', transportType: 'car', phone: '054-354-3360', mapcode: '25 629 795*72', info: '💡 REMINDER: 買滿指定金額可以免泊車費！' },
+                                    { time: '18:30', title: 'Dinner: 鰻魚飯 櫻家 🍱', departTime: '20:30', travelTime: '30 min', desc: '由清水殺返三島！食極品百年鰻魚飯補充體力！<br>🚗 行車距離: 60km (約 1 小時)<br>🅿️ 泊車: 餐廳附屬免費停車場', category: 'food', loc: 'うなぎ 桜家', transportType: 'car', phone: '055-975-4520', mapcode: '50 126 150*22', action: '⚠️ 櫻家極易提早賣完，強烈建議提早去或者先打電話預留！' },
+                                    { time: '21:00', title: '回酒店休息 💤', departTime: '21:00', travelTime: '0 min', desc: '返到沼津好好休息！<br>🚗 行車距離: 15km (約 30 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
-                                { weekday: 'Sat', dateStr: '1/09', events: [
-                                    { time: '09:00', title: 'Check-out & 買手信 🎒', departTime: '09:45', travelTime: '10 min', desc: '退房，去函館站前買少少地道手信。', category: 'hotel', transportType: 'walk' },
-                                    { time: '10:00', title: 'JR 特急北斗號 返回札幌 🚆', departTime: '13:50', travelTime: '3 hr 50 min', desc: '揮別函館，搭車返大本營。', category: 'transport', transportType: 'train' },
-                                    { time: '14:30', title: 'Check-in 暖雪 札幌 🏨', departTime: '15:00', travelTime: '15 min', desc: '重新 Check-in，領回寄放嘅大行李！', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' },
-                                    { time: '15:30', title: '大通公園：雪雕地盤 x 白色燈樹節 🏗️🌟', departTime: '17:30', travelTime: '15 min', desc: '【1月期間限定】去大通公園睇自衛隊「起雪雕」嘅震撼幕後花絮！大約 16:30 入黑後，站前通同廣場嘅「札幌白色燈樹節」幾十萬盞燈飾就會著晒，一次過睇晒！', category: 'sightseeing', loc: '大通公園', transportType: 'train' },
-                                    { time: '18:00', title: '狸小路 瘋狂血拼 🛍️', departTime: '19:15', travelTime: '10 min', desc: '今日星期六，盡情喺狸小路補給藥妝同手信！', category: 'shopping', loc: '狸小路商店街', transportType: 'walk' },
-                                    { time: '19:30', title: '晚餐：和牛富士山 (極品打邊爐) 🥩🍲', departTime: '21:30', travelTime: '10 min', desc: '喺 Le Trois 商場 8 樓，望住大通公園雪夜景，歎「北海道和牛涮涮鍋 / 壽喜燒」！', category: 'highlight', loc: '和牛しゃぶしゃぶ すき焼 富士山', transportType: 'walk', info: '💡 建議出發前一至兩個月 Book 定窗邊位！' }
+                                { weekday: 'Mon', dateStr: '11/02', events: [
+                                    { time: '08:00', title: '市區早餐 🍔', departTime: '08:45', travelTime: '45 min', desc: '食飽準備揸長途車！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 酒店不包餐，記得加滿水同買定零食上車。' },
+                                    { time: '08:45', title: '由酒店出發 & Check-out 🚗', departTime: '08:45', desc: '離開沼津向長野進發！', category: 'hotel', transportType: 'car', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71' },
+                                    { time: '11:30', title: '立石公園 (諏訪湖) 🌅', departTime: '13:00', travelTime: '1.5 hr', desc: '《你的名字》系守町取景地！<br>🚗 行車距離: 150km (約 2.5 小時)<br>🅿️ 泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', info: '💡 REMINDER: 作為中途休息站，伸展下筋骨打個卡！' },
+                                    { time: '14:30', title: '松本城 🏯', departTime: '16:15', travelTime: '15 min', desc: '抵達松本！參觀日本國寶城！<br>🚗 行車距離: 50km (約 1.5 小時)<br>🅿️ 泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66' },
+                                    { time: '16:30', title: 'Check-in (Onyado Nono) 🏨', departTime: '18:15', travelTime: '5 min', desc: '全和式榻榻米酒店，超級舒服！<br>🚗 行車距離: 2km (約 10 分鐘)<br>🅿️ 泊車: 酒店立體停車場 (¥1400/晚) 或 Silk Parking (¥1200/晚)', category: 'hotel', loc: '天然温泉 梓の湯 ドーミーイン松本', transportType: 'car', phone: '0263-37-5489', mapcode: '75 821 474*88', info: '💡 REMINDER: 入酒店要除鞋，體驗日式風情！' },
+                                    { time: '18:30', title: 'Dinner: 信州蕎麥處 みよ田 🥢', departTime: '20:30', travelTime: '5 min', desc: '超有名氣歷史蕎麥麵！嚟松本必食！<br>🚗 行車距離: 行路 5 分鐘', category: 'food', loc: '信州蕎麦処 みよ田 松本本店', transportType: 'walk', phone: '0263-37-1434', mapcode: '75 821 615*00', action: '⚠️ 營業至 20:00 (Last Order 19:30)，已為你推早半小時避免摸門釘！' },
+                                    { time: '21:00', title: '回酒店浸溫泉 ♨️', departTime: '21:00', travelTime: '0 min', desc: '浸完溫泉仲有免費夜鳴拉麵食！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
                                 ]},
-                                { weekday: 'Sun', dateStr: '1/10', events: [
-                                    { time: '09:30', title: '出發前往小樽 🚆', departTime: '10:10', travelTime: '40 min', desc: '搭 JR 快速列車直達小樽 (用 IC 卡拍卡入閘即可)。', category: 'transport', transportType: 'train', loc: '小樽駅' },
-                                    { time: '10:30', title: '堺町通商店街 玻璃工藝與甜品 🍰', departTime: '14:30', travelTime: '10 min', desc: '漫步歐風街道，必去北一硝子館，同埋食 LeTAO 雙層芝士蛋糕！', category: 'shopping', loc: '堺町通り商店街', transportType: 'walk' },
-                                    { time: '15:00', title: '小樽運河 白晝與黃昏 🛶', departTime: '17:30', travelTime: '10 min', desc: '影低日頭嘅雪景運河。等到入黑亮起煤氣燈，氣氛完全唔同，超級浪漫！', category: 'sightseeing', loc: '小樽運河', transportType: 'walk', info: '💡 建議可以體驗埋遊船河。' },
-                                    { time: '18:00', title: '晚餐：政壽司 本店 🍣', departTime: '20:00', travelTime: '10 min', desc: '《將太的壽司》原型名店！舒舒服服食頂級壽司，強烈建議預先 Book 定！', category: 'highlight', loc: 'おたる政寿司 本店', transportType: 'walk' },
-                                    { time: '20:30', title: '搭 JR 返回札幌 🚆', departTime: '21:10', travelTime: '40 min', desc: '結束浪漫嘅小樽一日遊。', category: 'transport', transportType: 'train' }
+                                { weekday: 'Tue', dateStr: '11/03', events: [
+                                    { time: '08:00', title: '酒店超豐盛早餐 🍱', departTime: '09:15', travelTime: '1 hr 15 min', desc: '盡情享受 Dormy Inn 系列招牌豪華早餐！', category: 'food', transportType: 'walk' },
+                                    { time: '09:15', title: '由酒店出發 & Check-out 🚗', departTime: '09:15', desc: '新一日行程開始！', category: 'transport', transportType: 'car', loc: 'Onyado Nono Matsumoto', phone: '0263-37-5489', mapcode: '75 821 474*88' },
+                                    { time: '10:30', title: '善光寺 🙏', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！<br>🚗 行車距離: 70km (約 1 小時)<br>🅿️ 泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52' },
+                                    { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '15:00', travelTime: '1.5 hr', desc: '睇馬騮浸溫泉！<br>🚗 行車距離: 40km (約 1 小時)<br>🅿️ 泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '💡 REMINDER: 免費停車場專俾遊客泊！泊低行 30 分鐘山路入去，記得著好行嘅鞋！' },
+                                    { time: '16:30', title: 'Check-in (季之庭) ♨️', departTime: '18:00', travelTime: '0 min', desc: '全個 Trip 最豪華嘅草津溫泉旅館！<br>🚗 行車距離: 60km (約 1.5 小時)<br>🅿️ 泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', info: '💡 REMINDER: 已包高層溫泉露天風呂客房！' },
+                                    { time: '18:30', title: '季之庭 會席料理 👘', departTime: '20:30', travelTime: '0 min', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享受已包嘅一泊二食！' },
+                                    { time: '21:00', title: '休息 & 狂浸溫泉 💤', departTime: '21:00', travelTime: '0 min', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
-                                { weekday: 'Mon', dateStr: '1/11', events: [
-                                    { time: '09:30', title: '最後補給 & 執行李 🧳', departTime: '11:00', travelTime: '0 min', desc: '將所有戰利品塞入大篋。', category: 'hotel', transportType: 'walk' },
-                                    { time: '11:00', title: 'Check-out 暖雪 札幌 🏨', departTime: '11:30', travelTime: '15 min', desc: '帶住所有行李出發。', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' },
-                                    { time: '11:30', title: '東急百貨買 Snaffle’s 🍰', departTime: '12:00', travelTime: '10 min', desc: '去 JR 札幌站旁邊嘅東急百貨地下，買你指定嘅【Pastry Snaffle’s】半熟芝士蛋糕帶返香港！', category: 'shopping', loc: 'さっぽろ東急百貨店', transportType: 'walk' },
-                                    { time: '12:00', title: '午餐：札幌必食湯咖喱 🍛', departTime: '13:30', travelTime: '10 min', desc: '上機前最後衝刺！必食「Suage+」或「GARAKU」湯咖喱，香料熱湯配炸北海道甜南瓜、薯仔同巨型雞髀，暖胃滿分！', category: 'food', loc: 'Suage+', loc2: 'GARAKU', loc2Name: 'GARAKU', transportType: 'walk' },
-                                    { time: '14:00', title: 'JR 快速機場線 🚆', departTime: '14:45', travelTime: '45 min', desc: '出發前往新千歲機場。', category: 'transport', transportType: 'train', loc: '新千歳空港' },
-                                    { time: '15:00', title: '新千歲機場 終極掃貨 🛍️', departTime: '16:30', travelTime: '1.5 hr', desc: '機場國內線客運大樓超好買！', category: 'shopping', transportType: 'walk' },
-                                    { time: '16:30', title: '辦理登機手續 (CX587) ✈️', departTime: '19:05', travelTime: '0 min', desc: '預留時間過海關，19:05 起飛返香港！', category: 'flight', transportType: 'walk' }
+                                { weekday: 'Wed', dateStr: '11/04', events: [
+                                    { time: '08:00', title: '溫泉旅館朝食 🍱', departTime: '09:30', travelTime: '1 hr', desc: '食飽飽，準備挑戰秋名山！', category: 'food', transportType: 'walk', info: '💡 REMINDER: 享用已包嘅豐盛早餐！' },
+                                    { time: '09:30', title: '由酒店出發 & Check-out 🚗', departTime: '09:30', desc: '出發離開草津！', category: 'transport', transportType: 'car', loc: 'Tokinoniwa', phone: '0279-89-9320', mapcode: '341 448 004*52' },
+                                    { time: '10:30', title: '秋名山 (榛名山) 🏎️💨', departTime: '11:45', travelTime: '2 hr', desc: '《頭文字 D》聖地！順路經過髮夾彎！<br>🚗 行車距離: 45km (約 1 小時)<br>🅿️ 泊車: 榛名湖畔免費停車場', category: 'sightseeing', loc: '榛名湖', transportType: 'car', mapcode: '94 875 190*33', info: '💡 REMINDER: 榛名山就是傳說中嘅秋名山！感受拓海嘅路線！' },
+                                    { time: '13:45', title: 'Lunch: Kobaiya (こばや) 🍜', departTime: '15:00', travelTime: '1.5 hr', desc: '望住絕美富士山食手打蕎麥麵！<br>🚗 行車距離: 130km (約 2 小時)<br>🅿️ 泊車: 餐廳門口專屬車位 (約6個)', category: 'food', loc: '手打ちそば こばや', transportType: 'car', phone: '0555-72-1150', mapcode: '161 302 467*71', action: '⚠️ 蕎麥麵賣完即止，原定 14:30 太危險，已推早至 13:45 抵達！如果門口滿座，可泊附近湖邊公眾位。' },
+                                    { time: '16:30', title: 'Check-in (HOTEL CLAD) 🏨', departTime: '18:00', travelTime: '10 min', desc: '直望富士山靚景酒店！<br>🚗 行車距離: 30km (約 45 分鐘)<br>🅿️ 泊車: 酒店專屬免費停車場', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', phone: '0550-81-0321', mapcode: '50 806 191*75' },
+                                    { time: '18:30', title: 'Dinner: 沼津魚 gashi 鮨 🍣', departTime: '20:30', travelTime: '10 min', desc: 'Outlet 店超人氣新鮮壽司！環境乾淨舒服無油煙味！<br>🚗 行車距離: 5km (約 10 分鐘)<br>🅿️ 泊車: Outlet 停車場', category: 'food', loc: '沼津魚がし鮨 御殿場アウトレット店', transportType: 'car', phone: '0550-81-3160', mapcode: '50 805 137*21' },
+                                    { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', travelTime: '0 min', desc: '聽日 Outlet 血拼大作戰！<br>🚗 行車距離: 5km', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', phone: '0550-81-0321', mapcode: '50 806 191*75' }
+                                ]},
+                                { weekday: 'Thu', dateStr: '11/05', events: [
+                                    { time: '05:30', title: '由酒店出發 🚗', departTime: '05:30', desc: '趁天未光出發！趕去睇日出同逆富士！', category: 'transport', transportType: 'car', loc: 'HOTEL CLAD', phone: '0550-81-0321', mapcode: '50 806 191*75' },
+                                    { time: '06:00', title: '山中湖逆富士 🌅', departTime: '06:40', travelTime: '30 min', desc: '趕喺起風前睇最平靜嘅逆富士絕景！\n🚗 行車距離: 20km (約 30 分鐘)\n🅿️ 泊車: 長池親水公園免費車位', category: 'sightseeing', loc: '山中湖 長池親水公園', transportType: 'car', phone: '0555-62-3100', mapcode: '434 324 577*85' },
+                                    { time: '07:10', title: '本町通 (富士道) 📸', departTime: '07:30', travelTime: '5 min', desc: '趁無人獨霸馬路，影富士山街景絕美大片！\n🚗 行車距離: 15km (約 30 分鐘)\n🅿️ 泊車: 附近下吉田駅停車場', category: 'sightseeing', loc: '下吉田駅', transportType: 'car', mapcode: '161 275 066*33' },
+                                    { time: '07:40', title: '新倉山淺間公園 ⛩️🗻', departTime: '08:40', travelTime: '50 min', desc: '挑戰 398 級樓梯！收集最經典 "五重塔 + 富士山" 絕景！\n🚗 行車距離: 1.5km (約 5 分鐘)\n🅿️ 泊車: 淺間公園免費停車場', category: 'sightseeing', loc: '新倉富士浅間神社', transportType: 'car', phone: '0555-23-2001', mapcode: '161 301 545*74' },
+                                    { time: '09:30', title: '返回酒店早餐 & Check-out 🥐', departTime: '10:30', travelTime: '5 min', desc: '返酒店梳洗、食早餐、執好晒行李直接 Check-out！\n🚗 行車距離: 35km (約 50 分鐘)', category: 'hotel', transportType: 'car', loc: 'HOTEL CLAD', phone: '0550-81-0321', mapcode: '50 806 191*75' },
+                                    { time: '10:30', title: '御殿場 Outlet 瘋狂 Shopping 🛍️', departTime: '14:30', travelTime: '0 min', desc: '全日本最大 Outlet！Lunch 喺 Food Court 解決！\n🚗 行車距離: 0km (就在旁邊)\n🅿️ 泊車: Outlet P 區停車場', category: 'shopping', loc: '御殿場プレミアム・アウトレット', transportType: 'car', phone: '0550-81-3122', mapcode: '50 805 028*22' },
+                                    { time: '14:30', title: '出發直返秋葉原！🚗💨', departTime: '14:30', travelTime: '2 hr 15 min', desc: '滿載而歸！結束自駕部分，直奔東京市區！\n🚗 行車距離: 105km (約 2 小時 15 分鐘)', category: 'transport', transportType: 'car' },
+                                    { time: '16:45', title: 'Check-in 放低行李 (Hotel Resol Stay) 🏨', departTime: '17:15', travelTime: '30 min', desc: '先揸車去秋葉原酒店放低大行李同Check-in，無車一身輕先去還車！\n📍 地址: 東京都千代田區神田須田町2-17-10', category: 'hotel', loc: 'Hotel Resol Stay Akihabara', transportType: 'car', phone: '03-3252-9269' },
+                                    { time: '17:30', title: 'Nippon Rent-A-Car 還車 🚗', departTime: '18:00', travelTime: '15 min', desc: '預計 17:30 左右抵達上野還車。\n⚠️ 溫馨提示：預約 Deadline 係 20:00！所以如果有塞車完全唔使驚，慢慢嚟！', category: 'transport', loc: 'Nippon Rent-A-Car Ueno', transportType: 'car', phone: '05017122597', mapcode: '2 718 196*12', info: '💡 REMINDER: 記得入滿油，保留入油收據俾職員睇！' },
+                                    { time: '18:15', title: 'Dinner: 自由探索 搵嘢食 🍢', departTime: '20:30', travelTime: '15 min', desc: '還完車可以喺上野 / 御徒町附近食平靚正串燒、燒肉，或者搭車返秋葉原食！', category: 'food', transportType: 'walk' },
+                                    { time: '21:00', title: '回程酒店休息 💤', departTime: '21:00', travelTime: '0 min', desc: '市區自由行正式開始！', category: 'hotel', loc: 'Hotel Resol Stay Akihabara', transportType: 'train', phone: '03-3252-9269' }
+                                ]},
+                                { weekday: 'Fri', dateStr: '11/06', events: [
+                                    { time: '08:30', title: '由酒店出發 🚆', departTime: '08:45', travelTime: '15 min', desc: '搭地鐵開始東京市區巡禮！', category: 'transport', transportType: 'train', loc: 'Hotel Resol Stay Akihabara' },
+                                    { time: '08:45', title: '築地市場 掃街做早餐 🍣', departTime: '10:30', travelTime: '20 min', desc: '由秋葉原搭地鐵直達築地狂食海鮮！', category: 'food', loc: '築地場外市場', transportType: 'train' },
+                                    { time: '11:00', title: '東京鐵塔 (停車場樓梯打卡位) 🗼', departTime: '13:00', travelTime: '15 min', desc: '搭地鐵去神谷町站，影 IG 超人氣地下停車場樓梯打卡位！', category: 'sightseeing', loc: '東京タワー地下駐車場 階段', transportType: 'walk' },
+                                    { time: '13:30', title: '六本木 Lunch & Shopping 🛍️', departTime: '16:30', travelTime: '30 min', desc: '高檔行街區，順便食 Lunch！', category: 'shopping', loc: '六本木ヒルズ', transportType: 'train' },
+                                    { time: '17:00', title: '返回酒店 🏨', departTime: '18:15', travelTime: '10 min', desc: '放低戰利品先！', category: 'hotel', loc: 'Hotel Resol Stay Akihabara', transportType: 'train' },
+                                    { time: '20:30', title: 'Dinner: まんてん鮨 日本橋 (吧枱位) 🍣', departTime: '22:30', travelTime: '10 min', desc: '✨ 已預約: 20:30 吧枱位升級套餐 (確認碼: 4G6C6X)！\n由秋葉原搭地鐵極快就到三越前站！', category: 'highlight', loc: 'まんてん鮨 日本橋', transportType: 'train', phone: '03-4241-1005' },
+                                    { time: '22:45', title: '回程酒店休息 💤', departTime: '22:45', travelTime: '0 min', desc: '搭車返秋葉原休息！', category: 'hotel', loc: 'Hotel Resol Stay Akihabara', transportType: 'train' }
+                                ]},
+                                { weekday: 'Sat', dateStr: '11/07', events: [
+                                    { time: '09:30', title: '輕鬆準備 & 早餐 🥐☕', departTime: '10:45', travelTime: '20 min', desc: '執齊保暖衣物、雨具同相機，準備出發！', category: 'food', transportType: 'walk' },
+                                    { time: '11:00', title: '出發前往東京站新丸之內 🚆', departTime: '11:20', travelTime: '10 min', desc: '由秋葉原搭 JR 山手線 / 京濱東北線，只需 2 個站 (大約 4 分鐘) 就到東京站！極快！', category: 'transport', transportType: 'train', loc: '新丸の内ビルディング' },
+                                    { time: '11:20', title: '集合：新丸之內大樓 BEAMS 標牌下 🚩', departTime: '11:30', desc: '【提早10分鐘到達】集合地點2：JR東京站前新丸之內大樓 BEAMS 標牌下。<br>📍 地址: 新丸の内ビルディング (東京都千代田区丸の内1-5-1)<br>⚠️ 準時 11:30 點名開車，請提早在此等候導遊！', category: 'highlight', transportType: 'bus', loc: '新丸の内ビルディング', info: '💡 REMINDER: 集合點於新丸之內大廈 1F BEAMS 招牌下方，認準實景等候！' },
+                                    { time: '11:30', title: '專車出發 ➔ 茨城土浦 🚌💨', departTime: '11:30', travelTime: '2 hr', desc: '登上官方專車直奔茨城縣土浦市！<br>🚗 行程時長約 1.5 - 2 小時 (視乎當日交通狀況)。', category: 'transport', transportType: 'bus' },
+                                    { time: '14:00', title: '抵達會場 & 官方指定席入場 🎟️', departTime: '17:30', desc: '抵達土浦全國煙花競技大會現場！<br>🌟 憑團體票入座【官方團體指定席】，視野超正！<br>🍢 大會現場有豐富嘅日本祭典美食攤位 (屋台)，可提早買定小食飲品！', category: 'sightseeing', transportType: 'walk', loc: '土浦全国花火競技大会' },
+                                    { time: '17:30', title: '土浦全國花火競技大會 正式開幕 🎆✨', departTime: '20:30', desc: '【日本三大煙花競技大會之一】數萬發頂級競技煙花照亮秋季夜空，極致震撼！<br>⚠️ 11月晚間氣溫低且靠近河川，務必穿著足夠保暖防風外套並備好暖包！', category: 'highlight', transportType: 'walk', info: '💡 REMINDER: 自助導覽 5 小時，享受極致夜空盛宴！' },
+                                    { time: '20:30', title: '集合上專車返回東京 🚌', departTime: '21:00', travelTime: '2 hr', desc: '於指定集合點集合上車，專車原路返回東京市區。預留散場及回程交通時間。', category: 'transport', transportType: 'bus' },
+                                    { time: '23:00', title: '抵達東京站周邊下車 📍', departTime: '23:30', travelTime: '15 min', desc: '於【下車地點1：東京站周邊】順利下車解散 (預計 23:00 - 23:30)。', category: 'transport', transportType: 'walk', loc: '東京駅' },
+                                    { time: '23:45', title: '搭 JR 返回秋葉原酒店 🚆💤', departTime: '23:45', desc: '喺東京站轉搭 JR 山手線或京濱東北線，只需 4 分鐘直達秋葉原！完美結束極具紀念意義嘅花火之夜！', category: 'hotel', loc: 'Hotel Resol Stay Akihabara', transportType: 'train', phone: '03-3252-9269' }
+                                ]},
+                                { weekday: 'Sun', dateStr: '11/08', events: [
+                                    { time: '08:30', title: '酒店 Check-out & 寄行李 🧳', departTime: '09:00', travelTime: '20 min', desc: '將全部行李寄放喺酒店大堂，兩手空空出發！', category: 'hotel', transportType: 'walk', loc: 'Hotel Resol Stay Akihabara' },
+                                    { time: '10:30', title: '秋葉原 / 上野 最後補給 🛍️', departTime: '11:30', travelTime: '10 min', desc: '喺秋葉原買動漫周邊或者上野買手信，買齊佢！', category: 'shopping', transportType: 'walk' },
+                                    { time: '11:30', title: 'Lunch: 壽司郎 (Sushiro) 秋葉原店 🍣', departTime: '12:30', travelTime: '1 hr', desc: '平靚正回轉壽司，食飽返香港！', category: 'food', transportType: 'walk', loc: 'スシロー 秋葉原駅前店', info: '💡 REMINDER: 星期日極多人！必須提早最少 3 個鐘用 Sushiro App 抽定飛！' },
+                                    { time: '13:30', title: '返酒店攞行李 ➔ 搭 Skyliner 🚆', departTime: '13:30', travelTime: '45 min', desc: '返酒店攞完行李，搭 1 個站去 "京成上野站"！\n搭乘【Keisei Skyliner】，45 分鐘極速直飛成田機場！', category: 'transport', transportType: 'train', loc: '京成上野駅' },
+                                    { time: '14:45', title: '抵達成田機場 ✈️', departTime: '16:00', travelTime: '15 min', desc: '極速抵達，準備入去掃免稅品！', category: 'transport', loc: '成田空港', transportType: 'walk' },
+                                    { time: '16:30', title: '機場 Check-in (CX505) ✈️', departTime: '16:30', desc: '18:30 起飛返港，完美結束旅程！', category: 'flight', loc: '成田空港', transportType: 'walk' }
                                 ]}
                             ]
                         }
@@ -663,13 +845,37 @@
                 currentDays() { return this.currentTripData.days; },
                 currentItineraryData() { return this.currentDays[this.selectedDayIndex] ? this.currentDays[this.selectedDayIndex].events : []; },
                 
-                totalHotelHkd() {
+                totalHotelYen() {
                     if (!this.currentTripData.expenseHotels) return 0;
-                    return this.currentTripData.expenseHotels.reduce((sum, h) => sum + (h.hkd || 0), 0);
+                    return this.currentTripData.expenseHotels.reduce((sum, h) => sum + (h.yen || 0), 0);
+                },
+                totalDiningYen() {
+                    if (!this.currentTripData.expenseDining) return 0;
+                    return this.currentTripData.expenseDining.reduce((sum, d) => sum + (d.yen || 0), 0);
+                },
+                totalTripYen() {
+                    const rentalYen = this.currentTripData.expenseRental ? this.currentTripData.expenseRental.yen : 0;
+                    return this.totalHotelYen + rentalYen + this.totalDiningYen;
+                },
+
+                // 🗻 富士山能見度百分比邏輯！原汁原味重現！
+                fujiVisibility() {
+                    if (this.currentTrip !== 'central') return null;
+                    const fujiDays = [1, 2, 5, 6];
+                    if (!fujiDays.includes(this.selectedDayIndex)) return null;
+                    if (this.weather.icon === 'fa-sun') return '🗻 富士山: 絕景 (90%)';
+                    if (this.weather.icon === 'fa-cloud-sun') return '🗻 富士山: 隱現 (50%)';
+                    if (this.weather.icon.includes('rain') || this.weather.icon.includes('cloud')) return '🗻 富士山: 殘念 (10%)';
+                    return '🗻 富士預測中...';
                 }
             },
             watch: {
                 selectedDayIndex() { this.fetchWeather(); },
+                currentTrip() { 
+                    this.selectedDayIndex = 0; 
+                    this.fetchWeather(); 
+                    this.autoSelectToday();
+                },
                 'settings.fontSize': function(newVal) { document.documentElement.style.fontSize = newVal + 'px'; }
             },
             mounted() { 
@@ -689,42 +895,55 @@
                         this.selectedDayIndex = index;
                     }
                 },
+                switchTrip(trip) { this.currentTrip = trip; },
                 fetchWeather() {
-                    let query = 'Sapporo,JP'; let displayName = '札幌';
-                    const idx = this.selectedDayIndex;
+                    let query = 'Tokyo,JP'; let displayName = '東京';
+                    const tripId = this.currentTrip; const idx = this.selectedDayIndex;
                     
-                    if (idx === 1 || idx === 2) { query = 'Hakodate,JP'; displayName = '函館'; }
-                    else if (idx === 4) { query = 'Otaru,JP'; displayName = '小樽'; }
-                    
+                    if (tripId === 'karuizawa') {
+                        switch(idx) {
+                            case 0: case 1: case 6: case 7: query = 'Tokyo,JP'; displayName = '東京'; break;
+                            case 2: case 3: query = 'Karuizawa,JP'; displayName = '輕井澤'; break;
+                            case 4: query = 'Fujikawaguchiko,JP'; displayName = '河口湖'; break;
+                            case 5: query = 'Urayasu,JP'; displayName = '舞濱'; break; 
+                            default: query = 'Tokyo,JP'; displayName = '東京';
+                        }
+                    } else if (tripId === 'central') {
+                        switch(idx) {
+                            case 0: query = 'Tokyo,JP'; displayName = '上野'; break;
+                            case 1: query = 'Numazu,JP'; displayName = '沼津'; break; 
+                            case 2: query = 'Numazu,JP'; displayName = '沼津'; break;
+                            case 3: query = 'Matsumoto,JP'; displayName = '松本'; break;
+                            case 4: query = 'Kusatsu,JP'; displayName = '草津'; break;
+                            case 5: query = 'Gotemba,JP'; displayName = '御殿場'; break;
+                            case 6: case 7: case 8: case 9: default: query = 'Tokyo,JP'; displayName = '東京'; break;
+                        }
+                    }
                     this.weather.city_name = displayName;
                     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&lang=zh_tw&appid=${this.apiKey}`)
                     .then(res => res.json()).then(data => {
                         this.weather.temp = Math.round(data.main.temp);
                         const code = data.weather[0].icon;
-                        if (code.includes('01')) this.weather.icon = '☀️';
-                        else if (code.includes('02') || code.includes('03')) this.weather.icon = '⛅';
-                        else if (code.includes('04')) this.weather.icon = '☁️';
-                        else if (code.includes('09') || code.includes('10')) this.weather.icon = '🌧️';
-                        else if (code.includes('13')) this.weather.icon = '❄️';
-                        else if (code.includes('11')) this.weather.icon = '⚡';
-                        else this.weather.icon = '🌫️';
-                    }).catch(() => { this.weather.temp = '--'; this.weather.icon = '☁️'; });
+                        if (code.includes('01')) this.weather.icon = 'fa-sun';
+                        else if (code.includes('02') || code.includes('03')) this.weather.icon = 'fa-cloud-sun';
+                        else if (code.includes('04')) this.weather.icon = 'fa-cloud';
+                        else if (code.includes('09') || code.includes('10')) this.weather.icon = 'fa-cloud-rain';
+                        else if (code.includes('13')) this.weather.icon = 'fa-snowflake';
+                        else if (code.includes('11')) this.weather.icon = 'fa-bolt';
+                        else this.weather.icon = 'fa-smog';
+                    }).catch(() => { this.weather.temp = '--'; });
                 },
                 getCountdown(dateStr) {
                     const diff = new Date(dateStr) - new Date();
                     return Math.max(0, Math.ceil(diff / (1000 * 60 * 60 * 24)));
                 },
-                itemCategoryName(cat) {
-                    const map = { sightseeing: '景點', food: '美食', shopping: '購物', transport: '交通', hotel: '住宿', flight: '航班', highlight: '重點推介' };
-                    return map[cat] || '行程';
-                },
                 getTransportColor(type) {
                     const map = { walk: 'pill-yellow', train: 'pill-green', car: 'pill-yellow', bus: 'pill-blue', flight: 'pill-blue' };
                     return map[type] || 'pill-yellow';
                 },
-                getTransportEmoji(type) {
-                    const map = { walk: '🚶', train: '🚇', car: '🚕', bus: '🚌', flight: '✈️' };
-                    return map[type] || '🚗';
+                getTransportIcon(type) {
+                    const map = { walk: 'fa-person-walking', train: 'fa-train-subway', car: 'fa-taxi', bus: 'fa-bus', flight: 'fa-plane' };
+                    return map[type] || 'fa-car';
                 },
                 getHotelForDay(idx) {
                     const hotelIdx = this.currentTripData.hotelMap[idx];
@@ -736,6 +955,7 @@
                         else window.open(`https://www.google.com/maps/search/?api=1&query=` + encodeURIComponent(loc), '_blank'); 
                     } 
                 },
+                openDoc() { window.open(this.currentTripData.docLink, '_blank'); },
                 formatText(text) { return text ? String(text).replace(/\n/g, '<br>') : ''; },
                 addShoppingItem() { if(this.newShopItem) this.currentTripData.shopping.push(this.newShopItem); this.newShopItem = ''; },
                 removeShoppingItem(idx) { this.currentTripData.shopping.splice(idx, 1); }
