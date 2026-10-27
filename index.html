@@ -40,7 +40,7 @@
             position: relative;
         }
 
-        /* 🎯 超 Q 彈點擊特效 (神還原影片手感) */
+        /* 🎯 超 Q 彈點擊特效 */
         .bouncy-click {
             transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease, background-color 0.2s ease;
         }
@@ -49,6 +49,12 @@
             box-shadow: 0px 0px 0px transparent !important;
             transition: transform 0.1s ease, box-shadow 0.1s ease;
         }
+
+        /* 北海道專屬動畫 */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-5px); } 100% { transform: translateY(0px); } }
+        @keyframes cloudMove { from { transform: translateX(100%); } to { transform: translateX(-100%); } }
+        .float-anim { animation: float 4s ease-in-out infinite; }
+        .cloud-anim { animation: cloudMove 20s linear infinite; }
 
         /* 頂部灰色導航列 */
         .nav-tabs {
@@ -106,7 +112,7 @@
 
         <!-- 🔝 頂端固定灰色選單 -->
         <div class="nav-tabs px-3 pt-12 pb-3 flex items-center z-50 relative shrink-0 gap-2 overflow-x-auto no-scrollbar">
-            <button @click="showSettings = true" class="bouncy-click w-9 h-9 bg-white rounded-full border-[3px] border-[#333333] flex items-center justify-center font-black text-sm shrink-0">
+            <button @click="showSettings = true" class="bouncy-click w-9 h-9 bg-white rounded-full border-[3px] border-[#333333] flex items-center justify-center font-black text-sm shrink-0 shadow-[1px_2px_0px_#333333]">
                 <i class="fa-solid fa-gear"></i>
             </button>
             
@@ -124,6 +130,7 @@
             <select v-model="currentTrip" class="bouncy-click bg-white border-[3px] border-[#333333] rounded-full px-3 py-1 text-[11px] font-black outline-none appearance-none cursor-pointer shadow-[1px_2px_0px_#333333]">
                 <option value="karuizawa">🌸 4月春遊</option>
                 <option value="central">🍁 10月秋遊</option>
+                <option value="hokkaido">❄️ 1月冬遊</option>
             </select>
         </div>
 
@@ -133,24 +140,34 @@
             <div v-show="activeTab === 'home'" class="px-5">
                 
                 <div class="text-center mb-3">
-                    <span class="bg-[#FFF] border-[3px] border-[#333333] rounded-full px-4 py-1 text-[13px] font-black tracking-wide inline-block">
+                    <span class="bg-[#FFF] border-[3px] border-[#333333] rounded-full px-4 py-1 text-[13px] font-black tracking-wide inline-block shadow-[1px_1px_0px_#333333]">
                         {{ currentTripData.range }}
                     </span>
                 </div>
                 
-                <h1 class="text-[22px] font-black text-center mb-4 tracking-widest">{{ currentTripData.title }}</h1>
+                <h1 class="text-[20px] font-black text-center mb-4 tracking-widest">{{ currentTripData.title }}</h1>
 
-                <!-- ✨ 專屬秋日富士山自駕插畫 ✨ -->
+                <!-- ✨ 專屬插畫 (支援三種季節) ✨ -->
                 <div class="story-card bg-[#CDE3F7] w-full h-[180px] overflow-hidden mb-6 flex items-end justify-center relative">
                     <svg viewBox="0 0 400 200" class="w-full h-full absolute top-0 left-0">
-                        <!-- 天空背景 -->
-                        <rect width="400" height="200" fill="#CDE3F7" />
+                        <rect width="400" height="200" :fill="currentTrip === 'hokkaido' ? '#E1F0FA' : '#CDE3F7'" />
+                        
+                        <!-- 雲朵 (北海道專屬動畫) -->
+                        <g v-if="currentTrip === 'hokkaido'">
+                            <path class="cloud-anim" d="M 50 50 Q 60 30 80 50 Q 100 40 110 60 L 40 60 Z" fill="white" stroke="#333333" stroke-width="3"/>
+                            <path class="cloud-anim" style="animation-delay: -10s" d="M 250 40 Q 260 20 280 40 Q 300 30 310 50 L 240 50 Z" fill="white" stroke="#333333" stroke-width="3"/>
+                        </g>
+
                         <!-- 太陽 -->
-                        <circle cx="70" cy="55" r="22" fill="#FFD166" stroke="#333333" stroke-width="3"/>
-                        <!-- 富士山 -->
+                        <circle cx="70" cy="55" r="22" fill="#FFD166" stroke="#333333" stroke-width="3" :class="{'float-anim': currentTrip === 'hokkaido'}"/>
+                        
+                        <!-- 富士山 / 雪山 -->
                         <path d="M 80 170 L 250 30 L 420 170 Z" fill="#8BA4D5" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
-                        <!-- 富士山雪頂 -->
-                        <path d="M 213 60 L 250 30 L 287 60 Q 268 75 250 60 Q 232 75 213 60 Z" fill="#FFFFFF" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                        <path v-if="currentTrip !== 'hokkaido'" d="M 213 60 L 250 30 L 287 60 Q 268 75 250 60 Q 232 75 213 60 Z" fill="#FFFFFF" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                        <path v-if="currentTrip === 'hokkaido'" d="M 200 80 L 250 30 L 300 80 Q 275 95 250 80 Q 225 95 200 80 Z" fill="#FFFFFF" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                        <path v-if="currentTrip === 'hokkaido'" d="M -20 170 L 60 70 L 150 170 Z" fill="#8BA4D5" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                        <path v-if="currentTrip === 'hokkaido'" d="M 28 115 L 60 70 L 96 115 Q 75 130 60 115 Q 45 130 28 115 Z" fill="#FFFFFF" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+
                         <!-- 秋天樹林 (背景) -->
                         <path v-if="currentTrip === 'central'" d="M -10 170 Q 30 110 70 170 Z" fill="#FFB020" stroke="#333333" stroke-width="3"/>
                         <path v-if="currentTrip === 'central'" d="M 40 170 Q 90 90 140 170 Z" fill="#D7434D" stroke="#333333" stroke-width="3"/>
@@ -159,57 +176,71 @@
                         <path v-if="currentTrip === 'karuizawa'" d="M -10 170 Q 30 110 70 170 Z" fill="#FFB7C5" stroke="#333333" stroke-width="3"/>
                         <path v-if="currentTrip === 'karuizawa'" d="M 40 170 Q 90 90 140 170 Z" fill="#FF9EBB" stroke="#333333" stroke-width="3"/>
                         <path v-if="currentTrip === 'karuizawa'" d="M 320 170 Q 360 120 410 170 Z" fill="#FFB7C5" stroke="#333333" stroke-width="3"/>
-                        <!-- 道路 -->
-                        <path d="M 0 160 L 400 160 L 400 200 L 0 200 Z" fill="#EAEAEA" stroke="#333333" stroke-width="3"/>
-                        <!-- 馬路虛線 -->
-                        <line x1="20" y1="180" x2="60" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="100" y1="180" x2="140" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="180" y1="180" x2="220" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="260" y1="180" x2="300" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                        <line x1="340" y1="180" x2="380" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
-                        <!-- 自駕小車車 -->
-                        <g transform="translate(150, 122)">
-                            <rect x="10" y="15" width="80" height="30" rx="8" fill="#FDF8EE" stroke="#333333" stroke-width="3"/>
-                            <!-- 車頂 -->
-                            <path d="M 25 15 L 35 2 L 65 2 L 75 15 Z" fill="#FDF8EE" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
-                            <!-- 玻璃 -->
-                            <path d="M 32 15 L 38 6 L 48 6 L 48 15 Z" fill="#A8D3E6" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
-                            <path d="M 48 15 L 48 6 L 60 6 L 66 15 Z" fill="#A8D3E6" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
-                            <!-- 車輪 -->
-                            <circle cx="28" cy="45" r="9" fill="#333333"/>
-                            <circle cx="28" cy="45" r="3" fill="#FFFFFF"/>
-                            <circle cx="72" cy="45" r="9" fill="#333333"/>
-                            <circle cx="72" cy="45" r="3" fill="#FFFFFF"/>
-                            <!-- 車燈 -->
-                            <circle cx="85" cy="28" r="3" fill="#FFD166" stroke="#333333" stroke-width="2"/>
+                        
+                        <!-- 北海道雪松樹 -->
+                        <g v-if="currentTrip === 'hokkaido'" transform="translate(100, 110)">
+                            <rect x="18" y="45" width="4" height="15" fill="#333333"/>
+                            <path d="M 20 0 L 0 25 L 10 25 L -5 50 L 45 50 L 30 25 L 40 25 Z" fill="#B9DAA5" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                            <path d="M 20 0 L 0 25 L 10 25 L 20 15 L 30 25 L 40 25 Z" fill="white" stroke="#333333" stroke-width="2" stroke-linejoin="round"/>
                         </g>
-                        <!-- 樹葉飄落點綴 -->
-                        <path v-if="currentTrip === 'central'" d="M 360 80 Q 370 70 380 80 Q 370 90 360 80 Z" fill="#D7434D" stroke="#333333" stroke-width="2"/>
-                        <path v-if="currentTrip === 'central'" d="M 330 100 Q 340 90 350 100 Q 340 110 330 100 Z" fill="#FFB020" stroke="#333333" stroke-width="2"/>
-                        <path v-if="currentTrip === 'karuizawa'" d="M 360 80 Q 370 70 380 80 Q 370 90 360 80 Z" fill="#FF9EBB" stroke="#333333" stroke-width="2"/>
-                        <path v-if="currentTrip === 'karuizawa'" d="M 330 100 Q 340 90 350 100 Q 340 110 330 100 Z" fill="#FFB7C5" stroke="#333333" stroke-width="2"/>
+
+                        <!-- 道路 / 雪地 -->
+                        <path d="M 0 160 L 400 160 L 400 200 L 0 200 Z" :fill="currentTrip === 'hokkaido' ? '#FFFFFF' : '#EAEAEA'" stroke="#333333" stroke-width="3"/>
+                        
+                        <!-- 馬路虛線 (非北海道) -->
+                        <g v-if="currentTrip !== 'hokkaido'">
+                            <line x1="20" y1="180" x2="60" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="100" y1="180" x2="140" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="180" y1="180" x2="220" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="260" y1="180" x2="300" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                            <line x1="340" y1="180" x2="380" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
+                            <!-- 自駕小車車 -->
+                            <g transform="translate(150, 122)">
+                                <rect x="10" y="15" width="80" height="30" rx="8" fill="#FDF8EE" stroke="#333333" stroke-width="3"/>
+                                <path d="M 25 15 L 35 2 L 65 2 L 75 15 Z" fill="#FDF8EE" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                                <path d="M 32 15 L 38 6 L 48 6 L 48 15 Z" fill="#A8D3E6" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                                <path d="M 48 15 L 48 6 L 60 6 L 66 15 Z" fill="#A8D3E6" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                                <circle cx="28" cy="45" r="9" fill="#333333"/>
+                                <circle cx="72" cy="45" r="9" fill="#333333"/>
+                            </g>
+                        </g>
+
+                        <!-- 北海道雪人 -->
+                        <g v-if="currentTrip === 'hokkaido'" transform="translate(250, 120)" class="float-anim">
+                            <circle cx="20" cy="40" r="18" fill="white" stroke="#333333" stroke-width="3"/>
+                            <circle cx="20" cy="15" r="13" fill="white" stroke="#333333" stroke-width="3"/>
+                            <circle cx="15" cy="12" r="2" fill="#333333"/>
+                            <circle cx="25" cy="12" r="2" fill="#333333"/>
+                            <path d="M 20 15 L 28 18 L 20 19 Z" fill="#FFB7C5" stroke="#333333" stroke-width="2" stroke-linejoin="round"/>
+                            <path d="M 5 26 Q 20 32 35 26 L 30 40 L 25 38 Z" fill="#D7434D" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
+                            <path d="M 2 40 L -8 30 M 38 40 L 48 30" stroke="#333333" stroke-width="3" stroke-linecap="round"/>
+                        </g>
+
+                        <!-- 紅葉/櫻花/飄雪 點綴 -->
+                        <g v-if="currentTrip === 'central'">
+                            <path d="M 360 80 Q 370 70 380 80 Q 370 90 360 80 Z" fill="#D7434D" stroke="#333333" stroke-width="2"/>
+                            <path d="M 330 100 Q 340 90 350 100 Q 340 110 330 100 Z" fill="#FFB020" stroke="#333333" stroke-width="2"/>
+                        </g>
+                        <g v-if="currentTrip === 'karuizawa'">
+                            <path d="M 360 80 Q 370 70 380 80 Q 370 90 360 80 Z" fill="#FF9EBB" stroke="#333333" stroke-width="2"/>
+                            <path d="M 330 100 Q 340 90 350 100 Q 340 110 330 100 Z" fill="#FFB7C5" stroke="#333333" stroke-width="2"/>
+                        </g>
+                        <g v-if="currentTrip === 'hokkaido'">
+                            <circle cx="180" cy="50" r="3" fill="white" stroke="#333333" stroke-width="2" class="float-anim"/>
+                            <circle cx="220" cy="90" r="2.5" fill="white" stroke="#333333" stroke-width="1.5" class="float-anim" style="animation-delay: -1s;"/>
+                            <circle cx="120" cy="70" r="2.5" fill="white" stroke="#333333" stroke-width="2" class="float-anim" style="animation-delay: -2s;"/>
+                            <circle cx="340" cy="80" r="2" fill="white" stroke="#333333" stroke-width="1.5" class="float-anim" style="animation-delay: -1.5s;"/>
+                        </g>
                     </svg>
                 </div>
 
                 <!-- 倒數計時器卡片 -->
-                <div class="story-card p-5 text-center">
-                    <p class="text-[11px] font-black mb-4 tracking-wide">距離 {{ currentTripData.flights.out.date.split(' ')[0] }} {{ currentTripData.flights.out.dep }} 起飛還有</p>
+                <div class="story-card p-5 text-center shadow-[2px_4px_0px_#333333]">
+                    <p class="text-[12px] font-black mb-4 tracking-wide">距離 {{ currentTripData.flights.out.date.split(' ')[0] }} {{ currentTripData.flights.out.depLoc.split(' ')[0] }} 出發還有</p>
                     <div class="flex justify-center gap-3">
-                        <div class="w-[60px] h-[72px] bg-[#FFD166] border-[3px] border-[#333333] rounded-[14px] flex flex-col items-center justify-center shadow-[1px_2px_0px_#333333]">
-                            <div class="text-[26px] font-black leading-none">{{ countdown.d }}</div>
-                            <div class="text-[11px] font-bold border-t-[3px] border-[#333333] w-full mt-1 pt-1">天</div>
-                        </div>
-                        <div class="w-[60px] h-[72px] bg-[#FFD166] border-[3px] border-[#333333] rounded-[14px] flex flex-col items-center justify-center shadow-[1px_2px_0px_#333333]">
-                            <div class="text-[26px] font-black leading-none">{{ countdown.h }}</div>
-                            <div class="text-[11px] font-bold border-t-[3px] border-[#333333] w-full mt-1 pt-1">時</div>
-                        </div>
-                        <div class="w-[60px] h-[72px] bg-[#FFD166] border-[3px] border-[#333333] rounded-[14px] flex flex-col items-center justify-center shadow-[1px_2px_0px_#333333]">
-                            <div class="text-[26px] font-black leading-none">{{ countdown.m }}</div>
-                            <div class="text-[11px] font-bold border-t-[3px] border-[#333333] w-full mt-1 pt-1">分</div>
-                        </div>
-                        <div class="w-[60px] h-[72px] bg-[#FFD166] border-[3px] border-[#333333] rounded-[14px] flex flex-col items-center justify-center shadow-[1px_2px_0px_#333333]">
-                            <div class="text-[26px] font-black leading-none">{{ countdown.s }}</div>
-                            <div class="text-[11px] font-bold border-t-[3px] border-[#333333] w-full mt-1 pt-1">秒</div>
+                        <div v-for="(val, label) in { '天': countdown.d, '時': countdown.h, '分': countdown.m, '秒': countdown.s }" :key="label" class="w-[60px] h-[72px] bg-[#FFD166] border-[3px] border-[#333333] rounded-[14px] flex flex-col items-center justify-center shadow-[1px_2px_0px_#333333]">
+                            <div class="text-[26px] font-black leading-none">{{ val }}</div>
+                            <div class="text-[11px] font-bold border-t-[3px] border-[#333333] w-full mt-1 pt-1">{{ label }}</div>
                         </div>
                     </div>
                 </div>
@@ -219,7 +250,7 @@
             <!-- ===================== ✈️ 航班頁籤 ===================== -->
             <div v-show="activeTab === 'flight'" class="px-5 pt-6 space-y-10">
                 
-                <div class="story-card p-5 relative">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#FFD166]">✈️ 航班資訊</div>
                     
                     <!-- 去程 -->
@@ -236,9 +267,10 @@
                                 <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.out.dep }} 起飛</div>
                             </div>
                             <div class="flex-1 flex flex-col items-center mx-2">
+                                <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights.out.code }}</span>
                                 <i class="fa-solid fa-plane text-2xl text-[#333333]"></i>
                                 <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
-                                <div class="text-[10px] font-bold text-[#555]">飛行約 {{ currentTripData.flights.out.duration }}</div>
+                                <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights.out.duration }}</div>
                             </div>
                             <div>
                                 <div class="text-2xl font-black mb-1">{{ currentTripData.flights.out.arrLoc.split(' ')[1] || currentTripData.flights.out.arrLoc }}</div>
@@ -260,9 +292,10 @@
                                 <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.in.dep }} 起飛</div>
                             </div>
                             <div class="flex-1 flex flex-col items-center mx-2">
+                                <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights.in.code }}</span>
                                 <i class="fa-solid fa-plane text-2xl text-[#333333] rotate-180"></i>
                                 <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
-                                <div class="text-[10px] font-bold text-[#555]">飛行約 {{ currentTripData.flights.in.duration }}</div>
+                                <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights.in.duration }}</div>
                             </div>
                             <div>
                                 <div class="text-2xl font-black mb-1">{{ currentTripData.flights.in.arrLoc.split(' ')[1] || currentTripData.flights.in.arrLoc }}</div>
@@ -273,7 +306,7 @@
                     </div>
                 </div>
 
-                <div class="story-card p-5 relative" v-if="currentTripData.rental">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]" v-if="currentTripData.rental">
                     <div class="overlap-title bg-[#FFD166]">🚗 租車資訊</div>
                     
                     <div class="mt-4 flex justify-between border-b-[3px] border-dotted border-[#333333] pb-3 mb-4">
@@ -296,7 +329,7 @@
                     <div class="mt-4 text-[12px] font-bold bg-[#FFFBEA] p-3 rounded-xl border-[2px] border-[#333333] border-dashed" v-html="formatText(currentTripData.rental.note)"></div>
                 </div>
                 
-                <button class="bouncy-click w-full bg-[#333333] text-white rounded-2xl p-4 font-black flex justify-center items-center gap-2 text-[15px]" @click="openDoc">
+                <button v-if="currentTripData.docLink" class="bouncy-click w-full bg-[#333333] text-white rounded-2xl p-4 font-black flex justify-center items-center gap-2 text-[15px]" @click="openDoc">
                     <i class="fa-brands fa-google-drive"></i> 查看 Google Doc 完整版 ↗
                 </button>
             </div>
@@ -305,7 +338,7 @@
             <!-- ===================== 📅 每日行程頁籤 ===================== -->
             <div v-show="activeTab === 'itinerary'" class="px-5 pt-6 pb-12">
                 
-                <div class="story-card p-4 relative mb-6">
+                <div class="story-card p-4 relative mb-6 shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#FFD166]">📅 每日行程</div>
                     
                     <div class="mt-4 flex gap-2 overflow-x-auto no-scrollbar pb-2">
@@ -322,7 +355,7 @@
 
                 <!-- 天氣與當日住宿 -->
                 <div class="flex gap-3 mb-6" v-if="currentItineraryData.length > 0">
-                    <div class="bg-white border-[3px] border-[#333333] rounded-xl p-3 flex-1 flex items-center justify-center gap-2">
+                    <div class="bg-white border-[3px] border-[#333333] rounded-xl p-3 flex-1 flex items-center justify-center gap-2 shadow-[2px_2px_0px_#333333]">
                         <div class="text-[18px]"><i :class="['fa-solid', weather.icon]"></i></div>
                         <div class="text-[12px] font-black">{{ weather.temp }}° • {{ fujiVisibility || weather.city_name }}</div>
                     </div>
@@ -334,7 +367,7 @@
 
                 <!-- 每日行程事件清單 -->
                 <div class="space-y-6">
-                    <div v-for="(item, idx) in currentItineraryData" :key="idx" class="story-card bg-[#CDE3F7] p-4">
+                    <div v-for="(item, idx) in currentItineraryData" :key="idx" class="story-card bg-[#CDE3F7] p-4 shadow-[3px_4px_0px_#333333]">
                         
                         <div class="flex items-center gap-2 mb-3 bg-white border-[3px] border-[#333333] rounded-full px-3 py-1.5 w-fit shadow-[2px_2px_0px_#333333]">
                             <span class="text-[13px] font-black">{{ item.time }}</span>
@@ -343,22 +376,22 @@
                         </div>
                         
                         <div class="flex flex-wrap gap-2 mb-3">
-                            <span class="bg-white border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-black flex items-center gap-1 shadow-[1px_1px_0px_#333333]">
-                                <i class="fa-solid fa-bus-simple text-[#8BA4D5]"></i>
-                                {{ getTransportName(item.transportType) }} • {{ item.travelTime || '預約時間' }}
+                            <span v-if="item.transportType || item.category === 'transport' || item.category === 'flight'" class="bg-white border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-black flex items-center gap-1 shadow-[1px_1px_0px_#333333]">
+                                <i :class="['fa-solid', getTransportIcon(item.transportType)]" class="text-[#8BA4D5]"></i>
+                                {{ getTransportName(item.transportType) }} <span v-if="item.travelTime">• {{ item.travelTime }}</span>
                             </span>
                             <span v-if="item.highlight || item.category === 'highlight'" class="bg-[#F8D6D9] border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-black text-[#D7434D] shadow-[1px_1px_0px_#333333]">⭐ 必去</span>
                             <span v-if="item.departTime" class="bg-[#FDE694] border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-black shadow-[1px_1px_0px_#333333]">逗留至 {{ item.departTime }}</span>
                         </div>
 
-                        <div v-if="item.desc" class="bg-white border-[3px] border-[#333333] rounded-xl p-3 text-[12px] font-bold text-[#444] leading-relaxed mb-3" v-html="formatText(item.desc)"></div>
+                        <div v-if="item.desc" class="bg-white border-[3px] border-[#333333] rounded-xl p-3 text-[12px] font-bold text-[#444] leading-relaxed mb-3 shadow-[1px_1px_0px_#333333]" v-html="formatText(item.desc)"></div>
                         
-                        <div v-if="item.action || item.info" class="bg-[#FFFBEA] border-[3px] border-[#333333] border-dashed rounded-xl p-2.5 text-[11px] font-black mb-3 text-[#D7434D] flex items-start gap-1.5">
+                        <div v-if="item.action || item.info" class="bg-[#FFFBEA] border-[3px] border-[#333333] border-dashed rounded-xl p-2.5 text-[11px] font-black mb-3 text-[#D7434D] flex items-start gap-1.5 shadow-[1px_1px_0px_#333333]">
                             <i class="fa-solid fa-bell mt-0.5"></i>
                             <span v-html="formatText(item.action || item.info)"></span>
                         </div>
 
-                        <!-- 導航按鈕群組 (加入彈跳手感) -->
+                        <!-- 導航按鈕群組 -->
                         <div class="flex gap-2">
                             <button v-if="item.loc" @click.stop="openMap(item.loc)" class="bouncy-click bg-[#FFD166] border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
                                 導航 ↗
@@ -368,7 +401,7 @@
                             </button>
                         </div>
                         
-                        <div v-if="item.mapcode || item.phone" class="mt-3 flex gap-2 text-[10px] font-black bg-[rgba(255,255,255,0.6)] px-2 py-1 rounded-lg w-fit border-[2px] border-[#333333] border-dashed">
+                        <div v-if="item.mapcode || item.phone" class="mt-3 flex gap-2 text-[10px] font-black bg-[rgba(255,255,255,0.7)] px-2 py-1 rounded-lg w-fit border-[2px] border-[#333333] border-dashed">
                             <span v-if="item.mapcode">MapCode: {{ item.mapcode }}</span>
                             <span v-if="item.mapcode && item.phone" class="mx-1">|</span>
                             <span v-if="item.phone">TEL: {{ item.phone }}</span>
@@ -385,7 +418,7 @@
             <!-- ===================== 🏨 住宿頁籤 ===================== -->
             <div v-show="activeTab === 'hotel'" class="px-5 pt-6 space-y-10 pb-12">
                 
-                <div class="story-card p-5 relative">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#FFD166]">🛏️ 住宿總覽</div>
                     <div class="mt-4 space-y-4">
                         <div v-for="hotel in currentTripData.hotels" :key="hotel.name" class="border-b-[3px] border-[#333333] border-dotted pb-4 last:border-0 last:pb-0">
@@ -399,7 +432,7 @@
                     </div>
                 </div>
 
-                <div class="story-card p-5 relative" v-if="currentTripData.diningList && currentTripData.diningList.length > 0">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]" v-if="currentTripData.diningList && currentTripData.diningList.length > 0">
                     <div class="overlap-title bg-[#F8D6D9]">🍽️ 餐廳預約</div>
                     <div class="mt-4 space-y-4">
                         <div v-for="res in currentTripData.diningList" :key="res.name" class="flex gap-3 border-b-[3px] border-[#333333] border-dotted pb-4 last:border-0 last:pb-0">
@@ -410,7 +443,7 @@
                             <div class="flex-1 border-l-[3px] border-[#333333] pl-3">
                                 <div class="text-[13px] font-black mb-1">{{ res.name }}</div>
                                 <div class="text-[10px] font-bold text-[#777] mb-1.5 truncate"><i class="fa-solid fa-location-dot"></i> {{ res.addr }}</div>
-                                <span class="text-[10px] font-black px-2 py-0.5 rounded-full border-[2px] border-[#333333]" :class="res.bookingNo.includes('預約') && !res.bookingNo.includes('待') ? 'bg-[#D4EDDA]' : 'bg-[#FFFBEA]'">
+                                <span class="text-[10px] font-black px-2 py-0.5 rounded-full border-[2px] border-[#333333]" :class="(res.bookingNo.includes('預約') || res.bookingNo.includes('⚠️')) && !res.bookingNo.includes('待') ? 'bg-[#FDE694]' : 'bg-[#FFFBEA]'">
                                     {{ res.bookingNo }}
                                 </span>
                             </div>
@@ -418,7 +451,7 @@
                     </div>
                 </div>
                 
-                <div class="story-card p-5 relative" v-if="currentTripData.parkingList && currentTripData.parkingList.length > 0">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]" v-if="currentTripData.parkingList && currentTripData.parkingList.length > 0">
                     <div class="overlap-title bg-[#CDE3F7]">🅿️ 泊車情報</div>
                     <div class="mt-4 space-y-4">
                         <div v-for="park in currentTripData.parkingList" :key="park.name" class="border-b-[3px] border-[#333333] border-dotted pb-3 last:border-0 last:pb-0">
@@ -432,7 +465,7 @@
             <!-- ===================== 📝 清單頁籤 ===================== -->
             <div v-show="activeTab === 'list'" class="px-5 pt-6 space-y-10 pb-12">
                 
-                <div class="story-card p-5 relative">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#FFD166]">💰 預算洗費</div>
                     <div class="mt-4 text-center border-b-[3px] border-[#333333] border-dotted pb-4 mb-4">
                         <div class="text-3xl font-black mb-1 text-[#D7434D]">¥{{ totalTripYen.toLocaleString() }}</div>
@@ -466,13 +499,13 @@
                     </div>
                 </div>
 
-                <div class="story-card p-5 relative">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#F8D6D9]">⏰ 行前鬧鐘</div>
                     <div class="mt-4 space-y-3">
                         <label v-for="(task, idx) in currentTripData.alarms" :key="idx" class="flex items-start gap-3 cursor-pointer border-b-[2px] border-[#333333] border-dashed pb-3 last:border-0 last:pb-0">
                             <input type="checkbox" class="custom-checkbox shrink-0 mt-0.5" :checked="task.task.includes('✅')">
                             <div class="flex flex-col">
-                                <span v-if="task.date" class="text-[10px] font-black text-[#555] bg-[#FDF8EE] px-2 py-0.5 rounded border-[2px] border-[#333333] w-fit mb-1">{{ task.date }}</span>
+                                <span v-if="task.date" class="text-[10px] font-black text-[#555] bg-[#FDF8EE] px-2 py-0.5 rounded border-[2px] border-[#333333] w-fit mb-1 shadow-[1px_1px_0px_#333333]">{{ task.date }}</span>
                                 <span class="font-black text-[13px] leading-snug" :class="{'text-[#999] line-through': task.task.includes('✅')}">
                                     {{ task.task.replace('✅ ', '') }}
                                 </span>
@@ -481,7 +514,7 @@
                     </div>
                 </div>
 
-                <div class="story-card p-5 relative">
+                <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#D4EDDA]">🛍️ 待買清單</div>
                     <div class="mt-4 space-y-3 mb-4">
                         <label v-for="(item, idx) in currentTripData.shopping" :key="'s'+idx" class="flex items-center gap-3 cursor-pointer border-b-[2px] border-[#333333] border-dashed pb-3 last:border-0 last:pb-0">
@@ -534,7 +567,8 @@
         createApp({
             data() {
                 return {
-                    currentTrip: 'karuizawa', activeTab: 'home', selectedDayIndex: 0, 
+                    currentTrip: 'hokkaido', // 預設打開北海道
+                    activeTab: 'home', selectedDayIndex: 0, 
                     showSettings: false, showHotelModal: false, newShopItem: '',
                     weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
                     apiKey: 'cc2dab2806da14aec6dab2ed8260a1c4', 
@@ -542,8 +576,104 @@
                     now: new Date(),
                     
                     trips: {
+                        // ================= ❄️ 1月 北海道 (新增) =================
+                        hokkaido: {
+                            id: 'hokkaido', title: "❄️ 1月冬遊：北海道浪漫之旅", date: '2027-01-06', range: '2027/01/06 - 01/11 (6日5夜)',
+                            docLink: '',
+                            flights: { 
+                                out: { code: 'CX584', date: '01/06 (三)', dep: '10:25', depLoc: '香港 HKG', arr: '16:00', arrLoc: '新千歲 CTS', duration: '4h 35m' }, 
+                                in: { code: 'CX587', date: '01/11 (一)', dep: '19:05', depLoc: '新千歲 CTS', arr: '23:55', arrLoc: '香港 HKG', duration: '5h 50m' } 
+                            },
+                            rental: null,
+                            hotels: [
+                                { name: '暖雪 札幌 (Dansetsu Sapporo)', dates: '1/6 - 1/7', addr: '札幌市中央區南6條東2-1-1', status: '✅ 已預約' },
+                                { name: 'fav 函館酒店', dates: '1/7 - 1/9', addr: '函館市大手町20-15', status: '✅ 已預約' },
+                                { name: '暖雪 札幌 (Dansetsu Sapporo)', dates: '1/9 - 1/11', addr: '札幌市中央區南6條東2-1-1', status: '✅ 已預約' }
+                            ],
+                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2 },
+                            expenseHotels: [
+                                { name: '暖雪 札幌', dates: '1/6 - 1/7 (1晚)', yen: 15210, hkdStr: '¥15,210' },
+                                { name: 'fav 函館酒店', dates: '1/7 - 1/9 (2晚)', yen: 0, hkdStr: 'HK$2,153' },
+                                { name: '暖雪 札幌', dates: '1/9 - 1/11 (2晚)', yen: 67500, hkdStr: '¥67,500' }
+                            ],
+                            expenseRental: null,
+                            expenseDining: [],
+                            alarms: [
+                                { date: '11月頭', task: '⚠️ 預約「政壽司」及「冰雪之門」(三大蟹)！' },
+                                { date: '11月頭', task: '⚠️ 預約「和牛富士山」打邊爐！' },
+                                { date: '12月7日', task: '🎫 JR官網搶 1/7 札幌落函館「北斗號」車飛！' },
+                                { date: '12月9日', task: '🎫 JR官網搶 1/9 函館返札幌「北斗號」車飛！' },
+                                { date: '出發前', task: '🛍️ 買定防滑雪靴及冰爪！' },
+                                { date: '1月6日', task: '🏨 Check-in 時要求大行李免費寄存至 1/9！' },
+                                { date: '1月7日', task: '🎒 輕裝背囊出發落函館！帶一晚替換衣物！' }
+                            ],
+                            shopping: ['Pastry Snaffle’s 芝士蛋糕 (札幌東急店)', '防滑雪靴 / 冰爪 (必備！)', '藥妝 / Donki (狸小路)', '六花亭', 'Royce 生朱古力', '小樽玻璃工藝品', '白色戀人'],
+                            parkingList: [],
+                            diningList: [
+                                { date: '1/6', time: '19:30', name: '冰雪之門 (三大蟹)', addr: '札幌市中央區南5條西2', bookingNo: '⚠️ 必須預約' },
+                                { date: '1/7', time: '19:00', name: '函館麵廚房味彩', addr: '五稜郭塔旁邊/紅磚倉庫', bookingNo: '現場排隊' },
+                                { date: '1/8', time: '14:00', name: '茶房HISHI伊 / 舊茶屋亭', addr: '函館市寶來町 / 末廣町', bookingNo: '現場 Walk-in' },
+                                { date: '1/8', time: '18:30', name: '函館啤酒館', addr: '金森紅磚倉庫內', bookingNo: '現場排隊' },
+                                { date: '1/9', time: '19:30', name: '和牛富士山 (和牛打邊爐)', addr: '札幌市中央區大通西1丁目', bookingNo: '⚠️ 建議預約' },
+                                { date: '1/10', time: '18:00', name: '政壽司 本店 (小樽)', addr: '小樽市色内1-2-1', bookingNo: '⚠️ 建議預約' },
+                                { date: '1/11', time: '12:00', name: 'Suage+ / GARAKU (湯咖喱)', addr: '札幌市中心', bookingNo: '現場排隊' }
+                            ],
+                            days: [
+                                { weekday: 'Wed', dateStr: '1/06', events: [
+                                    { time: '16:00', title: '抵達新千歲機場 (CX584) ✈️', departTime: '17:00', travelTime: '1 hr', desc: '落機過關攞行李！如果未買 JR Pass 可以順便喺機場搞掂。', category: 'flight', transportType: 'flight', loc: '新千歳空港' },
+                                    { time: '17:30', title: '搭 JR 前往札幌 🚆', departTime: '18:15', travelTime: '45 min', desc: '乘搭 JR 快速機場線 (Rapid Airport) 直達札幌。', category: 'transport', transportType: 'train', loc: '札幌駅' },
+                                    { time: '18:30', title: 'Check-in 暖雪 札幌 🏨', departTime: '19:00', travelTime: '15 min', desc: '辦理入住！\n📍 地址: 札幌市中央區南6條東2-1-1', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk', action: '⚠️ 最重要任務：向酒店提出 1/7 退房後，將大件行李免費寄存至 1/9 再次入住！' },
+                                    { time: '19:30', title: '晚餐：冰雪之門 (三大蟹大餐) 🦀🍲', departTime: '21:30', travelTime: '10 min', desc: '✨ 已包含：極品生毛蟹 / 鱈場蟹涮涮鍋 (蟹肉打邊爐)！食完啲蟹肉記得用個蟹湯煮粥，超級鮮甜！', category: 'highlight', loc: '氷雪の門', transportType: 'walk', info: '💡 冬天極度爆滿，出發前必須提早預約！' },
+                                    { time: '21:30', title: '中島公園冬季點燈 ❄️✨', departTime: '22:15', travelTime: '10 min', desc: '食飽飯散步去附近嘅中島公園，欣賞 1 月限定嘅雪地光影藝術同燈飾，超浪漫！', category: 'sightseeing', loc: '中島公園', transportType: 'walk' },
+                                    { time: '22:30', title: '回酒店浸天然溫泉 ♨️', departTime: '22:30', travelTime: '0 min', desc: '執好聽日去函館嘅輕便背囊，早啲休息！', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' }
+                                ]},
+                                { weekday: 'Thu', dateStr: '1/07', events: [
+                                    { time: '08:30', title: 'Check-out 寄存行李出發！🎒', departTime: '08:45', travelTime: '15 min', desc: '退房，將大行李留喺酒店，帶輕裝背囊去搭 JR。', category: 'hotel', transportType: 'walk' },
+                                    { time: '09:00', title: 'JR 特急北斗號 前往函館 🚆', departTime: '12:50', travelTime: '3 hr 50 min', desc: '已用指定席車飛！準備好零食，欣賞沿途無敵海景同雪景！', category: 'transport', transportType: 'train', loc: '函館駅' },
+                                    { time: '13:00', title: 'Check-in fav 函館酒店 🏨', departTime: '13:30', travelTime: '5 min', desc: '酒店就喺車站附近，放低背囊即刻出發去玩！', category: 'hotel', loc: 'fav 函館', transportType: 'walk' },
+                                    { time: '14:30', title: '五稜郭塔 俯瞰雪星堡壘 ⭐', departTime: '16:00', travelTime: '20 min', desc: '搭市電前往。冬天成個五角星會變成白色，極致震撼！', category: 'sightseeing', loc: '五稜郭タワー', transportType: 'train' },
+                                    { time: '17:00', title: '函館山 百萬夜景 🚠', departTime: '18:30', travelTime: '30 min', desc: '搭纜車上山，睇世界三大夜景之一！雪地反光特別靚！', category: 'sightseeing', loc: '函館山ロープウェイ', transportType: 'train', info: '💡 山頂風大極凍，一定要著夠衫同帶頸巾！' },
+                                    { time: '19:00', title: '晚餐：函館麵廚房味彩 🍜', departTime: '20:30', travelTime: '15 min', desc: '函館名物「鹽味拉麵」嘅代表！喺冰天雪地睇完夜景，食碗極品清湯熱拉麵，成個人暖返晒！', category: 'food', loc: 'あじさい', transportType: 'walk' }
+                                ]},
+                                { weekday: 'Fri', dateStr: '1/08', events: [
+                                    { time: '08:00', title: '函館朝市 釣魷魚體驗 🦑', departTime: '10:00', travelTime: '5 min', desc: '行去朝市體驗親自釣魷魚，即釣即食！推薦去「きくよ食堂 (Kikuyo)」食埋滿滿嘅海鮮丼做早餐！', category: 'food', loc: '函館朝市', transportType: 'walk' },
+                                    { time: '10:30', title: '元町地區 異國風情散步 🚶', departTime: '12:30', travelTime: '15 min', desc: '參觀函館正教會、舊公會堂，感受充滿西洋風情嘅街道。', category: 'sightseeing', loc: '元町', transportType: 'walk' },
+                                    { time: '12:45', title: '八幡坂 日劇打卡位 📸', departTime: '13:30', travelTime: '10 min', desc: '一條直通向結冰海港嘅長斜路，兩邊樹上積滿雪，超級浪漫。', category: 'sightseeing', loc: '八幡坂', transportType: 'walk' },
+                                    { time: '14:00', title: '下午茶：茶房HISHI伊 / 舊茶屋亭 🍵', departTime: '15:30', travelTime: '10 min', desc: '行到攰攰哋，去大正浪漫風嘅古民家 Cafe 歎個日式靚茶同甜品，影相打卡兼暖身休息！', category: 'food', loc: '茶房ひし伊', loc2: '旧茶屋亭', loc2Name: '舊茶屋亭', transportType: 'walk' },
+                                    { time: '15:45', title: '金森紅磚倉庫 雪中漫步 🚢', departTime: '18:15', travelTime: '10 min', desc: '喺紅磚倉庫群尋寶買手信，影運河雪景。', category: 'shopping', loc: '金森赤レンガ倉庫', transportType: 'walk' },
+                                    { time: '18:30', title: '晚餐：函館啤酒館 🍻🥩', departTime: '20:30', travelTime: '5 min', desc: '就喺紅磚倉庫入面！極具氣氛嘅磚牆環境，歎函館地道釀造啤酒配西式大餐！', category: 'highlight', loc: '函館ビヤホール', transportType: 'walk' },
+                                    { time: '20:45', title: '回酒店休息 💤', departTime: '20:45', travelTime: '10 min', desc: '聽日返札幌。', category: 'hotel', loc: 'fav 函館', transportType: 'walk' }
+                                ]},
+                                { weekday: 'Sat', dateStr: '1/09', events: [
+                                    { time: '09:00', title: 'Check-out & 買手信 🎒', departTime: '09:45', travelTime: '10 min', desc: '退房，去函館站前買少少地道手信。', category: 'hotel', transportType: 'walk' },
+                                    { time: '10:00', title: 'JR 特急北斗號 返回札幌 🚆', departTime: '13:50', travelTime: '3 hr 50 min', desc: '揮別函館，搭車返大本營。', category: 'transport', transportType: 'train' },
+                                    { time: '14:30', title: 'Check-in 暖雪 札幌 🏨', departTime: '15:00', travelTime: '15 min', desc: '重新 Check-in，領回寄放嘅大行李！', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' },
+                                    { time: '15:30', title: '大通公園：雪雕地盤 x 白色燈樹節 🏗️🌟', departTime: '17:30', travelTime: '15 min', desc: '【1月期間限定】去大通公園睇自衛隊「起雪雕」嘅震撼幕後花絮！大約 16:30 入黑後，站前通同廣場嘅「札幌白色燈樹節」幾十萬盞燈飾就會著晒，一次過睇晒！', category: 'sightseeing', loc: '大通公園', transportType: 'train' },
+                                    { time: '18:00', title: '狸小路 瘋狂血拼 🛍️', departTime: '19:15', travelTime: '10 min', desc: '今日星期六，盡情喺狸小路補給藥妝同手信！', category: 'shopping', loc: '狸小路商店街', transportType: 'walk' },
+                                    { time: '19:30', title: '晚餐：和牛富士山 (極品打邊爐) 🥩🍲', departTime: '21:30', travelTime: '10 min', desc: '喺 Le Trois 商場 8 樓，望住大通公園雪夜景，歎「北海道和牛涮涮鍋 / 壽喜燒」！', category: 'highlight', loc: '和牛しゃぶしゃぶ すき焼 富士山', transportType: 'walk', info: '💡 建議出發前一至兩個月 Book 定窗邊位！' }
+                                ]},
+                                { weekday: 'Sun', dateStr: '1/10', events: [
+                                    { time: '09:30', title: '出發前往小樽 🚆', departTime: '10:10', travelTime: '40 min', desc: '搭 JR 快速列車直達小樽 (用 IC 卡拍卡入閘即可)。', category: 'transport', transportType: 'train', loc: '小樽駅' },
+                                    { time: '10:30', title: '堺町通商店街 玻璃工藝與甜品 🍰', departTime: '14:30', travelTime: '10 min', desc: '漫步歐風街道，必去北一硝子館，同埋食 LeTAO 雙層芝士蛋糕！', category: 'shopping', loc: '堺町通り商店街', transportType: 'walk' },
+                                    { time: '15:00', title: '小樽運河 白晝與黃昏 🛶', departTime: '17:30', travelTime: '10 min', desc: '影低日頭嘅雪景運河。等到入黑亮起煤氣燈，氣氛完全唔同，超級浪漫！', category: 'sightseeing', loc: '小樽運河', transportType: 'walk', info: '💡 建議可以體驗埋遊船河。' },
+                                    { time: '18:00', title: '晚餐：政壽司 本店 🍣', departTime: '20:00', travelTime: '10 min', desc: '《將太的壽司》原型名店！舒舒服服食頂級壽司，強烈建議預先 Book 定！', category: 'highlight', loc: 'おたる政寿司 本店', transportType: 'walk' },
+                                    { time: '20:30', title: '搭 JR 返回札幌 🚆', departTime: '21:10', travelTime: '40 min', desc: '結束浪漫嘅小樽一日遊。', category: 'transport', transportType: 'train' }
+                                ]},
+                                { weekday: 'Mon', dateStr: '1/11', events: [
+                                    { time: '09:30', title: '最後補給 & 執行李 🧳', departTime: '11:00', travelTime: '0 min', desc: '將所有戰利品塞入大篋。', category: 'hotel', transportType: 'walk' },
+                                    { time: '11:00', title: 'Check-out 暖雪 札幌 🏨', departTime: '11:30', travelTime: '15 min', desc: '帶住所有行李出發。', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' },
+                                    { time: '11:30', title: '東急百貨買 Snaffle’s 🍰', departTime: '12:00', travelTime: '10 min', desc: '去 JR 札幌站旁邊嘅東急百貨地下，買你指定嘅【Pastry Snaffle’s】半熟芝士蛋糕帶返香港！', category: 'shopping', loc: 'さっぽろ東急百貨店', transportType: 'walk' },
+                                    { time: '12:00', title: '午餐：札幌必食湯咖喱 🍛', departTime: '13:30', travelTime: '10 min', desc: '上機前最後衝刺！必食「Suage+」或「GARAKU」湯咖喱，香料熱湯配炸北海道甜南瓜、薯仔同巨型雞髀，暖胃滿分！', category: 'food', loc: 'Suage+', loc2: 'GARAKU', loc2Name: 'GARAKU', transportType: 'walk' },
+                                    { time: '14:00', title: 'JR 快速機場線 🚆', departTime: '14:45', travelTime: '45 min', desc: '出發前往新千歲機場。', category: 'transport', transportType: 'train', loc: '新千歳空港' },
+                                    { time: '15:00', title: '新千歲機場 終極掃貨 🛍️', departTime: '16:30', travelTime: '1.5 hr', desc: '機場國內線客運大樓超好買！', category: 'shopping', transportType: 'walk' },
+                                    { time: '16:30', title: '辦理登機手續 (CX587) ✈️', departTime: '19:05', travelTime: '0 min', desc: '預留時間過海關，19:05 起飛返香港！', category: 'flight', transportType: 'flight' }
+                                ]}
+                            ]
+                        },
+
+                        // ================= 🌸 4月 輕井澤 =================
                         karuizawa: {
-                            id: 'karuizawa', title: "🌸 4月春遊：輕井澤 x 富士山", date: '2026-04-18', range: '04/18 (六) ~ 04/25 (六) 8天7夜',
+                            id: 'karuizawa', title: "🌸 4月春遊：輕井澤 x 富士山", date: '2026-04-18', range: '2026/04/18 - 04/25 (8日7夜)',
                             docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
                             flights: { out: { code: 'CX524', date: '04/18 (六)', dep: '01:20', depLoc: '香港 HKG', arr: '06:40', arrLoc: '成田 T2', duration: '4h 20m' }, in: { code: 'CX501', date: '04/25 (六)', dep: '21:40', depLoc: '成田 T2', arr: '01:40', arrLoc: '香港 HKG', duration: '4h 00m' } },
                             rental: { company: 'Nippon Rent-A-Car', pickupDate: '04/20 (一)', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '04/22 (三)', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '車型: Nippon 私家車/休旅車' },
@@ -618,13 +748,14 @@
                                     { time: '13:00', title: '東京站一番街 Shopping 🛍️', departTime: '13:00', desc: '最後衝刺買手信同動漫周邊！', category: 'shopping', transportType: 'walk', loc: 'Tokyo Character Street' },
                                     { time: '16:00', title: '返回酒店提取行李 🧳', departTime: '15:30', desc: '返八重翠拎返行李，喺 Lobby 休息下準備上專車。', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' },
                                     { time: '17:00', title: 'KKday 專車前往機場 🚗💨', departTime: '16:50', desc: '✨ 已預約: Toyota Alphard (6人座)\n酒店大堂直達成田，專人接送！', category: 'transport', transportType: 'car', loc: 'Narita Airport' },
-                                    { time: '18:30', title: '到達機場 (CX501) ✈️', desc: '21:40起飛，拜拜日本！', departTime: '17:00', category: 'flight', transportType: 'walk', loc: 'Narita Airport' }
+                                    { time: '18:30', title: '到達機場 (CX501) ✈️', desc: '21:40起飛，拜拜日本！', departTime: '17:00', category: 'flight', transportType: 'flight', loc: 'Narita Airport' }
                                 ]}
                             ]
                         },
                         
+                        // ================= 🍁 10月 中部秋遊 =================
                         central: {
-                            id: 'central', title: "🍁 10月秋遊：中部自駕遊", date: '2026-10-30', range: '10/30 (五) ~ 11/08 (日) 10天9夜',
+                            id: 'central', title: "🍁 10月秋遊：中部自駕遊", date: '2026-10-30', range: '2026/10/30 - 11/08 (10天9夜)',
                             docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
                             flights: { 
                                 out: { code: 'CX500', date: '10/30 (五)', dep: '15:20', depLoc: '香港 HKG', arr: '20:00', arrLoc: '成田 NRT', duration: '4h 40m' }, 
@@ -646,7 +777,6 @@
                                 { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8', addr: '東京都千代田區神田須田町2-17-10', status: '✅ 已預約 (¥103,320)' }
                             ],
                             hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 5, 8: 5, 9: 5 },
-                            
                             expenseHotels: [
                                 { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$1,022.10' },
                                 { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 37044 },
@@ -661,7 +791,6 @@
                                 { name: 'まんてん鮨 日本橋 (吧枱位升級)', date: '11/6', yen: 24200, note: '12,100円 × 2位 (4G6C6X)' },
                                 { name: '其他預約/現場餐廳', date: '全期', yen: 0, note: '現場付款 / 自由點餐' }
                             ],
-
                             alarms: [
                                 { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, 
                                 { date: '7/01', task: '✅ 已預約 Nippon 租車 (全期，連雪胎 C38760)' },
@@ -797,7 +926,7 @@
                                     { time: '11:30', title: '壽司郎 (Sushiro) 秋葉原店', departTime: '12:30', travelTime: '1 hr', desc: '平靚正回轉壽司，食飽返香港！', category: 'food', transportType: 'walk', loc: 'スシロー 秋葉原駅前店', info: '星期日極多人！必須提早最少 3 個鐘用 Sushiro App 抽定飛！' },
                                     { time: '13:30', title: '返酒店攞行李 ➔ 搭 Skyliner', departTime: '13:30', travelTime: '45 min', desc: '返酒店攞完行李，搭 1 個站去 "京成上野站"！\n搭乘【Keisei Skyliner】，45 分鐘極速直飞成田機場！', category: 'transport', transportType: 'train', loc: '京成上野駅' },
                                     { time: '14:45', title: '抵達成田機場', departTime: '16:00', travelTime: '15 min', desc: '極速抵達，準備入去掃免稅品！', category: 'transport', loc: '成田空港', transportType: 'walk' },
-                                    { time: '16:30', title: '機場 Check-in (CX505)', departTime: '16:30', desc: '18:30 起飛返港，完美結束旅程！', category: 'flight', loc: '成田空港', transportType: 'walk' }
+                                    { time: '16:30', title: '機場 Check-in (CX505)', departTime: '16:30', desc: '18:30 起飛返港，完美結束旅程！', category: 'flight', loc: '成田空港', transportType: 'flight' }
                                 ]}
                             ]
                         }
@@ -822,8 +951,9 @@
                     return this.totalHotelYen + rentalYen + this.totalDiningYen;
                 },
 
-                // 富士山能見度邏輯 (完美保留！)
+                // 富士山能見度邏輯 (北海道直接隱藏)
                 fujiVisibility() {
+                    if (this.currentTrip === 'hokkaido') return null;
                     if (this.currentTrip !== 'central') return null;
                     const fujiDays = [1, 2, 5, 6]; 
                     if (!fujiDays.includes(this.selectedDayIndex)) return null;
@@ -906,6 +1036,15 @@
                             case 5: query = 'Gotemba,JP'; displayName = '御殿場'; break;
                             case 6: case 7: case 8: case 9: default: query = 'Tokyo,JP'; displayName = '東京'; break;
                         }
+                    } else if (tripId === 'hokkaido') {
+                        switch(idx) {
+                            case 0: query = 'Sapporo,JP'; displayName = '札幌'; break;
+                            case 1: case 2: query = 'Hakodate,JP'; displayName = '函館'; break;
+                            case 3: query = 'Sapporo,JP'; displayName = '札幌'; break;
+                            case 4: query = 'Otaru,JP'; displayName = '小樽'; break;
+                            case 5: query = 'Sapporo,JP'; displayName = '札幌'; break;
+                            default: query = 'Sapporo,JP'; displayName = '札幌'; break;
+                        }
                     }
                     this.weather.city_name = displayName;
                     fetch(`https://api.openweathermap.org/data/2.5/weather?q=${query}&units=metric&lang=zh_tw&appid=${this.apiKey}`)
@@ -924,6 +1063,10 @@
                 getTransportName(type) {
                     const map = { walk: '步行', train: 'JR+地鐵', car: '自駕出發', bus: '專車/巴士', flight: '乘搭航班' };
                     return map[type] || '交通';
+                },
+                getTransportIcon(type) {
+                    const map = { walk: 'fa-person-walking', train: 'fa-train-subway', car: 'fa-car', bus: 'fa-bus-simple', flight: 'fa-plane' };
+                    return map[type] || 'fa-location-dot';
                 },
                 getHotelForDay(idx) {
                     const hotelIdx = this.currentTripData.hotelMap[idx];
