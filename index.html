@@ -110,28 +110,30 @@
 
     <div id="app" v-cloak class="h-full flex flex-col relative" :style="{ fontSize: settings.fontSize + 'px' }">
 
-        <!-- 🔝 頂端固定灰色選單 -->
-        <div class="nav-tabs px-3 pt-12 pb-3 flex items-center z-50 relative shrink-0 gap-2 overflow-x-auto no-scrollbar">
-            <button @click="showSettings = true" class="bouncy-click w-9 h-9 bg-white rounded-full border-[3px] border-[#333333] flex items-center justify-center font-black text-sm shrink-0 shadow-[1px_2px_0px_#333333]">
-                <i class="fa-solid fa-gear"></i>
-            </button>
+        <!-- 🔝 頂端固定灰色選單 (已修復電話疊字問題) -->
+        <div class="nav-tabs px-3 pt-12 pb-3 flex flex-col gap-3 z-50 relative shrink-0">
             
-            <div class="flex gap-2 font-black text-[13px]">
-                <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors">首頁</button>
-                <button @click="activeTab = 'flight'" :class="activeTab === 'flight' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors">航班</button>
-                <button @click="activeTab = 'itinerary'" :class="activeTab === 'itinerary' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors">每日行程</button>
-                <button @click="activeTab = 'hotel'" :class="activeTab === 'hotel' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors">住宿</button>
-                <button @click="activeTab = 'list'" :class="activeTab === 'list' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors">清單</button>
+            <!-- 上排：設定按鈕 + 行程切換器 -->
+            <div class="flex justify-between items-center w-full">
+                <button @click="showSettings = true" class="bouncy-click w-9 h-9 bg-white rounded-full border-[3px] border-[#333333] flex items-center justify-center font-black text-sm shrink-0 shadow-[1px_2px_0px_#333333]">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+                
+                <select v-model="currentTrip" class="bouncy-click bg-white border-[3px] border-[#333333] rounded-full px-3 py-1.5 text-[12px] font-black outline-none appearance-none cursor-pointer shadow-[1px_2px_0px_#333333]">
+                    <option value="central">🍁 10月秋遊</option>
+                    <option value="hokkaido">❄️ 1月冬遊</option>
+                    <option value="karuizawa">🌸 4月春遊</option>
+                </select>
             </div>
-        </div>
-
-        <!-- 🔀 行程切換器 (浮動在右上角) -->
-        <div class="absolute top-14 right-3 z-50">
-            <select v-model="currentTrip" class="bouncy-click bg-white border-[3px] border-[#333333] rounded-full px-3 py-1 text-[11px] font-black outline-none appearance-none cursor-pointer shadow-[1px_2px_0px_#333333]">
-                <option value="karuizawa">🌸 4月春遊</option>
-                <option value="central">🍁 10月秋遊</option>
-                <option value="hokkaido">❄️ 1月冬遊</option>
-            </select>
+            
+            <!-- 下排：滑動分頁按鈕 -->
+            <div class="flex gap-2 font-black text-[13px] overflow-x-auto no-scrollbar pb-1">
+                <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">首頁</button>
+                <button @click="activeTab = 'flight'" :class="activeTab === 'flight' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">航班</button>
+                <button @click="activeTab = 'itinerary'" :class="activeTab === 'itinerary' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">每日行程</button>
+                <button @click="activeTab = 'hotel'" :class="activeTab === 'hotel' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">住宿</button>
+                <button @click="activeTab = 'list'" :class="activeTab === 'list' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">清單</button>
+            </div>
         </div>
 
         <div class="flex-1 overflow-y-auto no-scrollbar pb-12 pt-5">
@@ -621,7 +623,7 @@
         createApp({
             data() {
                 return {
-                    currentTrip: 'hokkaido', // 預設打開北海道
+                    currentTrip: 'central', // ✨ 已預設打開 10 月秋遊！
                     activeTab: 'home', selectedDayIndex: 0, 
                     showSettings: false, showHotelModal: false, newShopItem: '',
                     weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
@@ -648,7 +650,7 @@
                             hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2 },
                             expenseHotels: [
                                 { name: '暖雪 札幌', dates: '1/6 - 1/7 (1晚)', yen: 15210, hkdStr: '¥15,210' },
-                                { name: 'fav 函館酒店', dates: '1/7 - 1/9 (2晚)', yen: 0, hkdStr: 'HK$2,153.14', hkd: 2153.14 },
+                                { name: 'fav 函館酒店', dates: '1/7 - 1/9 (2晚)', yen: 0, hkd: 2153.14, hkdStr: 'HK$2,153.14' },
                                 { name: '暖雪 札幌', dates: '1/9 - 1/11 (2晚)', yen: 67500, hkdStr: '¥67,500' }
                             ],
                             expenseRental: null,
@@ -921,7 +923,7 @@
                                     { time: '11:30', title: '立石公園 (諏訪湖)', departTime: '13:00', travelTime: '1.5 hr', desc: '《你的名字》系守町取景地！\n行車距離: 150km (約 2.5 小時)\n泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', info: '作為中途休息站，伸展下筋骨打個卡！' },
                                     { time: '14:30', title: '松本城', departTime: '16:15', travelTime: '15 min', desc: '抵達松本！參觀日本國寶城！\n行車距離: 50km (約 1.5 小時)\n泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66' },
                                     { time: '16:30', title: '入住 Onyado Nono', departTime: '18:15', travelTime: '5 min', desc: '全和式榻榻米酒店，超級舒服！\n行車距離: 2km (約 10 分鐘)\n泊車: 酒店立體停車場或 Silk Parking', category: 'hotel', loc: '天然温泉 梓の湯 ドーミーイン松本', transportType: 'car', phone: '0263-37-5489', mapcode: '75 821 474*88', info: '入酒店要除鞋，體驗日式風情！' },
-                                    { time: '18:30', title: '信州蕎麥處 みよ田', departTime: '20:30', travelTime: '5 min', desc: '超有名氣歷史蕎麥麵！嚟松本必食！\n行車距離: 行路 5 分鐘', category: 'food', loc: '信州蕎麦処 みよ田 松本本店', transportType: 'walk', phone: '0263-37-1434', mapcode: '75 821 615*00', action: '營業至 20:00 (Last Order 19:30)，已為為你推早半小時避免摸門釘！' },
+                                    { time: '18:30', title: '信州蕎麥處 みよ田', departTime: '20:30', travelTime: '5 min', desc: '超有名氣歷史蕎麥麵！嚟松本必食！\n行車距離: 行路 5 分鐘', category: 'food', loc: '信州蕎麦処 みよ田 松本本店', transportType: 'walk', phone: '0263-37-1434', mapcode: '75 821 615*00', action: '營業至 20:00 (Last Order 19:30)，已為你推早半小時避免摸門釘！' },
                                     { time: '21:00', title: '回酒店浸溫泉', departTime: '21:00', travelTime: '0 min', desc: '浸完溫泉仲有免費夜鳴拉麵食！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
                                 ]},
                                 { weekday: '二', dateStr: '11/03', events: [
