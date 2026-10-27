@@ -318,7 +318,7 @@
                             <span v-html="formatText(item.action || item.info)"></span>
                         </div>
 
-                        <!-- 導航按鈕群組 -->
+                        <!-- 導航按鈕群組 (高德地圖版) -->
                         <div class="flex gap-2">
                             <button v-if="item.loc" @click.stop="openMap(item.loc)" class="bouncy-click bg-[#FFD166] border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
                                 導航 ↗
@@ -453,6 +453,7 @@
                     <h2 class="text-[15px] font-black text-[#D7434D] mb-1.5">{{ getHotelForDay(selectedDayIndex).name }}</h2>
                     <div class="text-[11px] font-bold text-[#555]">{{ getHotelForDay(selectedDayIndex).addr }}</div>
                 </div>
+                <!-- 酒店導航同樣改用高德 -->
                 <button @click="openMap(getHotelForDay(selectedDayIndex).name)" class="bouncy-click w-full bg-[#CDE3F7] border-[3px] border-[#333333] text-[#333333] py-3 rounded-xl font-black shadow-[2px_2px_0px_#333333] mb-4 text-sm">打開地圖導航 ↗</button>
                 <button @click="showHotelModal = false" class="text-[12px] font-black text-[#777] underline">關閉</button>
             </div>
@@ -667,8 +668,12 @@
                 },
                 openMap(loc) { 
                     if(loc) { 
-                        if (loc.startsWith('http')) window.open(loc, '_blank');
-                        else window.open(`https://www.google.com/maps/search/?api=1&query=` + encodeURIComponent(loc), '_blank'); 
+                        if (loc.startsWith('http')) {
+                            window.open(loc, '_blank');
+                        } else {
+                            // ✨ 改為高德地圖 (Amap) 搜尋連結，大陸 100% 準確！
+                            window.open(`https://uri.amap.com/search?keyword=` + encodeURIComponent(loc), '_blank'); 
+                        }
                     } 
                 },
                 formatText(text) { return text ? String(text).replace(/\n/g, '<br>') : ''; },
