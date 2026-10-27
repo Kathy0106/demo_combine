@@ -465,35 +465,89 @@
             <!-- ===================== 📝 清單頁籤 ===================== -->
             <div v-show="activeTab === 'list'" class="px-5 pt-6 space-y-10 pb-12">
                 
+                <!-- 精準匯總 (Yen + HKD) 完美解決 -->
                 <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#FFD166]">💰 預算洗費</div>
                     <div class="mt-4 text-center border-b-[3px] border-[#333333] border-dotted pb-4 mb-4">
-                        <div class="text-3xl font-black mb-1 text-[#D7434D]">¥{{ totalTripYen.toLocaleString() }}</div>
-                        <p class="text-[12px] font-black text-[#777]">≈ HKD ${{ Math.round(totalTripYen * 0.052).toLocaleString() }}</p>
+                        <template v-if="currentTrip === 'hokkaido'">
+                            <div class="text-[12px] font-black text-[#D7434D] bg-[#F8D6D9] inline-block px-3 py-1 rounded-full border-[2px] border-[#333333] mb-2 shadow-[1px_2px_0px_#333333]">已確認酒店總花費</div>
+                            <div class="text-3xl font-black mb-1 text-[#D7434D]">HK${{ totalHotelHkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</div>
+                            <p class="text-[11px] font-bold text-[#777]">包含札幌及函館共 5 晚住宿</p>
+                        </template>
+                        <template v-else>
+                            <div class="text-[12px] font-black text-[#333333] bg-[#FFD166] inline-block px-3 py-1 rounded-full border-[2px] border-[#333333] mb-2 shadow-[1px_2px_0px_#333333]">總預算洗費 (預估)</div>
+                            <div class="text-3xl font-black mb-1 text-[#D7434D]">HK${{ totalTripUnifiedHkd.toLocaleString('en-US', {maximumFractionDigits: 0}) }}</div>
+                            <p class="text-[11px] font-bold text-[#777]">已自動匯總 Yen 及 HKD 項目 (匯率: {{ exchangeRate }})</p>
+                        </template>
                     </div>
                     
                     <div class="space-y-4">
-                        <div>
-                            <div class="text-[13px] font-black mb-2 flex justify-between"><span>🏨 住宿</span><span>¥{{ totalHotelYen.toLocaleString() }}</span></div>
+                        <!-- 🏨 住宿 -->
+                        <div v-if="currentTripData.expenseHotels && currentTripData.expenseHotels.length > 0">
+                            <div class="text-[13px] font-black mb-2 flex justify-between">
+                                <span>🏨 住宿</span>
+                                <span class="text-[#D7434D]">HK${{ totalHotelHkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
+                            </div>
                             <div v-for="h in currentTripData.expenseHotels" :key="h.name" class="flex justify-between items-center bg-[#FDF8EE] border-[2px] border-[#333333] rounded-lg p-2 mb-2">
-                                <div><div class="text-[11px] font-black">{{ h.name }}</div><div class="text-[10px] font-bold text-[#777]">{{ h.dates }}</div></div>
-                                <div class="text-[11px] font-black"><span v-if="h.yen > 0">¥{{ h.yen.toLocaleString() }}</span><span v-else>{{ h.hkdStr }}</span></div>
+                                <div>
+                                    <div class="text-[11px] font-black">{{ h.name }}</div>
+                                    <div class="text-[10px] font-bold text-[#777]">{{ h.dates }}</div>
+                                </div>
+                                <div class="text-[11px] font-black text-right">
+                                    <template v-if="h.yen > 0">
+                                        <div>¥{{ h.yen.toLocaleString() }}</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (h.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
+                                    </template>
+                                    <template v-else>
+                                        <div>{{ h.hkdStr }}</div>
+                                    </template>
+                                </div>
                             </div>
                         </div>
                         
+                        <!-- 🚗 租車 -->
                         <div v-if="currentTripData.expenseRental">
-                            <div class="text-[13px] font-black mb-2 flex justify-between mt-4"><span>🚗 租車</span><span>¥{{ currentTripData.expenseRental.yen.toLocaleString() }}</span></div>
-                            <div class="bg-[#FDF8EE] border-[2px] border-[#333333] rounded-lg p-2">
-                                <div class="text-[11px] font-black">{{ currentTripData.expenseRental.name }}</div>
-                                <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.expenseRental.note }}</div>
+                            <div class="text-[13px] font-black mb-2 flex justify-between mt-4">
+                                <span>🚗 租車</span>
+                                <span class="text-[#D7434D]">HK${{ totalRentalHkd.toLocaleString('en-US', {maximumFractionDigits: 0}) }}</span>
+                            </div>
+                            <div class="flex justify-between items-center bg-[#FDF8EE] border-[2px] border-[#333333] rounded-lg p-2">
+                                <div>
+                                    <div class="text-[11px] font-black">{{ currentTripData.expenseRental.name }}</div>
+                                    <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.expenseRental.note }}</div>
+                                </div>
+                                <div class="text-[11px] font-black text-right">
+                                    <template v-if="currentTripData.expenseRental.yen > 0">
+                                        <div>¥{{ currentTripData.expenseRental.yen.toLocaleString() }}</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (currentTripData.expenseRental.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
+                                    </template>
+                                    <template v-else>
+                                        <div>{{ currentTripData.expenseRental.hkdStr || '已包含' }}</div>
+                                    </template>
+                                </div>
                             </div>
                         </div>
                         
+                        <!-- 🍽️ 餐廳 -->
                         <div v-if="currentTripData.expenseDining && currentTripData.expenseDining.length > 0">
-                            <div class="text-[13px] font-black mb-2 flex justify-between mt-4"><span>🍽️ 餐廳</span><span>¥{{ totalDiningYen.toLocaleString() }}</span></div>
+                            <div class="text-[13px] font-black mb-2 flex justify-between mt-4">
+                                <span>🍽️ 餐廳</span>
+                                <span class="text-[#D7434D]">HK${{ totalDiningHkd.toLocaleString('en-US', {maximumFractionDigits: 0}) }}</span>
+                            </div>
                             <div v-for="d in currentTripData.expenseDining" :key="d.name" class="flex justify-between items-center bg-[#FDF8EE] border-[2px] border-[#333333] rounded-lg p-2 mb-2">
-                                <div><div class="text-[11px] font-black">{{ d.name }}</div><div class="text-[10px] font-bold text-[#777]">{{ d.date }}</div></div>
-                                <div class="text-[11px] font-black text-[#D7434D]"><span v-if="d.yen > 0">¥{{ d.yen.toLocaleString() }}</span><span v-else>現場付款</span></div>
+                                <div>
+                                    <div class="text-[11px] font-black">{{ d.name }}</div>
+                                    <div class="text-[10px] font-bold text-[#777]">{{ d.date }}</div>
+                                </div>
+                                <div class="text-[11px] font-black text-right">
+                                    <template v-if="d.yen > 0">
+                                        <div class="text-[#D7434D]">¥{{ d.yen.toLocaleString() }}</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (d.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
+                                    </template>
+                                    <template v-else>
+                                        <div class="text-[#D7434D]">{{ d.hkdStr || '現場付款' }}</div>
+                                    </template>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -572,11 +626,12 @@
                     showSettings: false, showHotelModal: false, newShopItem: '',
                     weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
                     apiKey: 'cc2dab2806da14aec6dab2ed8260a1c4', 
-                    settings: { fontSize: 14 }, exchangeRate: 0.052,
+                    settings: { fontSize: 14 }, 
+                    exchangeRate: 0.052, // Yen to HKD 匯率
                     now: new Date(),
                     
                     trips: {
-                        // ================= ❄️ 1月 北海道 (新增) =================
+                        // ================= ❄️ 1月 北海道 =================
                         hokkaido: {
                             id: 'hokkaido', title: "❄️ 1月冬遊：北海道浪漫之旅", date: '2027-01-06', range: '2027/01/06 - 01/11 (6日5夜)',
                             docLink: '',
@@ -593,7 +648,7 @@
                             hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2 },
                             expenseHotels: [
                                 { name: '暖雪 札幌', dates: '1/6 - 1/7 (1晚)', yen: 15210, hkdStr: '¥15,210' },
-                                { name: 'fav 函館酒店', dates: '1/7 - 1/9 (2晚)', yen: 0, hkdStr: 'HK$2,153' },
+                                { name: 'fav 函館酒店', dates: '1/7 - 1/9 (2晚)', yen: 0, hkdStr: 'HK$2,153.14', hkd: 2153.14 },
                                 { name: '暖雪 札幌', dates: '1/9 - 1/11 (2晚)', yen: 67500, hkdStr: '¥67,500' }
                             ],
                             expenseRental: null,
@@ -683,7 +738,7 @@
                                 { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25', addr: '東京都中央區八丁堀2-13-1', status: '✅ 已完成' } 
                             ],
                             hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
-                            expenseHotels: [], expenseRental: { name: 'Nippon Rent-A-Car 租車', yen: 0, note: '已包含' }, expenseDining: [],
+                            expenseHotels: [], expenseRental: { name: 'Nippon Rent-A-Car 租車', yen: 0, hkdStr: '已包含' }, expenseDining: [],
                             alarms: [ { date: '出發前', task: '確認 Nippon 租車車型！' } ],
                             shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
                             parkingList: [],
@@ -778,7 +833,7 @@
                             ],
                             hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 5, 8: 5, 9: 5 },
                             expenseHotels: [
-                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$1,022.10' },
+                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$1,022.10', hkd: 1022.10 },
                                 { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 37044 },
                                 { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3 (1晚)', yen: 31050 },
                                 { name: '湯宿 季之庭', dates: '11/3 - 11/4 (1晚, 一泊二食)', yen: 90000 },
@@ -789,7 +844,7 @@
                             expenseDining: [
                                 { name: '木曾路 靜岡店 (松茸涮涮鍋)', date: '10/31', yen: 17600, note: '8,800円 × 2位 (KBS313918)' },
                                 { name: 'まんてん鮨 日本橋 (吧枱位升級)', date: '11/6', yen: 24200, note: '12,100円 × 2位 (4G6C6X)' },
-                                { name: '其他預約/現場餐廳', date: '全期', yen: 0, note: '現場付款 / 自由點餐' }
+                                { name: '其他預約/現場餐廳', date: '全期', yen: 0, hkdStr: '現場付款', note: '現場付款 / 自由點餐' }
                             ],
                             alarms: [
                                 { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, 
@@ -866,7 +921,7 @@
                                     { time: '11:30', title: '立石公園 (諏訪湖)', departTime: '13:00', travelTime: '1.5 hr', desc: '《你的名字》系守町取景地！\n行車距離: 150km (約 2.5 小時)\n泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', info: '作為中途休息站，伸展下筋骨打個卡！' },
                                     { time: '14:30', title: '松本城', departTime: '16:15', travelTime: '15 min', desc: '抵達松本！參觀日本國寶城！\n行車距離: 50km (約 1.5 小時)\n泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66' },
                                     { time: '16:30', title: '入住 Onyado Nono', departTime: '18:15', travelTime: '5 min', desc: '全和式榻榻米酒店，超級舒服！\n行車距離: 2km (約 10 分鐘)\n泊車: 酒店立體停車場或 Silk Parking', category: 'hotel', loc: '天然温泉 梓の湯 ドーミーイン松本', transportType: 'car', phone: '0263-37-5489', mapcode: '75 821 474*88', info: '入酒店要除鞋，體驗日式風情！' },
-                                    { time: '18:30', title: '信州蕎麥處 みよ田', departTime: '20:30', travelTime: '5 min', desc: '超有名氣歷史蕎麥麵！嚟松本必食！\n行車距離: 行路 5 分鐘', category: 'food', loc: '信州蕎麦処 みよ田 松本本店', transportType: 'walk', phone: '0263-37-1434', mapcode: '75 821 615*00', action: '營業至 20:00 (Last Order 19:30)，已為你推早半小時避免摸門釘！' },
+                                    { time: '18:30', title: '信州蕎麥處 みよ田', departTime: '20:30', travelTime: '5 min', desc: '超有名氣歷史蕎麥麵！嚟松本必食！\n行車距離: 行路 5 分鐘', category: 'food', loc: '信州蕎麦処 みよ田 松本本店', transportType: 'walk', phone: '0263-37-1434', mapcode: '75 821 615*00', action: '營業至 20:00 (Last Order 19:30)，已為為你推早半小時避免摸門釘！' },
                                     { time: '21:00', title: '回酒店浸溫泉', departTime: '21:00', travelTime: '0 min', desc: '浸完溫泉仲有免費夜鳴拉麵食！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
                                 ]},
                                 { weekday: '二', dateStr: '11/03', events: [
@@ -938,17 +993,35 @@
                 currentDays() { return this.currentTripData.days; },
                 currentItineraryData() { return this.currentDays[this.selectedDayIndex] ? this.currentDays[this.selectedDayIndex].events : []; },
                 
-                totalHotelYen() {
+                // 動態計算各項洗費，如果係 Yen 就自動轉 HKD (乘 0.052)，本身係 HKD 就直接加埋！
+                totalHotelHkd() {
                     if (!this.currentTripData.expenseHotels) return 0;
-                    return this.currentTripData.expenseHotels.reduce((sum, h) => sum + (h.yen || 0), 0);
+                    return this.currentTripData.expenseHotels.reduce((sum, h) => {
+                        let itemHkd = 0;
+                        if (h.yen > 0) itemHkd = h.yen * this.exchangeRate;
+                        else if (h.hkd > 0) itemHkd = h.hkd;
+                        return sum + itemHkd;
+                    }, 0);
                 },
-                totalDiningYen() {
+                totalRentalHkd() {
+                    if (!this.currentTripData.expenseRental) return 0;
+                    const r = this.currentTripData.expenseRental;
+                    if (r.yen > 0) return r.yen * this.exchangeRate;
+                    if (r.hkd > 0) return r.hkd;
+                    return 0;
+                },
+                totalDiningHkd() {
                     if (!this.currentTripData.expenseDining) return 0;
-                    return this.currentTripData.expenseDining.reduce((sum, d) => sum + (d.yen || 0), 0);
+                    return this.currentTripData.expenseDining.reduce((sum, d) => {
+                        let itemHkd = 0;
+                        if (d.yen > 0) itemHkd = d.yen * this.exchangeRate;
+                        else if (d.hkd > 0) itemHkd = d.hkd;
+                        return sum + itemHkd;
+                    }, 0);
                 },
-                totalTripYen() {
-                    const rentalYen = this.currentTripData.expenseRental ? this.currentTripData.expenseRental.yen : 0;
-                    return this.totalHotelYen + rentalYen + this.totalDiningYen;
+                // 完美匯總最終 HKD 數目！
+                totalTripUnifiedHkd() {
+                    return this.totalHotelHkd + this.totalRentalHkd + this.totalDiningHkd;
                 },
 
                 // 富士山能見度邏輯 (北海道直接隱藏)
