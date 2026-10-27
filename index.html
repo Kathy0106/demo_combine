@@ -221,7 +221,7 @@
                             </g>
                         </g>
 
-                        <!-- 🚗 自駕車仔 (前景居中) - 將 float-anim 放喺內層，解除飛天咒語！ -->
+                        <!-- 🚗 自駕車仔 (前景居中) -->
                         <g transform="translate(180, 115)">
                             <g class="float-anim">
                                 <rect x="0" y="0" width="40" height="20" rx="5" fill="#B9DAA5" stroke="#3E3A39" stroke-width="3"/>
@@ -258,28 +258,15 @@
             <!-- ===================== 🗺️ 行程頁籤 ===================== -->
             <div v-show="activeTab === 'itinerary'" class="pt-2">
                 
-                <!-- 行李箱進度條 (滑動效果) -->
-                <div class="px-5 mb-6 relative">
-                    <div class="h-[3px] bg-[#3E3A39] w-[80%] mx-auto mt-6 relative rounded-full">
-                        <div class="absolute -top-1.5 left-0 w-full flex justify-between px-2">
-                            <div v-for="(day, idx) in currentDays" :key="'dot-'+idx" class="w-4 h-4 rounded-full bg-white border-[3px] border-[#3E3A39] z-0"></div>
-                        </div>
-                        <div class="absolute -top-5 z-20 suitcase-progress flex flex-col items-center" 
-                             :style="{ left: `calc(${(selectedDayIndex / (currentDays.length - 1)) * 100}% - 14px)` }">
-                            <div class="w-8 h-7 bg-[#F2A497] border-[3px] border-[#3E3A39] rounded-lg shadow-[2px_2px_0px_#3E3A39] flex items-center justify-center">
-                                <div class="w-2 h-1.5 bg-[#3E3A39] rounded-full mx-0.5"></div>
-                                <div class="w-2 h-1.5 bg-[#3E3A39] rounded-full mx-0.5"></div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-between mt-4 text-center px-2">
+                <!-- 方案二：日曆卡片滑動 (完美解決擠迫問題) -->
+                <div class="px-4 mb-6">
+                    <div class="flex gap-3 overflow-x-auto no-scrollbar pb-2 pt-1 px-1">
                         <div v-for="(day, idx) in currentDays" :key="'date-'+idx" 
                              @click="selectedDayIndex = idx"
-                             class="cursor-pointer font-bold transition-all"
-                             :class="selectedDayIndex === idx ? 'text-[#F2A497] scale-110' : 'text-[#3E3A39] opacity-60'">
-                            <div class="text-[10px] mb-0.5">{{ day.dateStr }}</div>
-                            <div class="text-[11px]">{{ day.weekday }}</div>
+                             class="flex flex-col items-center justify-center w-14 h-16 rounded-2xl border-[3px] border-[#3E3A39] shrink-0 cursor-pointer transition-all shadow-[2px_2px_0px_#3E3A39]"
+                             :class="selectedDayIndex === idx ? 'bg-[#F2A497] text-white -translate-y-1 shadow-[2px_4px_0px_#3E3A39]' : 'bg-white text-[#3E3A39] opacity-70 hover:opacity-100'">
+                            <div class="text-[10px] font-bold mb-0.5">{{ day.weekday }}</div>
+                            <div class="text-[13px] font-black">{{ day.dateStr }}</div>
                         </div>
                     </div>
                 </div>
@@ -1015,4 +1002,4 @@
         }).mount('#app');
     </script>
 </body>
-</html>,title:10+1 OurStory_Cute_Layout_Tokyo_SVG_Fixed}
+</html>
