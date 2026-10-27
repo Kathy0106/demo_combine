@@ -11,10 +11,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- 引入日系可愛圓潤字體 -->
+    <!-- 引入日系可愛圓潤字體 (移除了 900 極粗體，確保中文字清晰) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@400;500;700;800&display=swap" rel="stylesheet">
 
     <style>
         [v-cloak] { display: none !important; }
@@ -64,7 +64,7 @@
             border: 3px solid #333333;
             border-radius: 12px;
             padding: 4px 12px;
-            font-weight: 900;
+            font-weight: 700; /* 改為 700 讓中文字更清晰 */
             font-size: 14px;
             display: flex;
             align-items: center;
@@ -109,17 +109,17 @@
             
             <!-- 上排：設定按鈕 + 行程切換器 -->
             <div class="flex justify-between items-center w-full">
-                <button @click="showSettings = true" class="bouncy-click w-9 h-9 bg-white rounded-full border-[3px] border-[#333333] flex items-center justify-center font-black text-sm shrink-0 shadow-[1px_2px_0px_#333333]">
+                <button @click="showSettings = true" class="bouncy-click w-9 h-9 bg-white rounded-full border-[3px] border-[#333333] flex items-center justify-center font-bold text-sm shrink-0 shadow-[1px_2px_0px_#333333]">
                     <i class="fa-solid fa-gear"></i>
                 </button>
                 
-                <select v-model="currentTrip" class="bouncy-click bg-white border-[3px] border-[#333333] rounded-full px-3 py-1.5 text-[12px] font-black outline-none appearance-none cursor-pointer shadow-[1px_2px_0px_#333333]">
+                <select v-model="currentTrip" class="bouncy-click bg-white border-[3px] border-[#333333] rounded-full px-3 py-1.5 text-[12px] font-bold outline-none appearance-none cursor-pointer shadow-[1px_2px_0px_#333333]">
                     <option value="shanghai">🏮 11月上海溫馨遊</option>
                 </select>
             </div>
             
             <!-- 下排：滑動分頁按鈕 -->
-            <div class="flex gap-2 font-black text-[13px] overflow-x-auto no-scrollbar pb-1">
+            <div class="flex gap-2 font-bold text-[13px] overflow-x-auto no-scrollbar pb-1">
                 <button @click="activeTab = 'home'" :class="activeTab === 'home' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">首頁</button>
                 <button @click="activeTab = 'flight'" :class="activeTab === 'flight' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">航班</button>
                 <button @click="activeTab = 'itinerary'" :class="activeTab === 'itinerary' ? 'bg-white border-[3px] border-[#333333] shadow-[1px_2px_0px_#333333]' : 'text-[#555] border-[3px] border-transparent'" class="bouncy-click rounded-full px-4 py-1.5 transition-colors whitespace-nowrap shrink-0">每日行程</button>
@@ -134,12 +134,12 @@
             <div v-show="activeTab === 'home'" class="px-5">
                 
                 <div class="text-center mb-3">
-                    <span class="bg-[#FFF] border-[3px] border-[#333333] rounded-full px-4 py-1 text-[13px] font-black tracking-wide inline-block shadow-[1px_1px_0px_#333333]">
+                    <span class="bg-[#FFF] border-[3px] border-[#333333] rounded-full px-4 py-1 text-[13px] font-bold tracking-wide inline-block shadow-[1px_1px_0px_#333333]">
                         {{ currentTripData.range }}
                     </span>
                 </div>
                 
-                <h1 class="text-[20px] font-black text-center mb-4 tracking-widest">{{ currentTripData.title }}</h1>
+                <h1 class="text-[20px] font-bold text-center mb-4 tracking-widest">{{ currentTripData.title }}</h1>
 
                 <!-- ✨ 專屬插畫 (上海秋遊風格) ✨ -->
                 <div class="story-card bg-[#CDE3F7] w-full h-[180px] overflow-hidden mb-6 flex items-end justify-center relative">
@@ -183,10 +183,10 @@
 
                 <!-- 倒數計時器卡片 -->
                 <div class="story-card p-5 text-center shadow-[2px_4px_0px_#333333]">
-                    <p class="text-[12px] font-black mb-4 tracking-wide">距離 {{ currentTripData.flights.out.date.split(' ')[0] }} {{ currentTripData.flights.out.depLoc.split(' ')[0] }} 出發還有</p>
+                    <p class="text-[12px] font-bold mb-4 tracking-wide">距離 {{ currentTripData.flights.out.date.split(' ')[0] }} 出發還有</p>
                     <div class="flex justify-center gap-3">
                         <div v-for="(val, label) in { '天': countdown.d, '時': countdown.h, '分': countdown.m, '秒': countdown.s }" :key="label" class="w-[60px] h-[72px] bg-[#FFD166] border-[3px] border-[#333333] rounded-[14px] flex flex-col items-center justify-center shadow-[1px_2px_0px_#333333]">
-                            <div class="text-[26px] font-black leading-none">{{ val }}</div>
+                            <div class="text-[26px] font-bold leading-none">{{ val }}</div>
                             <div class="text-[11px] font-bold border-t-[3px] border-[#333333] w-full mt-1 pt-1">{{ label }}</div>
                         </div>
                     </div>
@@ -202,55 +202,55 @@
                     
                     <!-- ================= 主力航班 ================= -->
                     <div class="mt-4 flex items-center gap-2 mb-2">
-                        <span class="bg-[#FFD166] px-3 py-1 rounded-full border-[2px] border-[#333333] text-[12px] font-black shadow-[1px_2px_0px_#333333]">主力航班 (6人)</span>
+                        <span class="bg-[#FFD166] px-3 py-1 rounded-full border-[2px] border-[#333333] text-[12px] font-bold shadow-[1px_2px_0px_#333333]">主力航班 (6人)</span>
                     </div>
 
                     <!-- 去程 -->
                     <div class="border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
-                        <div class="absolute -top-3 left-3 bg-[#F8D6D9] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-black text-[#D7434D]">
+                        <div class="absolute -top-3 left-3 bg-[#F8D6D9] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-bold text-[#D7434D]">
                             去程 | {{ currentTripData.flights.out.date }}
                         </div>
                         <div class="flex justify-between items-center mt-3 text-center">
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.out.depLoc.split(' ')[1] }}</div>
+                                <div class="text-2xl font-bold mb-1">{{ currentTripData.flights.out.depLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.out.depLoc.split(' ')[0] }}</div>
-                                <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.out.dep }} 起飛</div>
+                                <div class="text-[14px] font-bold text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.out.dep }} 起飛</div>
                             </div>
                             <div class="flex-1 flex flex-col items-center mx-2">
-                                <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights.out.code }}</span>
+                                <span class="text-[10px] font-bold text-[#555] mb-1">{{ currentTripData.flights.out.code }}</span>
                                 <i class="fa-solid fa-plane text-2xl text-[#333333]"></i>
                                 <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
                                 <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights.out.duration }}</div>
                             </div>
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.out.arrLoc.split(' ')[1] }}</div>
+                                <div class="text-2xl font-bold mb-1">{{ currentTripData.flights.out.arrLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.out.arrLoc.split(' ')[0] }}</div>
-                                <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights.out.arr }} 抵達</div>
+                                <div class="text-[14px] font-bold text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights.out.arr }} 抵達</div>
                             </div>
                         </div>
                     </div>
 
                     <!-- 回程 -->
                     <div class="mt-6 border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
-                        <div class="absolute -top-3 left-3 bg-[#D4EDDA] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-black text-[#2D6A4F]">
+                        <div class="absolute -top-3 left-3 bg-[#D4EDDA] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-bold text-[#2D6A4F]">
                             回程 | {{ currentTripData.flights.in.date }}
                         </div>
                         <div class="flex justify-between items-center mt-3 text-center">
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.in.depLoc.split(' ')[1] }}</div>
+                                <div class="text-2xl font-bold mb-1">{{ currentTripData.flights.in.depLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.in.depLoc.split(' ')[0] }}</div>
-                                <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.in.dep }} 起飛</div>
+                                <div class="text-[14px] font-bold text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.in.dep }} 起飛</div>
                             </div>
                             <div class="flex-1 flex flex-col items-center mx-2">
-                                <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights.in.code }}</span>
+                                <span class="text-[10px] font-bold text-[#555] mb-1">{{ currentTripData.flights.in.code }}</span>
                                 <i class="fa-solid fa-plane text-2xl text-[#333333] rotate-180"></i>
                                 <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
                                 <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights.in.duration }}</div>
                             </div>
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.in.arrLoc.split(' ')[1] }}</div>
+                                <div class="text-2xl font-bold mb-1">{{ currentTripData.flights.in.arrLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.in.arrLoc.split(' ')[0] }}</div>
-                                <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights.in.arr }} 抵達</div>
+                                <div class="text-[14px] font-bold text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights.in.arr }} 抵達</div>
                             </div>
                         </div>
                     </div>
@@ -258,55 +258,55 @@
                     <!-- ================= 穎 & 泓 專屬航班 ================= -->
                     <div v-if="currentTripData.flights2" class="mt-8 border-t-[3px] border-dashed border-[#333333] pt-6">
                         <div class="flex items-center gap-2 mb-4">
-                            <span class="bg-[#CDE3F7] px-3 py-1 rounded-full border-[2px] border-[#333333] text-[12px] font-black shadow-[1px_2px_0px_#333333]">穎 & 泓 專屬 (2人)</span>
+                            <span class="bg-[#CDE3F7] px-3 py-1 rounded-full border-[2px] border-[#333333] text-[12px] font-bold shadow-[1px_2px_0px_#333333]">穎 & 泓 專屬 (2人)</span>
                         </div>
                         
                         <!-- 去程 -->
                         <div class="border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
-                            <div class="absolute -top-3 left-3 bg-[#F8D6D9] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-black text-[#D7434D]">
+                            <div class="absolute -top-3 left-3 bg-[#F8D6D9] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-bold text-[#D7434D]">
                                 去程 | {{ currentTripData.flights2.out.date }}
                             </div>
                             <div class="flex justify-between items-center mt-3 text-center">
                                 <div>
-                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.out.depLoc.split(' ')[1] }}</div>
+                                    <div class="text-2xl font-bold mb-1">{{ currentTripData.flights2.out.depLoc.split(' ')[1] }}</div>
                                     <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.out.depLoc.split(' ')[0] }}</div>
-                                    <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights2.out.dep }} 起飛</div>
+                                    <div class="text-[14px] font-bold text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights2.out.dep }} 起飛</div>
                                 </div>
                                 <div class="flex-1 flex flex-col items-center mx-2">
-                                    <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights2.out.code }}</span>
+                                    <span class="text-[10px] font-bold text-[#555] mb-1">{{ currentTripData.flights2.out.code }}</span>
                                     <i class="fa-solid fa-plane text-2xl text-[#333333]"></i>
                                     <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
                                     <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights2.out.duration }}</div>
                                 </div>
                                 <div>
-                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.out.arrLoc.split(' ')[1] }}</div>
+                                    <div class="text-2xl font-bold mb-1">{{ currentTripData.flights2.out.arrLoc.split(' ')[1] }}</div>
                                     <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.out.arrLoc.split(' ')[0] }}</div>
-                                    <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights2.out.arr }} 抵達</div>
+                                    <div class="text-[14px] font-bold text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights2.out.arr }} 抵達</div>
                                 </div>
                             </div>
                         </div>
 
                         <!-- 回程 -->
                         <div class="mt-6 border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
-                            <div class="absolute -top-3 left-3 bg-[#D4EDDA] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-black text-[#2D6A4F]">
+                            <div class="absolute -top-3 left-3 bg-[#D4EDDA] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-bold text-[#2D6A4F]">
                                 回程 | {{ currentTripData.flights2.in.date }}
                             </div>
                             <div class="flex justify-between items-center mt-3 text-center">
                                 <div>
-                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.in.depLoc.split(' ')[1] }}</div>
+                                    <div class="text-2xl font-bold mb-1">{{ currentTripData.flights2.in.depLoc.split(' ')[1] }}</div>
                                     <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.in.depLoc.split(' ')[0] }}</div>
-                                    <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights2.in.dep }} 起飛</div>
+                                    <div class="text-[14px] font-bold text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights2.in.dep }} 起飛</div>
                                 </div>
                                 <div class="flex-1 flex flex-col items-center mx-2">
-                                    <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights2.in.code }}</span>
+                                    <span class="text-[10px] font-bold text-[#555] mb-1">{{ currentTripData.flights2.in.code }}</span>
                                     <i class="fa-solid fa-plane text-2xl text-[#333333] rotate-180"></i>
                                     <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
                                     <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights2.in.duration }}</div>
                                 </div>
                                 <div>
-                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.in.arrLoc.split(' ')[1] }}</div>
+                                    <div class="text-2xl font-bold mb-1">{{ currentTripData.flights2.in.arrLoc.split(' ')[1] }}</div>
                                     <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.in.arrLoc.split(' ')[0] }}</div>
-                                    <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights2.in.arr }} 抵達</div>
+                                    <div class="text-[14px] font-bold text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights2.in.arr }} 抵達</div>
                                 </div>
                             </div>
                         </div>
@@ -326,9 +326,9 @@
                              @click="selectedDayIndex = idx"
                              class="bouncy-click flex flex-col items-center justify-center min-w-[64px] h-[72px] rounded-xl border-[3px] border-[#333333] shrink-0 cursor-pointer"
                              :class="selectedDayIndex === idx ? 'bg-[#F8D6D9] text-[#D7434D] shadow-[2px_2px_0px_#333333]' : 'bg-white text-[#333333]'">
-                            <div class="text-[12px] font-black border-b-[2px] border-current w-full text-center pb-0.5 mb-1">Day {{ idx + 1 }}</div>
-                            <div class="text-[13px] font-black">{{ day.dateStr }}</div>
-                            <div class="text-[11px] font-black">({{ day.weekday }})</div>
+                            <div class="text-[12px] font-bold border-b-[2px] border-current w-full text-center pb-0.5 mb-1">Day {{ idx + 1 }}</div>
+                            <div class="text-[13px] font-bold">{{ day.dateStr }}</div>
+                            <div class="text-[11px] font-bold">({{ day.weekday }})</div>
                         </div>
                     </div>
                 </div>
@@ -337,11 +337,11 @@
                 <div class="flex gap-3 mb-6" v-if="currentItineraryData.length > 0">
                     <div class="bg-white border-[3px] border-[#333333] rounded-xl p-3 flex-1 flex items-center justify-center gap-2 shadow-[2px_2px_0px_#333333]">
                         <div class="text-[18px]"><i :class="['fa-solid', weather.icon]"></i></div>
-                        <div class="text-[12px] font-black">{{ weather.temp }}° • {{ weather.city_name }}</div>
+                        <div class="text-[12px] font-bold">{{ weather.temp }}° • {{ weather.city_name }}</div>
                     </div>
                     <button class="bouncy-click bg-white border-[3px] border-[#333333] rounded-xl p-3 flex-1 flex items-center justify-center gap-2 shadow-[2px_2px_0px_#333333]" @click="showHotelModal = true">
                         <div class="text-[18px] text-[#A8D3E6]"><i class="fa-solid fa-bed"></i></div>
-                        <div class="text-[12px] font-black truncate max-w-[100px]">{{ getHotelForDay(selectedDayIndex).name }}</div>
+                        <div class="text-[12px] font-bold truncate max-w-[100px]">{{ getHotelForDay(selectedDayIndex).name }}</div>
                     </button>
                 </div>
 
@@ -350,39 +350,39 @@
                     <div v-for="(item, idx) in currentItineraryData" :key="idx" class="story-card bg-[#CDE3F7] p-4 shadow-[3px_4px_0px_#333333]">
                         
                         <div class="flex items-center gap-2 mb-3 bg-white border-[3px] border-[#333333] rounded-full px-3 py-1.5 w-fit shadow-[2px_2px_0px_#333333]">
-                            <span class="text-[13px] font-black">{{ item.time }}</span>
+                            <span class="text-[13px] font-bold">{{ item.time }}</span>
                             <span class="border-l-[2px] border-[#333333] h-3"></span>
-                            <span class="text-[13px] font-black" v-html="formatText(item.title)"></span>
+                            <span class="text-[13px] font-bold" v-html="formatText(item.title)"></span>
                         </div>
                         
                         <div class="flex flex-wrap gap-2 mb-3">
-                            <span v-if="item.transportType || item.category === 'transport' || item.category === 'flight'" class="bg-white border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-black flex items-center gap-1 shadow-[1px_1px_0px_#333333]">
+                            <span v-if="item.transportType || item.category === 'transport' || item.category === 'flight'" class="bg-white border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-bold flex items-center gap-1 shadow-[1px_1px_0px_#333333]">
                                 <i :class="['fa-solid', getTransportIcon(item.transportType)]" class="text-[#8BA4D5]"></i>
                                 {{ getTransportName(item.transportType) }} <span v-if="item.travelTime">• {{ item.travelTime }}</span>
                             </span>
-                            <span v-if="item.highlight || item.category === 'highlight'" class="bg-[#F8D6D9] border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-black text-[#D7434D] shadow-[1px_1px_0px_#333333]">⭐ 必去</span>
-                            <span v-if="item.departTime" class="bg-[#FDE694] border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-black shadow-[1px_1px_0px_#333333]">逗留至 {{ item.departTime }}</span>
+                            <span v-if="item.highlight || item.category === 'highlight'" class="bg-[#F8D6D9] border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-bold text-[#D7434D] shadow-[1px_1px_0px_#333333]">⭐ 必去</span>
+                            <span v-if="item.departTime" class="bg-[#FDE694] border-[2px] border-[#333333] rounded-full px-2.5 py-1 text-[11px] font-bold shadow-[1px_1px_0px_#333333]">逗留至 {{ item.departTime }}</span>
                         </div>
 
                         <div v-if="item.desc" class="bg-white border-[3px] border-[#333333] rounded-xl p-3 text-[12px] font-bold text-[#444] leading-relaxed mb-3 shadow-[1px_1px_0px_#333333]" v-html="formatText(item.desc)"></div>
                         
-                        <div v-if="item.action || item.info" class="bg-[#FFFBEA] border-[3px] border-[#333333] border-dashed rounded-xl p-2.5 text-[11px] font-black mb-3 text-[#D7434D] flex items-start gap-1.5 shadow-[1px_1px_0px_#333333]">
+                        <div v-if="item.action || item.info" class="bg-[#FFFBEA] border-[3px] border-[#333333] border-dashed rounded-xl p-2.5 text-[11px] font-bold mb-3 text-[#D7434D] flex items-start gap-1.5 shadow-[1px_1px_0px_#333333]">
                             <i class="fa-solid fa-bell mt-0.5"></i>
                             <span v-html="formatText(item.action || item.info)"></span>
                         </div>
 
                         <!-- 導航按鈕群組 (高德地圖版) -->
                         <div class="flex gap-2">
-                            <button v-if="item.loc" @click.stop="openMap(item.loc)" class="bouncy-click bg-[#FFD166] border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
+                            <button v-if="item.loc" @click.stop="openMap(item.loc)" class="bouncy-click bg-[#FFD166] border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-bold shadow-[2px_2px_0px_#333333] flex items-center gap-1">
                                 導航 ↗
                             </button>
-                            <button v-if="item.loc2" @click.stop="openMap(item.loc2)" class="bouncy-click bg-white border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
+                            <button v-if="item.loc2" @click.stop="openMap(item.loc2)" class="bouncy-click bg-white border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-bold shadow-[2px_2px_0px_#333333] flex items-center gap-1">
                                 {{ item.loc2Name }} ↗
                             </button>
                         </div>
                     </div>
                     
-                    <div v-if="currentItineraryData.length === 0" class="text-center py-16 font-black text-gray-400">
+                    <div v-if="currentItineraryData.length === 0" class="text-center py-16 font-bold text-gray-400">
                         <p>今天沒有安排行程喔！</p>
                     </div>
                 </div>
@@ -396,9 +396,9 @@
                     <div class="overlap-title bg-[#FFD166]">🛏️ 住宿總覽</div>
                     <div class="mt-4 space-y-4">
                         <div v-for="hotel in currentTripData.hotels" :key="hotel.name" class="border-b-[3px] border-[#333333] border-dotted pb-4 last:border-0 last:pb-0">
-                            <div class="text-[14px] font-black mb-1 text-[#333333]">{{ hotel.name }}</div>
+                            <div class="text-[14px] font-bold mb-1 text-[#333333]">{{ hotel.name }}</div>
                             <div class="text-[11px] font-bold text-[#777] mb-2 truncate"><i class="fa-solid fa-location-dot"></i> {{ hotel.addr || '地址從缺' }}</div>
-                            <div class="flex justify-between items-center text-[11px] font-black">
+                            <div class="flex justify-between items-center text-[11px] font-bold">
                                 <span class="bg-[#FDF8EE] px-2 py-0.5 rounded-md border-[2px] border-[#333333]">{{ hotel.dates }}</span>
                                 <span :class="hotel.status.includes('✅') ? 'text-[#333333]' : 'text-[#D7434D]'">{{ hotel.status }}</span>
                             </div>
@@ -411,13 +411,13 @@
                     <div class="mt-4 space-y-4">
                         <div v-for="res in currentTripData.diningList" :key="res.name" class="flex gap-3 border-b-[3px] border-[#333333] border-dotted pb-4 last:border-0 last:pb-0">
                             <div class="w-[50px] text-center shrink-0 flex flex-col justify-center">
-                                <div class="text-[10px] font-black text-[#777]">{{ res.date }}</div>
-                                <div class="text-[14px] font-black text-[#D7434D]">{{ res.time }}</div>
+                                <div class="text-[10px] font-bold text-[#777]">{{ res.date }}</div>
+                                <div class="text-[14px] font-bold text-[#D7434D]">{{ res.time }}</div>
                             </div>
                             <div class="flex-1 border-l-[3px] border-[#333333] pl-3">
-                                <div class="text-[13px] font-black mb-1">{{ res.name }}</div>
+                                <div class="text-[13px] font-bold mb-1">{{ res.name }}</div>
                                 <div class="text-[10px] font-bold text-[#777] mb-1.5 truncate"><i class="fa-solid fa-location-dot"></i> {{ res.addr }}</div>
-                                <span class="text-[10px] font-black px-2 py-0.5 rounded-full border-[2px] border-[#333333]" :class="(res.bookingNo.includes('預約') || res.bookingNo.includes('⚠️')) && !res.bookingNo.includes('待') ? 'bg-[#FDE694]' : 'bg-[#FFFBEA]'">
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full border-[2px] border-[#333333]" :class="(res.bookingNo.includes('預約') || res.bookingNo.includes('⚠️')) && !res.bookingNo.includes('待') ? 'bg-[#FDE694]' : 'bg-[#FFFBEA]'">
                                     {{ res.bookingNo }}
                                 </span>
                             </div>
@@ -433,24 +433,24 @@
                 <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#FFD166]">💰 預算洗費</div>
                     <div class="mt-4 text-center border-b-[3px] border-[#333333] border-dotted pb-4 mb-4">
-                        <div class="text-[12px] font-black text-[#333333] bg-[#FFD166] inline-block px-3 py-1 rounded-full border-[2px] border-[#333333] mb-2 shadow-[1px_2px_0px_#333333]">總預算洗費 (預估)</div>
-                        <div class="text-3xl font-black mb-1 text-[#D7434D]">HK${{ totalTripUnifiedHkd.toLocaleString('en-US', {maximumFractionDigits: 0}) }}</div>
+                        <div class="text-[12px] font-bold text-[#333333] bg-[#FFD166] inline-block px-3 py-1 rounded-full border-[2px] border-[#333333] mb-2 shadow-[1px_2px_0px_#333333]">總預算洗費 (預估)</div>
+                        <div class="text-3xl font-bold mb-1 text-[#D7434D]">HK${{ totalTripUnifiedHkd.toLocaleString('en-US', {maximumFractionDigits: 0}) }}</div>
                         <p class="text-[11px] font-bold text-[#777]">已自動匯總 RMB 及 HKD 項目 (預估匯率: {{ exchangeRate }})</p>
                     </div>
                     
                     <div class="space-y-4">
                         <!-- 🏨 住宿 -->
                         <div v-if="currentTripData.expenseHotels && currentTripData.expenseHotels.length > 0">
-                            <div class="text-[13px] font-black mb-2 flex justify-between">
+                            <div class="text-[13px] font-bold mb-2 flex justify-between">
                                 <span>🏨 住宿</span>
                                 <span class="text-[#D7434D]">HK${{ totalHotelHkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }}</span>
                             </div>
                             <div v-for="h in currentTripData.expenseHotels" :key="h.name" class="flex justify-between items-center bg-[#FDF8EE] border-[2px] border-[#333333] rounded-lg p-2 mb-2">
                                 <div>
-                                    <div class="text-[11px] font-black">{{ h.name }}</div>
+                                    <div class="text-[11px] font-bold">{{ h.name }}</div>
                                     <div class="text-[10px] font-bold text-[#777]">{{ h.dates }}</div>
                                 </div>
-                                <div class="text-[11px] font-black text-right">
+                                <div class="text-[11px] font-bold text-right">
                                     <template v-if="h.rmb > 0">
                                         <div>¥{{ h.rmb.toLocaleString() }}</div>
                                         <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (h.rmb * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
@@ -470,8 +470,8 @@
                         <label v-for="(task, idx) in currentTripData.alarms" :key="idx" class="flex items-start gap-3 cursor-pointer border-b-[2px] border-[#333333] border-dashed pb-3 last:border-0 last:pb-0">
                             <input type="checkbox" class="custom-checkbox shrink-0 mt-0.5" :checked="task.task.includes('✅')">
                             <div class="flex flex-col">
-                                <span v-if="task.date" class="text-[10px] font-black text-[#555] bg-[#FDF8EE] px-2 py-0.5 rounded border-[2px] border-[#333333] w-fit mb-1 shadow-[1px_1px_0px_#333333]">{{ task.date }}</span>
-                                <span class="font-black text-[13px] leading-snug" :class="{'text-[#999] line-through': task.task.includes('✅')}">
+                                <span v-if="task.date" class="text-[10px] font-bold text-[#555] bg-[#FDF8EE] px-2 py-0.5 rounded border-[2px] border-[#333333] w-fit mb-1 shadow-[1px_1px_0px_#333333]">{{ task.date }}</span>
+                                <span class="font-bold text-[13px] leading-snug" :class="{'text-[#999] line-through': task.task.includes('✅')}">
                                     {{ task.task.replace('✅ ', '') }}
                                 </span>
                             </div>
@@ -484,13 +484,13 @@
                     <div class="mt-4 space-y-3 mb-4">
                         <label v-for="(item, idx) in currentTripData.shopping" :key="'s'+idx" class="flex items-center gap-3 cursor-pointer border-b-[2px] border-[#333333] border-dashed pb-3 last:border-0 last:pb-0">
                             <input type="checkbox" class="custom-checkbox shrink-0">
-                            <span class="font-black text-[13px] flex-1">{{ item }}</span>
+                            <span class="font-bold text-[13px] flex-1">{{ item }}</span>
                             <button @click.stop.prevent="removeShoppingItem(idx)" class="bouncy-click w-7 h-7 bg-[#FFFBEA] border-[2px] border-[#333333] rounded-lg flex items-center justify-center text-[#D7434D] shadow-[1px_1px_0px_#333333]"><i class="fa-solid fa-trash text-[11px]"></i></button>
                         </label>
                     </div>
                     <div class="flex gap-2">
-                        <input v-model="newShopItem" placeholder="新增物品..." class="flex-1 bg-[#FDF8EE] border-[3px] border-[#333333] p-2 rounded-xl text-[12px] font-black outline-none focus:border-[#FFD166] transition-colors">
-                        <button @click="addShoppingItem" class="bouncy-click w-10 h-10 bg-[#FFD166] border-[3px] border-[#333333] rounded-xl font-black shadow-[2px_2px_0px_#333333]">+</button>
+                        <input v-model="newShopItem" placeholder="新增物品..." class="flex-1 bg-[#FDF8EE] border-[3px] border-[#333333] p-2 rounded-xl text-[12px] font-bold outline-none focus:border-[#FFD166] transition-colors">
+                        <button @click="addShoppingItem" class="bouncy-click w-10 h-10 bg-[#FFD166] border-[3px] border-[#333333] rounded-xl font-bold shadow-[2px_2px_0px_#333333]">+</button>
                     </div>
                 </div>
 
@@ -501,26 +501,26 @@
         <div :class="['overlay-bg', { 'active': showHotelModal }]" @click="showHotelModal = false">
             <div class="modal-content text-center" @click.stop>
                 <div class="w-14 h-14 bg-[#FFD166] border-[3px] border-[#333333] rounded-full flex justify-center items-center mx-auto mb-4 text-2xl shadow-[2px_2px_0px_#333333]">🛏️</div>
-                <h3 class="text-[16px] font-black mb-4">今晚睡哪裡？</h3>
+                <h3 class="text-[16px] font-bold mb-4">今晚睡哪裡？</h3>
                 <div v-if="getHotelForDay(selectedDayIndex)" class="bg-white border-[3px] border-[#333333] rounded-xl p-4 mb-5 shadow-[2px_2px_0px_#333333]">
-                    <h2 class="text-[15px] font-black text-[#D7434D] mb-1.5">{{ getHotelForDay(selectedDayIndex).name }}</h2>
+                    <h2 class="text-[15px] font-bold text-[#D7434D] mb-1.5">{{ getHotelForDay(selectedDayIndex).name }}</h2>
                     <div class="text-[11px] font-bold text-[#555]">{{ getHotelForDay(selectedDayIndex).addr }}</div>
                 </div>
                 <!-- 酒店導航改用高德 -->
-                <button @click="openMap(getHotelForDay(selectedDayIndex).name)" class="bouncy-click w-full bg-[#CDE3F7] border-[3px] border-[#333333] text-[#333333] py-3 rounded-xl font-black shadow-[2px_2px_0px_#333333] mb-4 text-sm">打開地圖導航 ↗</button>
-                <button @click="showHotelModal = false" class="text-[12px] font-black text-[#777] underline">關閉</button>
+                <button @click="openMap(getHotelForDay(selectedDayIndex).name)" class="bouncy-click w-full bg-[#CDE3F7] border-[3px] border-[#333333] text-[#333333] py-3 rounded-xl font-bold shadow-[2px_2px_0px_#333333] mb-4 text-sm">打開地圖導航 ↗</button>
+                <button @click="showHotelModal = false" class="text-[12px] font-bold text-[#777] underline">關閉</button>
             </div>
         </div>
         
         <!-- ⚙️ 設定彈出視窗 -->
         <div :class="['overlay-bg', { 'active': showSettings }]" @click="showSettings = false">
             <div class="modal-content text-center" @click.stop>
-                <h3 class="text-[16px] font-black mb-4">字體大小設定</h3>
+                <h3 class="text-[16px] font-bold mb-4">字體大小設定</h3>
                 <div class="bg-white border-[3px] border-[#333333] rounded-xl p-5 mb-5 shadow-[2px_2px_0px_#333333]">
-                    <p class="font-black text-[13px] mb-3">目前: {{ settings.fontSize }}px</p>
+                    <p class="font-bold text-[13px] mb-3">目前: {{ settings.fontSize }}px</p>
                     <input type="range" v-model="settings.fontSize" min="12" max="22" class="w-full accent-[#333333]">
                 </div>
-                <button @click="showSettings = false" class="bouncy-click w-full bg-[#FFD166] border-[3px] border-[#333333] py-3 rounded-xl font-black shadow-[2px_2px_0px_#333333] text-sm">確定</button>
+                <button @click="showSettings = false" class="bouncy-click w-full bg-[#FFD166] border-[3px] border-[#333333] py-3 rounded-xl font-bold shadow-[2px_2px_0px_#333333] text-sm">確定</button>
             </div>
         </div>
 
