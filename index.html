@@ -145,22 +145,17 @@
                 <div class="story-card bg-[#CDE3F7] w-full h-[180px] overflow-hidden mb-6 flex items-end justify-center relative">
                     <svg viewBox="0 0 400 200" class="w-full h-full absolute top-0 left-0">
                         <rect width="400" height="200" fill="#CDE3F7" />
-                        
                         <!-- 太陽 -->
                         <circle cx="70" cy="55" r="22" fill="#FFD166" stroke="#333333" stroke-width="3" />
-                        
                         <!-- 遠山背景 -->
                         <path d="M 80 170 L 250 30 L 420 170 Z" fill="#8BA4D5" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
                         <path d="M 213 60 L 250 30 L 287 60 Q 268 75 250 60 Q 232 75 213 60 Z" fill="#FFFFFF" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
-
                         <!-- 秋天黃葉樹林 (背景) -->
                         <path d="M -10 170 Q 30 110 70 170 Z" fill="#FFB020" stroke="#333333" stroke-width="3"/>
                         <path d="M 40 170 Q 90 90 140 170 Z" fill="#D7434D" stroke="#333333" stroke-width="3"/>
                         <path d="M 320 170 Q 360 120 410 170 Z" fill="#FFB020" stroke="#333333" stroke-width="3"/>
-
                         <!-- 道路 -->
                         <path d="M 0 160 L 400 160 L 400 200 L 0 200 Z" fill="#EAEAEA" stroke="#333333" stroke-width="3"/>
-                        
                         <!-- 馬路虛線 -->
                         <g>
                             <line x1="20" y1="180" x2="60" y2="180" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round"/>
@@ -178,7 +173,6 @@
                                 <circle cx="72" cy="45" r="9" fill="#333333"/>
                             </g>
                         </g>
-
                         <!-- 紅葉點綴 -->
                         <g>
                             <path d="M 360 80 Q 370 70 380 80 Q 370 90 360 80 Z" fill="#D7434D" stroke="#333333" stroke-width="2"/>
@@ -201,21 +195,24 @@
 
 
             <!-- ===================== ✈️ 航班頁籤 ===================== -->
-            <div v-show="activeTab === 'flight'" class="px-5 pt-6 space-y-10">
+            <div v-show="activeTab === 'flight'" class="px-5 pt-6 pb-12">
                 
                 <div class="story-card p-5 relative shadow-[2px_4px_0px_#333333]">
                     <div class="overlap-title bg-[#FFD166]">✈️ 航班資訊</div>
                     
+                    <!-- ================= 主力航班 ================= -->
+                    <div class="mt-4 flex items-center gap-2 mb-2">
+                        <span class="bg-[#FFD166] px-3 py-1 rounded-full border-[2px] border-[#333333] text-[12px] font-black shadow-[1px_2px_0px_#333333]">主力航班 (6人)</span>
+                    </div>
+
                     <!-- 去程 -->
-                    <div class="mt-4 border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
+                    <div class="border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
                         <div class="absolute -top-3 left-3 bg-[#F8D6D9] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-black text-[#D7434D]">
                             去程 | {{ currentTripData.flights.out.date }}
                         </div>
-                        <div class="absolute -top-3 right-3 text-[10px] font-black text-[#555] bg-[#FDF8EE] px-1">直飛</div>
-                        
                         <div class="flex justify-between items-center mt-3 text-center">
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.out.depLoc.split(' ')[1] || currentTripData.flights.out.depLoc }}</div>
+                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.out.depLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.out.depLoc.split(' ')[0] }}</div>
                                 <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.out.dep }} 起飛</div>
                             </div>
@@ -226,7 +223,7 @@
                                 <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights.out.duration }}</div>
                             </div>
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.out.arrLoc.split(' ')[1] || currentTripData.flights.out.arrLoc }}</div>
+                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.out.arrLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.out.arrLoc.split(' ')[0] }}</div>
                                 <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights.out.arr }} 抵達</div>
                             </div>
@@ -240,7 +237,7 @@
                         </div>
                         <div class="flex justify-between items-center mt-3 text-center">
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.in.depLoc.split(' ')[1] || currentTripData.flights.in.depLoc }}</div>
+                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.in.depLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.in.depLoc.split(' ')[0] }}</div>
                                 <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights.in.dep }} 起飛</div>
                             </div>
@@ -251,14 +248,70 @@
                                 <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights.in.duration }}</div>
                             </div>
                             <div>
-                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.in.arrLoc.split(' ')[1] || currentTripData.flights.in.arrLoc }}</div>
+                                <div class="text-2xl font-black mb-1">{{ currentTripData.flights.in.arrLoc.split(' ')[1] }}</div>
                                 <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights.in.arrLoc.split(' ')[0] }}</div>
                                 <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights.in.arr }} 抵達</div>
                             </div>
                         </div>
                     </div>
-                </div>
 
+                    <!-- ================= 穎 & 泓 專屬航班 ================= -->
+                    <div v-if="currentTripData.flights2" class="mt-8 border-t-[3px] border-dashed border-[#333333] pt-6">
+                        <div class="flex items-center gap-2 mb-4">
+                            <span class="bg-[#CDE3F7] px-3 py-1 rounded-full border-[2px] border-[#333333] text-[12px] font-black shadow-[1px_2px_0px_#333333]">穎 & 泓 專屬 (2人)</span>
+                        </div>
+                        
+                        <!-- 去程 -->
+                        <div class="border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
+                            <div class="absolute -top-3 left-3 bg-[#F8D6D9] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-black text-[#D7434D]">
+                                去程 | {{ currentTripData.flights2.out.date }}
+                            </div>
+                            <div class="flex justify-between items-center mt-3 text-center">
+                                <div>
+                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.out.depLoc.split(' ')[1] }}</div>
+                                    <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.out.depLoc.split(' ')[0] }}</div>
+                                    <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights2.out.dep }} 起飛</div>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center mx-2">
+                                    <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights2.out.code }}</span>
+                                    <i class="fa-solid fa-plane text-2xl text-[#333333]"></i>
+                                    <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
+                                    <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights2.out.duration }}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.out.arrLoc.split(' ')[1] }}</div>
+                                    <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.out.arrLoc.split(' ')[0] }}</div>
+                                    <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights2.out.arr }} 抵達</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 回程 -->
+                        <div class="mt-6 border-[3px] border-[#333333] rounded-xl p-4 bg-[#FDF8EE] relative">
+                            <div class="absolute -top-3 left-3 bg-[#D4EDDA] border-[3px] border-[#333333] px-3 py-0.5 rounded-full text-[11px] font-black text-[#2D6A4F]">
+                                回程 | {{ currentTripData.flights2.in.date }}
+                            </div>
+                            <div class="flex justify-between items-center mt-3 text-center">
+                                <div>
+                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.in.depLoc.split(' ')[1] }}</div>
+                                    <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.in.depLoc.split(' ')[0] }}</div>
+                                    <div class="text-[14px] font-black text-[#FFB020] border-[2px] border-[#FFD166] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#FFD166]">{{ currentTripData.flights2.in.dep }} 起飛</div>
+                                </div>
+                                <div class="flex-1 flex flex-col items-center mx-2">
+                                    <span class="text-[10px] font-black text-[#555] mb-1">{{ currentTripData.flights2.in.code }}</span>
+                                    <i class="fa-solid fa-plane text-2xl text-[#333333] rotate-180"></i>
+                                    <div class="w-full border-t-[3px] border-dotted border-[#333333] mt-1 mb-1 relative"></div>
+                                    <div class="text-[10px] font-bold text-[#555]">約 {{ currentTripData.flights2.in.duration }}</div>
+                                </div>
+                                <div>
+                                    <div class="text-2xl font-black mb-1">{{ currentTripData.flights2.in.arrLoc.split(' ')[1] }}</div>
+                                    <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.flights2.in.arrLoc.split(' ')[0] }}</div>
+                                    <div class="text-[14px] font-black text-[#8BA4D5] border-[2px] border-[#CDE3F7] bg-white rounded-full px-2 mt-2 inline-block shadow-[1px_2px_0px_#CDE3F7]">{{ currentTripData.flights2.in.arr }} 抵達</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
 
@@ -453,7 +506,7 @@
                     <h2 class="text-[15px] font-black text-[#D7434D] mb-1.5">{{ getHotelForDay(selectedDayIndex).name }}</h2>
                     <div class="text-[11px] font-bold text-[#555]">{{ getHotelForDay(selectedDayIndex).addr }}</div>
                 </div>
-                <!-- 酒店導航同樣改用高德 -->
+                <!-- 酒店導航改用高德 -->
                 <button @click="openMap(getHotelForDay(selectedDayIndex).name)" class="bouncy-click w-full bg-[#CDE3F7] border-[3px] border-[#333333] text-[#333333] py-3 rounded-xl font-black shadow-[2px_2px_0px_#333333] mb-4 text-sm">打開地圖導航 ↗</button>
                 <button @click="showHotelModal = false" class="text-[12px] font-black text-[#777] underline">關閉</button>
             </div>
@@ -493,8 +546,12 @@
                         shanghai: {
                             id: 'shanghai', title: "🏮 上海一家八口溫馨遊", date: '2026-11-28', range: '2026/11/28 - 12/01 (4日3夜)',
                             flights: { 
-                                out: { code: 'HX236', date: '11/28 (六)', dep: '09:00', depLoc: '香港 HKG', arr: '11:35', arrLoc: '浦東 PVG', duration: '2h 35m' }, 
-                                in: { code: 'HX239', date: '12/01 (二)', dep: '16:30', depLoc: '浦東 PVG', arr: '19:25', arrLoc: '香港 HKG', duration: '2h 55m' } 
+                                out: { code: 'HX236', date: '11/28 (六)', dep: '08:50', depLoc: '香港 HKG', arr: '11:25', arrLoc: '浦東 PVG', duration: '2h 35m' }, 
+                                in: { code: 'HX239', date: '12/01 (二)', dep: '18:10', depLoc: '虹橋 SHA', arr: '20:55', arrLoc: '香港 HKG', duration: '2h 45m' } 
+                            },
+                            flights2: { 
+                                out: { code: 'CX316', date: '11/28 (六)', dep: '08:55', depLoc: '香港 HKG', arr: '11:35', arrLoc: '浦東 PVG', duration: '2h 40m' }, 
+                                in: { code: 'CX341', date: '12/01 (二)', dep: '16:35', depLoc: '虹橋 SHA', arr: '19:35', arrLoc: '香港 HKG', duration: '3h 00m' } 
                             },
                             hotels: [
                                 { name: '如家精選酒店 (南京路步行街店)', dates: '11/28 - 12/1', addr: '上海市黃浦區南京路步行街周邊', status: '✅ 已預約' }
@@ -509,7 +566,8 @@
                                 { date: '出發前', task: '⚠️ 必須打電話/用App預約「人和館」壽宴，講明有長者同輪椅！' },
                                 { date: '出發前', task: '🚗 聯絡兩部商務車司機，確認機場接送同每日包車時間。' },
                                 { date: '11月29日', task: '🌅 日落時間係 16:50，16:30 要到達浦東濱江大道準備！' },
-                                { date: '12月1日', task: '🦋 預留充足時間去排隊買國際飯店蝴蝶酥（預排1-2小時）。' }
+                                { date: '12月1日', task: '🦋 預留充足時間去排隊買國際飯店蝴蝶酥（預排1-2小時）。' },
+                                { date: '12月1日', task: '✅ 大家回程都係喺【虹橋 SHA】起飛，唔使分兩架車出發啦！' }
                             ],
                             
                             shopping: ['國際飯店蝴蝶酥 🦋 (必買)', '沈大成糕糰', '泰康鮮肉月餅', '上海特色蟹黃醬', '雪花膏 / 經典國貨護膚品'],
@@ -526,7 +584,7 @@
                             
                             days: [
                                 { weekday: '六', dateStr: '11/28', events: [
-                                    { time: '11:35', title: '順利抵達浦東機場 🛬', departTime: '12:30', travelTime: '0 min', desc: '乘搭 HX236 抵達，攞齊行李後聯絡預約好嘅 2 部六座商務車 (如別克 GL8)。\n🚇 地鐵備用：2號線/磁浮線「浦東國際機場」站', category: 'flight', transportType: 'flight', loc: '浦東國際機場' },
+                                    { time: '11:35', title: '全家會合！抵達浦東機場 🛬', departTime: '12:30', travelTime: '0 min', desc: '主力搭 HX236 (11:25到)，穎同泓搭 CX316 (11:35到)！時間夾到啱啱好，過關後一齊會合！\n🚇 地鐵備用：2號線/磁浮線「浦東國際機場」站', category: 'flight', transportType: 'flight', loc: '浦東國際機場' },
                                     { time: '13:30', title: '入住 如家精選酒店 🏨', departTime: '14:00', travelTime: '60 min', desc: '📍 地址: 南京路步行街店。\n酒店門口全平路，安頓好放低行李即刻出發！\n🚇 地鐵：1/2/8號線「人民廣場」站 (14號出口)', category: 'hotel', transportType: 'car', loc: '如家精選酒店(上海南京路步行街店)' },
                                     { time: '14:00', title: '午餐：裕興記麵館 🍜', departTime: '15:15', travelTime: '10 min', desc: '打卡老字號！必食招牌「蟹黃油拌麵」同「三蝦麵」🦀。\n🚇 地鐵：1/2/8號線「人民廣場」站 (14或19號出口)', category: 'food', transportType: 'walk', loc: '裕興記麵館(人民廣場店)' },
                                     { time: '15:30', title: '百年洋房：Prada 榮宅 🏡', departTime: '16:30', travelTime: '15 min', desc: '叫車直達陝西北路，打卡老上海名門花園洋房。外圍平整，超級適合影全家福 📸。\n🚇 地鐵：2/12/13號線「南京西路」站 (12號出口)', category: 'sightseeing', transportType: 'car', loc: 'PRADA荣宅', action: '⚠️ 溫馨提示：逢星期一休館，今日星期六照常開放，但必須預先喺微信小程序預約！' },
@@ -555,9 +613,10 @@
                                     { time: '09:30', title: '漫步：外灘源 / 圓明園路 🏛️', departTime: '10:45', travelTime: '10 min', desc: '距離酒店好近，上海最靚嘅英式紅磚建築群 🧱。把握機會影最後一組全家福。\n🚇 地鐵：2/10號線「南京東路」站 (6號出口)', category: 'sightseeing', transportType: 'car', loc: '圓明園路', action: '♿ 輪椅資訊：全平坦磚路對輪椅極度友善！' },
                                     { time: '11:00', title: '午餐：小楊生煎 + 饞三尺小籠包 🥟', departTime: '12:00', travelTime: '10 min', desc: '返到酒店樓下附近，一次過食勻小楊生煎同饞三尺蟹黃小籠包，補齊最後嘅點心願望 😋。\n🚇 地鐵：1/2/8號線「人民廣場」站 (14號出口)', category: 'food', transportType: 'walk' },
                                     { time: '12:00', title: '伴手禮最後衝刺 🛍️', departTime: '12:45', travelTime: '10 min', desc: '買齊國際飯店蝴蝶酥 🦋、沈大成糕糰、泰康鮮肉月餅。\n🚇 地鐵：1/2/8號線「人民廣場」站 (8號出口)', category: 'shopping', transportType: 'walk', action: '⚠️ 注意：國際飯店蝴蝶酥平時要排好耐隊，建議後生仔可以提早 11:00 就去排隊買定先！' },
-                                    { time: '13:00', title: '酒店退房與出發 🧳', departTime: '13:30', travelTime: '0 min', desc: '全家喺酒店大堂集合，退房並將戰利品搬上預約好嘅商務車前往浦東機場 🚐。\n🚇 地鐵備用：1/2/8號線「人民廣場」站', category: 'hotel', transportType: 'walk' },
-                                    { time: '14:30', title: '抵達浦東國際機場 ✈️', departTime: '16:30', travelTime: '60 min', desc: '辦理登機及行李托運手續。\n🚇 交通：2號線/磁浮線「浦東國際機場」站', category: 'transport', transportType: 'car', loc: '浦東國際機場' },
-                                    { time: '16:30', title: '航班起飛 (HX239) 🛫', departTime: '19:25', travelTime: '0 min', desc: '乘搭 HX239 航班順利返港，完美結束 1 家 8 口上海之旅！💖', category: 'flight', transportType: 'flight' }
+                                    { time: '13:00', title: '酒店退房與出發 🧳', departTime: '13:30', travelTime: '0 min', desc: '全家喺酒店大堂集合退房。大家回程都係去【虹橋機場 SHA】，齊齊整整上車出發！', category: 'hotel', transportType: 'walk' },
+                                    { time: '14:15', title: '全家抵達虹橋機場 ✈️', departTime: '16:35', travelTime: '45 min', desc: '抵達虹橋機場 (SHA)。虹橋離市區好近，車程極快！', category: 'transport', transportType: 'car', loc: '虹橋國際機場' },
+                                    { time: '14:30', title: '穎&泓 準備登機 (CX341) ✈️', departTime: '16:35', travelTime: '0 min', desc: '穎同泓 16:35 起飛，可以先行辦理登機入閘，主力團可以喺機場慢慢 Hea 下。', category: 'flight', transportType: 'walk', loc: '虹橋國際機場' },
+                                    { time: '16:15', title: '主力 準備登機 (HX239) 🛫', departTime: '18:10', travelTime: '0 min', desc: '主力團 18:10 起飛，時間超充裕！完美結束 1 家 8 口上海之旅！💖 香港見！', category: 'flight', transportType: 'flight' }
                                 ]}
                             ]
                         }
