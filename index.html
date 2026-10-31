@@ -439,13 +439,13 @@
                                 <span>📍 {{ item.loc2Name || item.loc2 }}</span>
                             </div>
                             <div class="flex flex-wrap gap-2 mb-2">
-                                <button @click.stop="openMap(item.loc2)" class="bouncy-click bg-white border-[2px] border-[#333333] px-3 py-1 rounded-full text-[11px] font-black shadow-[1px_1px_0px_#333333] flex items-center gap-1">
+                                <button @click.stop="openMap(item.loc2)" class="bouncy-click bg-[#FFD166] border-[2px] border-[#333333] px-3 py-1 rounded-full text-[11px] font-black shadow-[1px_1px_0px_#333333] flex items-center gap-1">
                                     Google ↗
                                 </button>
-                                <button @click.stop="openAppleMap(item.loc2)" class="bouncy-click bg-white border-[2px] border-[#333333] px-3 py-1 rounded-full text-[11px] font-black shadow-[1px_1px_0px_#333333] flex items-center gap-1">
+                                <button @click.stop="openAppleMap(item.loc2)" class="bouncy-click bg-[#CDE3F7] border-[2px] border-[#333333] px-3 py-1 rounded-full text-[11px] font-black shadow-[1px_1px_0px_#333333] flex items-center gap-1">
                                     Apple ↗
                                 </button>
-                                <button @click.stop="openNavitime(item.loc2)" class="bouncy-click bg-white border-[2px] border-[#333333] px-3 py-1 rounded-full text-[11px] font-black shadow-[1px_1px_0px_#333333] flex items-center gap-1">
+                                <button @click.stop="openNavitime(item.loc2)" class="bouncy-click bg-[#F8D6D9] border-[2px] border-[#333333] px-3 py-1 rounded-full text-[11px] font-black shadow-[1px_1px_0px_#333333] flex items-center gap-1">
                                     カーナビ ↗
                                 </button>
                             </div>
@@ -779,88 +779,6 @@
                                     { time: '16:30', title: '辦理登機手續 (CX587) ✈️', departTime: '19:05', travelTime: '0 min', desc: '預留時間過海關，19:05 起飛返香港！', category: 'flight', transportType: 'flight' }
                                 ]}
                             ]
-                        },
-
-                        // ================= 🌸 4月 輕井澤 =================
-                        karuizawa: {
-                            id: 'karuizawa', title: "🌸 4月春遊：輕井澤 x 富士山", date: '2026-04-18', range: '2026/04/18 - 04/25 (8日7夜)',
-                            docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
-                            flights: { out: { code: 'CX524', date: '04/18 (六)', dep: '01:20', depLoc: '香港 HKG', arr: '06:40', arrLoc: '成田 T2', duration: '4h 20m' }, in: { code: 'CX501', date: '04/25 (六)', dep: '21:40', depLoc: '成田 T2', arr: '01:40', arrLoc: '香港 HKG', duration: '4h 00m' } },
-                            rental: { company: 'Nippon Rent-A-Car', pickupDate: '04/20 (一)', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '04/22 (三)', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '車型: Nippon 私家車/休旅車' },
-                            hotels: [ 
-                                { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20', addr: '東京都中央區日本橋人形町2-30-5', status: '✅ 已完成' }, 
-                                { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22', addr: '長野縣佐久市佐久平站北1-1', status: '✅ 已完成' }, 
-                                { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25', addr: '東京都中央區八丁堀2-13-1', status: '✅ 已完成' } 
-                            ],
-                            hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
-                            expenseHotels: [], expenseRental: { name: 'Nippon Rent-A-Car 租車', yen: 0, hkdStr: '已包含' }, expenseDining: [],
-                            alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' } ],
-                            shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
-                            parkingList: [],
-                            diningList: [
-                                { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野)', addr: '台東区上野3-24-6 PARCO_ya 6F', bookingNo: '現場排隊' },
-                                { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台東区雷門1-15-10', bookingNo: '已預約' },
-                                { date: 'Day 5 (4/22)', time: '13:00', name: '手打蕎麥麵 とも花', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
-                                { date: 'Day 5 (4/22)', time: '20:45', name: 'お魚總本家 (銀座店)', addr: '中央区銀座5-9-11', bookingNo: '預約: 吧枱位' },
-                                { date: 'Day 7 (4/24)', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2', bookingNo: 'RCA5GN' },
-                                { date: 'Day 8 (4/25)', time: '11:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', bookingNo: '已預約' }
-                            ],
-                            days: [
-                                { weekday: '六', dateStr: '04/18', events: [
-                                    { time: '01:20', title: '出發去東京 (CX524) ✈️', departTime: '06:40', travelTime: '4h 20m', desc: '凌晨機準備出發！', category: 'flight', transportType: 'flight', loc: '香港國際機場' },
-                                    { time: '06:40', title: '抵達東京成田機場', desc: '過關、攞行李', category: 'transport', transportType: 'walk', loc: 'Narita Airport' },
-                                    { time: '11:50', title: '午餐：利久牛舌 (上野)', departTime: '13:00', desc: '上野 PARCO_ya 6F 食牛舌！', category: 'food', transportType: 'train', loc: '利久 PARCO_ya上野店' },
-                                    { time: '15:00', title: 'Check-in (VIA INN PRIME)', desc: '放低行李休息下', category: 'hotel', transportType: 'walk', loc: 'VIA INN PRIME 日本橋人形町' },
-                                    { time: '19:30', title: '平城苑 浅草總本店', desc: '已預約！第一晚食和牛燒肉！', category: 'food', transportType: 'train', loc: '平城苑 浅草総本店' }
-                                ]},
-                                { weekday: '日', dateStr: '04/19', events: [
-                                    { time: '10:00', title: '市區逛街 / 自由活動', desc: '準備聽日自駕，今日輕鬆行下買下嘢。', category: 'sightseeing', transportType: 'walk' }
-                                ]},
-                                { weekday: '一', dateStr: '04/20', events: [
-                                    { time: '09:30', title: '取車前往輕井澤 🚗', desc: 'T-CAT (水天宮) 提取 Nippon 租車，直奔輕井澤！', departTime: '09:30', category: 'transport', transportType: 'car', loc: 'Nippon Rent-A-Car T-CAT' },
-                                    { time: '10:30', title: '川上庵 本店 🥢', desc: '【車機 Mapcode 確認】排隊名店！一定要早去！', departTime: '10:00', category: 'food', transportType: 'car', loc: 'Sekireibashi Kawakamian', phone: '0267-42-0009' },
-                                    { time: '14:30', title: 'Outlet 瘋狂 Shopping', desc: '食飽行街！🛍️【車機 Mapcode / 電話已 100% 更正】', departTime: '14:30', category: 'shopping', transportType: 'walk', loc: 'Prince Shopping Plaza', phone: '0267-42-5211', mapcode: '292 616 347*47' },
-                                    { time: '18:00', title: 'Check-in (Toyoko Inn)', desc: '準備聽日大日子', departTime: '17:40', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
-                                ]},
-                                { weekday: '二', dateStr: '04/21', events: [
-                                    { time: '07:00', title: '化妝造型開始💄', departTime: '06:45', category: 'highlight', transportType: 'walk' },
-                                    { time: '10:00', title: 'Pre-wedding 📸', departTime: '09:30', desc: '全日拍攝 (自駕移動)', category: 'sightseeing', transportType: 'car', loc: 'Karuizawa' },
-                                    { time: '19:00', title: '村民食堂晚餐', departTime: '18:30', desc: '慶功和食！', category: 'food', transportType: 'car', loc: 'Karuizawa Hoshino Area', mapcode: '292 701 462*82', phone: '0267-44-3571' },
-                                    { time: '21:00', title: '回程酒店', desc: '休息', departTime: '20:40', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
-                                ]},
-                                { weekday: '三', dateStr: '04/22', events: [
-                                    { time: '08:00', title: '出發 ➔ 富士山 🚗', departTime: '08:00', desc: '向富士山出發！車程約 2.5 小時', category: 'transport', transportType: 'car', travelTime: '2.5 hr', loc: 'Fuji Motosuko Resort' },
-                                    { time: '10:30', title: '富士芝櫻祭 🌸🗻', departTime: '10:30', desc: '期間限定粉紅地毯配富士山絕景！', category: 'sightseeing', transportType: 'car', loc: 'Fuji Motosuko Resort', phone: '0555-89-3031', mapcode: '312 214 743*01' },
-                                    { time: '13:00', title: '午餐: 手打蕎麥麵 とも花 🍜', departTime: '12:45', desc: '【Triple Check 確認營業】河口湖超人氣手打蕎麥麵專門店！水曜日確定營業！', category: 'food', transportType: 'car', loc: 'Teuchi Soba Tomoka Kawaguchiko', phone: '0555-72-1796' },
-                                    { time: '14:30', title: '大石公園散步 ➔ 返東京 🚗', departTime: '14:30', desc: '影埋最後富士山靚相，起程返東京 (預留塞車時間)', category: 'sightseeing', transportType: 'car', travelTime: '2 hr', loc: 'Oishi Park', phone: '0555-72-8772' },
-                                    { time: '18:30', title: '八重翠酒店擺低行李 🧳', departTime: '18:15', desc: '【車機入電話】先返酒店放低大行李，輕鬆還車！', category: 'hotel', transportType: 'car', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
-                                    { time: '20:00', title: 'T-CAT 還車 (水天宮) 🚗', departTime: '19:45', desc: '記得喺附近入滿油！最後還車 Deadline 20:30', category: 'transport', transportType: 'car', loc: 'Toyota Rent a Car T-CAT', phone: '03-3662-0100' },
-                                    { time: '20:45', title: '🐟 晚餐: お魚總本家', departTime: '20:30', desc: '✨ 返銀座食慶功大餐！', category: 'food', transportType: 'walk', loc: 'Osakana Sohonke Ginza' }
-                                ]},
-                                { weekday: '四', dateStr: '04/23', events: [
-                                    { time: '06:15', title: '酒店食早餐 🍙', departTime: '06:15', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk' },
-                                    { time: '06:45', title: '出發 Disney 🚃', departTime: '06:45', desc: '【最遲極限】行去「八丁堀站」搭 JR京葉線，力爭早過第一波人潮！', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
-                                    { time: '07:30', title: '抵達 DisneySea 門口 🏰', departTime: '07:30', desc: '安檢兼排隊，霸個靚位等 Rope Drop！', category: 'other', transportType: 'walk', loc: 'Tokyo DisneySea' },
-                                    { time: '08:30', title: '入園第一秒：搶 Pass！📱', departTime: '08:30', desc: '✨ 門票已買！即開 App 搶 Fantasy Springs (冰雪奇緣/小飛俠) Standby Pass！', category: 'ticket', transportType: 'walk', loc: 'Tokyo DisneySea' },
-                                    { time: '20:30', title: '回程酒店休息', departTime: '20:15', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
-                                ]},
-                                { weekday: '五', dateStr: '04/24', events: [
-                                    { time: '09:30', title: '前往豐洲', desc: '【巴士】Tokyo BRT (新橋 -> 豐洲市場前)\n快過海鷗號，平過海鷗號', departTime: '09:15', category: 'transport', transportType: 'bus', travelTime: '15 min', loc: 'Toyosu Market' },
-                                    { time: '10:00', title: '大和壽司 🍣', departTime: '09:45', desc: '✨ 賣完即止！已預約 (結婚紀念日)\n預約號: RCA5GN', category: 'highlight', transportType: 'walk', loc: 'Daiwa Sushi' },
-                                    { time: '13:30', title: 'TeamLab Planets', departTime: '13:00', desc: '豐洲 (入場時間: 13:00-13:30)\n✨ 門票已買！', category: 'sightseeing', transportType: 'walk', loc: 'TeamLab Planets' },
-                                    { time: '18:30', title: '晚餐：喫茶YOU', desc: '東銀座站旁\n【必食】 流心蛋包飯，可能要排隊', departTime: '18:00', category: 'food', transportType: 'train', loc: 'Kissa YOU' },
-                                    { time: '20:30', title: '回程酒店', desc: '休息', departTime: '20:00', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
-                                ]},
-                                { weekday: '六', dateStr: '04/25', events: [
-                                    { time: '09:30', title: 'Check-out & 寄行李 🧳', departTime: '09:30', desc: '行李留喺酒店 Lobby，兩手空空出發食 Omakase！', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
-                                    { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接的士過去！', category: 'transport', transportType: 'train' },
-                                    { time: '11:00', title: 'まんてん鮨 (丸之內店) 🍣', departTime: '11:00', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi', phone: '03-6269-9100' },
-                                    { time: '13:00', title: '東京站一番街 Shopping 🛍️', departTime: '13:00', desc: '最後衝刺買手信同動漫周邊！', category: 'shopping', transportType: 'walk', loc: 'Tokyo Character Street' },
-                                    { time: '16:00', title: '返回酒店提取行李 🧳', departTime: '15:30', desc: '返八重翠拎返行李，喺 Lobby 休息下準備上專車。', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' },
-                                    { time: '17:00', title: 'KKday 專車前往機場 🚗💨', departTime: '16:50', desc: '✨ 已預約: Toyota Alphard (6人座)\n酒店大堂直達成田，專人接送！', category: 'transport', transportType: 'car', loc: 'Narita Airport' },
-                                    { time: '18:30', title: '到達機場 (CX501) ✈️', desc: '21:40起飛，拜拜日本！', departTime: '17:00', category: 'flight', transportType: 'flight', loc: 'Narita Airport' }
-                                ]}
-                            ]
                         }
                     }
                 }
@@ -1042,7 +960,7 @@
                     navigator.clipboard.writeText(text).then(() => {
                         alert('✅ 已複製: ' + text + '\n可以貼落車機啦！');
                     }).catch(() => {
-                        alert('❌ 複製失敗，請手手動反白複製。');
+                        alert('❌ 複製失敗，請手動反白複製。');
                     });
                 },
                 openDoc() { window.open(this.currentTripData.docLink, '_blank'); },
