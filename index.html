@@ -666,8 +666,8 @@
                             alarms: [
                                 { date: '11月頭', task: '⚠️ 預約「政壽司」及「冰雪之門」(三大蟹)！' },
                                 { date: '11月頭', task: '⚠️ 預約「和牛富士山」打邊爐！' },
-                                { date: '12月7日', task: '🎫 JR官網搶 1/7 札幌落函館「北斗號」車飛！' },
-                                { date: '12月9日', task: '🎫 JR官網搶 1/9 函館返札幌「北斗號」車飛！' },
+                                { date: '12月7日', task: '🎫 JR官網抢 1/7 札幌落函館「北斗號」車飛！' },
+                                { date: '12月9日', task: '🎫 JR官網抢 1/9 函館返札幌「北斗號」車飛！' },
                                 { date: '出發前', task: '🛍️ 買定防滑雪靴及冰爪！' },
                                 { date: '1月6日', task: '🏨 Check-in 時要求大行李免費寄存至 1/9！' },
                                 { date: '1月7日', task: '🎒 輕裝背囊出發落函館！帶一晚替換衣物！' }
@@ -808,7 +808,7 @@
                                 ]},
                                 { weekday: '六', dateStr: '04/25', events: [
                                     { time: '09:30', title: 'Check-out & 寄行李 🧳', departTime: '09:30', desc: '行李留喺酒店 Lobby，兩手空空出發食 Omakase！', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
-                                    { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接的士過去！', category: 'transport', transportType: 'train' },
+                                    { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接の士過去！', category: 'transport', transportType: 'train' },
                                     { time: '11:00', title: 'まんてん鮨 (丸之內店) 🍣', departTime: '11:00', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi', phone: '03-6269-9100' },
                                     { time: '13:00', title: '東京站一番街 Shopping 🛍️', departTime: '13:00', desc: '最後衝刺買手信同動漫周邊！', category: 'shopping', transportType: 'walk', loc: 'Tokyo Character Street' },
                                     { time: '16:00', title: '返回酒店提取行李 🧳', departTime: '15:30', desc: '返八重翠拎返行李，喺 Lobby 休息下準備上專車。', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' },
@@ -1168,12 +1168,12 @@
                 },
                 openAppleMap(loc) {
                     if(loc) {
-                        window.open(`maps://?q=${encodeURIComponent(loc)}`, '_blank');
+                        window.open(`https://maps.apple.com/?q=${encodeURIComponent(loc)}`, '_blank');
                     }
                 },
                 openNavitime(loc) {
                     if(loc) {
-                        window.open(`carnavitime://search?word=${encodeURIComponent(loc)}`, '_blank');
+                        window.open(`navitimedrive://search?word=${encodeURIComponent(loc)}`, '_blank');
                     }
                 },
                 copyText(text) {
