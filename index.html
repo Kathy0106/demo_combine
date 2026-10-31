@@ -808,7 +808,7 @@
                                 ]},
                                 { weekday: '六', dateStr: '04/25', events: [
                                     { time: '09:30', title: 'Check-out & 寄行李 🧳', departTime: '09:30', desc: '行李留喺酒店 Lobby，兩手空空出發食 Omakase！', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
-                                    { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接の士過去！', category: 'transport', transportType: 'train' },
+                                    { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接的士過去！', category: 'transport', transportType: 'train' },
                                     { time: '11:00', title: 'まんてん鮨 (丸之內店) 🍣', departTime: '11:00', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi', phone: '03-6269-9100' },
                                     { time: '13:00', title: '東京站一番街 Shopping 🛍️', departTime: '13:00', desc: '最後衝刺買手信同動漫周邊！', category: 'shopping', transportType: 'walk', loc: 'Tokyo Character Street' },
                                     { time: '16:00', title: '返回酒店提取行李 🧳', departTime: '15:30', desc: '返八重翠拎返行李，喺 Lobby 休息下準備上專車。', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' },
@@ -852,14 +852,12 @@
                             ],
                             expenseRental: { name: 'Nippon Rent-A-Car (10/31 - 11/5 上野取還)', yen: 111870, note: '已包雪胎 + 4WD + 安心保險 (編號: C38760)' },
                             expenseDining: [
-                                { name: '木曾路 靜岡店 (松茸涮涮鍋)', date: '10/31', yen: 17600, note: '8,800円 × 2位 (KBS313918)' },
                                 { name: 'まんてん鮨 日本橋 (吧枱位升級)', date: '11/6', yen: 24200, note: '12,100円 × 2位 (4G6C6X)' },
                                 { name: '其他預約/現場餐廳', date: '全期', yen: 0, hkdStr: '現場付款', note: '現場付款 / 自由點餐' }
                             ],
                             alarms: [
                                 { date: '4/25', task: '搶訂 季之庭 & HOTEL CLAD' }, 
                                 { date: '7/01', task: '✅ 已預約 Nippon 租車 (全期，連雪胎 C38760)' },
-                                { date: '8/01', task: '✅ 已預約 木曾路 靜岡店 (10/31 19:00)' }, 
                                 { date: '9/01', task: '✅ 已預約 吧枱位升級版 Mantensushi 日本橋 (11/6 20:30)' }, 
                                 { date: '10/5', task: '申請 IDP、買 Sim 卡、Down 壽司郎 App' }
                             ],
@@ -887,12 +885,12 @@
                             ],
                             diningList: [
                                 { date: 'Day 1', time: '11:30', name: '沼津港 丸天', addr: '静岡県沼津市千本港町114-1', bookingNo: '現場排隊' },
-                                { date: 'Day 2', time: '19:00', name: '木曾路 靜岡店 (松茸涮涮鍋)', addr: '静岡県静岡市駿河区下石田31-1', bookingNo: '已預約 (KBS313918)' },
+                                { date: 'Day 2', time: '19:00', name: '沼津魚がし鮨 (沼津店)', addr: '静岡県沼津市高島町5-17', bookingNo: '現場排隊' },
                                 { date: 'Day 2', time: '12:30', name: '熱海おさかな食堂', addr: '静岡県熱海市銀座町8-8', bookingNo: '現場排隊' },
                                 { date: 'Day 2', time: '13:30', name: '熱海プリン (熱海布甸)', addr: '静岡県熱海市銀座町3-13', bookingNo: '排隊外賣' },
                                 { date: 'Day 2', time: '18:30', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', bookingNo: '現場排隊' },
                                 { date: 'Day 3', time: '18:30', name: '信州蕎麥處 みよ田', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
-                                { date: 'Day 5', time: '13:45', name: '手打ちそば こばや', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
+                                { date: 'Day 5', time: '14:15', name: '手打ちそば こばや', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
                                 { date: 'Day 5', time: '19:00', name: '沼津魚がし鮨 (御殿場)', addr: '御殿場プレミアム・アウトレット内', bookingNo: '現場排隊' },
                                 { date: 'Day 6', time: '20:30', name: 'まんてん鮨 日本橋 (吧枱位)', addr: '東京都中央区日本橋', bookingNo: '已預約 (4G6C6X)' },
                                 { date: 'Day 7', time: '19:30', name: '鳥貴族 八丁堀店', addr: '東京都中央区八丁堀', bookingNo: '待預約' },
@@ -914,24 +912,24 @@
                                     { time: '12:30', title: '沼津港 丸天 Lunch', departTime: '14:00', travelTime: '1.5 hr', desc: '由海老名再踩個半鐘直達沼津港！食巨型海鮮塔！\n行車距離: 約 140km\n泊車: 沼津港免費停車場', category: 'food', loc: '魚河岸 丸天 魚河岸店', transportType: 'car', phone: '055-963-0202', mapcode: '650 583 339*01', info: '假日多人，落車即刻去排隊攞飛先！' },
                                     { time: '14:30', title: '三島大吊橋', departTime: '16:00', travelTime: '35 min', desc: '日本最長吊橋打卡！\n行車距離: 20km (約 35 分鐘)\n泊車: 園區免費車位', category: 'sightseeing', loc: '三島スカイウォーク', transportType: 'car', phone: '055-972-0084', mapcode: '50 238 668*85', info: '橋面風大會凍，記得帶件外套落車！' },
                                     { time: '16:45', title: '入住 Daiwa Roynet', departTime: '19:00', travelTime: '30 min', desc: '擺低戰利品先。\n行車距離: 15km (約 30 分鐘)\n泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '酒店不包餐，立體車位先到先得 (¥1200/晚)。' },
-                                    { time: '19:00', title: '木曾路 靜岡店 (松茸涮涮鍋)', departTime: '21:00', travelTime: '50 min', desc: '已預約: 19:00 (KBS313918)\n極品松茸和牛霜降肉涮涮鍋！\n泊車: 餐廳附屬免費停車場', category: 'highlight', transportType: 'car', loc: '木曽路 静岡店', phone: '054-202-1211', mapcode: '72 045 745*66' },
-                                    { time: '22:00', title: '回酒店休息', departTime: '22:00', travelTime: '50 min', desc: '返回沼津酒店休息！\n行車距離: 45km (約 50 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
+                                    { time: '19:00', title: '沼津魚がし鮨 或 燒肉', departTime: '21:00', travelTime: '5 min', desc: '取消錯嘅 Booking 後，直接喺沼津站附近行路去食沼津魚がし鮨或者京昌園燒肉補數！', category: 'food', transportType: 'walk', loc: '沼津魚がし鮨 流れ鮨 沼津店', phone: '055-926-6060' },
+                                    { time: '21:30', title: '回酒店休息', departTime: '21:30', travelTime: '5 min', desc: '返酒店好好休息！聽日開始全新順利嘅行程！', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'walk', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
                                 { weekday: '日', dateStr: '11/01', events: [
                                     { time: '08:15', title: '買早餐 / 準備出發', departTime: '08:15', travelTime: '1 hr', desc: '去便利店買早餐上車食！', category: 'food', transportType: 'walk', info: '今日拉力賽，務必 08:15 準時開車！' },
-                                    { time: '09:30', title: '大室山', departTime: '11:30', travelTime: '45 min', desc: '趁少人搭吊車上火山口！\n行車距離: 45km (約 1 小時)\n泊車: 大室山免費停車場', category: 'sightseeing', loc: '大室山', transportType: 'car', phone: '0557-51-0258', mapcode: '48 846 512*63', info: '星期日 10 點後一定會冇位泊車！必須 09:30 到霸位！' },
-                                    { time: '12:30', title: '熱海 Lunch & 散策', departTime: '14:00', travelTime: '1 hr 20 min', desc: '去「熱海おさかな食堂」食海鮮丼，買 "熱海布甸"，再落陽光海灘打卡！\n行車距離: 沿海公路 45 分鐘\n泊車: 商店街周邊收費 Times', category: 'food', loc: '熱海おさかな食堂', loc2: '熱海プリン', loc2Name: '熱海布甸', transportType: 'car', mapcode: '116 023 273*82' },
-                                    { time: '15:30', title: '小丸子母校: 入江小學', departTime: '15:45', travelTime: '10 min', desc: '小丸子真實嘅小學！🏫\n留意只能喺校門外遠處影相打卡，切勿入內或打擾學生上堂呀！', category: 'sightseeing', loc: '静岡市立清水入江小学校', transportType: 'car', phone: '054-366-0151', mapcode: '25 683 482*11' },
-                                    { time: '15:55', title: '巴川 & 稚兒橋', departTime: '16:15', travelTime: '10 min', desc: '動畫最常出現嘅巴川同埋稚兒橋！橋頭仲有神秘嘅河童雕像，鐵粉打卡必去！', category: 'sightseeing', loc: '稚児橋', transportType: 'car', mapcode: '25 683 609*33' },
-                                    { time: '16:25', title: 'S-Pulse Dream Plaza 掃貨', departTime: '17:15', travelTime: '1 hr', desc: '唔入樂園直攻 3 樓周邊店！呢度有【全日本最齊全】嘅小丸子限定商品！買爆文具、零食同公仔！\n走之前去商場門口搵埋櫻桃子親自設計嘅「彩色小丸子渠蓋」！', category: 'shopping', loc: 'S-Pulse Dream Plaza', transportType: 'car', phone: '054-354-3360', mapcode: '25 629 795*72', info: '買滿指定金額可以免泊車費！' },
-                                    { time: '18:30', title: '鰻魚飯 櫻家', departTime: '20:30', travelTime: '30 min', desc: '由清水殺返三島！食極品百年鰻魚飯補充體力！\n行車距離: 60km (約 1 小時)\n泊車: 餐廳附屬免費停車場', category: 'food', loc: 'うなぎ 桜家', transportType: 'car', phone: '055-975-4520', mapcode: '50 126 150*22', action: '櫻家極易提早賣完，強烈建議提早去或者先打電話預留！' },
+                                    { time: '09:30', title: '大室山', departTime: '11:15', travelTime: '1 hr', desc: '趁少人搭吊車上火山口！\n行車距離: 45km (約 1 小時)\n泊車: 大室山免費停車場', category: 'sightseeing', loc: '大室山', transportType: 'car', phone: '0557-51-0258', mapcode: '48 846 512*63', info: '星期日 10 點後一定會冇位泊車！必須 09:30 到霸位！' },
+                                    { time: '12:15', title: '熱海 Lunch & 散策', departTime: '13:45', travelTime: '1.5 hr', desc: '去「熱海おさかな食堂」食海鮮丼，買 "熱海布甸"！\n行車距離: 沿海公路容易多車，預留 1 小時車程\n泊車: 商店街周邊收費 Times', category: 'food', loc: '熱海おさかな食堂', loc2: '熱海プリン', loc2Name: '熱海布甸', transportType: 'car', mapcode: '116 023 273*82' },
+                                    { time: '15:15', title: '小丸子母校: 入江小學', departTime: '15:30', travelTime: '15 min', desc: '【車程預加 20 分鐘】小丸子真實嘅小學！🏫\n留意只能喺校門外遠處影相打卡，切勿入內或打擾學生上堂呀！', category: 'sightseeing', loc: '静岡市立清水入江小学校', transportType: 'car', phone: '054-366-0151', mapcode: '25 683 482*11' },
+                                    { time: '15:45', title: '巴川 & 稚兒橋', departTime: '16:00', travelTime: '15 min', desc: '動畫最常出現嘅巴川同埋稚兒橋！橋頭仲有神秘嘅河童雕像，鐵粉打卡必去！', category: 'sightseeing', loc: '稚児橋', transportType: 'car', mapcode: '25 683 609*33' },
+                                    { time: '16:15', title: 'S-Pulse Dream Plaza 掃貨', departTime: '17:15', travelTime: '1 hr 15 min', desc: '直攻 3 樓周邊店！呢度有全日本最齊全嘅小丸子限定商品！買爆文具、零食同公仔！', category: 'shopping', loc: 'S-Pulse Dream Plaza', transportType: 'car', phone: '054-354-3360', mapcode: '25 629 795*72', info: '買滿指定金額可以免泊車費！' },
+                                    { time: '18:30', title: '鰻魚飯 櫻家 (三島)', departTime: '20:30', travelTime: '30 min', desc: '由清水殺返三島！食極品百年鰻魚飯補充體力！\n行車距離: 60km (約 1 小時 15 分鐘)\n泊車: 餐廳附屬免費停車場', category: 'food', loc: 'うなぎ 桜家', transportType: 'car', phone: '055-975-4520', mapcode: '50 126 150*22', action: '櫻家極易提早賣完，強烈建議提早去或者先打電話預留！' },
                                     { time: '21:00', title: '回酒店休息', departTime: '21:00', travelTime: '0 min', desc: '返到沼津好好休息！\n行車距離: 15km (約 30 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
                                 { weekday: '一', dateStr: '11/02', events: [
-                                    { time: '08:00', title: '市區早餐', departTime: '08:45', travelTime: '45 min', desc: '食飽準備揸長途車！', category: 'food', transportType: 'walk', info: '酒店不包餐，記得加滿水同買定零食上車。' },
-                                    { time: '08:45', title: '由酒店出發 & 退房', departTime: '08:45', desc: '離開沼津向長野進發！', category: 'hotel', transportType: 'car', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71' },
-                                    { time: '11:30', title: '立石公園 (諏訪湖)', departTime: '13:00', travelTime: '1.5 hr', desc: '《你的名字》系守町取景地！\n行車距離: 150km (約 2.5 小時)\n泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', info: '作為中途休息站，伸展下筋骨打個卡！' },
-                                    { time: '14:30', title: '松本城', departTime: '16:15', travelTime: '15 min', desc: '抵達松本！參觀日本國寶城！\n行車距離: 50km (約 1.5 小時)\n泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66' },
+                                    { time: '07:45', title: '市區早餐', departTime: '08:30', travelTime: '45 min', desc: '食飽準備揸長途車！', category: 'food', transportType: 'walk', info: '酒店不包餐，記得加滿水同買定零食上車。' },
+                                    { time: '08:30', title: '由酒店出發 & 退房', departTime: '08:30', desc: '提早 15 分鐘離開沼津，避開市區塞車！', category: 'hotel', transportType: 'car', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71' },
+                                    { time: '11:30', title: '立石公園 (諏訪湖)', departTime: '13:00', travelTime: '1.5 hr', desc: '《你的名字》系守町取景地！\n行車距離: 150km (預留 3 小時車程及休息)\n泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', info: '作為中途休息站，伸展下筋骨打個卡！' },
+                                    { time: '14:30', title: '松本城', departTime: '16:15', travelTime: '15 min', desc: '抵達松本！參觀日本國寶城！\n行車距離: 50km (約 1 小時 15 分鐘)\n泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66' },
                                     { time: '16:30', title: '入住 Onyado Nono', departTime: '18:15', travelTime: '5 min', desc: '全和式榻榻米酒店，超級舒服！\n行車距離: 2km (約 10 分鐘)\n泊車: 酒店立體停車場或 Silk Parking', category: 'hotel', loc: '天然温泉 梓の湯 ドーミーイン松本', transportType: 'car', phone: '0263-37-5489', mapcode: '75 821 474*88', info: '入酒店要除鞋，體驗日式風情！' },
                                     { time: '18:30', title: '信州蕎麥處 みよ田', departTime: '20:30', travelTime: '5 min', desc: '超有名氣歷史蕎麥麵！嚟松本必食！\n行車距離: 行路 5 分鐘', category: 'food', loc: '信州蕎麦処 みよ田 松本本店', transportType: 'walk', phone: '0263-37-1434', mapcode: '75 821 615*00', action: '營業至 20:00 (Last Order 19:30)，已為你推早半小時避免摸門釘！' },
                                     { time: '21:00', title: '回酒店浸溫泉', departTime: '21:00', travelTime: '0 min', desc: '浸完溫泉仲有免費夜鳴拉麵食！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
@@ -939,21 +937,21 @@
                                 { weekday: '二', dateStr: '11/03', events: [
                                     { time: '08:00', title: '酒店超豐盛早餐', departTime: '09:15', travelTime: '1 hr 15 min', desc: '盡情享受 Dormy Inn 系列招牌豪華早餐！', category: 'food', transportType: 'walk' },
                                     { time: '09:15', title: '由酒店出發 & 退房', departTime: '09:15', desc: '新一日行程開始！', category: 'transport', transportType: 'car', loc: 'Onyado Nono Matsumoto', phone: '0263-37-5489', mapcode: '75 821 474*88' },
-                                    { time: '10:30', title: '善光寺', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！\n行車距離: 70km (約 1 小時)\n泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52' },
-                                    { time: '13:00', title: '地獄谷野猿公苑', departTime: '15:00', travelTime: '1.5 hr', desc: '睇馬騮浸溫泉！\n行車距離: 40km (約 1 小時)\n泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '泊低行 30 分鐘山路入去，記得著好行嘅鞋！' },
-                                    { time: '16:30', title: '入住 湯宿 季之庭', departTime: '18:00', travelTime: '0 min', desc: '全個 Trip 最豪華嘅草津溫泉旅館！\n行車距離: 60km (約 1.5 小時)\n泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', info: '已包高層溫泉露天風呂客房！' },
+                                    { time: '10:30', title: '善光寺', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！\n行車距離: 70km (約 1 小時 15 分鐘)\n泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52' },
+                                    { time: '13:00', title: '地獄谷野猿公苑', departTime: '15:00', travelTime: '1.5 hr', desc: '睇馬騮浸溫泉！\n行車距離: 35km (約 1 小時)\n泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '泊低行 30 分鐘山路入去，記得著好行嘅鞋！' },
+                                    { time: '16:45', title: '入住 湯宿 季之庭', departTime: '18:00', travelTime: '0 min', desc: '全個 Trip 最豪華嘅草津溫泉旅館！\n行車距離: 60km (已預留 1.5 - 2 小時車程)\n泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', action: '⚠️ 注意：去草津通常行國道292號，但11月開始極易因積雪臨時封閉！如果封路要行遠路繞道，請跟足車機指示！' },
                                     { time: '18:30', title: '季之庭 會席料理', departTime: '20:30', travelTime: '0 min', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '享受已包嘅一泊二食！' },
                                     { time: '21:00', title: '休息 & 狂浸溫泉', departTime: '21:00', travelTime: '0 min', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
                                 { weekday: '三', dateStr: '11/04', events: [
-                                    { time: '08:00', title: '溫泉旅館朝食', departTime: '09:30', travelTime: '1 hr', desc: '食飽飽，準備挑戰秋名山！', category: 'food', transportType: 'walk', info: '享用已包嘅豐盛早餐！' },
-                                    { time: '09:30', title: '由酒店出發 & 退房', departTime: '09:30', desc: '出發離開草津！', category: 'transport', transportType: 'car', loc: 'Tokinoniwa', phone: '0279-89-9320', mapcode: '341 448 004*52' },
-                                    { time: '10:30', title: '秋名山 (榛名山)', departTime: '11:45', travelTime: '2 hr', desc: '《頭文字 D》聖地！順路經過髮夾彎！\n行車距離: 45km (約 1 小時)\n泊車: 榛名湖畔免費停車場', category: 'sightseeing', loc: '榛名湖', transportType: 'car', mapcode: '94 875 190*33', info: '榛名山就是傳說中嘅秋名山！感受拓海嘅路線！' },
-                                    { time: '13:45', title: '手打蕎麥麵 Kobaiya', departTime: '15:00', travelTime: '1.5 hr', desc: '望住絕美富士山食手打蕎麥麵！\n行車距離: 130km (約 2 小時)\n泊車: 餐廳門口專屬車位 (約6個)', category: 'food', loc: '手打ちそば こばや', transportType: 'car', phone: '0555-72-1150', mapcode: '161 302 467*71', action: '蕎麥麵賣完即止，原定 14:30 太危險，已推早至 13:45 抵達！' },
-                                    { time: '15:15', title: '河口湖畔散步 / Cafe', departTime: '16:15', travelTime: '10 min', desc: '食飽之後喺河口湖周邊散步，或者搵間靚靚 Cafe 飲杯嘢，等候日落點燈！', category: 'sightseeing', transportType: 'car' },
-                                    { time: '16:30', title: 'Herb Garden 富士河口湖庭園 (紅葉點燈)', departTime: '17:30', travelTime: '15 min', desc: '【期間限定】秋季紅葉點燈 (Autumn Lightup)！天色微暗影相最靚！\n⚠️ 留意：最後入場時間係 17:30，18:00 會關門！\n泊車: 園區附屬停車場', category: 'highlight', loc: 'ハーブ庭園 旅日記 富士河口湖庭園', transportType: 'car', phone: '0555-83-3715', mapcode: '161 243 008*52' },
+                                    { time: '08:00', title: '溫泉旅館朝食', departTime: '09:15', travelTime: '1 hr 15 min', desc: '食飽飽，準備挑戰秋名山！', category: 'food', transportType: 'walk', info: '享用已包嘅豐盛早餐！' },
+                                    { time: '09:15', title: '由酒店出發 & 退房', departTime: '09:15', desc: '提早少少出發離開草津！', category: 'transport', transportType: 'car', loc: 'Tokinoniwa', phone: '0279-89-9320', mapcode: '341 448 004*52' },
+                                    { time: '10:15', title: '秋名山 (榛名山)', departTime: '11:15', travelTime: '2.5 hr', desc: '《頭文字 D》聖地！順路經過髮夾彎！\n行車距離: 45km (約 1 小時)\n泊車: 榛名湖畔免費停車場', category: 'sightseeing', loc: '榛名湖', transportType: 'car', mapcode: '94 875 190*33', info: '縮短停留時間，必須 11:15 前落山，否則晏晝一定趕唔切！' },
+                                    { time: '14:00', title: '手打蕎麥麵 Kobaiya', departTime: '15:15', travelTime: '1.5 hr', desc: '【極重要車程 Padding】\n由榛名山去河口湖距離達 150km！已預留足 2.5 - 3 小時車程！', category: 'food', loc: '手打ちそば こばや', transportType: 'car', phone: '0555-72-1150', mapcode: '161 302 467*71', action: '長途拔涉安全第一！蕎麥麵賣完即止，如果中途要休息可先打去餐廳講聲。' },
+                                    { time: '15:30', title: '河口湖畔散步 / Cafe', departTime: '16:15', travelTime: '10 min', desc: '食飽之後喺河口湖周邊散步，或者搵間靚靚 Cafe 飲杯嘢，等候日落點燈！', category: 'sightseeing', transportType: 'car' },
+                                    { time: '16:30', title: 'Herb Garden 富士河口湖庭園', departTime: '17:30', travelTime: '15 min', desc: '【期間限定】秋季紅葉點燈 (Autumn Lightup)！天色微暗影相最靚！\n⚠️ 留意：最後入場時間係 17:30，18:00 會關門！\n泊車: 園區附屬停車場', category: 'highlight', loc: 'ハーブ庭園 旅日記 富士河口湖庭園', transportType: 'car', phone: '0555-83-3715', mapcode: '161 243 008*52' },
                                     { time: '18:15', title: '入住 HOTEL CLAD', departTime: '19:00', travelTime: '45 min', desc: '直望富士山靚景酒店！\n行車距離: 30km (約 45 分鐘)\n泊車: 酒店專屬免費停車場', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', phone: '0550-81-0321', mapcode: '50 806 191*75' },
-                                    { time: '19:00', title: '沼津魚 gashi 鮨', departTime: '20:30', travelTime: '10 min', desc: 'Outlet 店超人氣新鮮壽司！環境乾淨舒服無油煙味！\n行車距離: 5km (約 10 分鐘)\n泊車: Outlet 停車場', category: 'food', loc: '沼津魚がし鮨 御殿場アウトレット店', transportType: 'car', phone: '0550-81-3160', mapcode: '50 805 137*21' },
+                                    { time: '19:00', title: '沼津魚 gashi 鮨', departTime: '20:30', travelTime: '10 min', desc: 'Outlet 店超人氣新鮮壽司！環境乾淨舒服無油煙味！\n行車距離: 5km (約 10 分鐘)\n泊車: Outlet 停車場', category: 'food', loc: '沼津魚がし鮨 御殿場アウトレット店', transportType: 'car', phone: '0550-81-3160', mapcode: '50 805 137*21', info: 'Outlet 大部分商店 20:00 關門，專心食壽司就無問題！' },
                                     { time: '21:00', title: '回程酒店休息', departTime: '21:00', travelTime: '0 min', desc: '聽日 Outlet 血拼大作戰！\n行車距離: 5km', category: 'hotel', loc: 'HOTEL CLAD', transportType: 'car', phone: '0550-81-0321', mapcode: '50 806 191*75' }
                                 ]},
                                 { weekday: '四', dateStr: '11/05', events: [
