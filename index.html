@@ -394,19 +394,27 @@
                         </div>
 
                         <!-- 導航按鈕群組 -->
-                        <div class="flex gap-2">
+                        <div class="flex flex-wrap gap-2">
                             <button v-if="item.loc" @click.stop="openMap(item.loc)" class="bouncy-click bg-[#FFD166] border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
-                                導航 ↗
+                                Google ↗
+                            </button>
+                            <button v-if="item.loc" @click.stop="openAppleMap(item.loc)" class="bouncy-click bg-[#CDE3F7] border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
+                                Apple ↗
+                            </button>
+                            <button v-if="item.loc" @click.stop="openNavitime(item.loc)" class="bouncy-click bg-[#F8D6D9] border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
+                                カーナビ ↗
                             </button>
                             <button v-if="item.loc2" @click.stop="openMap(item.loc2)" class="bouncy-click bg-white border-[3px] border-[#333333] px-4 py-1.5 rounded-full text-[12px] font-black shadow-[2px_2px_0px_#333333] flex items-center gap-1">
                                 {{ item.loc2Name }} ↗
                             </button>
                         </div>
                         
-                        <div v-if="item.mapcode || item.phone" class="mt-3 flex gap-2 text-[10px] font-black bg-[rgba(255,255,255,0.7)] px-2 py-1 rounded-lg w-fit border-[2px] border-[#333333] border-dashed">
+                        <div v-if="item.mapcode || item.phone" class="mt-3 flex flex-wrap gap-2 text-[10px] font-black bg-[rgba(255,255,255,0.7)] px-2 py-1 rounded-lg w-fit border-[2px] border-[#333333] border-dashed items-center">
                             <span v-if="item.mapcode">MapCode: {{ item.mapcode }}</span>
+                            <button v-if="item.mapcode" @click.stop="copyText(item.mapcode)" class="bouncy-click bg-white border-[2px] border-[#333333] rounded px-1.5 py-0.5 shadow-[1px_1px_0px_#333333]">📋 複製</button>
                             <span v-if="item.mapcode && item.phone" class="mx-1">|</span>
                             <span v-if="item.phone">TEL: {{ item.phone }}</span>
+                            <button v-if="item.phone" @click.stop="copyText(item.phone)" class="bouncy-click bg-white border-[2px] border-[#333333] rounded px-1.5 py-0.5 shadow-[1px_1px_0px_#333333]">📋 複製</button>
                         </div>
                     </div>
                     
@@ -1157,6 +1165,23 @@
                         if (loc.startsWith('http')) window.open(loc, '_blank');
                         else window.open(`https://www.google.com/maps/search/?api=1&query=` + encodeURIComponent(loc), '_blank'); 
                     } 
+                },
+                openAppleMap(loc) {
+                    if(loc) {
+                        window.open(`maps://?q=${encodeURIComponent(loc)}`, '_blank');
+                    }
+                },
+                openNavitime(loc) {
+                    if(loc) {
+                        window.open(`carnavitime://search?word=${encodeURIComponent(loc)}`, '_blank');
+                    }
+                },
+                copyText(text) {
+                    navigator.clipboard.writeText(text).then(() => {
+                        alert('✅ 已複製: ' + text + '\n可以貼落車機啦！');
+                    }).catch(() => {
+                        alert('❌ 複製失敗，請手動反白複製。');
+                    });
                 },
                 openDoc() { window.open(this.currentTripData.docLink, '_blank'); },
                 formatText(text) { return text ? String(text).replace(/\n/g, '<br>') : ''; },
