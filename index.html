@@ -516,7 +516,11 @@
                                     <div class="text-[10px] font-bold text-[#777]">{{ h.dates }}</div>
                                 </div>
                                 <div class="text-[11px] font-black text-right">
-                                    <template v-if="h.yen > 0">
+                                    <template v-if="h.hkd > 0 && h.yen > 0">
+                                        <div>¥{{ h.yen.toLocaleString() }}</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(實付 HK${{ h.hkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }})</div>
+                                    </template>
+                                    <template v-else-if="h.yen > 0">
                                         <div>¥{{ h.yen.toLocaleString() }}</div>
                                         <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (h.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
@@ -539,7 +543,11 @@
                                     <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.expenseRental.note }}</div>
                                 </div>
                                 <div class="text-[11px] font-black text-right">
-                                    <template v-if="currentTripData.expenseRental.yen > 0">
+                                    <template v-if="currentTripData.expenseRental.hkd > 0 && currentTripData.expenseRental.yen > 0">
+                                        <div>¥{{ currentTripData.expenseRental.yen.toLocaleString() }}</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(實付 HK${{ currentTripData.expenseRental.hkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }})</div>
+                                    </template>
+                                    <template v-else-if="currentTripData.expenseRental.yen > 0">
                                         <div>¥{{ currentTripData.expenseRental.yen.toLocaleString() }}</div>
                                         <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (currentTripData.expenseRental.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
@@ -562,7 +570,11 @@
                                     <div class="text-[10px] font-bold text-[#777]">{{ d.date }}</div>
                                 </div>
                                 <div class="text-[11px] font-black text-right">
-                                    <template v-if="d.yen > 0">
+                                    <template v-if="d.hkd > 0 && d.yen > 0">
+                                        <div class="text-[#D7434D]">¥{{ d.yen.toLocaleString() }}</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(實付 HK${{ d.hkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }})</div>
+                                    </template>
+                                    <template v-else-if="d.yen > 0">
                                         <div class="text-[#D7434D]">¥{{ d.yen.toLocaleString() }}</div>
                                         <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (d.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
@@ -847,8 +859,8 @@
                             },
                             hotels: [
                                 { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31', addr: '東京都台東區上野1-18-8', status: '✅ 已預約 (HK$927.60)' },
-                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2', addr: '靜岡縣沼津市大手町1-1-4', status: '✅ 已預約 (¥39,044)' },
-                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3', addr: '長野縣松本市深志1-5-17', status: '✅ 已預約 (¥32,250)' },
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2', addr: '靜岡縣沼津市大手町1-1-4', status: '✅ 已預約 (¥39,044 / HK$1,989.89)' },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3', addr: '長野縣松本市深志1-5-17', status: '✅ 已預約 (¥32,250 / HK$1,643.63)' },
                                 { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4', addr: '群馬縣吾妻郡草津町大字草津白根464-214', status: '✅ 已預約 (¥90,000)' },
                                 { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5', addr: '靜岡縣御殿場市深沢2839-1', status: '✅ 已預約 (¥44,400)' },
                                 { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8', addr: '東京都千代田區神田須田町2-17-10', status: '✅ 已預約 (¥103,320)' }
@@ -856,8 +868,8 @@
                             hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 5, 8: 5, 9: 5 },
                             expenseHotels: [
                                 { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$927.60', hkd: 927.60 },
-                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 39044 },
-                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3 (1晚)', yen: 32250 },
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 39044, hkd: 1989.89 },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3 (1晚)', yen: 32250, hkd: 1643.63 },
                                 { name: '湯宿 季之庭', dates: '11/3 - 11/4 (1晚, 一泊二食)', yen: 90000 },
                                 { name: 'HOTEL CLAD', dates: '11/4 - 11/5 (1晚, 包早餐)', yen: 44400 },
                                 { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8 (3晚)', yen: 103320 }
@@ -1027,24 +1039,24 @@
                     if (!this.currentTripData.expenseHotels) return 0;
                     return this.currentTripData.expenseHotels.reduce((sum, h) => {
                         let itemHkd = 0;
-                        if (h.yen > 0) itemHkd = h.yen * this.exchangeRate;
-                        else if (h.hkd > 0) itemHkd = h.hkd;
+                        if (h.hkd > 0) itemHkd = h.hkd;
+                        else if (h.yen > 0) itemHkd = h.yen * this.exchangeRate;
                         return sum + itemHkd;
                     }, 0);
                 },
                 totalRentalHkd() {
                     if (!this.currentTripData.expenseRental) return 0;
                     const r = this.currentTripData.expenseRental;
-                    if (r.yen > 0) return r.yen * this.exchangeRate;
                     if (r.hkd > 0) return r.hkd;
+                    if (r.yen > 0) return r.yen * this.exchangeRate;
                     return 0;
                 },
                 totalDiningHkd() {
                     if (!this.currentTripData.expenseDining) return 0;
                     return this.currentTripData.expenseDining.reduce((sum, d) => {
                         let itemHkd = 0;
-                        if (d.yen > 0) itemHkd = d.yen * this.exchangeRate;
-                        else if (d.hkd > 0) itemHkd = d.hkd;
+                        if (d.hkd > 0) itemHkd = d.hkd;
+                        else if (d.yen > 0) itemHkd = d.yen * this.exchangeRate;
                         return sum + itemHkd;
                     }, 0);
                 },
