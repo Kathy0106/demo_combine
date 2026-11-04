@@ -516,11 +516,7 @@
                                     <div class="text-[10px] font-bold text-[#777]">{{ h.dates }}</div>
                                 </div>
                                 <div class="text-[11px] font-black text-right">
-                                    <template v-if="h.hkd > 0 && h.yen > 0">
-                                        <div>¥{{ h.yen.toLocaleString() }}</div>
-                                        <div class="text-[9px] text-[#777] font-bold">(實付 HK${{ h.hkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }})</div>
-                                    </template>
-                                    <template v-else-if="h.yen > 0">
+                                    <template v-if="h.yen > 0">
                                         <div>¥{{ h.yen.toLocaleString() }}</div>
                                         <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (h.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
@@ -543,11 +539,7 @@
                                     <div class="text-[10px] font-bold text-[#777]">{{ currentTripData.expenseRental.note }}</div>
                                 </div>
                                 <div class="text-[11px] font-black text-right">
-                                    <template v-if="currentTripData.expenseRental.hkd > 0 && currentTripData.expenseRental.yen > 0">
-                                        <div>¥{{ currentTripData.expenseRental.yen.toLocaleString() }}</div>
-                                        <div class="text-[9px] text-[#777] font-bold">(實付 HK${{ currentTripData.expenseRental.hkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }})</div>
-                                    </template>
-                                    <template v-else-if="currentTripData.expenseRental.yen > 0">
+                                    <template v-if="currentTripData.expenseRental.yen > 0">
                                         <div>¥{{ currentTripData.expenseRental.yen.toLocaleString() }}</div>
                                         <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (currentTripData.expenseRental.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
@@ -570,11 +562,7 @@
                                     <div class="text-[10px] font-bold text-[#777]">{{ d.date }}</div>
                                 </div>
                                 <div class="text-[11px] font-black text-right">
-                                    <template v-if="d.hkd > 0 && d.yen > 0">
-                                        <div class="text-[#D7434D]">¥{{ d.yen.toLocaleString() }}</div>
-                                        <div class="text-[9px] text-[#777] font-bold">(實付 HK${{ d.hkd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) }})</div>
-                                    </template>
-                                    <template v-else-if="d.yen > 0">
+                                    <template v-if="d.yen > 0">
                                         <div class="text-[#D7434D]">¥{{ d.yen.toLocaleString() }}</div>
                                         <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (d.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
@@ -702,7 +690,7 @@
                                 { date: '1/6', time: '19:30', name: '冰雪之門 (三大蟹)', addr: '札幌市中央區南5條西2', bookingNo: '⚠️ 必須預約' },
                                 { date: '1/7', time: '19:00', name: '函館麵廚房味彩', addr: '五稜郭塔旁邊/紅磚倉庫', bookingNo: '現場排隊' },
                                 { date: '1/8', time: '14:00', name: '茶房HISHI伊 / 舊茶屋亭', addr: '函館市寶來町 / 末廣町', bookingNo: '現場 Walk-in' },
-                                { date: '1/8', time: '18:30', name: '函館啤酒館', addr: '金森紅磚倉庫内', bookingNo: '現場排隊' },
+                                { date: '1/8', time: '18:30', name: '函館啤酒館', addr: '金森紅磚倉庫內', bookingNo: '現場排隊' },
                                 { date: '1/9', time: '19:30', name: '和牛富士山 (和牛打邊爐)', addr: '札幌市中央區大通西1丁目', bookingNo: '⚠️ 建議預約' },
                                 { date: '1/10', time: '18:00', name: '政壽司 本店 (小樽)', addr: '小樽市色内1-2-1', bookingNo: '⚠️ 建議預約' },
                                 { date: '1/11', time: '12:00', name: 'Suage+ / GARAKU (湯咖喱)', addr: '札幌市中心', bookingNo: '現場排隊' }
@@ -777,8 +765,8 @@
                             shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
                             parkingList: [],
                             diningList: [
-                                { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野)', addr: '台东区上野3-24-6 PARCO_ya 6F', bookingNo: '現場排隊' },
-                                { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台东区雷門1-15-10', bookingNo: '已預約' },
+                                { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野)', addr: '台東区上野3-24-6 PARCO_ya 6F', bookingNo: '現場排隊' },
+                                { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台東区雷門1-15-10', bookingNo: '已預約' },
                                 { date: 'Day 5 (4/22)', time: '13:00', name: '手打蕎麥麵 とも花', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
                                 { date: 'Day 5 (4/22)', time: '20:45', name: 'お魚總本家 (銀座店)', addr: '中央区銀座5-9-11', bookingNo: '預約: 吧枱位' },
                                 { date: 'Day 7 (4/24)', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2', bookingNo: 'RCA5GN' },
@@ -858,19 +846,19 @@
                                 note: '💡 預約號: C38760 (已包雪胎 + 4WD！)' 
                             },
                             hotels: [
-                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31', addr: '東京都台東區上野1-18-8', status: '✅ 已預約 (HK$927.60)' },
-                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2', addr: '靜岡縣沼津市大手町1-1-4', status: '✅ 已預約 (¥39,044 / HK$1,989.89)' },
-                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3', addr: '長野縣松本市深志1-5-17', status: '✅ 已預約 (¥32,250 / HK$1,643.63)' },
-                                { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4', addr: '群馬縣吾妻郡草津町大字草津白根464-214', status: '✅ 已預約 (¥92,780 / HK$4,705.07)' },
+                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31', addr: '東京都台東區上野1-18-8', status: '✅ 已預約 (HK$1,022)' },
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2', addr: '靜岡縣沼津市大手町1-1-4', status: '✅ 已預約 (¥37,044)' },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3', addr: '長野縣松本市深志1-5-17', status: '✅ 已預約 (¥31,050)' },
+                                { name: '湯宿 季之庭 (草津)', dates: '11/3 - 11/4', addr: '群馬縣吾妻郡草津町大字草津白根464-214', status: '✅ 已預約 (¥90,000)' },
                                 { name: 'HOTEL CLAD (御殿場)', dates: '11/4 - 11/5', addr: '靜岡縣御殿場市深沢2839-1', status: '✅ 已預約 (¥44,400)' },
                                 { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8', addr: '東京都千代田區神田須田町2-17-10', status: '✅ 已預約 (¥103,320)' }
                             ],
                             hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 5, 8: 5, 9: 5 },
                             expenseHotels: [
-                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$927.60', hkd: 927.60 },
-                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 39044, hkd: 1989.89 },
-                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3 (1晚)', yen: 32250, hkd: 1643.63 },
-                                { name: '湯宿 季之庭', dates: '11/3 - 11/4 (1晚, 一泊二食)', yen: 92780, hkd: 4705.07 },
+                                { name: 'R&B Hotel Ueno Hirokoji', dates: '10/30 - 10/31 (1晚)', yen: 0, hkdStr: 'HK$1,022.10', hkd: 1022.10 },
+                                { name: 'Daiwa Roynet Numazu', dates: '10/31 - 11/2 (2晚)', yen: 37044 },
+                                { name: 'Onyado Nono Matsumoto', dates: '11/2 - 11/3 (1晚)', yen: 31050 },
+                                { name: '湯宿 季之庭', dates: '11/3 - 11/4 (1晚, 一泊二食)', yen: 90000 },
                                 { name: 'HOTEL CLAD', dates: '11/4 - 11/5 (1晚, 包早餐)', yen: 44400 },
                                 { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8 (3晚)', yen: 103320 }
                             ],
@@ -912,9 +900,7 @@
                                 { date: 'Day 2', time: '12:30', name: '熱海おさかな食堂', addr: '静岡県熱海市銀座町8-8', bookingNo: '現場排隊' },
                                 { date: 'Day 2', time: '13:30', name: '熱海プリン (熱海布甸)', addr: '静岡県熱海市銀座町3-13', bookingNo: '排隊外賣' },
                                 { date: 'Day 2', time: '18:30', name: '鰻魚飯 櫻家', addr: '静岡県三島市広小路町13-2', bookingNo: '現場排隊' },
-                                { date: 'Day 3', time: '08:00', name: 'むさしの森珈琲', addr: '静岡県沼津市香貫', bookingNo: '現場排隊' },
-                                { date: 'Day 3', time: '18:30', name: 'AEON MALL 松本 (晚餐)', addr: '長野県松本市中央4-9-51', bookingNo: '自由選擇' },
-                                { date: 'Day 4', time: '12:15', name: '蕎麥麵 (West Plaza 長野)', addr: '長野市末広町1355-5', bookingNo: '現場排隊' },
+                                { date: 'Day 3', time: '18:30', name: '信州蕎麥處 みよ田', addr: '長野県松本市中央2-1-24', bookingNo: '現場排隊' },
                                 { date: 'Day 5', time: '14:15', name: '手打ちそば こばや', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
                                 { date: 'Day 5', time: '19:00', name: '沼津魚がし鮨 (御殿場)', addr: '御殿場プレミアム・アウトレット内', bookingNo: '現場排隊' },
                                 { date: 'Day 6', time: '20:30', name: 'まんてん鮨 日本橋 (吧枱位)', addr: '東京都中央区日本橋', bookingNo: '已預約 (4G6C6X)' },
@@ -935,8 +921,9 @@
                                     { time: '09:45', title: '向長野 / 靜岡進發！', departTime: '09:45', travelTime: '1.5 hr', desc: '行李隨車，一路向南直奔海老名 SA！', category: 'transport', transportType: 'car' },
                                     { time: '11:00', title: '海老名 SA (下行)', departTime: '11:45', travelTime: '45 min', desc: '中途停靠全日本最出名嘅高速公路休息站！必食超人氣名物 "紅肉蜜瓜包"！', category: 'sightseeing', transportType: 'car', phone: '046-231-4368', mapcode: '2 083 454*88', loc: 'EXPASA海老名 下り', hours: '24小時 (部分熱門商舖 06:00-20:00)', closeDay: '無休' },
                                     { time: '12:30', title: '沼津港 丸天 Lunch', departTime: '14:00', travelTime: '1.5 hr', desc: '由海老名再踩個半鐘直達沼津港！食巨型海鮮塔！\n行車距離: 約 140km\n泊車: 沼津港免費停車場', category: 'food', loc: '魚河岸 丸天 魚河岸店', transportType: 'car', phone: '055-963-0202', mapcode: '650 583 339*01', info: '假日多人，落車即刻去排隊攞飛先！', hours: '07:00 - 21:30 (最後點餐 20:45)', closeDay: '逢星期四 (公眾假期除外)' },
-                                    { time: '14:30', title: '入住 Daiwa Roynet', departTime: '18:00', travelTime: '30 min', desc: '提早返酒店擺低戰利品兼休息。\n行車距離: 15km (約 30 分鐘)\n泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '酒店立體車位先到先得 (¥1200/晚)。', hours: 'Check-in: 14:00 後' },
-                                    { time: '18:00', title: '麥當勞 (沼津南口店)', departTime: '21:00', travelTime: '5 min', desc: '揸咗大半日車，舒舒服服食個安心、熟悉又快捷嘅麥當勞定定驚先！', category: 'food', transportType: 'walk', loc: 'マクドナルド 沼津駅南口店', phone: '055-962-7360', mapcode: '50 102 249*55', hours: '06:00 - 23:00', closeDay: '無休' },
+                                    { time: '14:30', title: '三島大吊橋', departTime: '16:00', travelTime: '35 min', desc: '日本最長吊橋打卡！\n行車距離: 20km (約 35 分鐘)\n泊車: 園區免費車位', category: 'sightseeing', loc: '三島スカイウォーク', transportType: 'car', phone: '055-972-0084', mapcode: '50 238 668*85', info: '橋面風大會凍，記得帶件外套落車！', hours: '09:00 - 17:00 (必須 16:30 前入場)', closeDay: '無休' },
+                                    { time: '16:45', title: '入住 Daiwa Roynet', departTime: '19:00', travelTime: '30 min', desc: '擺低戰利品先。\n行車距離: 15km (約 30 分鐘)\n泊車: 酒店立體停車場', category: 'hotel', loc: 'ダイワロイネットホテルぬまづ', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71', info: '酒店不包餐，立體車位先到先得 (¥1200/晚)。', hours: 'Check-in: 14:00 後' },
+                                    { time: '19:00', title: '麥當勞 (沼津南口店)', departTime: '21:00', travelTime: '5 min', desc: '經歷咗今日咁多波折，揸咗成日車，舒舒服服食個安心、熟悉又快捷嘅麥當勞定定驚先！', category: 'food', transportType: 'walk', loc: 'マクドナルド 沼津駅南口店', phone: '055-962-7360', mapcode: '50 102 249*55', hours: '06:00 - 23:00', closeDay: '無休' },
                                     { time: '21:30', title: '回酒店休息', departTime: '21:30', travelTime: '5 min', desc: '返酒店好好休息！聽日開始全新順利嘅行程！', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'walk', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
                                 { weekday: '日', dateStr: '11/01', events: [
@@ -951,23 +938,20 @@
                                     { time: '21:00', title: '回酒店休息', departTime: '21:00', travelTime: '0 min', desc: '返到沼津好好休息！\n行車距離: 15km (約 30 分鐘)', category: 'hotel', loc: 'Daiwa Roynet Numazu', transportType: 'car', phone: '055-925-8955', mapcode: '50 073 112*71' }
                                 ]},
                                 { weekday: '一', dateStr: '11/02', events: [
-                                    { time: '07:45', title: '酒店退房 & 出發', departTime: '07:45', travelTime: '0 min', desc: '提早 Check-out，將行李放上車，準備食靚靚 Pancake！', category: 'hotel', transportType: 'car', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955' },
-                                    { time: '08:00', title: 'むさしの森珈琲 沼津香貫店', departTime: '08:45', travelTime: '15 min', desc: '【08:00 準時開門】食人氣梳乎厘 Pancake！\n行車距離: 約 3km (15分鐘)\n泊車: 免費專屬車位', category: 'food', loc: 'むさしの森珈琲 沼津香貫店', transportType: 'car', hours: '08:00 - 22:00', closeDay: '無休', action: '⚠️ 留意時間，08:45 必須起步出發前往吊橋！' },
-                                    { time: '09:15', title: '三島大吊橋', departTime: '10:30', travelTime: '30 min', desc: '日本最長吊橋打卡！\n行車距離: 約 16km (30分鐘)\n泊車: 園區免費車位', category: 'sightseeing', loc: '三島スカイウォーク', transportType: 'car', phone: '055-972-0084', mapcode: '50 238 668*85', hours: '09:00 - 17:00', closeDay: '無休', info: '橋面風大會凍，帶件外套！10:30 準時離開。' },
-                                    { time: '11:45', title: '双葉SA / 諏訪湖SA (午餐)', departTime: '12:30', travelTime: '1 hr 15 min', desc: '【長途駕駛】由三島去長野縣！建議喺「双葉SA」(望富士山) 或「諏訪湖SA」(望湖景) 休息兼買小食/便當當 Lunch！\n行車距離: 由吊橋至双葉SA約 100km (1小時15分)', category: 'food', loc: '双葉SA (下り)', loc2: '諏訪湖SA (下り)', loc2Name: '諏訪湖SA', transportType: 'car', info: '💡 休息 45 分鐘，12:30 繼續起行！' },
-                                    { time: '13:15', title: '立石公園 (諏訪湖)', departTime: '14:00', travelTime: '45 min', desc: '《你的名字》系守町取景地！\n行車距離: 由双葉SA出發約 55km (45分鐘)\n泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', hours: '24小時開放', closeDay: '無休', action: '打卡伸展下筋骨，14:00 出發去松本！' },
-                                    { time: '15:15', title: '松本城', departTime: '16:45', travelTime: '1 hr 15 min', desc: '參觀日本國寶城！\n行車距離: 由立石公園出發約 50km (1小時15分鐘)\n泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66', hours: '08:30 - 17:00 (必須 16:30 前入場)', closeDay: '無休 (12月29至31除外)', info: '⚠️ 完美避過 16:30 最後入場死線！' },
-                                    { time: '17:00', title: '入住 Onyado Nono 松本', departTime: '18:15', travelTime: '15 min', desc: '全和式榻榻米酒店，超級舒服！\n行車距離: 約 2km (10-15分鐘)\n泊車: 酒店立體停車場或 Silk Parking', category: 'hotel', loc: '天然温泉 梓の湯 ドーミーイン松本', transportType: 'car', phone: '0263-37-5489', mapcode: '75 821 474*88', hours: 'Check-in: 15:00 後' },
-                                    { time: '18:30', title: '晚餐 & 行街：AEON MALL 松本', departTime: '20:30', travelTime: '10 min', desc: '今晚唔食 Soba 啦！揸車或者行路去松本最大嘅 AEON MALL 食飯兼行街。商場入面有超多餐廳選擇（和食、拉麵、西餐等），食飽仲可以行陣超市掃生果同零食！\n泊車：AEON MALL 附屬停車場', category: 'food', loc: 'イオンモール松本', transportType: 'car', hours: '10:00 - 21:00 (餐廳至 22:00)', closeDay: '無休' },
-                                    { time: '21:00', title: '回酒店浸溫泉', departTime: '21:00', travelTime: '0 min', desc: '揸咗成日車，浸完溫泉食埋免費夜鳴拉麵大滿足！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
+                                    { time: '07:45', title: '市區早餐', departTime: '08:30', travelTime: '45 min', desc: '食飽準備揸長途車！', category: 'food', transportType: 'walk', info: '酒店不包餐，記得加滿水同買定零食上車。' },
+                                    { time: '08:30', title: '由酒店出發 & 退房', departTime: '08:30', desc: '提早 15 分鐘離開沼津，避開市區塞車！', category: 'hotel', transportType: 'car', loc: 'Daiwa Roynet Numazu', phone: '055-925-8955', mapcode: '50 073 112*71' },
+                                    { time: '11:30', title: '立石公園 (諏訪湖)', departTime: '13:00', travelTime: '1.5 hr', desc: '《你的名字》系守町取景地！\n行車距離: 150km (預留 3 小時車程及休息)\n泊車: 公園免費停車場', category: 'sightseeing', loc: '立石公園', transportType: 'car', phone: '0266-52-4141', mapcode: '75 236 391*70', info: '作為中途休息站，伸展下筋骨打個卡！', hours: '24小時開放', closeDay: '無休' },
+                                    { time: '14:30', title: '松本城', departTime: '16:15', travelTime: '15 min', desc: '抵達松本！參觀日本國寶城！\n行車距離: 50km (約 1 小時 15 分鐘)\n泊車: 市營松本城停車場 (¥300/小時)', category: 'sightseeing', loc: '松本城', transportType: 'car', phone: '0263-32-2902', mapcode: '75 851 375*66', hours: '08:30 - 17:00 (必須 16:30 前入場)', closeDay: '12月29日至31日' },
+                                    { time: '16:30', title: '入住 Onyado Nono', departTime: '18:15', travelTime: '5 min', desc: '全和式榻榻米酒店，超級舒服！\n行車距離: 2km (約 10 分鐘)\n泊車: 酒店立體停車場或 Silk Parking', category: 'hotel', loc: '天然温泉 梓の湯 ドーミーイン松本', transportType: 'car', phone: '0263-37-5489', mapcode: '75 821 474*88', info: '入酒店要除鞋，體驗日式風情！', hours: 'Check-in: 15:00 後' },
+                                    { time: '18:30', title: '信州蕎麥處 みよ田', departTime: '20:30', travelTime: '5 min', desc: '超有名氣歷史蕎麥麵！嚟松本必食！\n行車距離: 行路 5 分鐘', category: 'food', loc: '信州蕎麦処 みよ田 松本本店', transportType: 'walk', phone: '0263-37-1434', mapcode: '75 821 615*00', action: '營業至 20:00 (Last Order 19:30)，已為你推早半小時避免摸門釘！', hours: '11:30 - 15:00, 17:00 - 20:00 (L.O. 19:30)', closeDay: '逢星期日' },
+                                    { time: '21:00', title: '回酒店浸溫泉', departTime: '21:00', travelTime: '0 min', desc: '浸完溫泉仲有免費夜鳴拉麵食！🍜', category: 'hotel', loc: 'Onyado Nono Matsumoto', transportType: 'walk' }
                                 ]},
                                 { weekday: '二', dateStr: '11/03', events: [
                                     { time: '08:00', title: '酒店超豐盛早餐', departTime: '09:15', travelTime: '1 hr 15 min', desc: '盡情享受 Dormy Inn 系列招牌豪華早餐！', category: 'food', transportType: 'walk' },
                                     { time: '09:15', title: '由酒店出發 & 退房', departTime: '09:15', desc: '新一日行程開始！', category: 'transport', transportType: 'car', loc: 'Onyado Nono Matsumoto', phone: '0263-37-5489', mapcode: '75 821 474*88' },
                                     { time: '10:30', title: '善光寺', departTime: '12:00', travelTime: '1 hr', desc: '一生人必去一次嘅名剎！\n行車距離: 70km (約 1 小時 15 分鐘)\n泊車: 善光寺第 1 停車場 (¥600/2小時)', category: 'sightseeing', loc: '善光寺', transportType: 'car', phone: '026-234-3591', mapcode: '54 227 061*52', hours: '06:00 - 16:00 (內陣參拜)', closeDay: '無休' },
-                                    { time: '12:15', title: '午餐：長野站前 蕎麥麵', departTime: '13:30', travelTime: '15 min', desc: '善光寺參拜完之後，揸車去長野站前食 Soba！\n📍 地址：長野市末広町1355-5 ウエストプラザ長野\n泊車：可以使用長野站周邊嘅 Coin Parking', category: 'food', loc: 'ウエストプラザ長野', transportType: 'car', phone: '026-223-4315', mapcode: '54 116 845*20' },
-                                    { time: '14:15', title: '地獄谷野猿公苑', departTime: '16:15', travelTime: '45 min', desc: '食飽去睇馬騮浸溫泉！\n行車距離: 35km (約 45 分鐘)\n泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '泊低行 30 分鐘山路入去，記得著好行嘅鞋！', hours: '09:00 - 16:00 (冬季營運時間)', closeDay: '無休' },
-                                    { time: '18:00', title: '入住 湯宿 季之庭', departTime: '18:30', travelTime: '1 hr 45 min', desc: '全個 Trip 最豪華嘅草津溫泉旅館！\n行車距離: 60km (已預留近 2 小時車程)\n泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', action: '⚠️ 注意：去草津通常行國道292號，但11月開始極易因積雪臨時封閉！如果封路要繞道，請跟足車機指示！', hours: 'Check-in: 15:00 後' },
+                                    { time: '13:00', title: '地獄谷野猿公苑', departTime: '15:00', travelTime: '1.5 hr', desc: '睇馬騮浸溫泉！\n行車距離: 35km (約 1 小時)\n泊車: 上林温泉無料駐車場', category: 'sightseeing', loc: '上林温泉無料駐車場', transportType: 'car', phone: '0269-33-4379', mapcode: '54 854 084*77', info: '泊低行 30 分鐘山路入去，記得著好行嘅鞋！', hours: '09:00 - 16:00 (冬季營運時間)', closeDay: '無休' },
+                                    { time: '16:45', title: '入住 湯宿 季之庭', departTime: '18:00', travelTime: '0 min', desc: '全個 Trip 最豪華嘅草津溫泉旅館！\n行車距離: 60km (已預留 1.5 - 2 小時車程)\n泊車: 酒店專屬免費車位', category: 'highlight', loc: '湯宿 季の庭', transportType: 'car', phone: '0279-89-9320', mapcode: '341 448 004*52', action: '⚠️ 注意：去草津通常行國道292號，但11月開始極易因積雪臨時封閉！如果封路要行遠路繞道，請跟足車機指示！', hours: 'Check-in: 15:00 後' },
                                     { time: '18:30', title: '季之庭 會席料理', departTime: '20:30', travelTime: '0 min', desc: '舒舒服服喺房或者包廂食超豪華大餐！', category: 'food', transportType: 'walk', info: '享受已包嘅一泊二食！' },
                                     { time: '21:00', title: '休息 & 狂浸溫泉', departTime: '21:00', travelTime: '0 min', desc: '房內私人風呂任浸！', category: 'hotel', loc: 'Tokinoniwa', transportType: 'walk' }
                                 ]},
@@ -1039,24 +1023,24 @@
                     if (!this.currentTripData.expenseHotels) return 0;
                     return this.currentTripData.expenseHotels.reduce((sum, h) => {
                         let itemHkd = 0;
-                        if (h.hkd > 0) itemHkd = h.hkd;
-                        else if (h.yen > 0) itemHkd = h.yen * this.exchangeRate;
+                        if (h.yen > 0) itemHkd = h.yen * this.exchangeRate;
+                        else if (h.hkd > 0) itemHkd = h.hkd;
                         return sum + itemHkd;
                     }, 0);
                 },
                 totalRentalHkd() {
                     if (!this.currentTripData.expenseRental) return 0;
                     const r = this.currentTripData.expenseRental;
-                    if (r.hkd > 0) return r.hkd;
                     if (r.yen > 0) return r.yen * this.exchangeRate;
+                    if (r.hkd > 0) return r.hkd;
                     return 0;
                 },
                 totalDiningHkd() {
                     if (!this.currentTripData.expenseDining) return 0;
                     return this.currentTripData.expenseDining.reduce((sum, d) => {
                         let itemHkd = 0;
-                        if (d.hkd > 0) itemHkd = d.hkd;
-                        else if (d.yen > 0) itemHkd = d.yen * this.exchangeRate;
+                        if (d.yen > 0) itemHkd = d.yen * this.exchangeRate;
+                        else if (d.hkd > 0) itemHkd = d.hkd;
                         return sum + itemHkd;
                     }, 0);
                 },
