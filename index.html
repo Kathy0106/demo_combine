@@ -1020,7 +1020,7 @@
             },
             computed: {
                 currentTripData() { return this.trips[this.currentTrip]; },
-                currentDays() { return this.currentDays; },
+                currentDays() { return this.currentTripData.days; },
                 currentItineraryData() { return this.currentDays[this.selectedDayIndex] ? this.currentDays[this.selectedDayIndex].events : []; },
                 
                 // 動態計算各項洗費，如果係 Yen 就自動轉 HKD (乘 0.052)，本身係 HKD 就直接加埋！
@@ -1207,4 +1207,3 @@
     </script>
 </body>
 </html>
-
