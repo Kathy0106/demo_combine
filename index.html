@@ -121,7 +121,7 @@
                 
                 <select v-model="currentTrip" class="bouncy-click bg-white border-[3px] border-[#333333] rounded-full px-3 py-1.5 text-[12px] font-black outline-none appearance-none cursor-pointer shadow-[1px_2px_0px_#333333]">
                     <option value="kanto_tohoku">🍁 11+2 Ourstory</option>
-                    <option value="central">🍁 10月秋遊</option>
+                    <option value="central">🍁 10+1 Ourstory</option>
                     <option value="hokkaido">❄️ 1月冬遊</option>
                     <option value="karuizawa">🌸 4月春遊</option>
                 </select>
@@ -500,7 +500,7 @@
                         <template v-else>
                             <div class="text-[12px] font-black text-[#333333] bg-[#FFD166] inline-block px-3 py-1 rounded-full border-[2px] border-[#333333] mb-2 shadow-[1px_2px_0px_#333333]">總預算洗費 (預估)</div>
                             <div class="text-3xl font-black mb-1 text-[#D7434D]">HK${{ totalTripUnifiedHkd.toLocaleString('en-US', {maximumFractionDigits: 0}) }}</div>
-                            <p class="text-[11px] font-bold text-[#777]">已自動匯總 Yen 及 HKD 項目 (匯率: {{ currentTripData.rental && currentTripData.rental.company.includes('Nippon') && currentTrip === 'central' ? '0.0508' : exchangeRate }})</p>
+                            <p class="text-[11px] font-bold text-[#777]">已自動匯總 Yen 及 HKD 項目 (匯率: {{ currentTrip === 'central' ? '0.0508' : exchangeRate }})</p>
                         </template>
                     </div>
                     
@@ -523,7 +523,7 @@
                                     </template>
                                     <template v-else-if="h.yen > 0">
                                         <div>¥{{ h.yen.toLocaleString() }}</div>
-                                        <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (h.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (h.yen * (currentTrip === 'central' ? 0.0508 : exchangeRate)).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
                                     <template v-else>
                                         <div>{{ h.hkdStr }}</div>
@@ -577,7 +577,7 @@
                                     </template>
                                     <template v-else-if="d.yen > 0">
                                         <div class="text-[#D7434D]">¥{{ d.yen.toLocaleString() }}</div>
-                                        <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (d.yen * exchangeRate).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
+                                        <div class="text-[9px] text-[#777] font-bold">(約 HK${{ (d.yen * (currentTrip === 'central' ? 0.0508 : exchangeRate)).toLocaleString('en-US', {maximumFractionDigits: 0}) }})</div>
                                     </template>
                                     <template v-else>
                                         <div class="text-[#D7434D]">{{ d.hkdStr || '現場付款' }}</div>
@@ -656,7 +656,7 @@
         createApp({
             data() {
                 return {
-                    currentTrip: 'kanto_tohoku',
+                    currentTrip: 'central',
                     activeTab: 'home', selectedDayIndex: 0, 
                     showSettings: false, showHotelModal: false, newShopItem: '',
                     weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
@@ -770,138 +770,179 @@
                             ]
                         },
 
-                        // ================= 🍁 10月 中部秋遊 (完整恢復版) =================
-                        central: {
-                            id: 'central', title: "🍁 10月秋遊：中部自駕遊", date: '2026-10-31', range: '2026/10/31 - 11/08 (9日8夜)',
-                            docLink: 'https://docs.google.com/document/d/11eFLaGqOmRfXx90pVCWGF0iNIQRwECa3X3VmFjqQgdk/edit?usp=drivesdk',
+                        // ================= ❄️ 1月 北海道 =================
+                        hokkaido: {
+                            id: 'hokkaido', title: "❄️ 1月冬遊：北海道浪漫之旅", date: '2027-01-06', range: '2027/01/06 - 01/11 (6日5夜)',
+                            docLink: '',
                             flights: { 
-                                out: { code: 'CX524', date: '10/31 (六)', dep: '01:00', depLoc: '香港 HKG', arr: '06:40', arrLoc: '成田 NRT', duration: '4h 40m' }, 
-                                in: { code: 'CX505', date: '11/08 (日)', dep: '18:00', depLoc: '成田 NRT', arr: '22:50', arrLoc: '香港 HKG', duration: '5h 50m' } 
+                                out: { code: 'CX584', date: '01/06 (三)', dep: '10:25', depLoc: '香港 HKG', arr: '16:00', arrLoc: '新千歲 CTS', duration: '4h 35m' }, 
+                                in: { code: 'CX587', date: '01/11 (一)', dep: '19:05', depLoc: '新千歲 CTS', arr: '23:55', arrLoc: '香港 HKG', duration: '5h 50m' } 
                             },
-                            rental: { 
-                                company: 'Nippon Rent-A-Car', 
-                                pickupDate: '10/31 (六)', pickupTime: '08:00', pickupLocName: '成田機場',
-                                returnDate: '11/05 (四)', returnTime: '18:00', returnLocName: '淺草/上野分店',
-                                no: '待確認', 
-                                note: '💡 車型: Compact SUV + 雪胎 (Snow Tires)' 
-                            },
+                            rental: null,
                             hotels: [
-                                { name: 'Daiwa Roynet Hotel Numazu', dates: '10/31 - 11/02', addr: '沼津市', status: '✅ 待預約 (Standard Double)' },
-                                { name: 'Onyado Nono Matsumoto (御宿 野乃)', dates: '11/02 - 11/03', addr: '松本市深志1-5-17', status: '✅ 待預約 (Tatami)' },
-                                { name: '湯宿 季之庭', dates: '11/03 - 11/04', addr: '草津町', status: '✅ 待預約 (露天風呂付和洋室)' },
-                                { name: 'HOTEL CLAD', dates: '11/04 - 11/05', addr: '御殿場市', status: '✅ 待預約 (富士山側)' },
-                                { name: 'Hotel Resol Stay Akihabara (或其他淺草/上野酒店)', dates: '11/05 - 11/08', addr: '東京市區', status: '✅ 待預約' }
+                                { name: '暖雪 札幌 (Dansetsu Sapporo)', dates: '1/6 - 1/7', addr: '札幌市中央區南6條東2-1-1', status: '✅ 已預約' },
+                                { name: 'fav 函館酒店', dates: '1/7 - 1/9', addr: '函館市大手町20-15', status: '✅ 已預約' },
+                                { name: '暖雪 札幌 (Dansetsu Sapporo)', dates: '1/9 - 1/11', addr: '札幌市中央區南6條東2-1-1', status: '✅ 已預約' }
                             ],
-                            hotelMap: { 0: 0, 1: 0, 2: 1, 3: 2, 4: 3, 5: 4, 6: 4, 7: 4, 8: 4 },
-                            expenseHotels: [],
-                            expenseRental: { name: 'Nippon Rent-A-Car', yen: 135270, hkdStr: '待計算', note: '車租 ¥116,380 + ETC ¥18,890' },
+                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 2, 5: 2 },
+                            expenseHotels: [
+                                { name: '暖雪 札幌', dates: '1/6 - 1/7 (1晚)', yen: 15210, hkdStr: '¥15,210' },
+                                { name: 'fav 函館酒店', dates: '1/7 - 1/9 (2晚)', yen: 0, hkd: 2153.14, hkdStr: 'HK$2,153.14' },
+                                { name: '暖雪 札幌', dates: '1/9 - 1/11 (2晚)', yen: 67500, hkdStr: '¥67,500' }
+                            ],
+                            expenseRental: null,
                             expenseDining: [],
                             alarms: [
-                                { date: '出發前6個月 (4/25)', task: '🏨 搶訂「湯宿 季之庭」及「HOTEL CLAD」' },
-                                { date: '出發前4個月 (7/1)', task: '🚗 預約租車 (成田取 -> 上野/淺草還，指定 SUV + 雪胎)' },
-                                { date: '出發前2個月 (9/1)', task: '🍣 搶訂 Omakase (Mantensushi 日本橋)' },
-                                { date: '出發前1個月 (9/30)', task: '🍽️ 預約鳥貴族' },
-                                { date: '出發前3星期 (10/5)', task: '🪪 申請國際車牌 (IDP) + 買 Sim 卡' }
+                                { date: '11月頭', task: '⚠️ 預約「政壽司」及「冰雪之門」(三大蟹)！' },
+                                { date: '11月頭', task: '⚠️ 預約「和牛富士山」打邊爐！' },
+                                { date: '12月7日', task: '🎫 JR官網抢 1/7 札幌落函館「北斗號」車飛！' },
+                                { date: '12月9日', task: '🎫 JR官網抢 1/9 函館返札幌「北斗號」車飛！' },
+                                { date: '出發前', task: '🛍️ 買定防滑雪靴及冰爪！' },
+                                { date: '1月6日', task: '🏨 Check-in 時要求大行李免費寄存至 1/9！' },
+                                { date: '1月7日', task: '🎒 輕裝背囊出發落函館！帶一晚替換衣物！' }
                             ],
-                            shopping: [],
-                            parkingList: [
-                                { name: '沼津港', detail: '魚市場大型立體停車場 (收費)。' },
-                                { name: '三島大吊橋', detail: '免費大停車場。' },
-                                { name: 'Sawayaka 沼津學園通店', detail: '餐廳免費停車場。' },
-                                { name: 'Daiwa Roynet Numazu', detail: '酒店旁 Plaza Verde 停車場 (約 ¥1,000/晚)。' },
-                                { name: '大室山', detail: '吊車站前免費大停車場。' },
-                                { name: '修善寺溫泉', detail: '溫泉街附近收費停車場 (約 ¥500/次)。' },
-                                { name: '諏訪湖 (立石公園)', detail: '公園免費停車場。' },
-                                { name: '松本城', detail: '市營停車場 (收費)。' },
-                                { name: 'Onyado Nono Matsumoto', detail: '酒店停車場 (¥1,400/晚)。' },
-                                { name: '善光寺', detail: '善光寺第1停車場 (收費)。' },
-                                { name: '地獄谷野猿公苑', detail: '地獄谷免費停車場。' },
-                                { name: '湯宿 季之庭', detail: '酒店免費停車場。' },
-                                { name: '河口湖 (大石公園)', detail: '免費停車場。' },
-                                { name: '河口湖紅葉迴廊', detail: '紅葉祭臨時免費停車場。' },
-                                { name: 'HOTEL CLAD', detail: '住客免費停車場。' },
-                                { name: '御殿場 Premium Outlets', detail: '停 P2停車場 (Hotel Clad 旁，住客免費)。' }
-                            ],
+                            shopping: ['Pastry Snaffle’s 芝士蛋糕 (札幌東急店)', '防滑雪靴 / 冰爪 (必備！)', '藥妝 / Donki (狸小路)', '六花亭', 'Royce 生朱古力', '小樽玻璃工藝品', '白色戀人'],
+                            parkingList: [],
                             diningList: [
-                                { date: 'Day 1', time: '11:30', name: '沼津港 (丸天 / 魚河岸)', addr: '沼津港', bookingNo: '現場排隊' },
-                                { date: 'Day 1', time: '19:00', name: 'Sawayaka 漢堡扒', addr: '沼津學園通店', bookingNo: '16:00 預先攞飛' },
-                                { date: 'Day 2', time: '12:30', name: '伊豆高原蕎麥麵', addr: '伊豆高原', bookingNo: '現場排隊' },
-                                { date: 'Day 2', time: '19:00', name: '鰻魚飯 櫻家 (建議)', addr: '三島', bookingNo: '建議預訂' },
-                                { date: 'Day 3', time: '13:00', name: '松本市內 (山賊燒)', addr: '松本', bookingNo: '現場排隊' },
-                                { date: 'Day 4', time: '12:00', name: 'Enza Cafe', addr: '地獄谷入口', bookingNo: '現場排隊' },
-                                { date: 'Day 4', time: '18:30', name: '季之庭 會席料理', addr: '草津', bookingNo: '已包一泊二食' },
-                                { date: 'Day 7', time: '19:00', name: 'Mantensushi (日本橋)', addr: '日本橋', bookingNo: '極難預約 (正日慶祝)' },
-                                { date: 'Day 8', time: '13:00', name: 'AFURI 渋谷PARCO', addr: '渋谷PARCO', bookingNo: '現場排隊' },
-                                { date: 'Day 8', time: '20:30', name: '銀座 篝 本店', addr: '銀座', bookingNo: '現場排隊' },
-                                { date: 'Day 9', time: '11:30', name: '壽司郎 (Sushiro)', addr: '秋葉原站前店', bookingNo: 'APP 取號' }
+                                { date: '1/6', time: '19:30', name: '冰雪之門 (三大蟹)', addr: '札幌市中央區南5條西2', bookingNo: '⚠️ 必須預約' },
+                                { date: '1/7', time: '19:00', name: '函館麵廚房味彩', addr: '五稜郭塔旁邊/紅磚倉庫', bookingNo: '現場排隊' },
+                                { date: '1/8', time: '14:00', name: '茶房HISHI伊 / 舊茶屋亭', addr: '函館市寶來町 / 末廣町', bookingNo: '現場 Walk-in' },
+                                { date: '1/8', time: '18:30', name: '函館啤酒館', addr: '金森紅磚倉庫内', bookingNo: '現場排隊' },
+                                { date: '1/9', time: '19:30', name: '和牛富士山 (和牛打邊爐)', addr: '札幌市中央區大通西1丁目', bookingNo: '⚠️ 建議預約' },
+                                { date: '1/10', time: '18:00', name: '政壽司 本店 (小樽)', addr: '小樽市色内1-2-1', bookingNo: '⚠️ 建議預約' },
+                                { date: '1/11', time: '12:00', name: 'Suage+ / GARAKU (湯咖喱)', addr: '札幌市中心', bookingNo: '現場排隊' }
                             ],
                             days: [
-                                { weekday: '六', dateStr: '10/31', events: [
-                                    { time: '06:40', title: '抵達成田機場 (CX524) ✈️', departTime: '08:00', travelTime: '1h', desc: '清晨抵達東京成田機場。', category: 'flight', transportType: 'walk', loc: '成田空港' },
-                                    { time: '08:00', title: '拎車 (Pick-up) 🚗', departTime: '09:00', travelTime: '2.5 - 3h', desc: '成田機場租車櫃台 (一開門即拎)。', category: 'transport', transportType: 'car', loc: '成田空港' },
-                                    { time: '11:30', title: 'Lunch: 沼津港 (丸天 / 魚河岸) 🐟', departTime: '13:00', travelTime: '25m', desc: '經東名高速抵達沼津港。', category: 'food', transportType: 'car', loc: '沼津港', phone: '055-963-0202', mapcode: '650 583 339*01' },
-                                    { time: '13:30', title: '三島大吊橋 (Mishima Skywalk) 🌉', departTime: '15:30', travelTime: '30m', desc: '日本最長吊橋，天氣好睇富士山。', category: 'sightseeing', transportType: 'car', loc: '三島スカイウォーク', phone: '055-972-0084', mapcode: '50 238 668*85' },
-                                    { time: '16:00', title: '⚠️ 重點動作: Sawayaka 攞飛 (必做)', departTime: '16:15', travelTime: '10m', desc: '不Check-in住，先去餐廳攞飛 (星期六超多人)。', category: 'highlight', transportType: 'car', loc: 'さわやか 沼津学園通り店', phone: '055-925-2522', mapcode: '50 104 702*76' },
-                                    { time: '17:00', title: 'Check-in: Daiwa Roynet Hotel Numazu 🏨', departTime: '18:30', travelTime: '10m', desc: '停泊入 Plaza Verde 停車場。', category: 'hotel', transportType: 'walk', loc: 'ダイワロイネットホテルぬまづ', phone: '055-925-8955', mapcode: '50 073 112*71' },
-                                    { time: '19:00', title: 'Dinner: Sawayaka 漢堡扒 🍔', departTime: '21:00', travelTime: '10m', desc: '視乎叫號進度，行過去或揸車過去。', category: 'food', transportType: 'walk', loc: 'さわやか 沼津学園通り店' },
-                                    { time: '21:00', title: '返酒店休息 💤', departTime: '21:00', travelTime: '0m', desc: '停返入 Plaza Verde 停車場。', category: 'hotel', transportType: 'walk' }
+                                { weekday: 'Wed', dateStr: '1/06', events: [
+                                    { time: '16:00', title: '抵達新千歲機場 (CX584) ✈️', departTime: '17:00', travelTime: '1 hr', desc: '落機過關攞行李！如果未買 JR Pass 可以順便喺機場搞掂。', category: 'flight', transportType: 'flight', loc: '新千歳空港', phone: '0123-23-0111' },
+                                    { time: '17:30', title: '搭 JR 前往札幌 🚆', departTime: '18:15', travelTime: '45 min', desc: '乘搭 JR 快速機場線 (Rapid Airport) 直達札幌。', category: 'transport', transportType: 'train', loc: '札幌駅' },
+                                    { time: '18:30', title: 'Check-in 暖雪 札幌 🏨', departTime: '19:00', travelTime: '15 min', desc: '辦理入住！\n📍 地址: 札幌市中央區南6條東2-1-1', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk', phone: '011-513-4111', mapcode: '9 463 372*00', action: '⚠️ 最重要任務：向酒店提出 1/7 退房後，將大件行李免費寄存至 1/9 再次入住！' },
+                                    { time: '19:30', title: '晚餐：冰雪之門 (三大蟹大餐) 🦀🍲', departTime: '21:30', travelTime: '10 min', desc: '✨ 已包含：極品生毛蟹 / 鱈場蟹涮涮鍋 (蟹肉打邊爐)！食完啲蟹肉記得用個蟹湯煮粥，超級鮮甜！', category: 'highlight', loc: '氷雪の門', transportType: 'walk', phone: '011-521-3046', hours: '11:00 - 15:00, 17:00 - 22:00', closeDay: '不定休', info: '💡 冬天極度爆滿，出發前必須提早預約！' },
+                                    { time: '21:30', title: '中島公園冬季點燈 ❄️✨', departTime: '22:15', travelTime: '10 min', desc: '食飽飯散步去附近嘅中島公園，欣賞 1 月限定嘅雪地光影藝術同燈飾，超浪漫！', category: 'sightseeing', loc: '中島公園', transportType: 'walk', hours: '24小時開放', closeDay: '無休' },
+                                    { time: '22:30', title: '回酒店浸天然溫泉 ♨️', departTime: '22:30', travelTime: '0 min', desc: '執好聽日去函館嘅輕便背囊，早啲休息！', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' }
                                 ]},
-                                { weekday: '日', dateStr: '11/01', events: [
-                                    { time: '09:00', title: '酒店出發 🚗', departTime: '09:00', travelTime: '1h 15m', desc: '前往伊豆。', category: 'transport', transportType: 'car' },
-                                    { time: '10:30', title: '大室山 (伊豆) ⛰️', departTime: '12:00', travelTime: '10m', desc: '搭吊車上火山口。', category: 'sightseeing', transportType: 'car', loc: '大室山', phone: '0557-51-0258', mapcode: '48 846 512*63', hours: '09:00 - 16:15' },
-                                    { time: '12:30', title: 'Lunch: 伊豆高原食蕎麥麵 🍜', departTime: '13:45', travelTime: '45m', desc: '於伊豆高原周邊用膳。', category: 'food', transportType: 'car' },
-                                    { time: '14:30', title: '修善寺溫泉 ♨️', departTime: '17:30', travelTime: '40m', desc: '漫步溫泉街。', category: 'sightseeing', transportType: 'car', loc: '修善寺温泉', phone: '0558-72-0053', mapcode: '16 186 084*42' },
-                                    { time: '19:00', title: 'Dinner: 沼津市內 / 三島', departTime: '20:30', travelTime: '30m', desc: '建議: 鰻魚飯 櫻家 (Unagi Sakuraya) Tel: 055-975-4520', category: 'food', transportType: 'car' },
-                                    { time: '20:30', title: '返酒店休息 🏨', departTime: '20:30', travelTime: '0m', desc: 'Daiwa Roynet Hotel Numazu。', category: 'hotel', transportType: 'walk' }
+                                { weekday: 'Thu', dateStr: '1/07', events: [
+                                    { time: '08:30', title: 'Check-out 寄存行李出發！🎒', departTime: '08:45', travelTime: '15 min', desc: '退房，將大行李留喺酒店，帶輕裝背囊去搭 JR。', category: 'hotel', transportType: 'walk' },
+                                    { time: '09:00', title: 'JR 特急北斗號 前往函館 🚆', departTime: '12:50', travelTime: '3 hr 50 min', desc: '已用指定席車飛！準備好零食，欣賞沿途無敵海景同雪景！', category: 'transport', transportType: 'train', loc: '函館駅' },
+                                    { time: '13:00', title: 'Check-in fav 函館酒店 🏨', departTime: '13:30', travelTime: '5 min', desc: '酒店就喺車站附近，放低背囊即刻出發去玩！', category: 'hotel', loc: 'fav 函館', transportType: 'walk', phone: '0138-23-3000' },
+                                    { time: '14:30', title: '五稜郭塔 俯瞰雪星堡壘 ⭐', departTime: '16:00', travelTime: '20 min', desc: '搭市電前往。冬天成個五角星會變成白色，極致震撼！', category: 'sightseeing', loc: '五稜郭タワー', transportType: 'train', phone: '0138-51-4785', hours: '09:00 - 18:00', closeDay: '無休' },
+                                    { time: '17:00', title: '函館山 百萬夜景 🚠', departTime: '18:30', travelTime: '30 min', desc: '搭纜車上山，睇世界三大夜景之一！雪地反光特別靚！', category: 'sightseeing', loc: '函館山ロープウェイ', transportType: 'train', phone: '0138-23-3105', hours: '10:00 - 21:00 (冬季營運時間)', closeDay: '無休', info: '💡 山頂風大極凍，一定要著夠衫同帶頸巾！' },
+                                    { time: '19:00', title: '晚餐：函館麵廚房味彩 🍜', departTime: '20:30', travelTime: '15 min', desc: '函館名物「鹽味拉麵」嘅代表！喺冰天雪地睇完夜景，食碗極品清湯熱拉麵，成個人暖返晒！', category: 'food', loc: 'あじさい', transportType: 'walk', phone: '0138-51-8373', hours: '11:00 - 20:20', closeDay: '第四個星期三' }
                                 ]},
-                                { weekday: '一', dateStr: '11/02', events: [
-                                    { time: '09:30', title: '酒店 Check-out 🚗', departTime: '09:30', travelTime: '2.5h', desc: '路程較長，驅車前往長野縣。', category: 'transport', transportType: 'car' },
-                                    { time: '11:00', title: '諏訪湖 (立石公園) 🌅', departTime: '12:30', travelTime: '45m', desc: '電影《你的名字》取景地！', category: 'highlight', transportType: 'car', loc: '立石公園', phone: '0266-52-2111', mapcode: '75 236 391*70' },
-                                    { time: '13:00', title: 'Lunch: 松本市內 (山賊燒) 🍗', departTime: '14:15', travelTime: '15m', desc: '品嚐松本名物山賊燒。', category: 'food', transportType: 'car' },
-                                    { time: '14:30', title: '松本城 🏯', departTime: '16:30', travelTime: '10m', desc: '日本國寶城之一。', category: 'sightseeing', transportType: 'car', loc: '松本城', phone: '0263-32-2902', mapcode: '75 851 375*66', hours: '08:30 - 17:00' },
-                                    { time: '18:30', title: 'Dinner: 松本市內居酒屋 🏮', departTime: '20:30', travelTime: '15m', desc: '自由探索松本市內美食。', category: 'food', transportType: 'walk' },
-                                    { time: '21:00', title: 'Check-in: Onyado Nono Matsumoto 🏨', departTime: '21:00', travelTime: '0m', desc: '全和式榻榻米酒店。', category: 'hotel', transportType: 'walk', loc: '天然温泉 梓の湯 ドーミーイン松本', phone: '0263-37-5489', mapcode: '75 791 881*76' }
+                                { weekday: 'Fri', dateStr: '1/08', events: [
+                                    { time: '08:00', title: '函館朝市 釣魷魚體驗 🦑', departTime: '10:00', travelTime: '5 min', desc: '行去朝市體驗親自釣魷魚，即釣即食！推薦去「きくよ食堂 (Kikuyo)」食埋滿滿嘅海鮮丼做早餐！', category: 'food', loc: '函館朝市', transportType: 'walk', phone: '0138-22-7981', hours: '06:00 - 14:00 (冬季)', closeDay: '無休' },
+                                    { time: '10:30', title: '元町地區 異國風情散步 🚶', departTime: '12:30', travelTime: '15 min', desc: '參觀函館正教會、舊公會堂，感受充滿西洋風情嘅街道。', category: 'sightseeing', loc: '元町', transportType: 'walk' },
+                                    { time: '12:45', title: '八幡坂 日劇打卡位 📸', departTime: '13:30', travelTime: '10 min', desc: '一條直通向結冰海港嘅長斜路，兩邊樹上積滿雪，超級浪漫。', category: 'sightseeing', loc: '八幡坂', transportType: 'walk' },
+                                    { time: '14:00', title: '下午茶：茶房HISHI伊 / 舊茶屋亭 🍵', departTime: '15:30', travelTime: '10 min', desc: '行到攰攰哋，去大正浪漫風嘅古民家 Cafe 歎個日式靚茶同甜品，影相打卡兼暖身休息！', category: 'food', loc: '茶房ひし伊', loc2: '旧茶屋亭', loc2Name: '舊茶屋亭', transportType: 'walk', hours: '10:00 - 18:00', closeDay: '無休' },
+                                    { time: '15:45', title: '金森紅磚倉庫 雪中漫步 🚢', departTime: '18:15', travelTime: '10 min', desc: '喺紅磚倉庫群尋寶買手信，影運河雪景。', category: 'shopping', loc: '金森赤レンガ倉庫', transportType: 'walk', phone: '0138-27-5530', hours: '09:30 - 19:00', closeDay: '無休' },
+                                    { time: '18:30', title: '晚餐：函館啤酒館 🍻🥩', departTime: '20:30', travelTime: '5 min', desc: '就喺紅磚倉庫入面！極具氣氛嘅磚牆環境，歎函館地道釀造啤酒配西式大餐！', category: 'highlight', loc: '函館ビヤホール', transportType: 'walk', phone: '0138-27-1010', hours: '11:30 - 21:30', closeDay: '無休' },
+                                    { time: '20:45', title: '回酒店休息 💤', departTime: '20:45', travelTime: '10 min', desc: '聽日返札幌。', category: 'hotel', loc: 'fav 函館', transportType: 'walk' }
                                 ]},
-                                { weekday: '二', dateStr: '11/03', events: [
-                                    { time: '08:15', title: '提早出發 🚗', departTime: '08:15', travelTime: '1h 15m', desc: '紅日假期，盡早出發。', category: 'transport', transportType: 'car' },
-                                    { time: '09:30', title: '善光寺 ⛩️', departTime: '11:15', travelTime: '50m', desc: '著名古剎。', category: 'sightseeing', transportType: 'car', loc: '善光寺', phone: '026-234-3591' },
-                                    { time: '12:00', title: 'Lunch: Enza Cafe ☕', departTime: '13:00', travelTime: '10m', desc: '位於地獄谷入口。', category: 'food', transportType: 'car', loc: 'Enza Cafe', phone: '0269-38-1736', mapcode: '341 818 200*82' },
-                                    { time: '13:00', title: '地獄谷野猿公苑 🐒', departTime: '16:00', travelTime: '1.5 - 2h', desc: '步行入山 (來回約1小時) 睇馬騮浸溫泉。', category: 'highlight', transportType: 'walk', loc: '地獄谷野猿公苑' },
-                                    { time: '16:30', title: 'Check-in: 湯宿 季之庭 ♨️', departTime: '17:00', travelTime: '0m', desc: '經 Route 292 抵達草津溫泉。入住露天風呂付和洋室！', category: 'hotel', transportType: 'car', loc: '湯宿 季の庭', phone: '0279-89-9320', mapcode: '341 448 004*52' },
-                                    { time: '18:30', title: '季之庭 會席料理 🍱', departTime: '20:30', travelTime: '0m', desc: '享用一泊二食豐富晚餐。', category: 'food', transportType: 'walk' }
+                                { weekday: 'Sat', dateStr: '1/09', events: [
+                                    { time: '09:00', title: 'Check-out & 買手信 🎒', departTime: '09:45', travelTime: '10 min', desc: '退房，去函館站前買少少地道手信。', category: 'hotel', transportType: 'walk' },
+                                    { time: '10:00', title: 'JR 特急北斗號 返回札幌 🚆', departTime: '13:50', travelTime: '3 hr 50 min', desc: '揮別函館，搭車返大本營。', category: 'transport', transportType: 'train' },
+                                    { time: '14:30', title: 'Check-in 暖雪 札幌 🏨', departTime: '15:00', travelTime: '15 min', desc: '重新 Check-in，領回寄放嘅大行李！', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' },
+                                    { time: '15:30', title: '大通公園：雪雕地盤 x 白色燈樹節 🏗️🌟', departTime: '17:30', travelTime: '15 min', desc: '【1月期間限定】去大通公園睇自衛隊「起雪雕」嘅震撼幕後花絮！大約 16:30 入黑後，站前通同廣場嘅「札幌白色燈樹節」幾十萬盞燈飾就會著晒，一次過睇晒！', category: 'sightseeing', loc: '大通公園', transportType: 'train', hours: '24小時開放', closeDay: '無休' },
+                                    { time: '18:00', title: '狸小路 瘋狂血拼 🛍️', departTime: '19:15', travelTime: '10 min', desc: '今日星期六，盡情喺狸小路補給藥妝同手信！', category: 'shopping', loc: '狸小路商店街', transportType: 'walk', hours: '視乎個別店舖 (多數 10:00-20:00)', closeDay: '無休' },
+                                    { time: '19:30', title: '晚餐：和牛富士山 (極品打邊爐) 🥩🍲', departTime: '21:30', travelTime: '10 min', desc: '喺 Le Trois 商場 8 樓，望住大通公園雪夜景，歎「北海道和牛涮涮鍋 / 壽喜燒」！', category: 'highlight', loc: '和牛しゃぶしゃぶ すき焼 富士山', transportType: 'walk', phone: '011-200-3329', hours: '17:00 - 22:30', closeDay: '不定休', info: '💡 建議出發前一至兩個月 Book 定窗邊位！' }
                                 ]},
-                                { weekday: '三', dateStr: '11/04', events: [
-                                    { time: '10:00', title: 'Check-out 🚗', departTime: '10:00', travelTime: '3h', desc: '離開草津，驅車前往河口湖。', category: 'transport', transportType: 'car' },
-                                    { time: '13:00', title: '河口湖 (大石公園) 🗻', departTime: '14:15', travelTime: '10m', desc: '欣賞河口湖與富士山美景。', category: 'sightseeing', transportType: 'car', loc: '大石公園', phone: '0555-76-8230', mapcode: '161 303 446*52' },
-                                    { time: '14:30', title: '河口湖紅葉迴廊 🍁', departTime: '16:00', travelTime: '20m', desc: '秋季限定美景。', category: 'sightseeing', transportType: 'car', loc: 'もみじ回廊', phone: '0555-72-2277', mapcode: '161 361 561*66' },
-                                    { time: '16:30', title: 'Herb Garden 富士河口湖庭園 (紅葉點燈) 🏮', departTime: '17:30', travelTime: '45m', desc: '秋季特別點燈 (Autumn light-up)。最終入場時間: 17:30。', category: 'highlight', transportType: 'car', loc: 'ハーブ庭園 旅日記 富士河口湖庭園' },
-                                    { time: '18:15', title: 'Check-in: HOTEL CLAD 🏨', departTime: '19:00', travelTime: '0m', desc: '浸「木之花之湯」。', category: 'hotel', transportType: 'car', loc: 'HOTEL CLAD', phone: '0550-81-0321', mapcode: '50 806 191*75' },
-                                    { time: '19:00', title: '晚飯 🍽️', departTime: '20:30', travelTime: '0m', desc: '於御殿場周邊用膳。', category: 'food', transportType: 'walk' }
+                                { weekday: 'Sun', dateStr: '1/10', events: [
+                                    { time: '09:30', title: '出發前往小樽 🚆', departTime: '10:10', travelTime: '40 min', desc: '搭 JR 快速列車直達小樽 (用 IC 卡拍卡入閘即可)。', category: 'transport', transportType: 'train', loc: '小樽駅' },
+                                    { time: '10:30', title: '堺町通商店街 玻璃工藝與甜品 🍰', departTime: '14:30', travelTime: '10 min', desc: '漫步歐風街道，必去北一硝子館，同埋食 LeTAO 雙層芝士蛋糕！', category: 'shopping', loc: '堺町通り商店街', transportType: 'walk', hours: '09:00 - 18:00 (多數店舖)', closeDay: '無休' },
+                                    { time: '15:00', title: '小樽運河 白晝與黃昏 🛶', departTime: '17:30', travelTime: '10 min', desc: '影低日頭嘅雪景運河。等到入黑亮起煤氣燈，氣氛完全唔同，超級浪漫！', category: 'sightseeing', loc: '小樽運河', transportType: 'walk', hours: '24小時開放 (點燈至 24:00)', closeDay: '無休', info: '💡 建議可以體驗埋遊船河。' },
+                                    { time: '18:00', title: '晚餐：政壽司 本店 🍣', departTime: '20:00', travelTime: '10 min', desc: '《將太的壽司》原型名店！舒舒服服食頂級壽司，強烈建議預先 Book 定！', category: 'highlight', loc: 'おたる政寿司 本店', transportType: 'walk', phone: '0134-23-0011', hours: '11:00 - 15:00, 17:00 - 21:00', closeDay: '星期三' },
+                                    { time: '20:30', title: '搭 JR 返回札幌 🚆', departTime: '21:10', travelTime: '40 min', desc: '結束浪漫嘅小樽一日遊。', category: 'transport', transportType: 'train' }
                                 ]},
-                                { weekday: '四', dateStr: '11/05', events: [
-                                    { time: '08:00', title: '悠閒早餐 & 酒店退房 ☕', departTime: '09:45', travelTime: '15m', desc: '今日見唔到富士山唔緊要，轉個心態直接喺 HOTEL CLAD 慢慢歎早餐！', category: 'hotel', transportType: 'walk' },
-                                    { time: '10:00', title: '御殿場 Premium Outlets 🛍️', departTime: '15:00', travelTime: '2.5h', desc: '瘋狂 Shopping！', category: 'shopping', transportType: 'walk', loc: '御殿場プレミアム・アウトレット' },
-                                    { time: '15:00', title: '出發直返東京！ 🚗', departTime: '17:30', travelTime: '0m', desc: '滿載而歸，直奔東京市區！', category: 'transport', transportType: 'car' },
-                                    { time: '17:30', title: '酒店 擺低行李 🧳', departTime: '18:00', travelTime: '30m', desc: '先揸車去市區酒店放低大行李，無車一身輕先去還車！', category: 'hotel', transportType: 'car' },
-                                    { time: '18:00', title: '🚗 還車 (Return Car)', departTime: '19:00', travelTime: '30m', desc: '淺草/上野分店。⚠️ 記得搵油站入滿油 (Full Tank)！', category: 'transport', transportType: 'car' },
-                                    { time: '19:00', title: 'Dinner: 上野 / 御徒町 自由搵食 🍜', departTime: '21:00', travelTime: '30m', desc: '還車後輕鬆食晚餐。', category: 'food', transportType: 'walk' },
-                                    { time: '21:45', title: '返酒店休息 💤', departTime: '21:45', travelTime: '0m', desc: '返回市區酒店。', category: 'hotel', transportType: 'walk' }
+                                { weekday: 'Mon', dateStr: '1/11', events: [
+                                    { time: '09:30', title: '最後補給 & 執行李 🧳', departTime: '11:00', travelTime: '0 min', desc: '將所有戰利品塞入大篋。', category: 'hotel', transportType: 'walk' },
+                                    { time: '11:00', title: 'Check-out 暖雪 札幌 🏨', departTime: '11:30', travelTime: '15 min', desc: '帶住所有行李出發。', category: 'hotel', loc: '暖雪 札幌', transportType: 'walk' },
+                                    { time: '11:30', title: '東急百貨買 Snaffle’s 🍰', departTime: '12:00', travelTime: '10 min', desc: '去 JR 札幌站旁邊嘅東急百貨地下，買你指定嘅【Pastry Snaffle’s】半熟芝士蛋糕帶返香港！', category: 'shopping', loc: 'さっぽろ東急百貨店', transportType: 'walk', hours: '10:00 - 20:00', closeDay: '不定休' },
+                                    { time: '12:00', title: '午餐：札幌必食湯咖喱 🍛', departTime: '13:30', travelTime: '10 min', desc: '上機前最後衝刺！必食「Suage+」或「GARAKU」湯咖喱，香料熱湯配炸北海道甜南瓜、薯仔同巨型雞髀，暖胃滿分！', category: 'food', loc: 'Suage+', loc2: 'GARAKU', loc2Name: 'GARAKU', transportType: 'walk', phone: '011-233-2911', hours: '11:30 - 21:30', closeDay: '無休' },
+                                    { time: '14:00', title: 'JR 快速機場線 🚆', departTime: '14:45', travelTime: '45 min', desc: '出發前往新千歲機場。', category: 'transport', transportType: 'train', loc: '新千歳空港' },
+                                    { time: '15:00', title: '新千歲機場 終極掃貨 🛍️', departTime: '16:30', travelTime: '1.5 hr', desc: '機場國內線客運大樓超好買！', category: 'shopping', transportType: 'walk' },
+                                    { time: '16:30', title: '辦理登機手續 (CX587) ✈️', departTime: '19:05', travelTime: '0 min', desc: '預留時間過海關，19:05 起飛返香港！', category: 'flight', transportType: 'flight' }
+                                ]}
+                            ]
+                        },
+
+                        // ================= 🌸 4月 輕井澤 =================
+                        karuizawa: {
+                            id: 'karuizawa', title: "🌸 4月春遊：輕井澤 x 富士山", date: '2026-04-18', range: '2026/04/18 - 04/25 (8日7夜)',
+                            docLink: 'https://docs.google.com/document/d/1-4mgjTycE9bGWhuitIkigPSM4_0fBPlZX2RoVRCTlXw/edit?usp=drivesdk',
+                            flights: { out: { code: 'CX524', date: '04/18 (六)', dep: '01:20', depLoc: '香港 HKG', arr: '06:40', arrLoc: '成田 T2', duration: '4h 20m' }, in: { code: 'CX501', date: '04/25 (六)', dep: '21:40', depLoc: '成田 T2', arr: '01:40', arrLoc: '香港 HKG', duration: '4h 00m' } },
+                            rental: { company: 'Nippon Rent-A-Car', pickupDate: '04/20 (一)', pickupTime: '09:30', pickupLocName: 'T-CAT (水天宮)', returnDate: '04/22 (三)', returnTime: '20:30', returnLocName: 'T-CAT (水天宮)', no: '98147748300', note: '車型: Nippon 私家車/休旅車' },
+                            hotels: [ 
+                                { name: 'VIA INN PRIME 日本橋人形町', dates: '4/18 - 4/20', addr: '東京都中央區日本橋人形町2-30-5', status: '✅ 已完成' }, 
+                                { name: 'Toyoko Inn 佐久平站淺間口', dates: '4/20 - 4/22', addr: '長野縣佐久市佐久平站北1-1', status: '✅ 已完成' }, 
+                                { name: '八重翠東京酒店 (Yaenomidori)', dates: '4/22 - 4/25', addr: '東京都中央區八丁堀2-13-1', status: '✅ 已完成' } 
+                            ],
+                            hotelMap: { 0: 0, 1: 0, 2: 1, 3: 1, 4: 2, 5: 2, 6: 2, 7: 2 },
+                            expenseHotels: [], expenseRental: { name: 'Nippon Rent-A-Car 租車', yen: 0, hkdStr: '已包含' }, expenseDining: [],
+                            alarms: [ { date: '出發前', task: '確認 Toyota 租車車型！' } ],
+                            shopping: ['保暖襪', '隱形眼鏡', 'Head dress', 'NuBra', 'ReFa (澀谷)', '藥妝/Donki (澀谷)'],
+                            parkingList: [],
+                            diningList: [
+                                { date: 'Day 1 (4/18)', time: '11:50', name: '利久牛舌 (上野)', addr: '台东区上野3-24-6 PARCO_ya 6F', bookingNo: '現場排隊' },
+                                { date: 'Day 1 (4/18)', time: '19:30', name: '平城苑 浅草總本店', addr: '台东区雷門1-15-10', bookingNo: '已預約' },
+                                { date: 'Day 5 (4/22)', time: '13:00', name: '手打蕎麥麵 とも花', addr: '山梨県南都留郡富士河口湖町', bookingNo: '現場排隊' },
+                                { date: 'Day 5 (4/22)', time: '20:45', name: 'お魚總本家 (銀座店)', addr: '中央区銀座5-9-11', bookingNo: '預約: 吧枱位' },
+                                { date: 'Day 7 (4/24)', time: '10:00', name: '大和壽司 (豐洲市場)', addr: '江東区豊洲6-3-2', bookingNo: 'RCA5GN' },
+                                { date: 'Day 8 (4/25)', time: '11:00', name: 'まんてん鮨 (丸之內店)', addr: '千代田区丸の内2-6-1 B1F', bookingNo: '已預約' }
+                            ],
+                            days: [
+                                { weekday: '六', dateStr: '04/18', events: [
+                                    { time: '01:20', title: '出發去東京 (CX524) ✈️', departTime: '06:40', travelTime: '4h 20m', desc: '凌晨機準備出發！', category: 'flight', transportType: 'flight', loc: '香港國際機場' },
+                                    { time: '06:40', title: '抵達東京成田機場', desc: '過關、攞行李', category: 'transport', transportType: 'walk', loc: 'Narita Airport' },
+                                    { time: '11:50', title: '午餐：利久牛舌 (上野)', departTime: '13:00', desc: '上野 PARCO_ya 6F 食牛舌！', category: 'food', transportType: 'train', loc: '利久 PARCO_ya上野店' },
+                                    { time: '15:00', title: 'Check-in (VIA INN PRIME)', desc: '放低行李休息下', category: 'hotel', transportType: 'walk', loc: 'VIA INN PRIME 日本橋人形町' },
+                                    { time: '19:30', title: '平城苑 浅草總本店', desc: '已預約！第一晚食和牛燒肉！', category: 'food', transportType: 'train', loc: '平城苑 浅草総本店' }
                                 ]},
-                                { weekday: '五', dateStr: '11/06', events: [
-                                    { time: '16:30', title: '東京鐵塔 (停車場樓梯位) 🗼', departTime: '18:00', travelTime: '30m', desc: '地點: 地下停車場出入口樓梯。打卡熱點！', category: 'sightseeing', transportType: 'walk', loc: '東京タワー地下駐車場 階段' },
-                                    { time: '19:00', title: 'Dinner: Mantensushi (日本橋) 🍣', departTime: '21:00', travelTime: '30m', desc: '10+1 雙重慶祝飯 ✨ (極難預約！)', category: 'highlight', transportType: 'walk', loc: 'まんてん鮨 日本橋', phone: '03-3277-6045' },
-                                    { time: '21:30', title: '返酒店休息 💤', departTime: '21:30', travelTime: '0m', desc: '返回酒店。', category: 'hotel', transportType: 'walk' }
+                                { weekday: '日', dateStr: '04/19', events: [
+                                    { time: '10:00', title: '市區逛街 / 自由活動', desc: '準備聽日自駕，今日輕鬆行下買下嘢。', category: 'sightseeing', transportType: 'walk' }
                                 ]},
-                                { weekday: '六', dateStr: '11/07', events: [
-                                    { time: '13:00', title: 'Lunch: AFURI 渋谷PARCO 🍜', departTime: '14:30', travelTime: '30m', desc: '品嚐清爽柚子鹽拉麵。', category: 'food', transportType: 'walk', loc: 'AFURI 渋谷PARCO' },
-                                    { time: '15:00', title: '市區逛街 🛍️', departTime: '19:00', travelTime: '30m', desc: '自由探索吉祥寺或澀谷等地。', category: 'shopping', transportType: 'walk' },
-                                    { time: '20:30', title: 'Dinner: 銀座 篝 本店 🍜', departTime: '22:00', travelTime: '30m', desc: '濃郁雞白湯拉麵名店。', category: 'food', transportType: 'walk', loc: '銀座 篝 本店' }
+                                { weekday: '一', dateStr: '04/20', events: [
+                                    { time: '09:30', title: '取車前往輕井澤 🚗', desc: 'T-CAT (水天宮) 提取 Nippon 租車，直奔輕井澤！', departTime: '09:30', category: 'transport', transportType: 'car', loc: 'Nippon Rent-A-Car T-CAT' },
+                                    { time: '10:30', title: '川上庵 本店 🥢', desc: '【車機 Mapcode 確認】排隊名店！一定要早去！', departTime: '10:00', category: 'food', transportType: 'car', loc: 'Sekireibashi Kawakamian', phone: '0267-42-0009' },
+                                    { time: '14:30', title: 'Outlet 瘋狂 Shopping', desc: '食飽行街！🛍️【車機 Mapcode / 電話已 100% 更正】', departTime: '14:30', category: 'shopping', transportType: 'walk', loc: 'Prince Shopping Plaza', phone: '0267-42-5211', mapcode: '292 616 347*47' },
+                                    { time: '18:00', title: 'Check-in (Toyoko Inn)', desc: '準備聽日大日子', departTime: '17:40', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
                                 ]},
-                                { weekday: '日', dateStr: '11/08', events: [
-                                    { time: '11:30', title: 'Lunch: 壽司郎 (Sushiro) 🍣', departTime: '13:00', travelTime: '30m', desc: '秋葉原站前店。記得用 App 抽飛！', category: 'food', transportType: 'walk', loc: 'スシロー 秋葉原駅前店' },
-                                    { time: '13:30', title: '返酒店攞行李 ➔ 搭 Skyliner 🚆', departTime: '15:00', travelTime: '41m', desc: '搭的士前往京成上野站，轉乘 Skyliner 前往成田機場。', category: 'transport', transportType: 'train', loc: '京成上野駅' },
-                                    { time: '15:00', title: '抵達成田機場 Terminal 2', departTime: '18:00', travelTime: '0m', desc: '辦理登機手續，機場最後血拼。', category: 'transport', transportType: 'walk', loc: '成田空港' },
-                                    { time: '18:00', title: '起飛: CX505 返香港 ✈️', departTime: '22:50', travelTime: '0m', desc: '滿載回憶，平安返港！', category: 'flight', transportType: 'flight' }
+                                { weekday: '二', dateStr: '04/21', events: [
+                                    { time: '07:00', title: '化妝造型開始💄', departTime: '06:45', category: 'highlight', transportType: 'walk' },
+                                    { time: '10:00', title: 'Pre-wedding 📸', departTime: '09:30', desc: '全日拍攝 (自駕移動)', category: 'sightseeing', transportType: 'car', loc: 'Karuizawa' },
+                                    { time: '19:00', title: '村民食堂晚餐', departTime: '18:30', desc: '慶功和食！', category: 'food', transportType: 'car', loc: 'Karuizawa Hoshino Area', mapcode: '292 701 462*82', phone: '0267-44-3571' },
+                                    { time: '21:00', title: '回程酒店', desc: '休息', departTime: '20:40', category: 'hotel', transportType: 'car', loc: 'Toyoko Inn Sakudaira', phone: '0267-66-1045' }
+                                ]},
+                                { weekday: '三', dateStr: '04/22', events: [
+                                    { time: '08:00', title: '出發 ➔ 富士山 🚗', departTime: '08:00', desc: '向富士山出發！車程約 2.5 小時', category: 'transport', transportType: 'car', travelTime: '2.5 hr', loc: 'Fuji Motosuko Resort' },
+                                    { time: '10:30', title: '富士芝櫻祭 🌸🗻', departTime: '10:30', desc: '期間限定粉紅地毯配富士山絕景！', category: 'sightseeing', transportType: 'car', loc: 'Fuji Motosuko Resort', phone: '0555-89-3031', mapcode: '312 214 743*01' },
+                                    { time: '13:00', title: '午餐: 手打蕎麥麵 とも花 🍜', departTime: '12:45', desc: '【Triple Check 確認營業】河口湖超人氣手打蕎麥麵專門店！水曜日確定營業！', category: 'food', transportType: 'car', loc: 'Teuchi Soba Tomoka Kawaguchiko', phone: '0555-72-1796' },
+                                    { time: '14:30', title: '大石公園散步 ➔ 返東京 🚗', departTime: '14:30', desc: '影埋最後富士山靚相，起程返東京 (預留塞車時間)', category: 'sightseeing', transportType: 'car', travelTime: '2 hr', loc: 'Oishi Park', phone: '0555-72-8772' },
+                                    { time: '18:30', title: '八重翠酒店擺低行李 🧳', departTime: '18:15', desc: '【車機入電話】先返酒店放低大行李，輕鬆還車！', category: 'hotel', transportType: 'car', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
+                                    { time: '20:00', title: 'T-CAT 還車 (水天宮) 🚗', departTime: '19:45', desc: '記得喺附近入滿油！最後還車 Deadline 20:30', category: 'transport', transportType: 'car', loc: 'Toyota Rent a Car T-CAT', phone: '03-3662-0100' },
+                                    { time: '20:45', title: '🐟 晚餐: お魚總本家', departTime: '20:30', desc: '✨ 返銀座食慶功大餐！', category: 'food', transportType: 'walk', loc: 'Osakana Sohonke Ginza' }
+                                ]},
+                                { weekday: '四', dateStr: '04/23', events: [
+                                    { time: '06:15', title: '酒店食早餐 🍙', departTime: '06:15', desc: '食尋晚買定嘅早餐！準備 06:45 準時出門！', category: 'food', transportType: 'walk' },
+                                    { time: '06:45', title: '出發 Disney 🚃', departTime: '06:45', desc: '【最遲極限】行去「八丁堀站」搭 JR京葉線，力爭早過第一波人潮！', category: 'transport', transportType: 'train', travelTime: '45 min', loc: 'Tokyo DisneySea' },
+                                    { time: '07:30', title: '抵達 DisneySea 門口 🏰', departTime: '07:30', desc: '安檢兼排隊，霸個靚位等 Rope Drop！', category: 'other', transportType: 'walk', loc: 'Tokyo DisneySea' },
+                                    { time: '08:30', title: '入園第一秒：搶 Pass！📱', departTime: '08:30', desc: '✨ 門票已買！即開 App 搶 Fantasy Springs (冰雪奇緣/小飛俠) Standby Pass！', category: 'ticket', transportType: 'walk', loc: 'Tokyo DisneySea' },
+                                    { time: '20:30', title: '回程酒店休息', departTime: '20:15', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
+                                ]},
+                                { weekday: '五', dateStr: '04/24', events: [
+                                    { time: '09:30', title: '前往豐洲', desc: '【巴士】Tokyo BRT (新橋 -> 豐洲市場前)\n快過海鷗號，平過海鷗號', departTime: '09:15', category: 'transport', transportType: 'bus', travelTime: '15 min', loc: 'Toyosu Market' },
+                                    { time: '10:00', title: '大和壽司 🍣', departTime: '09:45', desc: '✨ 賣完即止！已預約 (結婚紀念日)\n預約號: RCA5GN', category: 'highlight', transportType: 'walk', loc: 'Daiwa Sushi' },
+                                    { time: '13:30', title: 'TeamLab Planets', departTime: '13:00', desc: '豐洲 (入場時間: 13:00-13:30)\n✨ 門票已買！', category: 'sightseeing', transportType: 'walk', loc: 'TeamLab Planets' },
+                                    { time: '18:30', title: '晚餐：喫茶YOU', desc: '東銀座站旁\n【必食】 流心蛋包飯，可能要排隊', departTime: '18:00', category: 'food', transportType: 'train', loc: 'Kissa YOU' },
+                                    { time: '20:30', title: '回程酒店', desc: '休息', departTime: '20:00', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' }
+                                ]},
+                                { weekday: '六', dateStr: '04/25', events: [
+                                    { time: '09:30', title: 'Check-out & 寄行李 🧳', departTime: '09:30', desc: '行李留喺酒店 Lobby，兩手空空出發食 Omakase！', category: 'other', transportType: 'walk', loc: 'Yaenomidori Tokyo', phone: '03-6263-2020' },
+                                    { time: '10:15', title: '出發前往丸之內 🚃', departTime: '10:15', desc: '行去搭車或者直接的士過去！', category: 'transport', transportType: 'train' },
+                                    { time: '11:00', title: 'まんてん鮨 (丸之內店) 🍣', departTime: '11:00', desc: '✨ 已預約: 11:00 (約會紀念日)', category: 'highlight', transportType: 'walk', loc: 'Manten Sushi Marunouchi', phone: '03-6269-9100' },
+                                    { time: '13:00', title: '東京站一番街 Shopping 🛍️', departTime: '13:00', desc: '最後衝刺買手信同動漫周邊！', category: 'shopping', transportType: 'walk', loc: 'Tokyo Character Street' },
+                                    { time: '16:00', title: '返回酒店提取行李 🧳', departTime: '15:30', desc: '返八重翠拎返行李，喺 Lobby 休息下準備上專車。', category: 'hotel', transportType: 'train', loc: 'Yaenomidori Tokyo' },
+                                    { time: '17:00', title: 'KKday 專車前往機場 🚗💨', departTime: '16:50', desc: '✨ 已預約: Toyota Alphard (6人座)\n酒店大堂直達成田，專人接送！', category: 'transport', transportType: 'car', loc: 'Narita Airport' },
+                                    { time: '18:30', title: '到達機場 (CX501) ✈️', desc: '21:40起飛，拜拜日本！', departTime: '17:00', category: 'flight', transportType: 'flight', loc: 'Narita Airport' }
                                 ]}
                             ]
                         }
