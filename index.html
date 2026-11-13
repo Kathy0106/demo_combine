@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
-    <title>10+1 OurStory</title>
+    <title>11+2 OurStory</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/3.3.4/vue.global.min.js"></script>
@@ -120,6 +120,7 @@
                 </button>
                 
                 <select v-model="currentTrip" class="bouncy-click bg-white border-[3px] border-[#333333] rounded-full px-3 py-1.5 text-[12px] font-black outline-none appearance-none cursor-pointer shadow-[1px_2px_0px_#333333]">
+                    <option value="kanto_tohoku">🍁 11+2 Ourstory</option>
                     <option value="central">🍁 10月秋遊</option>
                     <option value="hokkaido">❄️ 1月冬遊</option>
                     <option value="karuizawa">🌸 4月春遊</option>
@@ -171,9 +172,9 @@
                         <path v-if="currentTrip === 'hokkaido'" d="M 28 115 L 60 70 L 96 115 Q 75 130 60 115 Q 45 130 28 115 Z" fill="#FFFFFF" stroke="#333333" stroke-width="3" stroke-linejoin="round"/>
 
                         <!-- 秋天樹林 (背景) -->
-                        <path v-if="currentTrip === 'central'" d="M -10 170 Q 30 110 70 170 Z" fill="#FFB020" stroke="#333333" stroke-width="3"/>
-                        <path v-if="currentTrip === 'central'" d="M 40 170 Q 90 90 140 170 Z" fill="#D7434D" stroke="#333333" stroke-width="3"/>
-                        <path v-if="currentTrip === 'central'" d="M 320 170 Q 360 120 410 170 Z" fill="#FFB020" stroke="#333333" stroke-width="3"/>
+                        <path v-if="currentTrip === 'central' || currentTrip === 'kanto_tohoku'" d="M -10 170 Q 30 110 70 170 Z" fill="#FFB020" stroke="#333333" stroke-width="3"/>
+                        <path v-if="currentTrip === 'central' || currentTrip === 'kanto_tohoku'" d="M 40 170 Q 90 90 140 170 Z" fill="#D7434D" stroke="#333333" stroke-width="3"/>
+                        <path v-if="currentTrip === 'central' || currentTrip === 'kanto_tohoku'" d="M 320 170 Q 360 120 410 170 Z" fill="#FFB020" stroke="#333333" stroke-width="3"/>
                         <!-- 春天櫻花樹林 (背景) -->
                         <path v-if="currentTrip === 'karuizawa'" d="M -10 170 Q 30 110 70 170 Z" fill="#FFB7C5" stroke="#333333" stroke-width="3"/>
                         <path v-if="currentTrip === 'karuizawa'" d="M 40 170 Q 90 90 140 170 Z" fill="#FF9EBB" stroke="#333333" stroke-width="3"/>
@@ -219,7 +220,7 @@
                         </g>
 
                         <!-- 紅葉/櫻花/飄雪 點綴 -->
-                        <g v-if="currentTrip === 'central'">
+                        <g v-if="currentTrip === 'central' || currentTrip === 'kanto_tohoku'">
                             <path d="M 360 80 Q 370 70 380 80 Q 370 90 360 80 Z" fill="#D7434D" stroke="#333333" stroke-width="2"/>
                             <path d="M 330 100 Q 340 90 350 100 Q 340 110 330 100 Z" fill="#FFB020" stroke="#333333" stroke-width="2"/>
                         </g>
@@ -655,7 +656,7 @@
         createApp({
             data() {
                 return {
-                    currentTrip: 'central',
+                    currentTrip: 'kanto_tohoku',
                     activeTab: 'home', selectedDayIndex: 0, 
                     showSettings: false, showHotelModal: false, newShopItem: '',
                     weather: { city_name: '東京', temp: '--', icon: 'fa-spinner fa-spin' },
@@ -665,6 +666,110 @@
                     now: new Date(),
                     
                     trips: {
+                        // ================= 🍁 11月 關東東北 (新增) =================
+                        kanto_tohoku: {
+                            id: 'kanto_tohoku', title: "🍁 11+2 Ourstory：關東東北大自然自駕遊", date: '2027-11-06', range: '2027/11/06 - 11/14 (9日8夜)',
+                            docLink: '',
+                            flights: { 
+                                out: { code: 'CX 早機', date: '11/06 (六)', dep: '09:00', depLoc: '香港 HKG', arr: '14:30', arrLoc: '成田 NRT', duration: '4h 30m' }, 
+                                in: { code: 'CX 晚機', date: '11/14 (日)', dep: '18:30', depLoc: '成田 NRT', arr: '22:50', arrLoc: '香港 HKG', duration: '5h 20m' } 
+                            },
+                            rental: { 
+                                company: 'Toyota Prius (指定車型)', 
+                                pickupDate: '11/06 (六)', pickupTime: '15:30', pickupLocName: '成田機場',
+                                returnDate: '11/14 (日)', returnTime: '15:30', returnLocName: '成田機場',
+                                no: '待預約', 
+                                note: '💡 必須要求：雪胎 (Studless Tires) + ETC 卡' 
+                            },
+                            hotels: [
+                                { name: '水戶市 現代化酒店', dates: '11/6 - 11/7', addr: '茨城縣 水戶市', status: '待預約' },
+                                { name: '會津若松市 普通酒店', dates: '11/7 - 11/9', addr: '福島縣 會津若松', status: '待預約' },
+                                { name: '那須 / 鹽原市 西式酒店', dates: '11/9 - 11/10', addr: '栃木縣 那須鹽原市', status: '待預約' },
+                                { name: '星野集團 界 鬼怒川', dates: '11/10 - 11/11', addr: '栃木縣日光市鬼怒川溫泉', status: '待預約' },
+                                { name: '日光市區 西式酒店', dates: '11/11 - 11/12', addr: '栃木縣 日光市', status: '待預約' },
+                                { name: '筑波市中心 現代酒店', dates: '11/12 - 11/13', addr: '茨城縣 筑波市', status: '待預約' },
+                                { name: '成田機場周邊酒店', dates: '11/13 - 11/14', addr: '千葉縣 成田市', status: '待預約' }
+                            ],
+                            hotelMap: { 0: 0, 1: 1, 2: 1, 3: 2, 4: 3, 5: 4, 6: 5, 7: 6, 8: 6 },
+                            expenseHotels: [],
+                            expenseRental: { name: 'Toyota Prius (連ETC及雪胎)', yen: 0, hkdStr: '待計算' },
+                            expenseDining: [],
+                            alarms: [
+                                { date: '約1年前', task: '搶訂 星野集團 界 鬼怒川 (RA3房型)' },
+                                { date: '出發前半年', task: '預訂國泰 (CX) 成田早去晚回機票' },
+                                { date: '出發前', task: '申請國際車牌 (IDP)' },
+                                { date: '出發前', task: '確認租車公司提供冬季輪胎 (Studless Tires)' }
+                            ],
+                            shopping: ['福島會津傳統工藝', '宇都宮餃子手信', '鬼怒川溫泉特產', '佐原水鄉小食'],
+                            parkingList: [
+                                { name: '袋田瀑布', detail: '附近設有觀光停車場。' },
+                                { name: '大內宿', detail: '村口設有大型收費停車場。' },
+                                { name: '那須纜車', detail: '山腰纜車站停車場 (冬季如遇積雪須小心)。' },
+                                { name: '星野 界 鬼怒川', detail: '山腳專屬住客停車場 (乘纜車上酒店)。' }
+                            ],
+                            diningList: [
+                                { date: 'Day 2', time: '13:00', name: '袋田瀑布 鹽烤香魚', addr: '瀑布周邊小店', bookingNo: '現場排隊' },
+                                { date: 'Day 3', time: '13:00', name: '大內宿 大蔥蕎麥麵', addr: '大內宿', bookingNo: '現場排隊' },
+                                { date: 'Day 3', time: '15:30', name: 'TARO CAFE', addr: '豬苗代湖畔', bookingNo: '現場排隊' },
+                                { date: 'Day 7', time: '12:30', name: '宇都宮 みんみん 本店', addr: '宇都宮市區', bookingNo: '現場排隊' },
+                                { date: 'Day 8', time: '13:00', name: '佐原老街 鰻魚飯', addr: '佐原水鄉', bookingNo: '現場排隊' }
+                            ],
+                            days: [
+                                { weekday: '六', dateStr: '11/06', events: [
+                                    { time: '09:00', title: '出發去東京 (CX早機) ✈️', departTime: '14:30', travelTime: '4h 30m', desc: '乘搭早機前往東京成田機場。', category: 'flight', transportType: 'flight', loc: '香港國際機場' },
+                                    { time: '15:30', title: '成田機場 租車出發 🚗', departTime: '16:30', travelTime: '1h', desc: '領取 Toyota Prius，務必確認已安裝【冬季輪胎】及插入 ETC 卡！避開市區，經「圈央道」直奔茨城縣。', category: 'transport', transportType: 'car', loc: '成田空港' },
+                                    { time: '18:00', title: '入住 水戶市酒店 🏨', departTime: '18:30', travelTime: '1.5h', desc: '到達茨城水戶市 Check-in，然後喺附近食晚餐。', category: 'hotel', transportType: 'walk', loc: '水戸市' }
+                                ]},
+                                { weekday: '日', dateStr: '11/07', events: [
+                                    { time: '09:00', title: 'SAZA Coffee 嘆靚啡 ☕', departTime: '10:00', travelTime: '10 min', desc: '水戶站前名店，嘆杯「德川將軍咖啡」做早餐。', category: 'food', transportType: 'car', loc: 'SAZA Coffee Mito station' },
+                                    { time: '11:00', title: '袋田瀑布 🍁', departTime: '13:00', travelTime: '1h', desc: '搭電梯上觀景台睇被紅葉包圍嘅「日本三大名瀑」！食埋鹽烤香魚！', category: 'sightseeing', transportType: 'car', loc: '袋田の滝' },
+                                    { time: '15:30', title: '抵達 福島會津若松 🏨', departTime: '16:00', travelTime: '2.5h', desc: '跨越縣境進入福島，黃昏前安全抵達酒店。', category: 'hotel', transportType: 'car', loc: '会津若松市' }
+                                ]},
+                                { weekday: '一', dateStr: '11/08', events: [
+                                    { time: '09:30', title: '大內宿 🏡', departTime: '11:30', travelTime: '1h', desc: '江戶時代茅草屋古村。爬上觀景台影全景，必試「大蔥蕎麥麵」！', category: 'sightseeing', transportType: 'car', loc: '大内宿' },
+                                    { time: '12:30', title: '塔のへつり (塔崖) ⛰️', departTime: '14:00', travelTime: '30m', desc: '百萬年河流侵蝕形成嘅奇岩絕景，行吊橋入岩壁打卡。', category: 'sightseeing', transportType: 'car', loc: '塔のへつり' },
+                                    { time: '14:30', title: '豬苗代湖 & TARO CAFE ☕', departTime: '16:00', travelTime: '45m', desc: '天鏡湖畔絕美木系 Cafe，嘆精品咖啡配湖景。', category: 'food', transportType: 'car', loc: 'TARO CAFE' },
+                                    { time: '16:30', title: '五色沼 遠眺雪峰 🏔️', departTime: '17:30', travelTime: '30m', desc: '欣賞幻彩火山湖與紅葉，遠眺背景已經積滿白雪嘅磐梯山！', category: 'highlight', transportType: 'car', loc: '五色沼' },
+                                    { time: '18:30', title: '返回 會津若松酒店 🏨', departTime: '19:00', travelTime: '1h', desc: '連住第二晚，免執行李！', category: 'hotel', transportType: 'car' }
+                                ]},
+                                { weekday: '二', dateStr: '11/09', events: [
+                                    { time: '09:00', title: '出發前往那須 🚗', departTime: '10:30', travelTime: '1.5h', desc: '揸車離開福島，進入栃木縣那須高原。', category: 'transport', transportType: 'car' },
+                                    { time: '10:30', title: '那須纜車 (直上雪線) ❄️', departTime: '13:00', travelTime: '30m', desc: '車泊山腰無雪停車場，搭纜車上1,600米山頂摸初雪！', category: 'highlight', transportType: 'car', loc: '那須ロープウェイ' },
+                                    { time: '14:30', title: '鹽原溪谷 回顧吊橋 🍁', departTime: '16:00', travelTime: '1h', desc: '落返山腰繼續賞紅葉，漫步溪谷絕景吊橋。', category: 'sightseeing', transportType: 'car', loc: '回顧の吊橋' },
+                                    { time: '16:30', title: '入住 那須/鹽原酒店 🏨', departTime: '17:00', travelTime: '30m', desc: '喺天黑前抵達酒店。', category: 'hotel', transportType: 'car', loc: '那須塩原市' }
+                                ]},
+                                { weekday: '三', dateStr: '11/10', events: [
+                                    { time: '10:00', title: '龍王峽 ⛰️', departTime: '12:00', travelTime: '1h', desc: '行溪谷步道，欣賞二千幾萬年前形成嘅壯麗奇岩與清流。', category: 'sightseeing', transportType: 'car', loc: '龍王峡' },
+                                    { time: '15:00', title: '入住 星野集團 界 鬼怒川 ♨️', departTime: '15:30', travelTime: '30m', desc: '旅程最高潮！搭玻璃纜車上山丘大堂，入住專屬 RA3 露天風呂房。', category: 'highlight', transportType: 'car', loc: '星野リゾート 界 鬼怒川' },
+                                    { time: '16:00', title: '露臺浸溫泉賞紅葉', departTime: '18:00', travelTime: '0m', desc: '喺私人大谷石浴池浸溫泉，獨享滿山紅葉！', category: 'hotel', transportType: 'walk' },
+                                    { time: '18:30', title: '界 鬼怒川 一泊二食 🍱', departTime: '20:30', travelTime: '0m', desc: '享用精緻會席料理。', category: 'food', transportType: 'walk' }
+                                ]},
+                                { weekday: '四', dateStr: '11/11', events: [
+                                    { time: '10:30', title: '鬼怒楯岩大吊橋 🌉', departTime: '11:30', travelTime: '15m', desc: '退房後去行全長140米嘅大吊橋，俯瞰鬼怒川全景。', category: 'sightseeing', transportType: 'car', loc: '鬼怒楯岩大吊橋' },
+                                    { time: '12:30', title: '日光東照宮 ⛩️', departTime: '15:00', travelTime: '45m', desc: '參觀金碧輝煌嘅世界文化遺產！', category: 'sightseeing', transportType: 'car', loc: '日光東照宮' },
+                                    { time: '15:15', title: 'Nikko Coffee 御用邸通 🍧', departTime: '16:15', travelTime: '10m', desc: '大正浪漫風古建築 Cafe，必食巨型天然冰刨冰！', category: 'food', transportType: 'walk', loc: '日光珈琲 御用邸通' },
+                                    { time: '16:30', title: '憾滿之淵 🍁', departTime: '17:30', travelTime: '15m', desc: '神秘河畔步道，睇披住紅葉嘅並排地藏王菩薩像。', category: 'sightseeing', transportType: 'car', loc: '憾満ヶ淵' },
+                                    { time: '18:00', title: '入住 日光市區酒店 🏨', departTime: '18:30', travelTime: '15m', desc: '天黑前抵達酒店。', category: 'hotel', transportType: 'car', loc: '日光市' }
+                                ]},
+                                { weekday: '五', dateStr: '11/12', events: [
+                                    { time: '10:00', title: '大谷資料館 (地下神殿) ⚔️', departTime: '12:00', travelTime: '1h', desc: '極度震撼嘅巨大地下採石場，神秘氣氛打卡一流！', category: 'sightseeing', transportType: 'car', loc: '大谷資料館' },
+                                    { time: '12:30', title: '宇都宮 みんみん 本店 🥟', departTime: '14:00', travelTime: '30m', desc: '宇都宮必食排隊名店！皮脆肉汁大爆發嘅煎餃子！', category: 'food', transportType: 'car', loc: '宇都宮みんみん 本店' },
+                                    { time: '15:30', title: '足利花卉公園 (光之花庭園) ✨', departTime: '18:00', travelTime: '1h', desc: '全日本三大冬季燈飾！500萬盞LED燈夢幻夜景！', category: 'highlight', transportType: 'car', loc: 'あしかがフラワーパーク' },
+                                    { time: '19:30', title: '入住 筑波市區酒店 🏨', departTime: '20:00', travelTime: '1.5h', desc: '南下回到關東平原。', category: 'hotel', transportType: 'car', loc: 'つくば市' }
+                                ]},
+                                { weekday: '六', dateStr: '11/13', events: [
+                                    { time: '09:30', title: '筑波山纜車 🚠', departTime: '12:00', travelTime: '30m', desc: '搭纜車直達山頂，俯瞰整個關東平原嘅秋色。', category: 'sightseeing', transportType: 'car', loc: '筑波山ケーブルカー' },
+                                    { time: '13:30', title: '佐原老街 (小江戶) 🛶', departTime: '16:30', travelTime: '1h', desc: '搭傳統平底木船喺小野川泛舟，感受浪漫水鄉風情。食名物百年鰻魚飯！', category: 'sightseeing', transportType: 'car', loc: '佐原の町並み' },
+                                    { time: '17:30', title: '入住 成田機場周邊酒店 🏨', departTime: '18:00', travelTime: '45m', desc: '為聽日還車同上機做準備，方便快捷。', category: 'hotel', transportType: 'car', loc: '成田市' }
+                                ]},
+                                { weekday: '日', dateStr: '11/14', events: [
+                                    { time: '10:00', title: '成田山公園 / 表參道 🛍️', departTime: '14:00', travelTime: '15m', desc: '趁晏晝還車前，去成田山新勝寺表參道最後血拼同食鰻魚飯！', category: 'shopping', transportType: 'car', loc: '成田山新勝寺' },
+                                    { time: '15:00', title: '成田機場 歸還 Prius 🚗', departTime: '15:30', travelTime: '15m', desc: '入滿油，將陪伴9日嘅 Prius 交還租車公司。', category: 'transport', transportType: 'car', loc: '成田空港' },
+                                    { time: '16:30', title: '機場 Check-in (CX晚機) ✈️', departTime: '18:30', travelTime: '0m', desc: '滿載「賞紅葉 + 玩初雪」嘅完美回憶，搭機返香港！', category: 'flight', transportType: 'walk', loc: '成田空港' }
+                                ]}
+                            ]
+                        },
+
                         // ================= ❄️ 1月 北海道 =================
                         hokkaido: {
                             id: 'hokkaido', title: "❄️ 1月冬遊：北海道浪漫之旅", date: '2027-01-06', range: '2027/01/06 - 01/11 (6日5夜)',
@@ -874,7 +979,7 @@
                                 { name: 'HOTEL CLAD', dates: '11/4 - 11/5 (1晚, 包早餐)', yen: 34400, hkd: 1748.24 },
                                 { name: 'Hotel Resol Stay Akihabara', dates: '11/5 - 11/8 (3晚)', yen: 104320, hkd: 5301.62 }
                             ],
-                            expenseRental: { name: 'Nippon Rent-A-Car (連 ETC)', yen: 135270, hkd: 6891.34, note: '車租 ¥116,380 + ETC ¥18,890' },
+                            expenseRental: { name: 'Nippon Rent-A-Car (連 ETC)', yen: 135270, hkd: 6891.34, note: '車租 ¥116,380 + ETC ¥18,890 ' },
                             expenseDining: [
                                 { name: 'まんてん鮨 日本橋 (吧枱位升級)', date: '11/6', yen: 24200, note: '12,100円 × 2位 (4G6C6X)' },
                                 { name: '其他預約/現場餐廳', date: '全期', yen: 0, hkdStr: '現場付款', note: '現場付款 / 自由點餐' }
@@ -1056,7 +1161,7 @@
 
                 // 富士山能見度邏輯 (北海道直接隱藏)
                 fujiVisibility() {
-                    if (this.currentTrip === 'hokkaido') return null;
+                    if (this.currentTrip === 'hokkaido' || this.currentTrip === 'kanto_tohoku') return null;
                     if (this.currentTrip !== 'central') return null;
                     const fujiDays = [1, 2, 5, 6]; 
                     if (!fujiDays.includes(this.selectedDayIndex)) return null;
@@ -1147,6 +1252,16 @@
                             case 4: query = 'Otaru,JP'; displayName = '小樽'; break;
                             case 5: query = 'Sapporo,JP'; displayName = '札幌'; break;
                             default: query = 'Sapporo,JP'; displayName = '札幌'; break;
+                        }
+                    } else if (tripId === 'kanto_tohoku') {
+                        switch(idx) {
+                            case 0: query = 'Mito,JP'; displayName = '水戶'; break;
+                            case 1: case 2: query = 'Aizuwakamatsu,JP'; displayName = '會津若松'; break;
+                            case 3: query = 'Nasushiobara,JP'; displayName = '那須鹽原'; break;
+                            case 4: case 5: query = 'Nikko,JP'; displayName = '日光'; break;
+                            case 6: query = 'Tsukuba,JP'; displayName = '筑波'; break;
+                            case 7: query = 'Narita,JP'; displayName = '成田'; break;
+                            default: query = 'Tokyo,JP'; displayName = '東京'; break;
                         }
                     }
                     this.weather.city_name = displayName;
